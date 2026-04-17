@@ -55,18 +55,20 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href={configuratoreLink.href}
-              className="text-sm font-medium text-[#4A9ECA] border border-[#4A9ECA] rounded-full px-4 py-1.5 hover:bg-[#4A9ECA] hover:text-white transition-all"
-            >
-              {configuratoreLink.label}
-            </Link>
-            <Link
-              href={vendorLink.href}
-              className="text-sm font-medium text-[#F5A623] border border-[#F5A623] rounded-full px-4 py-1.5 hover:bg-[#F5A623] hover:text-white transition-all"
-            >
-              {vendorLink.label}
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link
+                href={configuratoreLink.href}
+                className="text-sm font-medium text-[#4A9ECA] border border-[#4A9ECA] rounded-full px-4 py-1.5 hover:bg-[#4A9ECA] hover:text-white transition-all"
+              >
+                {configuratoreLink.label}
+              </Link>
+              <Link
+                href={vendorLink.href}
+                className="text-sm font-medium text-[#F5A623] border border-[#F5A623] rounded-full px-4 py-1.5 hover:bg-[#F5A623] hover:text-white transition-all"
+              >
+                {vendorLink.label}
+              </Link>
+            </div>
           </div>
 
           {/* CTA Button */}
