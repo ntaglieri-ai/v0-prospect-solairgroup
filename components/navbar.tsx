@@ -64,7 +64,7 @@ export function Navbar() {
               </Link>
               <Link
                 href={vendorLink.href}
-                className="text-sm font-medium text-[#F5A623] border border-[#F5A623] rounded-full px-4 py-1.5 hover:bg-[#F5A623] hover:text-white transition-all"
+                className="text-sm font-medium bg-[#F5A623] text-[#0D2340] rounded-full px-4 py-1.5 hover:bg-[#e09620] transition-all"
               >
                 {vendorLink.label}
               </Link>
@@ -129,7 +129,7 @@ export function Navbar() {
                 </Link>
                 <Link
                   href={vendorLink.href}
-                  className="text-base font-medium text-[#F5A623] hover:text-[#e09620] transition-colors"
+                  className="text-base font-medium bg-[#F5A623] text-[#0D2340] rounded-full px-4 py-2 text-center hover:bg-[#e09620] transition-all"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {vendorLink.label}
