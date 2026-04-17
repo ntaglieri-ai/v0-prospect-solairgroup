@@ -14,6 +14,7 @@ const navLinks = [
   { href: "#cer", label: "Solair CER" },
 ]
 
+const configuratoreLink = { href: "/configuratore", label: "Configuratore" }
 const vendorLink = { href: "/area-venditori", label: "Area Venditori" }
 
 export function Navbar() {
@@ -54,6 +55,12 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href={configuratoreLink.href}
+              className="text-sm font-medium text-[#4A9ECA] border border-[#4A9ECA] rounded-full px-4 py-1.5 hover:bg-[#4A9ECA] hover:text-white transition-all"
+            >
+              {configuratoreLink.label}
+            </Link>
             <Link
               href={vendorLink.href}
               className="text-sm font-medium text-[#F5A623] border border-[#F5A623] rounded-full px-4 py-1.5 hover:bg-[#F5A623] hover:text-white transition-all"
@@ -111,6 +118,13 @@ export function Navbar() {
                     {link.label}
                   </Link>
                 ))}
+                <Link
+                  href={configuratoreLink.href}
+                  className="text-base font-medium text-[#4A9ECA] hover:text-[#3a8ab8] transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {configuratoreLink.label}
+                </Link>
                 <Link
                   href={vendorLink.href}
                   className="text-base font-medium text-[#F5A623] hover:text-[#e09620] transition-colors"

@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configuratore – Solair Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --orange: #F5A623;
+  --orange-dark: #D4891A;
+  --orange-light: rgba(245,166,35,0.12);
+  --orange-border: rgba(245,166,35,0.3);
+  --dark: #0D0D0D;
+  --dark2: #171717;
+  --dark3: #222;
+  --dark4: #2a2a2a;
+  --mid: #777;
+  --light-text: #bbb;
+  --white: #fff;
+  --border: rgba(255,255,255,0.07);
+  --radius: 14px;
+  --green: #22c55e;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--dark);
+  color: var(--white);
+  min-height: 100vh;
+}
+
+/* HERO */
+.hero {
+  padding: 48px 24px 64px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--dark2);
+  border-bottom: 1px solid var(--border);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(245,166,35,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--orange-light);
+  border: 1px solid var(--orange-border);
+  color: var(--orange);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+}
+.hero h1 {
+  font-size: clamp(24px, 5vw, 40px);
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 10px;
+  line-height: 1.15;
+}
+.hero h1 span { color: var(--orange); }
+.hero p { color: var(--mid); font-size: 14px; }
+
+/* PROGRESS */
+.progress-bar {
+  background: var(--dark2);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.progress-steps {
+  display: flex;
+  max-width: 700px;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+.step-tab {
+  flex: 1;
+  padding: 14px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mid);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: none;
+  border-top: none; border-left: none; border-right: none;
+  font-family: 'Outfit', sans-serif;
+  min-width: 80px;
+}
+.step-tab.active { color: var(--orange); border-bottom-color: var(--orange); }
+.step-tab.completed { color: rgba(245,166,35,0.5); }
+.step-num {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--dark3);
+  border: 1px solid var(--border);
+  color: var(--mid);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.step-tab.active .step-num { background: var(--orange); color: #000; border-color: var(--orange); }
+.step-tab.completed .step-num { background: var(--orange-light); color: var(--orange); border-color: var(--orange-border); content: '✓'; }
+
+/* CONTAINER */
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+/* SECTIONS */
+.section { display: none; animation: fadeIn 0.3s ease; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+.section-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.section-sub { color: var(--mid); font-size: 13px; margin-bottom: 24px; }
+
+/* LINEA CARDS — grandi */
+.linea-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.linea-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--dark2);
+  position: relative;
+  overflow: hidden;
+}
+.linea-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: transparent;
+  transition: background 0.2s;
+}
+.linea-card:hover { border-color: var(--orange-border); background: var(--dark3); }
+.linea-card.selected { border-color: var(--orange); background: var(--orange-light); }
+.linea-card.selected::before { background: var(--orange); }
+.linea-card .badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+.badge-smart { background: rgba(34,197,94,0.15); color: #22c55e; }
+.badge-power { background: var(--orange-light); color: var(--orange); }
+.badge-premium { background: rgba(168,85,247,0.15); color: #a855f7; }
+.linea-card .linea-name { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+.linea-card .linea-desc { font-size: 12px; color: var(--mid); line-height: 1.5; }
+.linea-card .linea-price { font-size: 13px; color: var(--orange); font-weight: 700; margin-top: 12px; }
+
+/* CONFIG CARDS */
+.config-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.config-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--dark2);
+}
+.config-card:hover { border-color: var(--orange-border); }
+.config-card.selected { border-color: var(--orange); background: var(--orange-light); }
+.config-card .cfg-kwp { font-size: 20px; font-weight: 800; color: var(--white); }
+.config-card .cfg-kwh { font-size: 12px; color: var(--mid); margin: 2px 0; }
+.config-card .cfg-price { font-size: 14px; font-weight: 700; color: var(--orange); margin-top: 8px; }
+
+/* PANNELLI */
+.pannelli-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.pannello-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--dark2);
+}
+.pannello-card:hover { border-color: var(--orange-border); }
+.pannello-card.selected { border-color: var(--orange); background: var(--orange-light); }
+.pannello-card .p-brand { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.pannello-card .p-model { font-size: 11px; color: var(--mid); margin-bottom: 8px; }
+.pannello-card .p-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--dark3);
+  color: var(--light-text);
+}
+.pannello-card .p-note { font-size: 11px; color: var(--mid); margin-top: 6px; }
+
+/* OPZIONI */
+.opzione-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.opzione-row:hover { border-color: var(--orange-border); }
+.opzione-row.selected { border-color: var(--orange); background: var(--orange-light); }
+.op-left { display: flex; align-items: center; gap: 12px; }
+.op-icon { font-size: 22px; }
+.op-name { font-size: 14px; font-weight: 600; }
+.op-desc { font-size: 12px; color: var(--mid); margin-top: 1px; }
+.op-price { font-size: 13px; font-weight: 700; color: var(--orange); white-space: nowrap; }
+
+.toggle-switch { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.slider-toggle {
+  position: absolute; top:0; left:0; right:0; bottom:0;
+  background: var(--dark3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.slider-toggle::before {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  left: 2px; bottom: 2px;
+  background: var(--mid);
+  border-radius: 50%;
+  transition: 0.2s;
+}
+input:checked + .slider-toggle { background: var(--orange); border-color: var(--orange); }
+input:checked + .slider-toggle::before { transform: translateX(20px); background: #000; }
+
+.field-label { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 10px; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+/* RIEPILOGO */
+.riepilogo-box {
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.riepilogo-header {
+  padding: 14px 18px;
+  background: var(--dark3);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mid);
+}
+.riepilogo-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.riepilogo-row:last-child { border-bottom: none; }
+.riepilogo-row .r-label { color: var(--light-text); }
+.riepilogo-row .r-val { font-weight: 700; color: var(--white); }
+.riepilogo-row.total { background: var(--orange-light); }
+.riepilogo-row.total .r-label { color: var(--white); font-weight: 700; font-size: 15px; }
+.riepilogo-row.total .r-val { color: var(--orange); font-size: 20px; font-weight: 800; }
+
+/* FORM DATI */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-group label { font-size: 12px; font-weight: 600; color: var(--light-text); }
+.form-group input, .form-group select, .form-group textarea {
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-family: 'Outfit', sans-serif;
+  color: var(--white);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--orange);
+}
+.form-group input::placeholder, .form-group textarea::placeholder { color: var(--mid); }
+.form-group select option { background: var(--dark3); }
+
+/* UPLOAD */
+.upload-area {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 16px;
+}
+.upload-area:hover { border-color: var(--orange-border); background: var(--orange-light); }
+.upload-area .upload-icon { font-size: 32px; margin-bottom: 8px; }
+.upload-area .upload-label { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+.upload-area .upload-sub { font-size: 12px; color: var(--mid); }
+.upload-area input[type=file] { display: none; }
+.file-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+}
+.file-item .file-name { flex: 1; color: var(--light-text); }
+.file-item .file-remove { color: var(--mid); cursor: pointer; font-size: 16px; }
+.file-item .file-remove:hover { color: #ef4444; }
+
+/* BUTTONS */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--orange);
+  color: #000;
+  border: none;
+  padding: 13px 26px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: var(--orange-dark); transform: translateY(-1px); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--orange);
+  border: 1px solid var(--orange-border);
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { background: var(--orange-light); border-color: var(--orange); }
+.nav-btns { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+
+/* CONFIRM */
+.confirm-box {
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.confirm-icon { font-size: 48px; margin-bottom: 16px; }
+.confirm-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+.confirm-sub { color: var(--mid); font-size: 14px; margin-bottom: 24px; }
+.confirm-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  margin-bottom: 24px;
+}
+.confirm-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--dark3);
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--light-text);
+}
+.confirm-step .cs-icon { font-size: 18px; flex-shrink: 0; }
+
+.info-box {
+  background: var(--orange-light);
+  border: 1px solid var(--orange-border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  .linea-grid { grid-template-columns: 1fr; }
+  .config-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-grid { grid-template-columns: 1fr; }
+  .pannelli-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">☀️ Solair Group</div>
+  <h1>Configura il tuo<br><span>impianto fotovoltaico</span></h1>
+  <p>Scegli la soluzione giusta e ricevi la tua offerta in pochi minuti</p>
+</div>
+
+<div class="progress-bar">
+  <div class="progress-steps">
+    <button class="step-tab active" onclick="goTo(0)"><span class="step-num">1</span> Linea</button>
+    <button class="step-tab" onclick="goTo(1)"><span class="step-num">2</span> Config.</button>
+    <button class="step-tab" onclick="goTo(2)"><span class="step-num">3</span> Pannelli</button>
+    <button class="step-tab" onclick="goTo(3)"><span class="step-num">4</span> Opzioni</button>
+    <button class="step-tab" onclick="goTo(4)"><span class="step-num">5</span> Dati</button>
+    <button class="step-tab" onclick="goTo(5)"><span class="step-num">6</span> Riepilogo</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- STEP 1: LINEA COMMERCIALE -->
+  <div class="section active" id="s0">
+    <h2 class="section-title">Scegli la linea commerciale</h2>
+    <p class="section-sub">Ogni linea include configurazioni e prezzi predefiniti</p>
+
+    <div class="linea-grid">
+      <div class="linea-card" data-linea="smart" onclick="selectLinea(this)">
+        <span class="badge badge-smart">Smart</span>
+        <div class="linea-name">Smart</div>
+        <div class="linea-desc">La soluzione di ingresso, ideale per piccole abitazioni e consumi ridotti.</div>
+        <div class="linea-price">da €X.XXX</div>
+      </div>
+      <div class="linea-card" data-linea="power" onclick="selectLinea(this)">
+        <span class="badge badge-power">Power</span>
+        <div class="linea-name">Power</div>
+        <div class="linea-desc">Il giusto equilibrio tra potenza e prezzo per la famiglia media.</div>
+        <div class="linea-price">da €X.XXX</div>
+      </div>
+      <div class="linea-card" data-linea="premium" onclick="selectLinea(this)">
+        <span class="badge badge-premium">Premium</span>
+        <div class="linea-name">Premium</div>
+        <div class="linea-desc">Massime prestazioni con tecnologia top e accumulo incluso.</div>
+        <div class="linea-price">da €X.XXX</div>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-primary" id="btn-step1" onclick="goTo(1)" disabled>Avanti → Configurazione</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: CONFIGURAZIONE -->
+  <div class="section" id="s1">
+    <h2 class="section-title">Scegli la configurazione</h2>
+    <p class="section-sub">Il prezzo è associato direttamente alla configurazione selezionata</p>
+
+    <div class="config-grid" id="configGrid">
+      <!-- Popolato dinamicamente -->
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-secondary" onclick="goTo(0)">← Indietro</button>
+      <button class="btn-primary" id="btn-step2" onclick="goTo(2)" disabled>Avanti → Pannelli</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: PANNELLI -->
+  <div class="section" id="s2">
+    <h2 class="section-title">Scegli i pannelli</h2>
+    <p class="section-sub">La scelta del pannello non modifica il prezzo dell'offerta</p>
+
+    <div class="pannelli-grid">
+      <div class="pannello-card" data-pannello="jinko" onclick="selectPannello(this)">
+        <div class="p-brand">Jinko Solar</div>
+        <div class="p-model">Tiger Neo N-Type</div>
+        <span class="p-tag">Top seller</span>
+        <div class="p-note">Alta efficienza, garanzia 25 anni</div>
+      </div>
+      <div class="pannello-card" data-pannello="longi" onclick="selectPannello(this)">
+        <div class="p-brand">LONGi Solar</div>
+        <div class="p-model">Hi-MO 6</div>
+        <span class="p-tag">Bifacciale</span>
+        <div class="p-note">Tecnologia bifacciale, resa ottimale</div>
+      </div>
+      <div class="pannello-card" data-pannello="canadian" onclick="selectPannello(this)">
+        <div class="p-brand">Canadian Solar</div>
+        <div class="p-model">HiKu7</div>
+        <span class="p-tag">Affidabile</span>
+        <div class="p-note">Ottimo rapporto qualità/prezzo</div>
+      </div>
+      <div class="pannello-card" data-pannello="sunpower" onclick="selectPannello(this)">
+        <div class="p-brand">SunPower</div>
+        <div class="p-model">Maxeon 6</div>
+        <span class="p-tag">Premium</span>
+        <div class="p-note">La più alta efficienza sul mercato</div>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-secondary" onclick="goTo(1)">← Indietro</button>
+      <button class="btn-primary" id="btn-step3" onclick="goTo(3)" disabled>Avanti → Opzioni</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: OPZIONI COMMERCIALI -->
+  <div class="section" id="s3">
+    <h2 class="section-title">Opzioni commerciali</h2>
+    <p class="section-sub">Personalizza la tua offerta con i servizi aggiuntivi</p>
+
+    <div class="field-label">Installazione</div>
+    <div class="opzione-row selected" data-group="installazione" data-val="completa" onclick="selectOpzione(this)">
+      <div class="op-left">
+        <span class="op-icon">🔧</span>
+        <div>
+          <div class="op-name">Impianto completo</div>
+          <div class="op-desc">Fornitura + installazione inclusa</div>
+        </div>
+      </div>
+      <div class="op-price">Inclusa</div>
+    </div>
+    <div class="opzione-row" data-group="installazione" data-val="solo_fornitura" onclick="selectOpzione(this)">
+      <div class="op-left">
+        <span class="op-icon">📦</span>
+        <div>
+          <div class="op-name">Solo fornitura</div>
+          <div class="op-desc">Materiali senza installazione</div>
+        </div>
+      </div>
+      <div class="op-price">–€XXX</div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="field-label">Pratiche burocratiche</div>
+    <div class="opzione-row selected" data-group="pratiche" data-val="incluse" onclick="selectOpzione(this)">
+      <div class="op-left">
+        <span class="op-icon">📋</span>
+        <div>
+          <div class="op-name">Pratiche incluse</div>
+          <div class="op-desc">Gestiamo tutto noi: SUAP, GSE, allaccio</div>
+        </div>
+      </div>
+      <div class="op-price">Incluse</div>
+    </div>
+    <div class="opzione-row" data-group="pratiche" data-val="escluse" onclick="selectOpzione(this)">
+      <div class="op-left">
+        <span class="op-icon">✂️</span>
+        <div>
+          <div class="op-name">Pratiche escluse</div>
+          <div class="op-desc">Il cliente gestisce autonomamente</div>
+        </div>
+      </div>
+      <div class="op-price">–€XXX</div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="field-label">Comunità Energetica (CER)</div>
+    <div class="opzione-row" data-group="cer" data-val="si" onclick="selectOpzioneToggle(this)">
+      <div class="op-left">
+        <span class="op-icon">⚡</span>
+        <div>
+          <div class="op-name">Aderisco alla CER Solair</div>
+          <div class="op-desc">+5 cent/kWh su energia condivisa in rete</div>
+        </div>
+      </div>
+      <div class="op-price">Gratis</div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-secondary" onclick="goTo(2)">← Indietro</button>
+      <button class="btn-primary" onclick="goTo(4)">Avanti → Dati →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: DATI CLIENTE -->
+  <div class="section" id="s4">
+    <h2 class="section-title">I tuoi dati</h2>
+    <p class="section-sub">Compila il modulo per ricevere la tua offerta personalizzata</p>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Nome *</label>
+        <input type="text" id="f_nome" placeholder="Mario">
+      </div>
+      <div class="form-group">
+        <label>Cognome *</label>
+        <input type="text" id="f_cognome" placeholder="Rossi">
+      </div>
+      <div class="form-group full">
+        <label>Email *</label>
+        <input type="email" id="f_email" placeholder="mario.rossi@email.it">
+      </div>
+      <div class="form-group">
+        <label>Telefono *</label>
+        <input type="tel" id="f_telefono" placeholder="+39 333 000 0000">
+      </div>
+      <div class="form-group">
+        <label>Codice Fiscale</label>
+        <input type="text" id="f_cf" placeholder="RSSMRA80A01H501Z">
+      </div>
+      <div class="form-group full">
+        <label>Indirizzo installazione *</label>
+        <input type="text" id="f_indirizzo" placeholder="Via Roma 1, 00100 Roma (RM)">
+      </div>
+      <div class="form-group">
+        <label>Tipo immobile</label>
+        <select id="f_tipo">
+          <option value="">Seleziona...</option>
+          <option>Villetta</option>
+          <option>Appartamento</option>
+          <option>Bifamiliare</option>
+          <option>Capannone</option>
+          <option>Altro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Incentivo richiesto</label>
+        <select id="f_incentivo">
+          <option value="">Seleziona...</option>
+          <option>Detrazione 50%</option>
+          <option>PNRR 40%</option>
+          <option>Nessuno</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>Note aggiuntive</label>
+        <textarea id="f_note" rows="3" placeholder="Informazioni aggiuntive sull'installazione..."></textarea>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="field-label" style="margin-bottom:12px;">📎 Documenti (opzionale)</div>
+    <div class="info-box">💡 Puoi allegare planimetria, visura catastale o copia bolletta per velocizzare la valutazione.</div>
+
+    <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-icon">📁</div>
+      <div class="upload-label">Carica documenti</div>
+      <div class="upload-sub">PDF, JPG, PNG — max 10MB per file</div>
+      <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png" onchange="handleFiles(this.files)">
+    </div>
+    <div class="file-list" id="fileList"></div>
+
+    <div class="nav-btns">
+      <button class="btn-secondary" onclick="goTo(3)">← Indietro</button>
+      <button class="btn-primary" onclick="goToRiepilogo()">Vedi riepilogo →</button>
+    </div>
+  </div>
+
+  <!-- STEP 6: RIEPILOGO -->
+  <div class="section" id="s5">
+    <h2 class="section-title">Riepilogo offerta</h2>
+    <p class="section-sub">Verifica i dati prima di inviare la richiesta</p>
+
+    <div class="riepilogo-box">
+      <div class="riepilogo-header">Configurazione selezionata</div>
+      <div class="riepilogo-row"><span class="r-label">Linea commerciale</span><span class="r-val" id="r_linea">–</span></div>
+      <div class="riepilogo-row"><span class="r-label">Configurazione</span><span class="r-val" id="r_config">–</span></div>
+      <div class="riepilogo-row"><span class="r-label">Pannelli</span><span class="r-val" id="r_pannelli">–</span></div>
+      <div class="riepilogo-row"><span class="r-label">Installazione</span><span class="r-val" id="r_installazione">–</span></div>
+      <div class="riepilogo-row"><span class="r-label">Pratiche burocratiche</span><span class="r-val" id="r_pratiche">–</span></div>
+      <div class="riepilogo-row"><span class="r-label">Comunità Energetica</span><span class="r-val" id="r_cer">–</span></div>
+      <div class="riepilogo-row total"><span class="r-label">Prezzo totale</span><span class="r-val" id="r_prezzo">–</span></div>
+    </div>
+
+    <div class="riepilogo-box">
+      <div class="riepilogo-header">Dati cliente</div>
+      <div class="riepilogo-row"><span class="r-label">Nome</span><span class="r-val" id="r_nome">–</span></div>
+      <div class="riepilogo-row"><span class="r-label">Email</span><span class="r-val" id="r_email">–</span></div>
+      <div class="riepilogo-row"><span class="r-label">Telefono</span><span class="r-val" id="r_tel">–</span></div>
+      <div class="riepilogo-row"><span class="r-label">Indirizzo</span><span class="r-val" id="r_ind">–</span></div>
+    </div>
+
+    <div class="nav-btns" style="justify-content:center;">
+      <button class="btn-secondary" onclick="goTo(4)">← Modifica</button>
+      <button class="btn-primary" onclick="inviaRichiesta()">✉️ Invia richiesta offerta</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─── DATI PLACEHOLDER (da sostituire con dati reali del cliente) ───
+const CONFIGS = {
+  smart: [
+    { kwp: '3 kWp', kwh: '3 kWh acc.', price: 6500, label: '3 kWp + 3 kWh' },
+    { kwp: '4 kWp', kwh: '4 kWh acc.', price: 7800, label: '4 kWp + 4 kWh' },
+    { kwp: '5 kWp', kwh: '5 kWh acc.', price: 9200, label: '5 kWp + 5 kWh' },
+  ],
+  power: [
+    { kwp: '6 kWp', kwh: '6 kWh acc.', price: 11500, label: '6 kWp + 6 kWh' },
+    { kwp: '8 kWp', kwh: '8 kWh acc.', price: 14000, label: '8 kWp + 8 kWh' },
+    { kwp: '10 kWp', kwh: '10 kWh acc.', price: 16500, label: '10 kWp + 10 kWh' },
+  ],
+  premium: [
+    { kwp: '10 kWp', kwh: '10 kWh acc.', price: 19000, label: '10 kWp + 10 kWh' },
+    { kwp: '12 kWp', kwh: '15 kWh acc.', price: 23000, label: '12 kWp + 15 kWh' },
+    { kwp: '16 kWp', kwh: '20 kWh acc.', price: 28000, label: '16 kWp + 20 kWh' },
+  ],
+};
+
+const state = {
+  linea: null,
+  config: null,
+  configPrice: 0,
+  pannello: null,
+  installazione: 'completa',
+  pratiche: 'incluse',
+  cer: false,
+  files: [],
+};
+
+// ─── NAV ───
+function goTo(i) {
+  document.querySelectorAll('.section').forEach((s,j) => s.classList.toggle('active', j===i));
+  document.querySelectorAll('.step-tab').forEach((t,j) => {
+    t.classList.toggle('active', j===i);
+    t.classList.toggle('completed', j<i);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ─── STEP 1: LINEA ───
+function selectLinea(el) {
+  document.querySelectorAll('.linea-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.linea = el.dataset.linea;
+  state.config = null;
+  state.configPrice = 0;
+  document.getElementById('btn-step1').disabled = false;
+  renderConfigs();
+}
+
+// ─── STEP 2: CONFIG ───
+function renderConfigs() {
+  const grid = document.getElementById('configGrid');
+  grid.innerHTML = '';
+  if (!state.linea) return;
+  CONFIGS[state.linea].forEach((cfg, i) => {
+    const el = document.createElement('div');
+    el.className = 'config-card';
+    el.dataset.idx = i;
+    el.innerHTML = `
+      <div class="cfg-kwp">${cfg.kwp}</div>
+      <div class="cfg-kwh">${cfg.kwh}</div>
+      <div class="cfg-price">€${cfg.price.toLocaleString('it-IT')}</div>
+    `;
+    el.onclick = () => selectConfig(el, cfg);
+    grid.appendChild(el);
+  });
+}
+
+function selectConfig(el, cfg) {
+  document.querySelectorAll('.config-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.config = cfg.label;
+  state.configPrice = cfg.price;
+  document.getElementById('btn-step2').disabled = false;
+}
+
+// ─── STEP 3: PANNELLI ───
+function selectPannello(el) {
+  document.querySelectorAll('.pannello-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.pannello = el.querySelector('.p-brand').textContent + ' ' + el.querySelector('.p-model').textContent;
+  document.getElementById('btn-step3').disabled = false;
+}
+
+// ─── STEP 4: OPZIONI ───
+function selectOpzione(el) {
+  const group = el.dataset.group;
+  document.querySelectorAll(`[data-group="${group}"]`).forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  if (group === 'installazione') state.installazione = el.dataset.val;
+  if (group === 'pratiche') state.pratiche = el.dataset.val;
+}
+
+function selectOpzioneToggle(el) {
+  el.classList.toggle('selected');
+  state.cer = el.classList.contains('selected');
+}
+
+// ─── STEP 5: FILE UPLOAD ───
+function handleFiles(files) {
+  Array.from(files).forEach(f => {
+    if (!state.files.find(x => x.name === f.name)) {
+      state.files.push(f);
+    }
+  });
+  renderFileList();
+}
+
+function renderFileList() {
+  const list = document.getElementById('fileList');
+  list.innerHTML = '';
+  state.files.forEach((f, i) => {
+    const item = document.createElement('div');
+    item.className = 'file-item';
+    item.innerHTML = `
+      <span>📄</span>
+      <span class="file-name">${f.name}</span>
+      <span class="file-remove" onclick="removeFile(${i})">✕</span>
+    `;
+    list.appendChild(item);
+  });
+}
+
+function removeFile(i) {
+  state.files.splice(i, 1);
+  renderFileList();
+}
+
+// ─── STEP 6: RIEPILOGO ───
+function goToRiepilogo() {
+  const lineaLabels = { smart: 'Smart', power: 'Power', premium: 'Premium' };
+  const instLabels = { completa: 'Impianto completo', solo_fornitura: 'Solo fornitura' };
+  const pratLabels = { incluse: 'Incluse', escluse: 'Escluse' };
+
+  document.getElementById('r_linea').textContent = lineaLabels[state.linea] || '–';
+  document.getElementById('r_config').textContent = state.config || '–';
+  document.getElementById('r_pannelli').textContent = state.pannello || '–';
+  document.getElementById('r_installazione').textContent = instLabels[state.installazione] || '–';
+  document.getElementById('r_pratiche').textContent = pratLabels[state.pratiche] || '–';
+  document.getElementById('r_cer').textContent = state.cer ? 'Sì' : 'No';
+  document.getElementById('r_prezzo').textContent = state.configPrice > 0 ? '€' + state.configPrice.toLocaleString('it-IT') : '–';
+
+  document.getElementById('r_nome').textContent =
+    (document.getElementById('f_nome').value + ' ' + document.getElementById('f_cognome').value).trim() || '–';
+  document.getElementById('r_email').textContent = document.getElementById('f_email').value || '–';
+  document.getElementById('r_tel').textContent = document.getElementById('f_telefono').value || '–';
+  document.getElementById('r_ind').textContent = document.getElementById('f_indirizzo').value || '–';
+
+  goTo(5);
+}
+
+// ─── CONFIG URL (sostituire con URL reali dopo setup account) ───
+const MAKE_WEBHOOK_URL = 'INSERIRE_URL_WEBHOOK_MAKE_QUI';
+// Yousign viene invocato da Make, non direttamente dal frontend
+
+// ─── INVIO ───
+async function inviaRichiesta() {
+  const btn = document.querySelector('#s5 .btn-primary');
+  btn.disabled = true;
+  btn.textContent = '⏳ Invio in corso...';
+
+  const payload = {
+    // Configurazione
+    linea: state.linea,
+    configurazione: state.config,
+    prezzo: state.configPrice,
+    pannelli: state.pannello,
+    installazione: state.installazione,
+    pratiche: state.pratiche,
+    cer: state.cer,
+    // Dati cliente
+    nome: document.getElementById('f_nome').value,
+    cognome: document.getElementById('f_cognome').value,
+    email: document.getElementById('f_email').value,
+    telefono: document.getElementById('f_telefono').value,
+    codice_fiscale: document.getElementById('f_cf').value,
+    indirizzo: document.getElementById('f_indirizzo').value,
+    tipo_immobile: document.getElementById('f_tipo').value,
+    incentivo: document.getElementById('f_incentivo').value,
+    note: document.getElementById('f_note').value,
+    // Meta
+    data_invio: new Date().toISOString(),
+    num_documenti: state.files.length,
+    nomi_documenti: state.files.map(f => f.name).join(', '),
+  };
+
+  try {
+    // Invio dati JSON a Make
+    const res = await fetch(MAKE_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (res.ok || res.status === 200) {
+      mostraConferma();
+    } else {
+      throw new Error('Risposta non valida dal server');
+    }
+  } catch (err) {
+    // Se MAKE_WEBHOOK_URL non è ancora configurato, mostra comunque conferma in dev
+    if (MAKE_WEBHOOK_URL === 'INSERIRE_URL_WEBHOOK_MAKE_QUI') {
+      console.warn('[DEV MODE] Webhook non configurato. Payload:', payload);
+      mostraConferma();
+    } else {
+      btn.disabled = false;
+      btn.textContent = '✉️ Invia richiesta offerta';
+      mostraErrore();
+    }
+  }
+}
+
+function mostraConferma() {
+  // Nascondi step 6 e mostra schermata di conferma
+  document.getElementById('s5').innerHTML = `
+    <div class="confirm-box">
+      <div class="confirm-icon">✅</div>
+      <div class="confirm-title">Richiesta inviata!</div>
+      <div class="confirm-sub">Abbiamo ricevuto la tua richiesta. Ecco cosa succede ora:</div>
+      <div class="confirm-steps">
+        <div class="confirm-step"><span class="cs-icon">📄</span> Stiamo generando la tua offerta in PDF</div>
+        <div class="confirm-step"><span class="cs-icon">✍️</span> Riceverai un'email con il link per firmare digitalmente</div>
+        <div class="confirm-step"><span class="cs-icon">📞</span> Un nostro consulente ti contatterà entro 24 ore</div>
+      </div>
+      <a class="btn-primary" href="https://wa.me/390952900278" target="_blank" style="display:inline-flex; margin:0 auto;">
+        💬 Contattaci su WhatsApp
+      </a>
+    </div>
+  `;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function mostraErrore() {
+  const box = document.createElement('div');
+  box.className = 'info-box';
+  box.style.borderColor = 'rgba(239,68,68,0.4)';
+  box.style.background = 'rgba(239,68,68,0.08)';
+  box.innerHTML = '❌ Si è verificato un errore. Riprova o contattaci direttamente su WhatsApp.';
+  document.getElementById('s5').prepend(box);
+}
+
+// init
+renderConfigs();
+</script>
+</body>
+</html>
