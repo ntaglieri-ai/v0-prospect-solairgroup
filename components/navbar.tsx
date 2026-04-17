@@ -113,7 +113,7 @@ export function Navbar() {
                 ))}
                 <Link
                   href={vendorLink.href}
-                  className="text-base font-medium text-[#F5A623] border border-[#F5A623] rounded-full px-4 py-2 text-center hover:bg-[#F5A623] hover:text-white transition-all"
+                  className="text-base font-medium text-[#F5A623] hover:text-[#e09620] transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {vendorLink.label}
