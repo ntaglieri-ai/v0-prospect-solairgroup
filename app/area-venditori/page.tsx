@@ -1,8 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
-import { Eye, EyeOff, ChevronRight, ChevronLeft, Check, AlertCircle, LogOut } from "lucide-react"
+import { Eye, EyeOff, ChevronRight, ChevronLeft, Check, AlertCircle, LogOut, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -89,6 +91,7 @@ function generateContractNumber(): string {
 }
 
 export default function AreaVenditoriPage() {
+  const router = useRouter()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -98,6 +101,19 @@ export default function AreaVenditoriPage() {
   const [errors, setErrors] = useState<Partial<FormData>>({})
   const [showSuccess, setShowSuccess] = useState(false)
 
+  // Logout and go home
+  const logoutAndGoHome = useCallback(() => {
+    setIsAuthenticated(false)
+    setPassword("")
+    setCurrentStep(1)
+    setFormData({
+      ...initialFormData,
+      numeroContratto: generateContractNumber(),
+    })
+    setShowSuccess(false)
+    router.push("/")
+  }, [router])
+
   useEffect(() => {
     // Generate contract number on mount
     setFormData((prev) => ({
@@ -105,6 +121,25 @@ export default function AreaVenditoriPage() {
       numeroContratto: generateContractNumber(),
     }))
   }, [])
+
+  // Handle browser back button - logout and go home
+  useEffect(() => {
+    const handlePopState = () => {
+      if (isAuthenticated) {
+        logoutAndGoHome()
+      }
+    }
+
+    // Push a state so we can detect back navigation
+    if (isAuthenticated) {
+      window.history.pushState({ vendorArea: true }, "")
+    }
+
+    window.addEventListener("popstate", handlePopState)
+    return () => {
+      window.removeEventListener("popstate", handlePopState)
+    }
+  }, [isAuthenticated, logoutAndGoHome])
 
   // Handle same address checkbox
   useEffect(() => {
@@ -279,6 +314,14 @@ export default function AreaVenditoriPage() {
               >
                 Accedi
               </Button>
+
+              <Link
+                href="/"
+                className="flex items-center justify-center gap-2 w-full text-gray-400 hover:text-white transition-colors mt-4 text-sm"
+              >
+                <Home className="h-4 w-4" />
+                Torna alla Home
+              </Link>
             </form>
           </div>
         </motion.div>
