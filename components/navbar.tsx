@@ -58,7 +58,7 @@ export function Navbar() {
             <div className="flex items-center gap-2">
               <Link
                 href={configuratoreLink.href}
-                className="text-sm font-medium text-[#4A9ECA] border border-[#4A9ECA] rounded-full px-4 py-1.5 hover:bg-[#4A9ECA] hover:text-white transition-all"
+                className="text-sm font-medium bg-[#1A6EBD] text-white rounded-full px-4 py-1.5 hover:bg-[#155a9a] transition-all"
               >
                 {configuratoreLink.label}
               </Link>
@@ -122,7 +122,7 @@ export function Navbar() {
                 ))}
                 <Link
                   href={configuratoreLink.href}
-                  className="text-base font-medium text-[#4A9ECA] hover:text-[#3a8ab8] transition-colors"
+                  className="text-base font-medium bg-[#1A6EBD] text-white rounded-full px-4 py-2 text-center hover:bg-[#155a9a] transition-all"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {configuratoreLink.label}
