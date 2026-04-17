@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Plus_Jakarta_Sans, DM_Sans } from "next/font/google"
+import { Plus_Jakarta_Sans, DM_Sans, Outfit } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
@@ -13,6 +13,12 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-body",
   weight: ["400", "500", "600"],
+})
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  weight: ["400", "500", "600", "700"],
 })
 
 export const metadata: Metadata = {
@@ -68,7 +74,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="it" className={`${plusJakartaSans.variable} ${dmSans.variable} bg-[#EEF4FA]`}>
+    <html lang="it" className={`${plusJakartaSans.variable} ${dmSans.variable} ${outfit.variable} bg-[#EEF4FA]`}>
       <head>
         <script
           type="application/ld+json"

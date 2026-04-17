@@ -14,6 +14,8 @@ const navLinks = [
   { href: "#cer", label: "Solair CER" },
 ]
 
+const vendorLink = { href: "/area-venditori", label: "Area Venditori" }
+
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -52,6 +54,12 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href={vendorLink.href}
+              className="text-sm font-medium text-[#F5A623] border border-[#F5A623] rounded-full px-4 py-1.5 hover:bg-[#F5A623] hover:text-white transition-all"
+            >
+              {vendorLink.label}
+            </Link>
           </div>
 
           {/* CTA Button */}
@@ -103,6 +111,13 @@ export function Navbar() {
                     {link.label}
                   </Link>
                 ))}
+                <Link
+                  href={vendorLink.href}
+                  className="text-base font-medium text-[#F5A623] border border-[#F5A623] rounded-full px-4 py-2 text-center hover:bg-[#F5A623] hover:text-white transition-all"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {vendorLink.label}
+                </Link>
                 <Button
                   asChild
                   className="bg-[#1A4A4A] hover:bg-[#1B6B6B] text-white rounded-full px-6 py-2 font-medium w-full mt-2"
