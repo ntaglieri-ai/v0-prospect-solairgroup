@@ -229,6 +229,18 @@ export default function ConfiguratorePage() {
   if (view === "intro") {
     return (
       <div className="min-h-screen font-[Outfit]" style={{ background: "linear-gradient(180deg, #E6EEF5 0%, #DCE7F2 100%)" }}>
+        {/* Header with back button */}
+        <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid rgba(13,35,64,0.15)" }}>
+          <a href="/" className="inline-flex items-center gap-2 text-sm font-medium transition-colors" style={{ color: "#1A6EBD" }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Torna alla Home
+          </a>
+          <div className="flex items-center gap-1">
+            <span className="text-sm font-extrabold" style={{ color: "#0D2340" }}>SOLAIR</span>
+            <span style={{ color: "#F5A623" }}>&#9889;</span>
+            <span className="text-xs font-medium" style={{ color: "#0D2340" }}>GROUP</span>
+          </div>
+        </div>
         <div className="px-6 py-10 text-center" style={{ borderBottom: "1px solid rgba(13,35,64,0.25)" }}>
           <div className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-wider uppercase px-3.5 py-1.5 rounded-full mb-4" style={{ background: "rgba(26,110,189,0.08)", border: "1px solid rgba(26,110,189,0.3)", color: "#1A6EBD" }}>
             ☀️ Solair Group
@@ -281,6 +293,18 @@ export default function ConfiguratorePage() {
 
     return (
       <div className="min-h-screen font-[Outfit]" style={{ background: "linear-gradient(180deg, #E6EEF5 0%, #DCE7F2 100%)" }}>
+        {/* Header with back button */}
+        <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid rgba(13,35,64,0.15)" }}>
+          <a href="/" className="inline-flex items-center gap-2 text-sm font-medium transition-colors" style={{ color: "#1A6EBD" }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Torna alla Home
+          </a>
+          <div className="flex items-center gap-1">
+            <span className="text-sm font-extrabold" style={{ color: "#0D2340" }}>SOLAIR</span>
+            <span style={{ color: "#F5A623" }}>&#9889;</span>
+            <span className="text-xs font-medium" style={{ color: "#0D2340" }}>GROUP</span>
+          </div>
+        </div>
         <div className="px-6 py-10 text-center" style={{ borderBottom: "1px solid rgba(13,35,64,0.25)" }}>
           <div className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-wider uppercase px-3.5 py-1.5 rounded-full mb-4" style={{ background: "rgba(26,110,189,0.08)", border: "1px solid rgba(26,110,189,0.3)", color: "#1A6EBD" }}>
             💡 Solair Group
@@ -521,12 +545,24 @@ export default function ConfiguratorePage() {
     )
   }
 
-  // Configuratore Manuale
+// Configuratore Manuale
   const steps = ["Potenza", "Pannelli", "Accumulo", "Linea", "Dati", "Riepilogo"]
   const currentLinea = linea ? LINEE[linea] : null
 
   return (
-    <div className="min-h-screen font-[Outfit]" style={{ background: "linear-gradient(180deg, #E6EEF5 0%, #DCE7F2 100%)" }}>
+  <div className="min-h-screen font-[Outfit]" style={{ background: "linear-gradient(180deg, #E6EEF5 0%, #DCE7F2 100%)" }}>
+    {/* Header with back button */}
+    <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid rgba(13,35,64,0.15)" }}>
+      <a href="/" className="inline-flex items-center gap-2 text-sm font-medium transition-colors" style={{ color: "#1A6EBD" }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Torna alla Home
+      </a>
+      <div className="flex items-center gap-1">
+        <span className="text-sm font-extrabold" style={{ color: "#0D2340" }}>SOLAIR</span>
+        <span style={{ color: "#F5A623" }}>&#9889;</span>
+        <span className="text-xs font-medium" style={{ color: "#0D2340" }}>GROUP</span>
+      </div>
+    </div>
       <div className="px-6 py-10 text-center" style={{ borderBottom: "1px solid rgba(13,35,64,0.25)" }}>
         <div className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-wider uppercase px-3.5 py-1.5 rounded-full mb-4" style={{ background: "rgba(26,110,189,0.08)", border: "1px solid rgba(26,110,189,0.3)", color: "#1A6EBD" }}>☀️ Solair Group</div>
         <h1 className="font-extrabold mb-2" style={{ fontSize: "clamp(22px, 4vw, 36px)", color: "#0D2340" }}>Configura il tuo<br /><span style={{ color: "#1A6EBD" }}>impianto fotovoltaico</span></h1>

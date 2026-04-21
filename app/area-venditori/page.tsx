@@ -374,10 +374,20 @@ export default function AreaVenditoriPage() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-extrabold text-white">SOLAIR</span>
-            <span className="text-[#F5A623] text-xl">&#9889;</span>
-            <span className="text-sm font-medium text-white">GROUP</span>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
+            >
+              <Home className="h-4 w-4" />
+              <span className="hidden sm:inline">Torna alla Home</span>
+            </Link>
+            <div className="hidden sm:block h-4 w-px bg-[#2a3d5d]" />
+            <div className="flex items-center gap-2">
+              <span className="text-xl font-extrabold text-white">SOLAIR</span>
+              <span className="text-[#F5A623] text-xl">&#9889;</span>
+              <span className="text-sm font-medium text-white">GROUP</span>
+            </div>
           </div>
           <Button
             onClick={handleLogout}
