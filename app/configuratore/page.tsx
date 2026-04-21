@@ -101,6 +101,12 @@ export default function ConfiguratorePage() {
   // File upload
   const [files, setFiles] = useState<File[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
+  
+  // Mandatory ID document upload
+  const [idDocuments, setIdDocuments] = useState<File[]>([])
+  const idDocInputRef = useRef<HTMLInputElement>(null)
+  const idUploadAreaRef = useRef<HTMLDivElement>(null)
+  const [idDocError, setIdDocError] = useState(false)
 
   // Submit state
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -175,6 +181,35 @@ export default function ConfiguratorePage() {
 
   const removeFile = (index: number) => {
     setFiles((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  // ID document handlers
+  const handleIdDocuments = (fileList: FileList | null) => {
+    if (!fileList) return
+    const newFiles = Array.from(fileList).filter((f) => !idDocuments.find((x) => x.name === f.name))
+    setIdDocuments((prev) => [...prev, ...newFiles])
+    setIdDocError(false)
+  }
+
+  const removeIdDocument = (index: number) => {
+    setIdDocuments((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  // Go to riepilogo with validation
+  const goToRiepilogoWithValidation = () => {
+    if (idDocuments.length === 0) {
+      setIdDocError(true)
+      idUploadAreaRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })
+      return
+    }
+    calcolaLinea()
+    goToStep(5)
+  }
+
+  // Return to intro from configuratore (reset step)
+  const tornaIntroFromConfigurator = () => {
+    setStep(0)
+    setView("intro")
   }
 
   const inviaRichiesta = async () => {
@@ -345,6 +380,17 @@ export default function ConfiguratorePage() {
         </div>
 
         <div className="max-w-[700px] mx-auto px-5 py-8 pb-20">
+          {/* Cambia modalità link */}
+          <div className="mb-2 -mt-2">
+            <button
+              onClick={() => setView("intro")}
+              className="text-xs font-semibold flex items-center gap-1 p-0 bg-transparent border-none cursor-pointer"
+              style={{ color: "#7A8FA6" }}
+            >
+              ← Cambia modalità
+            </button>
+          </div>
+          
           {/* Step 0: Tipo e Dimensione */}
           {sgStep === 0 && (
             <div className="animate-[fadeIn_0.3s_ease]">
@@ -581,6 +627,17 @@ export default function ConfiguratorePage() {
       </div>
 
       <div className="max-w-[700px] mx-auto px-5 py-8 pb-20">
+        {/* Cambia modalità link */}
+        <div className="mb-2 -mt-2">
+          <button
+            onClick={tornaIntroFromConfigurator}
+            className="text-xs font-semibold flex items-center gap-1 p-0 bg-transparent border-none cursor-pointer"
+            style={{ color: "#7A8FA6" }}
+          >
+            ← Cambia modalità
+          </button>
+        </div>
+        
         {/* Step 0: Potenza */}
         {step === 0 && (
           <div className="animate-[fadeIn_0.3s_ease]">
@@ -700,7 +757,42 @@ export default function ConfiguratorePage() {
               <div className="flex flex-col gap-1.5 sm:col-span-2"><label className="text-xs font-semibold" style={{ color: "#4A6380" }}>Note aggiuntive</label><textarea value={formData.note} onChange={(e) => setFormData((prev) => ({ ...prev, note: e.target.value }))} rows={3} placeholder="Informazioni aggiuntive..." className="rounded-[10px] px-3.5 py-2.5 text-sm outline-none transition-colors resize-none focus:border-[#1A6EBD]" style={{ background: "#FFFFFF", border: "1px solid rgba(26,110,189,0.12)", color: "#0D2340" }} /></div>
             </div>
             <hr className="my-5" style={{ border: "none", borderTop: "1px solid rgba(26,110,189,0.12)" }} />
-            <div className="text-[13px] font-semibold mb-3" style={{ color: "#0D2340" }}>📎 Documenti (opzionale)</div>
+            
+            {/* Mandatory ID Document Upload */}
+            <div className="text-[13px] font-semibold mb-1.5" style={{ color: "#0D2340" }}>🪪 Documento di riconoscimento *</div>
+            <div className="rounded-[10px] px-4 py-3 text-[13px] mb-4 flex gap-2.5" style={{ background: "rgba(239,68,68,0.05)", border: "1px solid rgba(239,68,68,0.3)", color: "#4A6380" }}>
+              ⚠️ Obbligatorio. Carica fronte e retro della carta d&apos;identità o passaporto.
+            </div>
+            <div 
+              ref={idUploadAreaRef}
+              onClick={() => idDocInputRef.current?.click()} 
+              className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all mb-4" 
+              style={{ 
+                borderColor: idDocError ? "#ef4444" : idDocuments.length > 0 ? "#1A6EBD" : "rgba(26,110,189,0.12)", 
+                background: idDocError ? "rgba(239,68,68,0.05)" : idDocuments.length > 0 ? "rgba(26,110,189,0.08)" : "#FFFFFF" 
+              }}
+            >
+              <div className="text-[28px] mb-1.5">🪪</div>
+              <div className="text-sm font-semibold mb-1" style={{ color: "#0D2340" }}>Carica documento di riconoscimento</div>
+              <div className="text-xs" style={{ color: "#7A8FA6" }}>JPG, PNG, PDF — fronte e retro</div>
+              <input ref={idDocInputRef} type="file" multiple accept=".pdf,.jpg,.jpeg,.png" onChange={(e) => handleIdDocuments(e.target.files)} className="hidden" />
+            </div>
+            {idDocuments.length > 0 && (
+              <div className="flex flex-col gap-2 mb-4">
+                {idDocuments.map((f, i) => (
+                  <div key={i} className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg text-[13px]" style={{ background: "#FFFFFF", border: "1px solid #1A6EBD" }}>
+                    <span>🪪</span>
+                    <span className="flex-1" style={{ color: "#4A6380" }}>{f.name}</span>
+                    <button onClick={() => removeIdDocument(i)} className="cursor-pointer text-base hover:text-[#ef4444]" style={{ color: "#7A8FA6" }}>✕</button>
+                  </div>
+                ))}
+              </div>
+            )}
+            
+            <hr className="my-5" style={{ border: "none", borderTop: "1px solid rgba(26,110,189,0.12)" }} />
+            
+            {/* Optional Documents */}
+            <div className="text-[13px] font-semibold mb-3" style={{ color: "#0D2340" }}>📎 Documenti aggiuntivi (opzionale)</div>
             <div className="rounded-[10px] px-4 py-3 text-[13px] mb-5 flex gap-2.5" style={{ background: "rgba(26,110,189,0.08)", border: "1px solid rgba(26,110,189,0.3)", color: "#4A6380" }}>💡 Puoi allegare planimetria, visura catastale o copia bolletta.</div>
             <div onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all mb-4" style={{ borderColor: "rgba(26,110,189,0.12)", background: "#FFFFFF" }}>
               <div className="text-[28px] mb-1.5">📁</div>
@@ -721,7 +813,7 @@ export default function ConfiguratorePage() {
             )}
             <div className="flex gap-3 mt-7 flex-wrap">
               <button onClick={() => goToStep(3)} className="inline-flex items-center gap-2 px-5 py-3 rounded-[10px] text-sm font-semibold cursor-pointer transition-all" style={{ background: "transparent", color: "#1A6EBD", border: "1px solid rgba(26,110,189,0.3)" }}>← Indietro</button>
-              <button onClick={goToRiepilogo} className="inline-flex items-center gap-2 px-6 py-3 rounded-[10px] text-sm font-bold cursor-pointer transition-all" style={{ background: "#1A6EBD", color: "#fff", border: "none" }}>Vedi riepilogo →</button>
+              <button onClick={goToRiepilogoWithValidation} className="inline-flex items-center gap-2 px-6 py-3 rounded-[10px] text-sm font-bold cursor-pointer transition-all" style={{ background: "#1A6EBD", color: "#fff", border: "none" }}>Vedi riepilogo →</button>
             </div>
           </div>
         )}
@@ -747,9 +839,14 @@ export default function ConfiguratorePage() {
               <div className="flex justify-between items-center px-[18px] py-3 text-[13px]" style={{ borderBottom: "1px solid rgba(26,110,189,0.12)" }}><span style={{ color: "#4A6380" }}>Telefono</span><span className="font-bold" style={{ color: "#0D2340" }}>{formData.telefono || "-"}</span></div>
               <div className="flex justify-between items-center px-[18px] py-3 text-[13px]"><span style={{ color: "#4A6380" }}>Indirizzo</span><span className="font-bold" style={{ color: "#0D2340" }}>{formData.indirizzo || "-"}</span></div>
             </div>
+            {/* Legal disclaimer box */}
+            <div className="rounded-xl px-[18px] py-4 mb-5 text-xs leading-relaxed" style={{ background: "#FFFFFF", border: "1px solid rgba(26,110,189,0.12)", color: "#7A8FA6" }}>
+              ✅ Cliccando su <strong style={{ color: "#0D2340" }}>Accetta e firma</strong> confermo di aver letto e accettato la configurazione sopra indicata e autorizzo l&apos;avvio della procedura di sottoscrizione del contratto. Riceverò via email il documento da firmare digitalmente tramite OTP.
+            </div>
+            
             <div className="flex gap-3 mt-7 flex-wrap justify-center">
               <button onClick={() => goToStep(4)} className="inline-flex items-center gap-2 px-5 py-3 rounded-[10px] text-sm font-semibold cursor-pointer transition-all" style={{ background: "transparent", color: "#1A6EBD", border: "1px solid rgba(26,110,189,0.3)" }}>← Modifica</button>
-              <button onClick={inviaRichiesta} disabled={isSubmitting} className="inline-flex items-center gap-2 px-6 py-3 rounded-[10px] text-sm font-bold cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed" style={{ background: "#1A6EBD", color: "#fff", border: "none" }}>{isSubmitting ? "⏳ Invio in corso..." : "✉️ Invia richiesta offerta"}</button>
+              <button onClick={inviaRichiesta} disabled={isSubmitting} className="inline-flex items-center gap-2 px-8 py-4 rounded-[10px] text-[15px] font-bold cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed" style={{ background: "#0D5C9E", color: "#fff", border: "none" }}>{isSubmitting ? "⏳ Invio in corso..." : "✍️ Accetta e firma"}</button>
             </div>
           </div>
         )}
