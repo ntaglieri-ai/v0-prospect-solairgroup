@@ -2,8 +2,8 @@
 
 import { useState, useRef } from "react"
 
-// Webhook URL - da sostituire con URL reale Make
-const MAKE_WEBHOOK_URL = "INSERIRE_URL_WEBHOOK_MAKE_QUI"
+// Webhook URL Make
+const MAKE_WEBHOOK_URL = "https://hook.eu1.make.com/v5v6hauvnfpn56py93n4fjcjribjjjha"
 
 // Linee commerciali
 const LINEE = {
@@ -247,12 +247,7 @@ export default function ConfiguratorePage() {
         throw new Error()
       }
     } catch {
-      if (MAKE_WEBHOOK_URL === "INSERIRE_URL_WEBHOOK_MAKE_QUI") {
-        console.warn("[DEV] Payload:", payload)
-        setShowConfirmation(true)
-      } else {
-        setShowError(true)
-      }
+      setShowError(true)
     } finally {
       setIsSubmitting(false)
     }
