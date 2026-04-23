@@ -66,6 +66,14 @@ const lineaColors: Record<string, { bg: string; border: string; badgeBg: string;
   premium: { bg: "rgba(168,85,247,0.1)", border: "#a855f7", badgeBg: "rgba(168,85,247,0.1)", badgeColor: "#a855f7" },
 }
 
+// Normalizza telefono per formato italiano
+function normalizzaTelefono(tel: string): string {
+  tel = tel.replace(/\s/g, "").replace(/-/g, "")
+  if (tel.startsWith("+39")) return tel
+  if (tel.startsWith("39")) return "+" + tel
+  return "+39" + tel
+}
+
 export default function ConfiguratorePage() {
   // View state: 'intro' | 'suggerimento' | 'datiSg' | 'riepilogoSg' | 'configuratore'
   const [view, setView] = useState<"intro" | "suggerimento" | "datiSg" | "riepilogoSg" | "configuratore">("intro")
@@ -182,22 +190,22 @@ export default function ConfiguratorePage() {
     setIsSubmitting(true)
     setShowError(false)
 
-    const payload = {
-      percorso: "suggerimento",
-      linea: sgState.linea,
-      potenza: sgState.potenzaSuggerita,
-      accumulo: sgState.accumuloConsigliato,
-      accumuloKwh: sgState.accumuloKwh,
-      nome: sgFormData.nome,
-      cognome: sgFormData.cognome,
-      email: sgFormData.email,
-      telefono: sgFormData.telefono,
-      codice_fiscale: sgFormData.cf,
-      indirizzo: sgFormData.indirizzo,
-      incentivo: sgFormData.incentivo,
-      note: sgFormData.note,
-      data_invio: new Date().toISOString(),
-    }
+  const payload = {
+  percorso: "suggerimento",
+  linea: sgState.linea,
+  potenza: sgState.potenzaSuggerita,
+  accumulo: sgState.accumuloConsigliato,
+  accumuloKwh: sgState.accumuloKwh,
+  nome: sgFormData.nome,
+  cognome: sgFormData.cognome,
+  email: sgFormData.email,
+  telefono: normalizzaTelefono(sgFormData.telefono),
+  codice_fiscale: sgFormData.cf,
+  indirizzo: sgFormData.indirizzo,
+  incentivo: sgFormData.incentivo,
+  note: sgFormData.note,
+  data_invio: new Date().toISOString(),
+  }
 
     try {
       const res = await fetch(MAKE_WEBHOOK_URL, {
@@ -275,24 +283,24 @@ export default function ConfiguratorePage() {
     setIsSubmitting(true)
     setShowError(false)
 
-    const payload = {
-      linea: linea,
-      potenza: potenza,
-      pannello: pannello,
-      accumulo: accumulo,
-      accumuloKwh: accumulo ? accumuloKwh : 0,
-      nome: formData.nome,
-      cognome: formData.cognome,
-      email: formData.email,
-      telefono: formData.telefono,
-      codice_fiscale: formData.cf,
-      indirizzo: formData.indirizzo,
-      tipo_immobile: formData.tipo,
-      incentivo: formData.incentivo,
-      note: formData.note,
-      data_invio: new Date().toISOString(),
-      num_documenti: files.length,
-    }
+  const payload = {
+  linea: linea,
+  potenza: potenza,
+  pannello: pannello,
+  accumulo: accumulo,
+  accumuloKwh: accumulo ? accumuloKwh : 0,
+  nome: formData.nome,
+  cognome: formData.cognome,
+  email: formData.email,
+  telefono: normalizzaTelefono(formData.telefono),
+  codice_fiscale: formData.cf,
+  indirizzo: formData.indirizzo,
+  tipo_immobile: formData.tipo,
+  incentivo: formData.incentivo,
+  note: formData.note,
+  data_invio: new Date().toISOString(),
+  num_documenti: files.length,
+  }
 
     try {
       const res = await fetch(MAKE_WEBHOOK_URL, {
@@ -341,7 +349,7 @@ export default function ConfiguratorePage() {
             <span>✍️</span> Riceverai un&apos;email con il link per firmare digitalmente
           </div>
           <div className="flex items-center gap-3 p-3 rounded-[10px] text-[13px]" style={{ background: "#EEF3FA", color: "#4A6380" }}>
-            <span>📞</span> Un nostro consulente ti contatterà entro 24 ore
+            <span>����</span> Un nostro consulente ti contatterà entro 24 ore
           </div>
         </div>
         <a
@@ -1229,7 +1237,7 @@ export default function ConfiguratorePage() {
               </div>
               <div className="flex justify-between items-center px-[18px] py-3 text-[13px]" style={{ borderBottom: "1px solid rgba(26,110,189,0.12)" }}>
                 <span style={{ color: "#4A6380" }}>Email</span>
-                <span className="font-bold" style={{ color: "#0D2340" }}>{formData.email || "–"}</span>
+                <span className="font-bold" style={{ color: "#0D2340" }}>{formData.email || "���"}</span>
               </div>
               <div className="flex justify-between items-center px-[18px] py-3 text-[13px]" style={{ borderBottom: "1px solid rgba(26,110,189,0.12)" }}>
                 <span style={{ color: "#4A6380" }}>Telefono</span>
