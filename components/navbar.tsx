@@ -15,7 +15,6 @@ const navLinks = [
 ]
 
 const configuratoreLink = { href: "/configuratore", label: "Configuratore" }
-const vendorLink = { href: "/area-venditori", label: "Area Venditori" }
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -55,20 +54,12 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <div className="flex items-center gap-2">
-              <Link
-                href={configuratoreLink.href}
-                className="text-sm font-medium bg-[#1A6EBD] text-white rounded-full px-4 py-1.5 hover:bg-[#155a9a] transition-all"
-              >
-                {configuratoreLink.label}
-              </Link>
-              <Link
-                href={vendorLink.href}
-                className="text-sm font-medium bg-[#F5A623] text-[#0D2340] rounded-full px-4 py-1.5 hover:bg-[#e09620] transition-all"
-              >
-                {vendorLink.label}
-              </Link>
-            </div>
+            <Link
+              href={configuratoreLink.href}
+              className="text-sm font-medium bg-[#1A6EBD] text-white rounded-full px-4 py-1.5 hover:bg-[#155a9a] transition-all"
+            >
+              {configuratoreLink.label}
+            </Link>
           </div>
 
           {/* CTA Button */}
@@ -126,13 +117,6 @@ export function Navbar() {
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {configuratoreLink.label}
-                </Link>
-                <Link
-                  href={vendorLink.href}
-                  className="text-base font-medium bg-[#F5A623] text-[#0D2340] rounded-full px-4 py-2 text-center hover:bg-[#e09620] transition-all"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {vendorLink.label}
                 </Link>
                 <Button
                   asChild
