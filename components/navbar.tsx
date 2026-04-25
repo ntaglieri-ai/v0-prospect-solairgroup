@@ -80,15 +80,23 @@ export function Navbar() {
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden p-2 text-[#0D1F3C]"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label={isMobileMenuOpen ? "Chiudi menu" : "Apri menu"}
-            aria-expanded={isMobileMenuOpen}
-          >
-            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          {/* Mobile: Configuratore button + Menu Button */}
+          <div className="lg:hidden flex items-center gap-2">
+            <Link
+              href={configuratoreLink.href}
+              className="text-xs font-medium bg-[#1A6EBD] text-white rounded-full px-3 py-1.5 hover:bg-[#155a9a] transition-all"
+            >
+              {configuratoreLink.label}
+            </Link>
+            <button
+              className="p-2 text-[#0D1F3C]"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? "Chiudi menu" : "Apri menu"}
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -111,13 +119,6 @@ export function Navbar() {
                     {link.label}
                   </Link>
                 ))}
-                <Link
-                  href={configuratoreLink.href}
-                  className="text-base font-medium bg-[#1A6EBD] text-white rounded-full px-4 py-2 text-center hover:bg-[#155a9a] transition-all"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {configuratoreLink.label}
-                </Link>
                 <Button
                   asChild
                   className="bg-[#1A4A4A] hover:bg-[#1B6B6B] text-white rounded-full px-6 py-2 font-medium w-full mt-2"
