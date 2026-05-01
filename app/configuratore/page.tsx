@@ -147,6 +147,20 @@ export default function ConfiguratorePage() {
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [showError, setShowError] = useState(false)
 
+  // Consent checkboxes (manual path)
+  const [consent1, setConsent1] = useState(false)
+  const [consent2, setConsent2] = useState(false)
+  const [consent3, setConsent3] = useState(false)
+  const [consent4, setConsent4] = useState(false)
+  const allConsentsChecked = consent1 && consent2 && consent3 && consent4
+
+  // Consent checkboxes (suggerimento path)
+  const [sgConsent1, setSgConsent1] = useState(false)
+  const [sgConsent2, setSgConsent2] = useState(false)
+  const [sgConsent3, setSgConsent3] = useState(false)
+  const [sgConsent4, setSgConsent4] = useState(false)
+  const allSgConsentsChecked = sgConsent1 && sgConsent2 && sgConsent3 && sgConsent4
+
   // === PAGAMENTO HELPERS ===
   const calcolaRata = (prezzoBase: number, anticipo: number, numRate: number) => {
     const capitale = prezzoBase - anticipo
@@ -1123,13 +1137,52 @@ export default function ConfiguratorePage() {
             </div>
           </div>
 
-          {/* Pagamento */}
-          {renderPagamentoSelection(sgPagamentoModalita, scegliPagamentoSg, sgFinConfermato, sgFinAnticipo, sgFinNumRate, sgFinRata)}
+{/* Pagamento */}
+  {renderPagamentoSelection(sgPagamentoModalita, scegliPagamentoSg, sgFinConfermato, sgFinAnticipo, sgFinNumRate, sgFinRata)}
+  
+  {/* Dichiarazioni obbligatorie */}
+  <div className="rounded-xl p-4 mb-4" style={{ background: "#fffbf0", border: "1px solid rgba(245,166,35,0.4)", borderLeft: "3px solid #F5A623" }}>
+    <div className="text-xs font-bold mb-3 uppercase tracking-wide" style={{ color: "#0D2340" }}>Dichiarazioni obbligatorie</div>
+    <label className="flex items-start gap-2.5 mb-2.5 cursor-pointer">
+      <input type="checkbox" checked={sgConsent1} onChange={(e) => setSgConsent1(e.target.checked)} className="mt-0.5 flex-shrink-0 w-4 h-4 accent-[#1A6EBD]" />
+      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Dichiaro di aver letto e compreso integralmente il contratto e le condizioni generali di vendita.</span>
+    </label>
+    <label className="flex items-start gap-2.5 mb-2.5 cursor-pointer">
+      <input type="checkbox" checked={sgConsent2} onChange={(e) => setSgConsent2(e.target.checked)} className="mt-0.5 flex-shrink-0 w-4 h-4 accent-[#1A6EBD]" />
+      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Acconsento al trattamento dei dati personali ai sensi del GDPR 679/2016 (Art. 10).</span>
+    </label>
+    <label className="flex items-start gap-2.5 mb-2.5 cursor-pointer">
+      <input type="checkbox" checked={sgConsent3} onChange={(e) => setSgConsent3(e.target.checked)} className="mt-0.5 flex-shrink-0 w-4 h-4 accent-[#1A6EBD]" />
+      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Dichiaro di essere proprietario/avente diritto dell&apos;immobile o di avere le necessarie autorizzazioni per l&apos;installazione.</span>
+    </label>
+    <label className="flex items-start gap-2.5 cursor-pointer">
+      <input type="checkbox" checked={sgConsent4} onChange={(e) => setSgConsent4(e.target.checked)} className="mt-0.5 flex-shrink-0 w-4 h-4 accent-[#1A6EBD]" />
+      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Approvo specificamente gli artt. 3, 4, 8, 9 e 11 ai sensi degli artt. 1341 e 1342 c.c.</span>
+    </label>
+  </div>
 
-          {/* Legal disclaimer */}
-          <div className="rounded-xl px-[18px] py-4 mb-5 text-xs leading-relaxed" style={{ background: "#FFFFFF", border: "1px solid rgba(26,110,189,0.12)", color: "#7A8FA6" }}>
-            ✅ Cliccando su <strong style={{ color: "#0D2340" }}>Accetta e firma</strong> confermo di aver letto e accettato la configurazione sopra indicata e autorizzo l&apos;avvio della procedura di sottoscrizione del contratto. Riceverò via email il documento da firmare digitalmente tramite OTP.
-          </div>
+  {/* Legal disclaimer */}
+  <div className="rounded-xl px-[18px] py-4 mb-5 text-xs leading-relaxed" style={{ background: "#FFFFFF", border: "1px solid rgba(26,110,189,0.12)", color: "#7A8FA6" }}>
+    ✅ Cliccando su <strong style={{ color: "#0D2340" }}>Accetta e firma</strong> confermo di aver letto e accettato la configurazione sopra indicata e autorizzo l&apos;avvio della procedura di sottoscrizione del contratto. Riceverò via email il documento da firmare digitalmente tramite OTP.
+  </div>
+  
+  {showError && (
+  <div className="rounded-[10px] px-4 py-3 text-[13px] mb-4 flex gap-2.5" style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.4)", color: "#4A6380" }}>
+  ❌ Si è verificato un errore. Riprova o contattaci su WhatsApp.
+  </div>
+  )}
+  
+  <div className="flex gap-3 justify-center flex-wrap">
+  <button onClick={() => setView("datiSg")} className="px-5 py-3 rounded-[10px] text-sm font-semibold cursor-pointer transition-all" style={{ background: "transparent", color: "#1A6EBD", border: "1px solid rgba(26,110,189,0.3)" }}>← Modifica</button>
+  <button
+  onClick={inviaRichiestaSg}
+  disabled={isSubmitting || !allSgConsentsChecked || !sgPagamentoModalita || (sgPagamentoModalita === "finanziamento" && !sgFinConfermato)}
+  className="px-8 py-4 rounded-[10px] text-[15px] font-bold cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+  style={{ background: "#0D5C9E", color: "#fff", border: "none" }}
+  >
+  {isSubmitting ? "⏳ Invio in corso..." : "✍️ Accetta e firma"}
+  </button>
+  </div>
 
           {showError && (
             <div className="rounded-[10px] px-4 py-3 text-[13px] mb-4 flex gap-2.5" style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.4)", color: "#4A6380" }}>
@@ -1145,7 +1198,7 @@ export default function ConfiguratorePage() {
               className="px-8 py-4 rounded-[10px] text-[15px] font-bold cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed"
               style={{ background: "#0D5C9E", color: "#fff", border: "none" }}
             >
-              {isSubmitting ? "⏳ Invio in corso..." : "✍️ Accetta e firma"}
+              {isSubmitting ? "⏳ Invio in corso..." : "���️ Accetta e firma"}
             </button>
           </div>
         </div>
@@ -1543,13 +1596,52 @@ export default function ConfiguratorePage() {
               </div>
             </div>
 
-            {/* Pagamento */}
-            {renderPagamentoSelection(pagamentoModalita, scegliPagamento, finConfermato, finAnticipo, finNumRate, finRata)}
+{/* Pagamento */}
+  {renderPagamentoSelection(pagamentoModalita, scegliPagamento, finConfermato, finAnticipo, finNumRate, finRata)}
+  
+  {/* Dichiarazioni obbligatorie */}
+  <div className="rounded-xl p-4 mb-4" style={{ background: "#fffbf0", border: "1px solid rgba(245,166,35,0.4)", borderLeft: "3px solid #F5A623" }}>
+    <div className="text-xs font-bold mb-3 uppercase tracking-wide" style={{ color: "#0D2340" }}>Dichiarazioni obbligatorie</div>
+    <label className="flex items-start gap-2.5 mb-2.5 cursor-pointer">
+      <input type="checkbox" checked={consent1} onChange={(e) => setConsent1(e.target.checked)} className="mt-0.5 flex-shrink-0 w-4 h-4 accent-[#1A6EBD]" />
+      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Dichiaro di aver letto e compreso integralmente il contratto e le condizioni generali di vendita.</span>
+    </label>
+    <label className="flex items-start gap-2.5 mb-2.5 cursor-pointer">
+      <input type="checkbox" checked={consent2} onChange={(e) => setConsent2(e.target.checked)} className="mt-0.5 flex-shrink-0 w-4 h-4 accent-[#1A6EBD]" />
+      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Acconsento al trattamento dei dati personali ai sensi del GDPR 679/2016 (Art. 10).</span>
+    </label>
+    <label className="flex items-start gap-2.5 mb-2.5 cursor-pointer">
+      <input type="checkbox" checked={consent3} onChange={(e) => setConsent3(e.target.checked)} className="mt-0.5 flex-shrink-0 w-4 h-4 accent-[#1A6EBD]" />
+      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Dichiaro di essere proprietario/avente diritto dell&apos;immobile o di avere le necessarie autorizzazioni per l&apos;installazione.</span>
+    </label>
+    <label className="flex items-start gap-2.5 cursor-pointer">
+      <input type="checkbox" checked={consent4} onChange={(e) => setConsent4(e.target.checked)} className="mt-0.5 flex-shrink-0 w-4 h-4 accent-[#1A6EBD]" />
+      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Approvo specificamente gli artt. 3, 4, 8, 9 e 11 ai sensi degli artt. 1341 e 1342 c.c.</span>
+    </label>
+  </div>
 
-            {/* Legal disclaimer */}
-            <div className="rounded-xl px-[18px] py-4 mb-5 text-xs leading-relaxed" style={{ background: "#FFFFFF", border: "1px solid rgba(26,110,189,0.12)", color: "#7A8FA6" }}>
-              ✅ Cliccando su <strong style={{ color: "#0D2340" }}>Accetta e firma</strong> confermo di aver letto e accettato la configurazione sopra indicata e autorizzo l&apos;avvio della procedura di sottoscrizione del contratto. Riceverò via email il documento da firmare digitalmente tramite OTP.
-            </div>
+  {/* Legal disclaimer */}
+  <div className="rounded-xl px-[18px] py-4 mb-5 text-xs leading-relaxed" style={{ background: "#FFFFFF", border: "1px solid rgba(26,110,189,0.12)", color: "#7A8FA6" }}>
+    ✅ Cliccando su <strong style={{ color: "#0D2340" }}>Accetta e firma</strong> confermo di aver letto e accettato la configurazione sopra indicata e autorizzo l&apos;avvio della procedura di sottoscrizione del contratto. Riceverò via email il documento da firmare digitalmente tramite OTP.
+  </div>
+  
+  {showError && (
+  <div className="rounded-[10px] px-4 py-3 text-[13px] mb-4 flex gap-2.5" style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.4)", color: "#4A6380" }}>
+  ❌ Si è verificato un errore. Riprova o contattaci su WhatsApp.
+  </div>
+  )}
+  
+  <div className="flex gap-3 justify-center flex-wrap mt-7">
+  <button onClick={() => goToStep(4)} className="px-5 py-3 rounded-[10px] text-sm font-semibold cursor-pointer transition-all" style={{ background: "transparent", color: "#1A6EBD", border: "1px solid rgba(26,110,189,0.3)" }}>← Modifica</button>
+  <button
+  onClick={inviaRichiesta}
+  disabled={isSubmitting || !allConsentsChecked || !pagamentoModalita || (pagamentoModalita === "finanziamento" && !finConfermato)}
+  className="px-8 py-4 rounded-[10px] text-[15px] font-bold cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+  style={{ background: "#0D5C9E", color: "#fff", border: "none" }}
+  >
+  {isSubmitting ? "⏳ Invio in corso..." : "✍️ Accetta e firma"}
+  </button>
+  </div>
 
             {showError && (
               <div className="rounded-[10px] px-4 py-3 text-[13px] mb-4 flex gap-2.5" style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.4)", color: "#4A6380" }}>
