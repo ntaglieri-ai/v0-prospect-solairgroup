@@ -3,7 +3,7 @@
 import { useState, useRef } from "react"
 
 // Webhook URL Make
-const MAKE_WEBHOOK_URL = "https://hook.eu1.make.com/v5v6hauvnfpn56py93n4fjcjribjjjha"
+const MAKE_WEBHOOK_URL = "https://hook.eu1.make.com/stxmttl19h86fj31i1f0kr7ob6r96rks"
 
 // TAN/TAEG per finanziamento
 const TAN = 6.90
@@ -265,10 +265,23 @@ export default function ConfiguratorePage() {
     setIsSubmitting(true)
     setShowError(false)
 
+    const now = new Date()
+    const dataFormattata = now.toLocaleDateString("it-IT", { day: "2-digit", month: "2-digit", year: "numeric" })
+    const numeroContratto = "SG-" + now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0") + String(now.getDate()).padStart(2, "0") + "-" + String(now.getHours()).padStart(2, "0") + String(now.getMinutes()).padStart(2, "0")
+    const lineaFormattata = sgState.linea ? sgState.linea.charAt(0).toUpperCase() + sgState.linea.slice(1).toLowerCase() : ""
+    const prezzoFormattato = LINEE[sgState.linea]?.prezzoBase ? LINEE[sgState.linea].prezzoBase.toLocaleString("it-IT") : ""
+    const anticipoFormattato = sgFinAnticipo ? sgFinAnticipo.toLocaleString("it-IT") : ""
+    const rataFormattata = sgFinRata ? sgFinRata.toLocaleString("it-IT", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ""
+    const modalitaFormattata = sgPagamentoModalita === "finanziamento" ? "Finanziamento" : "Bonifico bancario"
+
     const payload = {
+      numero_contratto: numeroContratto,
+      data_contratto: dataFormattata,
+      data_firma_cliente: "",
       percorso: "suggerimento",
-      linea: sgState.linea,
+      linea: lineaFormattata,
       potenza: sgState.potenzaSuggerita,
+      pannello: "",
       accumulo: sgState.accumuloConsigliato,
       accumuloKwh: sgState.accumuloKwh,
       nome: sgFormData.nome,
@@ -277,16 +290,18 @@ export default function ConfiguratorePage() {
       telefono: normalizzaTelefono(sgFormData.telefono),
       codice_fiscale: sgFormData.cf,
       indirizzo: sgFormData.indirizzo,
+      tipo_immobile: "",
       incentivo: sgFormData.incentivo,
       note: sgFormData.note,
-      modalita_pagamento: sgPagamentoModalita,
-      anticipo: sgPagamentoModalita === "finanziamento" ? sgFinAnticipo : null,
-      num_rate: sgPagamentoModalita === "finanziamento" ? sgFinNumRate : null,
-      rata_mensile: sgPagamentoModalita === "finanziamento" ? sgFinRata.toFixed(2) : null,
-      tan: sgPagamentoModalita === "finanziamento" ? TAN : null,
-      taeg: sgPagamentoModalita === "finanziamento" ? TAEG : null,
-      prezzo_base: LINEE[sgState.linea]?.prezzoBase || null,
-      data_invio: new Date().toISOString(),
+      modalita_pagamento: modalitaFormattata,
+      anticipo: sgPagamentoModalita === "finanziamento" ? anticipoFormattato : "",
+      num_rate: sgPagamentoModalita === "finanziamento" ? sgFinNumRate : "",
+      rata_mensile: sgPagamentoModalita === "finanziamento" ? rataFormattata : "",
+      tan: sgPagamentoModalita === "finanziamento" ? TAN : "",
+      taeg: sgPagamentoModalita === "finanziamento" ? TAEG : "",
+      prezzo_base: prezzoFormattato,
+      data_invio: now.toISOString(),
+      num_documenti: sgIdDocs.length,
     }
 
     try {
@@ -365,8 +380,20 @@ export default function ConfiguratorePage() {
     setIsSubmitting(true)
     setShowError(false)
 
+    const now = new Date()
+    const dataFormattata = now.toLocaleDateString("it-IT", { day: "2-digit", month: "2-digit", year: "numeric" })
+    const numeroContratto = "SG-" + now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0") + String(now.getDate()).padStart(2, "0") + "-" + String(now.getHours()).padStart(2, "0") + String(now.getMinutes()).padStart(2, "0")
+    const lineaFormattata = linea ? linea.charAt(0).toUpperCase() + linea.slice(1).toLowerCase() : ""
+    const prezzoFormattato = LINEE[linea || "smart"]?.prezzoBase ? LINEE[linea || "smart"].prezzoBase.toLocaleString("it-IT") : ""
+    const anticipoFormattato = finAnticipo ? finAnticipo.toLocaleString("it-IT") : ""
+    const rataFormattata = finRata ? finRata.toLocaleString("it-IT", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ""
+    const modalitaFormattata = pagamentoModalita === "finanziamento" ? "Finanziamento" : "Bonifico bancario"
+
     const payload = {
-      linea: linea,
+      numero_contratto: numeroContratto,
+      data_contratto: dataFormattata,
+      data_firma_cliente: "",
+      linea: lineaFormattata,
       potenza: potenza,
       pannello: pannello,
       accumulo: accumulo,
@@ -380,14 +407,14 @@ export default function ConfiguratorePage() {
       tipo_immobile: formData.tipo,
       incentivo: formData.incentivo,
       note: formData.note,
-      modalita_pagamento: pagamentoModalita,
-      anticipo: pagamentoModalita === "finanziamento" ? finAnticipo : null,
-      num_rate: pagamentoModalita === "finanziamento" ? finNumRate : null,
-      rata_mensile: pagamentoModalita === "finanziamento" ? finRata.toFixed(2) : null,
-      tan: pagamentoModalita === "finanziamento" ? TAN : null,
-      taeg: pagamentoModalita === "finanziamento" ? TAEG : null,
-      prezzo_base: LINEE[linea || "smart"]?.prezzoBase || null,
-      data_invio: new Date().toISOString(),
+      modalita_pagamento: modalitaFormattata,
+      anticipo: pagamentoModalita === "finanziamento" ? anticipoFormattato : "",
+      num_rate: pagamentoModalita === "finanziamento" ? finNumRate : "",
+      rata_mensile: pagamentoModalita === "finanziamento" ? rataFormattata : "",
+      tan: pagamentoModalita === "finanziamento" ? TAN : "",
+      taeg: pagamentoModalita === "finanziamento" ? TAEG : "",
+      prezzo_base: prezzoFormattato,
+      data_invio: now.toISOString(),
       num_documenti: files.length,
     }
 
