@@ -1145,7 +1145,7 @@ export default function ConfiguratorePage() {
     <div className="text-xs font-bold mb-3 uppercase tracking-wide" style={{ color: "#0D2340" }}>Dichiarazioni obbligatorie</div>
     <label className="flex items-start gap-2.5 mb-2.5 cursor-pointer">
       <input type="checkbox" checked={sgConsent1} onChange={(e) => setSgConsent1(e.target.checked)} className="mt-0.5 flex-shrink-0 w-4 h-4 accent-[#1A6EBD]" />
-      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Dichiaro di aver letto e compreso integralmente il contratto e le condizioni generali di vendita.</span>
+      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Dichiaro di aver letto e accettato le <a href="/condizioni-generali-solair.pdf" target="_blank" className="underline" style={{ color: "#1A6EBD" }}>condizioni generali di vendita</a> e i termini e condizioni di Solair Group.</span>
     </label>
     <label className="flex items-start gap-2.5 mb-2.5 cursor-pointer">
       <input type="checkbox" checked={sgConsent2} onChange={(e) => setSgConsent2(e.target.checked)} className="mt-0.5 flex-shrink-0 w-4 h-4 accent-[#1A6EBD]" />
@@ -1157,7 +1157,7 @@ export default function ConfiguratorePage() {
     </label>
     <label className="flex items-start gap-2.5 cursor-pointer">
       <input type="checkbox" checked={sgConsent4} onChange={(e) => setSgConsent4(e.target.checked)} className="mt-0.5 flex-shrink-0 w-4 h-4 accent-[#1A6EBD]" />
-      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Approvo specificamente gli artt. 3, 4, 8, 9 e 11 ai sensi degli artt. 1341 e 1342 c.c.</span>
+      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Approvo specificamente le clausole onerose: Art. 3 (tempi di realizzazione), Art. 4 (responsabilita), Art. 8 (recesso e penale), Art. 9 (clausola risolutiva), Art. 11 (foro competente) - ai sensi degli artt. 1341 e 1342 c.c.</span>
     </label>
   </div>
 
@@ -1604,7 +1604,7 @@ export default function ConfiguratorePage() {
     <div className="text-xs font-bold mb-3 uppercase tracking-wide" style={{ color: "#0D2340" }}>Dichiarazioni obbligatorie</div>
     <label className="flex items-start gap-2.5 mb-2.5 cursor-pointer">
       <input type="checkbox" checked={consent1} onChange={(e) => setConsent1(e.target.checked)} className="mt-0.5 flex-shrink-0 w-4 h-4 accent-[#1A6EBD]" />
-      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Dichiaro di aver letto e compreso integralmente il contratto e le condizioni generali di vendita.</span>
+      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Dichiaro di aver letto e accettato le <a href="/condizioni-generali-solair.pdf" target="_blank" className="underline" style={{ color: "#1A6EBD" }}>condizioni generali di vendita</a> e i termini e condizioni di Solair Group.</span>
     </label>
     <label className="flex items-start gap-2.5 mb-2.5 cursor-pointer">
       <input type="checkbox" checked={consent2} onChange={(e) => setConsent2(e.target.checked)} className="mt-0.5 flex-shrink-0 w-4 h-4 accent-[#1A6EBD]" />
@@ -1616,7 +1616,7 @@ export default function ConfiguratorePage() {
     </label>
     <label className="flex items-start gap-2.5 cursor-pointer">
       <input type="checkbox" checked={consent4} onChange={(e) => setConsent4(e.target.checked)} className="mt-0.5 flex-shrink-0 w-4 h-4 accent-[#1A6EBD]" />
-      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Approvo specificamente gli artt. 3, 4, 8, 9 e 11 ai sensi degli artt. 1341 e 1342 c.c.</span>
+      <span className="text-xs leading-relaxed" style={{ color: "#333" }}>Approvo specificamente le clausole onerose: Art. 3 (tempi di realizzazione), Art. 4 (responsabilita), Art. 8 (recesso e penale), Art. 9 (clausola risolutiva), Art. 11 (foro competente) - ai sensi degli artt. 1341 e 1342 c.c.</span>
     </label>
   </div>
 

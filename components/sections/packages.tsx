@@ -1,8 +1,9 @@
 "use client"
 
 import { useRef } from "react"
+import Link from "next/link"
 import { motion, useInView } from "framer-motion"
-import { Sun, Battery, Wifi, Building2 } from "lucide-react"
+import { Sun, Battery, Wifi, Building2, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const packages = [
@@ -43,6 +44,18 @@ export function PackagesSection() {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-[var(--font-heading)] font-bold text-[#0D1F3C] mb-4 text-balance">
             Scegli il pacchetto giusto per le tue esigenze
           </h2>
+          <p className="text-[#0D1F3C]/60 text-lg max-w-2xl mx-auto mb-6">
+            Non sai quale soluzione fa per te? Usa il nostro configuratore per trovare l&apos;impianto perfetto.
+          </p>
+          <Button
+            asChild
+            className="bg-[#1A6EBD] hover:bg-[#155a9a] text-white rounded-full px-6 py-3 font-semibold"
+          >
+            <Link href="/configuratore" className="inline-flex items-center gap-2">
+              Configura il tuo impianto
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8">
