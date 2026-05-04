@@ -4,52 +4,33 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #FAFAF8;
-  --background-alt: #F4F4F2;
+  --background: #FFFFFF;
+  --background-alt: #F7F7F5;
   --foreground: #0A0A0A;
   --foreground-muted: #6B6B6B;
   --border-color: #E8E8E8;
+  --footer-bg: #0F1117;
   
   --card: #FFFFFF;
   --card-foreground: #0A0A0A;
-  --popover: #FFFFFF;
-  --popover-foreground: #0A0A0A;
   --primary: #0A0A0A;
   --primary-foreground: #FFFFFF;
   --secondary: #F7F7F5;
   --secondary-foreground: #0A0A0A;
   --muted: #F7F7F5;
   --muted-foreground: #6B6B6B;
-  --destructive: #ef4444;
-  --destructive-foreground: #FFFFFF;
   --border: #E8E8E8;
   --input: #E8E8E8;
   --ring: #0A0A0A;
-  --radius: 2px;
+  --radius: 0px;
 }
 
 @theme inline {
   --font-sans: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
-  --font-heading: var(--font-outfit), 'Outfit', system-ui, sans-serif;
+  --font-heading: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
   --font-mono: 'Geist Mono', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --radius-sm: calc(var(--radius) - 1px);
-  --radius-md: var(--radius);
-  --radius-lg: calc(var(--radius) + 2px);
 }
 
 @layer base {
@@ -60,37 +41,65 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-[#FAFAF8] text-[#0A0A0A];
+    @apply bg-white text-[#0A0A0A];
+    font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
   }
   
-  /* Headings with Outfit */
+  /* Headings with Cormorant Garamond */
   h1, h2, h3, .font-heading {
-    font-family: var(--font-outfit), 'Outfit', system-ui, sans-serif;
-    line-height: 1.1;
+    font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+    line-height: 1.05;
   }
   
   h1 {
-    font-size: clamp(3rem, 6vw, 5rem);
-    font-weight: 200;
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    font-weight: 300;
   }
   
   h2 {
     font-size: clamp(2.5rem, 4vw, 3.8rem);
-    font-weight: 200;
+    font-weight: 300;
   }
   
   h3 {
-    font-size: clamp(2.2rem, 3.5vw, 3rem);
+    font-size: clamp(2rem, 3.5vw, 3rem);
     font-weight: 300;
   }
 }
 
-/* Tesla-style buttons */
+/* Overline text style - DM Sans */
+.overline {
+  font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 400;
+}
+
+/* Body text */
+.body-text {
+  font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: #6B6B6B;
+}
+
+/* Section padding - breathing room */
+.section-padding {
+  @apply py-[100px] px-6 md:px-12 lg:px-20;
+}
+
+/* Button styles */
 .btn-outline {
   @apply inline-flex items-center justify-center;
   @apply border border-current bg-transparent;
   @apply px-8 py-3;
-  @apply text-xs uppercase tracking-[0.1em] font-medium;
+  font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 400;
   @apply transition-all duration-300 ease-out;
 }
 
@@ -100,9 +109,13 @@
 
 .btn-outline-white {
   @apply inline-flex items-center justify-center;
-  @apply border border-white/85 bg-transparent text-white;
+  @apply border border-white bg-transparent text-white;
   @apply px-10 py-3.5;
-  @apply text-xs uppercase tracking-[0.1em] font-medium;
+  font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 400;
   @apply transition-all duration-300 ease-out;
 }
 
@@ -114,7 +127,11 @@
   @apply inline-flex items-center justify-center;
   @apply bg-[#0A0A0A] text-white border border-[#0A0A0A];
   @apply px-8 py-4 w-full;
-  @apply text-xs uppercase tracking-[0.1em] font-medium;
+  font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 400;
   @apply transition-all duration-300 ease-out;
 }
 
@@ -122,17 +139,7 @@
   @apply bg-transparent text-[#0A0A0A];
 }
 
-/* Overline text style */
-.overline {
-  @apply text-[11px] uppercase tracking-[0.2em] font-medium;
-}
-
-/* Section padding */
-.section-padding {
-  @apply px-6 md:px-12 lg:px-20;
-}
-
-/* Scroll indicator */
+/* Scroll bounce animation */
 @keyframes scroll-bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(8px); }
@@ -142,7 +149,7 @@
   animation: scroll-bounce 2s ease-in-out infinite;
 }
 
-/* Fade in animation */
+/* Fade in animation for Intersection Observer */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -172,4 +179,11 @@
   @apply text-[#0A0A0A] placeholder:text-[#6B6B6B];
   @apply focus:outline-none focus:border-[#0A0A0A];
   @apply transition-colors duration-300;
+  font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+  font-size: 14px;
+}
+
+/* Divider between sections */
+.section-divider {
+  border-top: 1px solid #E8E8E8;
 }

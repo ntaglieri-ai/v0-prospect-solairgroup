@@ -27,20 +27,20 @@ const packages = [
 
 export function PackagesSection() {
   return (
-    <section id="soluzioni" className="min-h-screen py-24 bg-white flex items-center">
+    <section id="soluzioni" className="min-h-[80vh] py-[100px] bg-white flex items-center section-divider">
       <div className="mx-auto max-w-6xl px-6 lg:px-8 w-full">
         {/* Header */}
         <div className="text-center mb-16">
-          <p className="text-xs uppercase tracking-widest text-gray-500 mb-4">Soluzioni</p>
-          <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-6">
+          <p className="overline text-[#6B6B6B] mb-4">Soluzioni</p>
+          <h2 className="font-heading text-[#0A0A0A] mb-6">
             I nostri pacchetti
           </h2>
-          <p className="text-base text-gray-600 max-w-xl mx-auto mb-8 font-light">
+          <p className="body-text max-w-xl mx-auto mb-8">
             Non sai quale soluzione fa per te? Usa il nostro configuratore.
           </p>
           <Link 
             href="/configuratore" 
-            className="inline-block border border-gray-900 text-gray-900 px-6 py-3 text-sm uppercase tracking-wider font-medium hover:bg-gray-900 hover:text-white transition-all duration-300"
+            className="btn-outline text-[#0A0A0A]"
           >
             Configura il tuo impianto
           </Link>
@@ -51,37 +51,37 @@ export function PackagesSection() {
           {packages.map((pkg) => (
             <div
               key={pkg.name}
-              className={`p-10 transition-all duration-300 ${
+              className={`p-12 transition-all duration-300 ${
                 pkg.featured
-                  ? "border-2 border-gray-900"
-                  : "border border-gray-200"
+                  ? "border-2 border-[#0A0A0A]"
+                  : "border border-[#E8E8E8]"
               }`}
             >
-              <h3 className="text-xl font-light text-gray-900 mb-2">
+              <h3 className="text-xl font-light text-[#0A0A0A] mb-2" style={{ fontFamily: "var(--font-dm-sans)" }}>
                 {pkg.name}
               </h3>
-              <p className="text-sm text-gray-500 mb-8 font-light">
+              <p className="text-sm text-[#6B6B6B] mb-8 font-light">
                 {pkg.description}
               </p>
 
               <ul className="space-y-4 mb-8">
                 {pkg.features.map((feature) => (
                   <li key={feature} className="flex items-center gap-3">
-                    <Check className="h-4 w-4 flex-shrink-0 text-gray-900" />
-                    <span className="text-sm text-gray-700 font-light">
+                    <Check className="h-4 w-4 flex-shrink-0 text-[#0A0A0A]" />
+                    <span className="text-sm text-[#0A0A0A] font-light">
                       {feature}
                     </span>
                   </li>
                 ))}
               </ul>
 
-              <p className="text-xs text-gray-500 mb-8 font-light border-t border-gray-200 pt-6">
+              <p className="text-xs text-[#6B6B6B] mb-8 font-light italic border-t border-[#E8E8E8] pt-6">
                 {pkg.savings}
               </p>
 
               <a
                 href="#contatti"
-                className="block text-center border border-gray-900 text-gray-900 px-6 py-3 text-sm uppercase tracking-wider font-medium hover:bg-gray-900 hover:text-white transition-all duration-300"
+                className="btn-outline text-[#0A0A0A] w-full justify-center"
               >
                 Richiedi info
               </a>
