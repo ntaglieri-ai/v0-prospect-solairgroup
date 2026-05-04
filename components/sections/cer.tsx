@@ -12,7 +12,7 @@ const benefits = [
 
 export function CERSection() {
   return (
-    <section id="cer" className="min-h-screen bg-white flex items-center py-20">
+    <section id="cer" className="relative min-h-screen bg-white flex items-center py-20">
       <div className="w-full grid lg:grid-cols-2 gap-0">
         {/* Text Left */}
         <div className="flex items-center py-12 lg:py-0 px-8 lg:px-16 order-2 lg:order-1">
@@ -71,6 +71,9 @@ export function CERSection() {
           />
         </div>
       </div>
+
+      {/* Gradient fade to gray-50 */}
+      <div className="absolute bottom-0 left-0 right-0 h-[80px] bg-gradient-to-b from-transparent to-gray-100 pointer-events-none" />
     </section>
   )
 }

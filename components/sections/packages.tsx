@@ -27,7 +27,7 @@ const packages = [
 
 export function PackagesSection() {
   return (
-    <section id="soluzioni" className="min-h-screen py-24 bg-white flex items-center">
+    <section id="soluzioni" className="relative min-h-screen py-24 bg-white flex items-center">
       <div className="mx-auto max-w-6xl px-6 lg:px-8 w-full">
         {/* Header */}
         <div className="text-center mb-16">
@@ -89,6 +89,9 @@ export function PackagesSection() {
           ))}
         </div>
       </div>
+
+      {/* Gradient fade to gray-50 */}
+      <div className="absolute bottom-0 left-0 right-0 h-[80px] bg-gradient-to-b from-transparent to-gray-100 pointer-events-none" />
     </section>
   )
 }

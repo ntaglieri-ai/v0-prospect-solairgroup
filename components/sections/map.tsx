@@ -9,7 +9,7 @@ const locations = [
 
 export function MapSection() {
   return (
-    <section className="py-24 bg-white">
+    <section className="relative py-24 bg-white">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -36,6 +36,9 @@ export function MapSection() {
           ))}
         </div>
       </div>
+
+      {/* Gradient fade to dark footer */}
+      <div className="absolute bottom-0 left-0 right-0 h-[100px] bg-gradient-to-b from-transparent to-gray-900/30 pointer-events-none" />
     </section>
   )
 }

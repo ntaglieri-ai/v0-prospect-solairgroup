@@ -31,7 +31,7 @@ const projects = [
 
 export function ProjectsSection() {
   return (
-    <section id="portfolio" className="min-h-screen py-24 bg-gray-50">
+    <section id="portfolio" className="relative min-h-screen py-24 bg-gray-50">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -64,6 +64,9 @@ export function ProjectsSection() {
           ))}
         </div>
       </div>
+
+      {/* Gradient fade to white */}
+      <div className="absolute bottom-0 left-0 right-0 h-[80px] bg-gradient-to-b from-transparent to-white pointer-events-none" />
     </section>
   )
 }

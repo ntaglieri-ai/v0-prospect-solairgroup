@@ -21,7 +21,7 @@ export function IncentivesFormSection() {
   }
 
   return (
-    <section id="contatti" className="min-h-screen py-24 bg-gray-50 flex items-center">
+    <section id="contatti" className="relative min-h-screen py-24 bg-gray-50 flex items-center">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
           {/* Left - Text */}
@@ -122,6 +122,9 @@ export function IncentivesFormSection() {
           </div>
         </div>
       </div>
+
+      {/* Gradient fade to white */}
+      <div className="absolute bottom-0 left-0 right-0 h-[80px] bg-gradient-to-b from-transparent to-white pointer-events-none" />
     </section>
   )
 }
