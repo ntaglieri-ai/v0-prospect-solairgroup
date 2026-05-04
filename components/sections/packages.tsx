@@ -3,28 +3,27 @@
 import { useRef } from "react"
 import Link from "next/link"
 import { motion, useInView } from "framer-motion"
-import { Sun, Battery, Wifi, Building2, ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Sun, Battery, Building2, Check } from "lucide-react"
 
 const packages = [
   {
     name: "Residenziale Base",
     icon: Sun,
     description: "Ideale per abitazioni fino a 100mq",
-    features: ["3.0 kWp di potenza", "Pannelli monocristallini", "Inverter di qualità", "Monitoraggio base incluso"],
+    features: ["3.0 kWp di potenza", "Pannelli monocristallini", "Inverter di qualità", "Monitoraggio base"],
   },
   {
     name: "Residenziale Plus",
     icon: Battery,
     description: "Per chi vuole massimizzare l'autoconsumo",
-    features: ["6.0 kWp di potenza", "Sistema di accumulo 5kWh", "Monitoraggio avanzato", "Ottimizzatori di potenza"],
+    features: ["6.0 kWp di potenza", "Accumulo 5kWh", "Monitoraggio avanzato", "Ottimizzatori"],
     featured: true,
   },
   {
     name: "Business Premium",
     icon: Building2,
-    description: "Soluzioni per aziende e attività commerciali",
-    features: ["Da 10 a 100+ kWp", "Progettazione personalizzata", "Monitoraggio enterprise", "Manutenzione dedicata"],
+    description: "Soluzioni per aziende",
+    features: ["Da 10 a 100+ kWp", "Progettazione custom", "Monitoraggio enterprise", "Manutenzione dedicata"],
   },
 ]
 
@@ -33,86 +32,86 @@ export function PackagesSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section className="py-20 lg:py-32 bg-white" ref={ref}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="min-h-[90vh] py-32 bg-[#0A0A08]" ref={ref}>
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-[var(--font-heading)] font-bold text-[#0D1F3C] mb-4 text-balance">
-            Scegli il pacchetto giusto per le tue esigenze
-          </h2>
-          <p className="text-[#0D1F3C]/60 text-lg max-w-2xl mx-auto mb-6">
-            Non sai quale soluzione fa per te? Usa il nostro configuratore per trovare l&apos;impianto perfetto.
+          <p className="text-[10px] tracking-[0.4em] uppercase text-[#C8A96E] mb-6 font-light">
+            Le nostre soluzioni
           </p>
-          <Button
-            asChild
-            className="bg-[#1A6EBD] hover:bg-[#155a9a] text-white rounded-full px-6 py-3 font-semibold"
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[var(--font-display)] font-normal text-[#F2EDE4] leading-[1.15] mb-6">
+            Scegli il pacchetto
+            <br />
+            <span className="italic">giusto per te</span>
+          </h2>
+          <p className="text-base text-[#F2EDE4]/50 max-w-xl mx-auto mb-10 font-light">
+            Non sai quale soluzione fa per te? Usa il nostro configuratore.
+          </p>
+          <Link
+            href="/configuratore"
+            className="btn-premium-gold"
           >
-            <Link href="/configuratore" className="inline-flex items-center gap-2">
-              Configura il tuo impianto
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Button>
+            Configura il tuo impianto
+          </Link>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-1">
           {packages.map((pkg, index) => (
             <motion.div
               key={pkg.name}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative rounded-3xl p-8 ${
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className={`relative p-10 transition-all duration-500 group ${
                 pkg.featured
-                  ? "bg-gradient-to-br from-[#0D1F3C] to-[#1A4A4A] text-white shadow-xl scale-105"
-                  : "bg-[#EEF4FA] text-[#0D1F3C]"
+                  ? "bg-[#1A1A18] border border-[#C8A96E]/30"
+                  : "bg-[#1A1A18]/50 border border-[#F2EDE4]/5 hover:border-[#F2EDE4]/10"
               }`}
             >
               {pkg.featured && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#F5C842] text-[#0D1F3C] text-sm font-semibold px-4 py-1 rounded-full">
-                  Più Popolare
+                <div className="absolute -top-3 left-10 text-[9px] tracking-[0.3em] uppercase text-[#0A0A08] bg-[#C8A96E] px-4 py-1 font-medium">
+                  Consigliato
                 </div>
               )}
 
-              <div
-                className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${
-                  pkg.featured ? "bg-white/10" : "bg-[#1A4A4A]/10"
-                }`}
-              >
-                <pkg.icon className={`h-7 w-7 ${pkg.featured ? "text-[#F5C842]" : "text-[#1A4A4A]"}`} />
+              <div className={`w-12 h-12 flex items-center justify-center mb-8 ${
+                pkg.featured ? "text-[#C8A96E]" : "text-[#F2EDE4]/40"
+              }`}>
+                <pkg.icon className="h-6 w-6" />
               </div>
 
-              <h3 className="text-2xl font-[var(--font-heading)] font-bold mb-2">{pkg.name}</h3>
-              <p className={`text-sm mb-6 ${pkg.featured ? "text-white/70" : "text-[#0D1F3C]/60"}`}>
+              <h3 className="text-xl font-[var(--font-display)] text-[#F2EDE4] mb-2">
+                {pkg.name}
+              </h3>
+              <p className="text-sm text-[#F2EDE4]/40 mb-8 font-light">
                 {pkg.description}
               </p>
 
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-4 mb-10">
                 {pkg.features.map((feature) => (
                   <li key={feature} className="flex items-center gap-3">
-                    <Wifi className={`h-4 w-4 ${pkg.featured ? "text-[#F5C842]" : "text-[#1A4A4A]"}`} />
-                    <span className={`text-sm ${pkg.featured ? "text-white/90" : "text-[#0D1F3C]/80"}`}>
+                    <Check className={`h-4 w-4 flex-shrink-0 ${pkg.featured ? "text-[#C8A96E]" : "text-[#F2EDE4]/30"}`} />
+                    <span className="text-sm text-[#F2EDE4]/70 font-light">
                       {feature}
                     </span>
                   </li>
                 ))}
               </ul>
 
-              <Button
-                asChild
-                className={`w-full rounded-full py-6 font-semibold ${
+              <a
+                href="#contatti"
+                className={`block w-full text-center py-4 text-[10px] tracking-[0.2em] uppercase font-medium transition-all duration-300 ${
                   pkg.featured
-                    ? "bg-white text-[#0D1F3C] hover:bg-[#EEF4FA]"
-                    : "bg-[#1A4A4A] text-white hover:bg-[#1B6B6B]"
+                    ? "bg-[#C8A96E] text-[#0A0A08] hover:bg-[#B8995E]"
+                    : "border border-[#F2EDE4]/20 text-[#F2EDE4]/70 hover:bg-[#F2EDE4] hover:text-[#0A0A08]"
                 }`}
               >
-                <a href="#contatti" aria-label={`Richiedi informazioni per ${pkg.name}`}>
-                  Richiedi info
-                </a>
-              </Button>
+                Richiedi info
+              </a>
             </motion.div>
           ))}
         </div>

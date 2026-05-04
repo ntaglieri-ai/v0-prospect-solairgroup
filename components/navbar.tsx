@@ -2,16 +2,15 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Menu, X, MessageCircle } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
 
 const navLinks = [
   { href: "#home", label: "Home" },
-  { href: "#soluzioni", label: "Le Nostre Soluzioni" },
-  { href: "#testimonianze", label: "Dicono di Noi" },
-  { href: "#lavora", label: "Collabora con Noi" },
-  { href: "#cer", label: "Solair CER" },
+  { href: "#soluzioni", label: "Soluzioni" },
+  { href: "#testimonianze", label: "Testimonianze" },
+  { href: "#lavora", label: "Collabora" },
+  { href: "#cer", label: "CER" },
 ]
 
 const configuratoreLink = { href: "/configuratore", label: "Configuratore" }
@@ -30,71 +29,62 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/95 backdrop-blur-md shadow-sm" : "bg-white/30 backdrop-blur-sm"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled 
+          ? "glass py-4" 
+          : "bg-transparent py-6"
       }`}
     >
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Navigazione principale">
-        <div className="flex h-20 items-center justify-between">
-          {/* Logo */}
-          <Link href="#home" className="flex items-center gap-1" aria-label="Solair Group - Torna alla home">
-            <span className="text-xl font-[var(--font-heading)] font-extrabold text-[#0D1F3C]">SOLAIR</span>
-            <span className="text-[#F5C842] text-xl">⚡</span>
-            <span className="text-sm font-[var(--font-heading)] font-medium text-[#0D1F3C]">GROUP</span>
+      <nav className="mx-auto max-w-7xl px-6 lg:px-8" aria-label="Navigazione principale">
+        <div className="flex items-center justify-between">
+          {/* Logo - Refined without emoji */}
+          <Link href="#home" className="flex items-center gap-2" aria-label="Solair Group - Torna alla home">
+            <span className="text-xl font-[var(--font-display)] font-semibold tracking-wide text-[#F2EDE4]">
+              SOLAIR
+            </span>
+            <span className="text-xs font-[var(--font-body)] font-light tracking-[0.3em] text-[#F2EDE4]/60 uppercase">
+              Group
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-12">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-[#0D1F3C] hover:text-[#1A4A4A] transition-colors"
+                className="text-[11px] font-light tracking-[0.25em] uppercase text-[#F2EDE4]/70 hover:text-[#C8A96E] transition-colors duration-300"
               >
                 {link.label}
               </Link>
             ))}
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="hidden lg:flex items-center gap-4">
             <Link
               href={configuratoreLink.href}
-              className="text-sm font-medium bg-[#1A6EBD] text-white rounded-full px-4 py-1.5 hover:bg-[#155a9a] transition-all"
+              className="text-[11px] font-light tracking-[0.2em] uppercase text-[#F2EDE4]/80 border border-[#F2EDE4]/20 px-5 py-2.5 hover:bg-[#F2EDE4] hover:text-[#0A0A08] transition-all duration-300"
             >
               {configuratoreLink.label}
             </Link>
-          </div>
-
-          {/* CTA Button */}
-          <div className="hidden lg:block">
-            <Button
-              asChild
-              className="bg-[#1A4A4A] hover:bg-[#1B6B6B] text-white rounded-full px-6 py-2 font-medium"
-            >
-              <a
-                href="https://wa.me/390952900278"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Contattaci su WhatsApp"
-              >
-                <MessageCircle className="mr-2 h-4 w-4" />
-                WhatsApp
-              </a>
-            </Button>
           </div>
 
           {/* Mobile: Configuratore button + Menu Button */}
-          <div className="lg:hidden flex items-center gap-2">
+          <div className="lg:hidden flex items-center gap-3">
             <Link
               href={configuratoreLink.href}
-              className="text-xs font-medium bg-[#1A6EBD] text-white rounded-full px-3 py-1.5 hover:bg-[#155a9a] transition-all"
+              className="text-[10px] font-light tracking-[0.15em] uppercase text-[#F2EDE4]/80 border border-[#F2EDE4]/20 px-4 py-2 hover:bg-[#F2EDE4] hover:text-[#0A0A08] transition-all duration-300"
             >
-              {configuratoreLink.label}
+              Configura
             </Link>
             <button
-              className="p-2 text-[#0D1F3C]"
+              className="p-2 text-[#F2EDE4]/70 hover:text-[#F2EDE4] transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Chiudi menu" : "Apri menu"}
               aria-expanded={isMobileMenuOpen}
             >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
@@ -106,33 +96,41 @@ export function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-white rounded-2xl mt-2 shadow-lg overflow-hidden"
+              className="lg:hidden mt-6 overflow-hidden"
             >
-              <div className="flex flex-col gap-4 p-6">
-                {navLinks.map((link) => (
-                  <Link
+              <div className="flex flex-col gap-1 py-6 border-t border-[#F2EDE4]/10">
+                {navLinks.map((link, index) => (
+                  <motion.div
                     key={link.href}
-                    href={link.href}
-                    className="text-base font-medium text-[#0D1F3C] hover:text-[#1A4A4A] transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
                   >
-                    {link.label}
-                  </Link>
+                    <Link
+                      href={link.href}
+                      className="block py-3 text-[11px] font-light tracking-[0.25em] uppercase text-[#F2EDE4]/70 hover:text-[#C8A96E] transition-colors"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
                 ))}
-                <Button
-                  asChild
-                  className="bg-[#1A4A4A] hover:bg-[#1B6B6B] text-white rounded-full px-6 py-2 font-medium w-full mt-2"
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: navLinks.length * 0.05 }}
+                  className="pt-4 mt-4 border-t border-[#F2EDE4]/10"
                 >
                   <a
                     href="https://wa.me/390952900278"
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="Contattaci su WhatsApp"
+                    className="block py-3 text-[11px] font-light tracking-[0.25em] uppercase text-[#C8A96E] hover:text-[#F2EDE4] transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <MessageCircle className="mr-2 h-4 w-4" />
-                    WhatsApp
+                    Contattaci su WhatsApp
                   </a>
-                </Button>
+                </motion.div>
               </div>
             </motion.div>
           )}

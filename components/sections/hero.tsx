@@ -1,13 +1,12 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { ChevronDown } from "lucide-react"
 
 export function HeroSection() {
   return (
-    <section id="home" className="relative min-h-screen overflow-hidden">
-      {/* Video Background */}
+    <section id="home" className="relative h-screen overflow-hidden">
+      {/* Video Background - Full dominant */}
       <div className="absolute inset-0 w-full h-full">
         <video
           autoPlay
@@ -21,75 +20,81 @@ export function HeroSection() {
             type="video/mp4"
           />
         </video>
-        {/* Dark overlay for text visibility */}
-        <div className="absolute inset-0 bg-[#0D1F3C]/60" />
-        {/* Gradient overlay from bottom */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0D1F3C]/80 via-transparent to-[#0D1F3C]/40" />
+        {/* Dark gradient overlay from bottom to top */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A08] via-[#0A0A08]/60 to-transparent" />
+        {/* Additional top vignette */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A08]/40 via-transparent to-transparent" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-32 pb-24 min-h-screen flex flex-col justify-center">
+      {/* Content - Centered minimal */}
+      <div className="relative z-10 h-full flex flex-col items-center justify-center px-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-4xl mx-auto"
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="text-center max-w-4xl"
         >
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1, duration: 0.4 }}
-            className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md rounded-full px-4 py-2 shadow-lg border border-white/20 mb-8"
+          {/* Subtle label */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="text-[10px] tracking-[0.4em] uppercase text-[#C8A96E] mb-8 font-light"
           >
-            <span className="text-[#F5C842]">⚡</span>
-            <span className="text-sm font-medium text-white">
-              Affidati ai professionisti dell&apos;energia rinnovabile
-            </span>
-          </motion.div>
+            Energia rinnovabile dal 2018
+          </motion.p>
 
-          {/* H1 */}
+          {/* Main title - Serif display */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-[var(--font-heading)] font-extrabold text-white leading-tight mb-6 text-balance drop-shadow-lg"
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-[var(--font-display)] font-normal text-[#F2EDE4] leading-[1.1] mb-8 tracking-tight"
           >
-            Il futuro dell&apos;energia è adesso: risparmia con il fotovoltaico!
+            Il futuro dell&apos;energia
+            <br />
+            <span className="italic">è adesso</span>
           </motion.h1>
 
-          {/* Subtext */}
+          {/* Subtitle - Light sans */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto mb-10 text-pretty drop-shadow-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7, duration: 0.8 }}
+            className="text-base sm:text-lg text-[#F2EDE4]/60 max-w-xl mx-auto mb-12 font-light leading-relaxed"
           >
-            Soluzioni su misura per la tua casa o azienda: indipendenza energetica, sostenibilità e incentivi dedicati
+            Soluzioni fotovoltaiche su misura per la tua indipendenza energetica
           </motion.p>
 
-          {/* CTA Button */}
+          {/* CTA - Tesla style */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
+            transition={{ delay: 0.9, duration: 0.8 }}
           >
-            <Button
-              asChild
-              size="lg"
-              className="bg-[#F5C842] hover:bg-[#e0b63a] text-[#0D1F3C] rounded-full px-8 py-6 text-lg font-semibold shadow-xl shadow-[#F5C842]/30"
+            <a
+              href="#contatti"
+              className="btn-premium"
+              aria-label="Richiedi un preventivo gratuito"
             >
-              <a href="#contatti" aria-label="Richiedi un preventivo gratuito">
-                Richiedi un preventivo gratuito
-                <ArrowUpRight className="ml-2 h-5 w-5" />
-              </a>
-            </Button>
+              Richiedi preventivo
+            </a>
           </motion.div>
         </motion.div>
-      </div>
 
-      {/* Bottom fade to next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#EEF4FA] to-transparent z-10" />
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+          className="absolute bottom-12 left-1/2 -translate-x-1/2"
+        >
+          <a href="#chi-siamo" className="flex flex-col items-center gap-2 text-[#F2EDE4]/40 hover:text-[#F2EDE4]/60 transition-colors">
+            <span className="text-[9px] tracking-[0.3em] uppercase font-light">Scorri</span>
+            <ChevronDown className="h-5 w-5 animate-scroll" />
+          </a>
+        </motion.div>
+      </div>
     </section>
   )
 }

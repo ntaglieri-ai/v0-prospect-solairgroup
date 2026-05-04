@@ -1,18 +1,18 @@
 import type { Metadata } from "next"
-import { Plus_Jakarta_Sans, DM_Sans, Outfit } from "next/font/google"
+import { Cormorant_Garamond, DM_Sans, Outfit } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const cormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-heading",
-  weight: ["500", "600", "700", "800"],
+  variable: "--font-display",
+  weight: ["400", "500", "600", "700"],
 })
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-body",
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600"],
 })
 
 const outfit = Outfit({
@@ -74,7 +74,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="it" className={`${plusJakartaSans.variable} ${dmSans.variable} ${outfit.variable} bg-[#EEF4FA]`}>
+    <html lang="it" className={`${cormorantGaramond.variable} ${dmSans.variable} ${outfit.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -169,7 +169,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-[var(--font-body)] antialiased">
+      <body className="font-[var(--font-body)] antialiased bg-[#0A0A08] text-[#F2EDE4]">
         {children}
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
