@@ -41,7 +41,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-white text-[#0A0A0A];
+    @apply bg-[#EFEFED] text-[#0A0A0A];
     font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
   }
   

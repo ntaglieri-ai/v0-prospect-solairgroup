@@ -80,7 +80,7 @@ export default function RootLayout({
         />
         {/* Sitemap: /, /configuratore, /#chi-siamo, /#servizi, /#recensioni, /#soluzioni, /#cer, /#contatti */}
       </head>
-      <body className="font-sans font-light antialiased bg-white text-[#0A0A0A]">
+      <body className="font-sans font-light antialiased bg-[#EFEFED] text-[#0A0A0A]">
         {children}
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
