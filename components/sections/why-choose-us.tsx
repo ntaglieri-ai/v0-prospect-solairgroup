@@ -49,7 +49,7 @@ const services = [
 
 export function WhyChooseUsSection() {
   return (
-    <section id="servizi" className="section-divider">
+    <section id="servizi" className="border-t border-[#E8E8E8]">
       {services.map((service, index) => {
         const isOdd = index % 2 === 0
 
@@ -58,7 +58,7 @@ export function WhyChooseUsSection() {
           return (
             <div
               key={service.title}
-              className="relative min-h-[80vh] flex items-center justify-center"
+              className="relative min-h-[80vh] flex items-center justify-center border-t border-[#E8E8E8] first:border-t-0"
             >
               <Image
                 src={service.image}
@@ -67,10 +67,10 @@ export function WhyChooseUsSection() {
                 className="object-cover"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-black/30" />
+              <div className="absolute inset-0 bg-black/35" />
               
-              {/* Content centered both horizontally and vertically */}
-              <div className="relative z-10 w-full flex items-center justify-start px-8 lg:px-[10vw] py-[100px]">
+              {/* Content centered vertically with breathing room */}
+              <div className="relative z-10 w-full h-full flex items-center px-8 lg:px-[10vw] py-[120px]">
                 <div className="max-w-xl">
                   <p className="overline text-white/60 mb-5">
                     {service.overline}
@@ -90,9 +90,9 @@ export function WhyChooseUsSection() {
           return (
             <div
               key={service.title}
-              className="min-h-[80vh] bg-[#F7F7F5] flex items-center"
+              className="min-h-[80vh] bg-[#F7F7F5] flex items-center border-t border-[#E8E8E8]"
             >
-              <div className="w-full grid lg:grid-cols-[45%_55%]">
+              <div className="w-full grid lg:grid-cols-[45%_55%] h-full">
                 {/* Text - centered vertically with padding */}
                 <div className="flex items-center px-8 lg:px-20 py-[100px] order-2 lg:order-1">
                   <div className="max-w-md">
@@ -107,8 +107,8 @@ export function WhyChooseUsSection() {
                     </p>
                   </div>
                 </div>
-                {/* Image - full height */}
-                <div className="relative h-[500px] lg:h-auto lg:min-h-[80vh] order-1 lg:order-2">
+                {/* Image - full height 100% */}
+                <div className="relative min-h-[500px] lg:min-h-[80vh] order-1 lg:order-2">
                   <Image
                     src={service.image}
                     alt={service.alt}
