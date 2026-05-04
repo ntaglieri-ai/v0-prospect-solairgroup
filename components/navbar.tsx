@@ -35,23 +35,23 @@ export function Navbar() {
     >
       <nav className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
+          {/* Logo - Cormorant Garamond weight 400 */}
           <Link 
             href="/" 
-            className={`text-sm font-medium tracking-[0.2em] transition-colors duration-300 ${
+            className={`font-heading text-sm font-normal tracking-[0.2em] transition-colors duration-300 ${
               isScrolled ? "text-[#0A0A0A]" : "text-white"
             }`}
           >
             SOLAIR GROUP
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - DM Sans 11px uppercase */}
           <div className="hidden lg:flex items-center gap-10">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[11px] uppercase tracking-[0.12em] font-normal transition-colors duration-300 ${
+                className={`overline transition-colors duration-300 ${
                   isScrolled 
                     ? "text-[#0A0A0A] hover:text-[#6B6B6B]" 
                     : "text-white/90 hover:text-white"
@@ -62,7 +62,7 @@ export function Navbar() {
             ))}
             <Link
               href="/configuratore"
-              className={`text-[11px] uppercase tracking-[0.1em] font-normal px-5 py-2 border transition-all duration-300 ${
+              className={`overline px-5 py-2 border transition-all duration-300 ${
                 isScrolled 
                   ? "border-[#0A0A0A] text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white" 
                   : "border-white/85 text-white hover:bg-white hover:text-[#0A0A0A]"
@@ -76,7 +76,7 @@ export function Navbar() {
           <div className="lg:hidden flex items-center gap-3">
             <Link
               href="/configuratore"
-              className={`text-[10px] uppercase tracking-[0.1em] font-normal px-4 py-2 border transition-all duration-300 ${
+              className={`overline px-4 py-2 border transition-all duration-300 ${
                 isScrolled 
                   ? "border-[#0A0A0A] text-[#0A0A0A]" 
                   : "border-white/85 text-white"
@@ -104,7 +104,7 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-[11px] uppercase tracking-[0.12em] text-[#0A0A0A] py-3 border-b border-[#E8E8E8] last:border-0"
+                  className="overline text-[#0A0A0A] py-3 border-b border-[#E8E8E8] last:border-0"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
