@@ -3,8 +3,8 @@
 import Link from "next/link"
 
 const navLinks = [
-  { href: "#impianti-fotovoltaici", label: "Impianti" },
-  { href: "#perche-solair", label: "Servizi" },
+  { href: "#chi-siamo", label: "Impianti" },
+  { href: "#servizi", label: "Servizi" },
   { href: "#recensioni", label: "Recensioni" },
   { href: "#soluzioni", label: "Soluzioni" },
   { href: "#cer", label: "CER" },
@@ -13,22 +13,22 @@ const navLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-[#0A0A0A] text-white">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-20">
+    <footer className="bg-gray-900 text-white">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16">
         {/* Logo centered */}
-        <div className="text-center mb-12">
-          <Link href="/" className="text-sm font-medium tracking-[0.2em]">
+        <div className="text-center mb-10">
+          <Link href="/" className="text-sm font-medium tracking-widest">
             SOLAIR GROUP
           </Link>
         </div>
 
         {/* Navigation links centered */}
-        <div className="flex flex-wrap justify-center gap-8 mb-12">
+        <div className="flex flex-wrap justify-center gap-8 mb-10">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-[11px] uppercase tracking-[0.12em] text-white/60 hover:text-white transition-colors duration-300"
+              className="text-xs uppercase tracking-wider text-white/60 hover:text-white transition-colors"
             >
               {link.label}
             </Link>
@@ -36,34 +36,22 @@ export function Footer() {
         </div>
 
         {/* Description */}
-        <p className="text-center text-sm text-white/50 font-light max-w-xl mx-auto mb-12">
+        <p className="text-center text-sm text-white/50 font-light max-w-xl mx-auto mb-10">
           Solair Group opera in tutta Italia con sedi a Catania, Giarre (CT), Treviso (TV) e Torino (TO)
         </p>
 
         {/* Bottom bar */}
         <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-[11px] text-white/30 tracking-wide">
+            <p className="text-xs text-white/30">
               2024 Solair Group. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <Link
-                href="/privacy"
-                className="text-[11px] text-white/30 hover:text-white/60 transition-colors tracking-wide"
-              >
+              <Link href="/privacy" className="text-xs text-white/30 hover:text-white/60 transition-colors">
                 Privacy
               </Link>
-              <Link
-                href="/terms"
-                className="text-[11px] text-white/30 hover:text-white/60 transition-colors tracking-wide"
-              >
+              <Link href="/terms" className="text-xs text-white/30 hover:text-white/60 transition-colors">
                 Terms
-              </Link>
-              <Link
-                href="/support"
-                className="text-[11px] text-white/30 hover:text-white/60 transition-colors tracking-wide"
-              >
-                Support
               </Link>
             </div>
           </div>
@@ -75,7 +63,7 @@ export function Footer() {
         href="https://wa.me/390952900278"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-[1.08] transition-transform duration-300"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
         aria-label="Contattaci su WhatsApp"
       >
         <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">

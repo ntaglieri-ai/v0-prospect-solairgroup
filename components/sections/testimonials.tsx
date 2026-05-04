@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { Star, ChevronLeft, ChevronRight } from "lucide-react"
 
 const testimonials = [
@@ -27,7 +27,6 @@ const testimonials = [
 ]
 
 export function TestimonialsSection() {
-  const sectionRef = useRef<HTMLElement>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -38,26 +37,6 @@ export function TestimonialsSection() {
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fade-in-up")
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    if (sectionRef.current) {
-      const elements = sectionRef.current.querySelectorAll("[data-animate]")
-      elements.forEach((el) => observer.observe(el))
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
   const visibleCount = isMobile ? 1 : 3
   const maxIndex = testimonials.length - visibleCount
 
@@ -65,33 +44,30 @@ export function TestimonialsSection() {
   const prev = () => setCurrentIndex((prev) => Math.max(prev - 1, 0))
 
   return (
-    <section id="recensioni" ref={sectionRef} className="min-h-[70vh] py-32 bg-[#F7F7F5] flex items-center">
+    <section id="recensioni" className="min-h-[70vh] py-24 bg-gray-50 flex items-center">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
         {/* Header */}
-        <div data-animate className="opacity-0 text-center mb-16">
-          <p className="overline text-[#6B6B6B] mb-4">Testimonianze</p>
-          <h2 
-            className="font-light text-[#0A0A0A] mb-8"
-            style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-          >
+        <div className="text-center mb-16">
+          <p className="text-xs uppercase tracking-widest text-gray-500 mb-4">Testimonianze</p>
+          <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-8">
             Cosa dicono i nostri clienti
           </h2>
           
           {/* Badge */}
-          <div className="inline-flex items-center gap-3 px-6 py-3 border border-[#E8E8E8] bg-white">
-            <span className="text-[11px] uppercase tracking-[0.1em] text-[#6B6B6B] font-medium">Eccellente</span>
-            <span className="text-[#6B6B6B]">&middot;</span>
-            <span className="text-[11px] text-[#6B6B6B]">99 recensioni Google</span>
+          <div className="inline-flex items-center gap-3 px-6 py-3 border border-gray-200 bg-white">
+            <span className="text-xs uppercase tracking-wider text-gray-500 font-medium">Eccellente</span>
+            <span className="text-gray-400">-</span>
+            <span className="text-xs text-gray-500">99 recensioni Google</span>
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-3 w-3 fill-[#0A0A0A] text-[#0A0A0A]" />
+                <Star key={i} className="h-3 w-3 fill-gray-900 text-gray-900" />
               ))}
             </div>
           </div>
         </div>
 
         {/* Carousel */}
-        <div data-animate className="opacity-0 animate-delay-150 relative">
+        <div className="relative">
           <div className="overflow-hidden">
             <div
               className="flex gap-6 transition-transform duration-500 ease-out"
@@ -102,16 +78,16 @@ export function TestimonialsSection() {
                   key={index}
                   className={`flex-shrink-0 ${isMobile ? "w-full" : "w-[calc(33.333%-1rem)]"}`}
                 >
-                  <div className="bg-white border border-[#E8E8E8] p-10 h-full" style={{ borderRadius: "2px" }}>
+                  <div className="bg-white border border-gray-200 p-10 h-full">
                     <div className="flex gap-0.5 mb-6">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-[#0A0A0A] text-[#0A0A0A]" />
+                        <Star key={i} className="h-4 w-4 fill-gray-900 text-gray-900" />
                       ))}
                     </div>
-                    <p className="text-[#0A0A0A] text-sm leading-relaxed mb-8 font-light">
+                    <p className="text-gray-700 text-sm leading-relaxed mb-8 font-light">
                       &quot;{testimonial.text}&quot;
                     </p>
-                    <p className="text-[11px] uppercase tracking-[0.12em] text-[#6B6B6B]">
+                    <p className="text-xs uppercase tracking-wider text-gray-500">
                       {testimonial.name}
                     </p>
                   </div>
@@ -124,7 +100,7 @@ export function TestimonialsSection() {
           <button
             onClick={prev}
             disabled={currentIndex === 0}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 border border-[#E8E8E8] flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#0A0A0A] hover:text-white hover:border-[#0A0A0A] transition-all duration-300 text-[#0A0A0A] bg-white"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 border border-gray-200 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 text-gray-900 bg-white"
             aria-label="Recensione precedente"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -132,7 +108,7 @@ export function TestimonialsSection() {
           <button
             onClick={next}
             disabled={currentIndex >= maxIndex}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 border border-[#E8E8E8] flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#0A0A0A] hover:text-white hover:border-[#0A0A0A] transition-all duration-300 text-[#0A0A0A] bg-white"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 border border-gray-200 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 text-gray-900 bg-white"
             aria-label="Recensione successiva"
           >
             <ChevronRight className="h-4 w-4" />

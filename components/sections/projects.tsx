@@ -1,6 +1,5 @@
 "use client"
 
-import { useRef, useEffect } from "react"
 import Image from "next/image"
 
 const projects = [
@@ -28,55 +27,22 @@ const projects = [
     image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=90",
     date: "Ottobre 2023",
   },
-  {
-    image: "https://images.unsplash.com/photo-1545209463-4ef10d1a1ace?w=800&q=90",
-    date: "Settembre 2023",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?w=800&q=90",
-    date: "Agosto 2023",
-  },
 ]
 
 export function ProjectsSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fade-in-up")
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    if (sectionRef.current) {
-      const elements = sectionRef.current.querySelectorAll("[data-animate]")
-      elements.forEach((el) => observer.observe(el))
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section id="portfolio" ref={sectionRef} className="min-h-[80vh] py-32 bg-[#F7F7F5]">
+    <section id="portfolio" className="min-h-screen py-24 bg-gray-50">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Header */}
-        <div data-animate className="opacity-0 text-center mb-16">
-          <p className="overline text-[#6B6B6B] mb-4">Portfolio</p>
-          <h2 
-            className="font-light text-[#0A0A0A]"
-            style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-          >
+        <div className="text-center mb-16">
+          <p className="text-xs uppercase tracking-widest text-gray-500 mb-4">Portfolio</p>
+          <h2 className="text-3xl md:text-4xl font-light text-gray-900">
             I nostri progetti realizzati
           </h2>
         </div>
 
         {/* Grid 2 columns */}
-        <div data-animate className="opacity-0 animate-delay-150 grid grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-6">
           {projects.map((project, index) => (
             <div
               key={index}
@@ -84,15 +50,14 @@ export function ProjectsSection() {
             >
               <Image
                 src={project.image}
-                alt={`Impianto fotovoltaico installato da Solair Group - ${project.date}`}
+                alt={`Impianto fotovoltaico - ${project.date}`}
                 fill
-                className="object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.02]"
-                loading="lazy"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
-              {/* Caption below image */}
+              {/* Caption */}
               <div className="absolute bottom-0 left-0 right-0 bg-white py-4 px-4">
-                <p className="text-[11px] uppercase tracking-[0.12em] text-[#6B6B6B]">
-                  {project.date} &middot; Solair Group
+                <p className="text-xs uppercase tracking-wider text-gray-500">
+                  {project.date} - Solair Group
                 </p>
               </div>
             </div>

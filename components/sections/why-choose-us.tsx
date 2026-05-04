@@ -1,6 +1,5 @@
 "use client"
 
-import { useEffect, useRef } from "react"
 import Image from "next/image"
 
 const services = [
@@ -8,7 +7,7 @@ const services = [
     overline: "Installazione",
     title: "Servizio Completo",
     description: "Dalla consulenza iniziale all'allaccio in rete: gestiamo ogni fase dell'installazione, incluse le pratiche burocratiche e gli incentivi fiscali.",
-    image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1400&q=90",
+    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1400&q=90",
   },
   {
     overline: "Team",
@@ -43,58 +42,28 @@ const services = [
 ]
 
 export function WhyChooseUsSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fade-in-up")
-          }
-        })
-      },
-      { threshold: 0.15 }
-    )
-
-    if (sectionRef.current) {
-      const elements = sectionRef.current.querySelectorAll("[data-animate]")
-      elements.forEach((el) => observer.observe(el))
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section id="perche-solair" ref={sectionRef}>
+    <section id="servizi">
       {services.map((service, index) => {
-        const isOdd = index % 2 === 0 // 0,2,4 = odd layout (1,3,5)
+        const isOdd = index % 2 === 0
         
         if (isOdd) {
-          // Full-bleed background image + overlay + white text left
           return (
             <div 
               key={service.title}
-              className="relative min-h-[80vh] flex items-center"
+              className="relative min-h-[70vh] flex items-center"
             >
               <Image
                 src={service.image}
-                alt={`${service.title} - Solair Group servizio fotovoltaico`}
+                alt={service.title}
                 fill
                 className="object-cover"
-                loading="lazy"
               />
-              <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.28)" }} />
-              <div 
-                data-animate 
-                className="opacity-0 relative z-10 w-full px-[10vw] py-20"
-              >
+              <div className="absolute inset-0 bg-black/40" />
+              <div className="relative z-10 w-full px-8 lg:px-20 py-20">
                 <div className="max-w-xl">
-                  <p className="overline text-white/70 mb-4">{service.overline}</p>
-                  <h3 
-                    className="font-light text-white mb-6 leading-[1.15]"
-                    style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-                  >
+                  <p className="text-xs uppercase tracking-widest text-white/70 mb-4">{service.overline}</p>
+                  <h3 className="text-3xl md:text-4xl font-light text-white mb-6 leading-tight">
                     {service.title}
                   </h3>
                   <p className="text-base text-white/80 font-light leading-relaxed">
@@ -105,42 +74,29 @@ export function WhyChooseUsSection() {
             </div>
           )
         } else {
-          // #F7F7F5 background + image right 55% + text left
           return (
             <div 
               key={service.title}
-              className="min-h-[80vh] bg-[#F7F7F5] flex items-center"
+              className="min-h-[70vh] bg-gray-50 flex items-center"
             >
-              <div className="w-full grid lg:grid-cols-[45%_55%]">
-                {/* Text Left */}
+              <div className="w-full grid lg:grid-cols-2">
                 <div className="flex items-center px-8 lg:px-20 py-16 lg:py-0 order-2 lg:order-1">
-                  <div 
-                    data-animate 
-                    className="opacity-0 max-w-md"
-                  >
-                    <p className="overline text-[#6B6B6B] mb-4">{service.overline}</p>
-                    <h3 
-                      className="font-light text-[#0A0A0A] mb-6 leading-[1.15]"
-                      style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-                    >
+                  <div className="max-w-md">
+                    <p className="text-xs uppercase tracking-widest text-gray-500 mb-4">{service.overline}</p>
+                    <h3 className="text-3xl md:text-4xl font-light text-gray-900 mb-6 leading-tight">
                       {service.title}
                     </h3>
-                    <p className="text-base text-[#6B6B6B] font-light leading-relaxed">
+                    <p className="text-base text-gray-600 font-light leading-relaxed">
                       {service.description}
                     </p>
                   </div>
                 </div>
-                {/* Image Right */}
-                <div 
-                  data-animate 
-                  className="opacity-0 relative h-[50vh] lg:h-auto lg:min-h-[80vh] order-1 lg:order-2"
-                >
+                <div className="relative h-[400px] lg:h-auto lg:min-h-[70vh] order-1 lg:order-2">
                   <Image
                     src={service.image}
-                    alt={`${service.title} - Solair Group servizio fotovoltaico`}
+                    alt={service.title}
                     fill
                     className="object-cover"
-                    loading="lazy"
                   />
                 </div>
               </div>

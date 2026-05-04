@@ -5,8 +5,8 @@ import Link from "next/link"
 import { Menu, X } from "lucide-react"
 
 const navLinks = [
-  { href: "#impianti-fotovoltaici", label: "Impianti" },
-  { href: "#perche-solair", label: "Servizi" },
+  { href: "#chi-siamo", label: "Impianti" },
+  { href: "#servizi", label: "Servizi" },
   { href: "#recensioni", label: "Recensioni" },
   { href: "#soluzioni", label: "Soluzioni" },
   { href: "#cer", label: "CER" },
