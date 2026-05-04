@@ -52,7 +52,7 @@ export function WhyChooseUsSection() {
           return (
             <div
               key={service.title}
-              className="relative h-screen flex items-center justify-center mb-[50px]"
+              className="relative h-screen flex items-center justify-center mb-[50px] section-fade-to-light"
             >
               <Image
                 src={service.image}
@@ -62,6 +62,8 @@ export function WhyChooseUsSection() {
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-black/35" />
+              {/* Top fade from previous section */}
+              <div className="absolute top-0 left-0 right-0 h-[80px] bg-gradient-to-b from-[#EFEFED] to-transparent z-10 pointer-events-none" />
               
               {/* Content centered at exact vertical center */}
               <div className="relative z-10 w-full flex items-center justify-start px-8 lg:px-[10vw]">
@@ -84,8 +86,10 @@ export function WhyChooseUsSection() {
           return (
             <div
               key={service.title}
-              className="grid lg:grid-cols-[45%_55%] min-h-screen mb-[50px]"
+              className="relative grid lg:grid-cols-[45%_55%] min-h-screen mb-[50px]"
             >
+              {/* Top fade from previous image section */}
+              <div className="absolute top-0 left-0 right-0 h-[80px] bg-gradient-to-b from-[rgba(0,0,0,0.1)] to-transparent z-10 pointer-events-none" />
               {/* Text - centered vertically */}
               <div className="flex items-center justify-center bg-[#EFEFED] px-8 lg:px-20 py-20 lg:py-0 order-2 lg:order-1">
                 <div className="max-w-md">
@@ -109,6 +113,8 @@ export function WhyChooseUsSection() {
                   className="object-cover"
                   loading="lazy"
                 />
+                {/* Bottom fade to next section */}
+                <div className="absolute bottom-0 left-0 right-0 h-[80px] bg-gradient-to-b from-transparent to-[#EFEFED] pointer-events-none" />
               </div>
             </div>
           )

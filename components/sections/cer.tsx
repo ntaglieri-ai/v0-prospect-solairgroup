@@ -61,7 +61,7 @@ export function CERSection() {
           </div>
         </div>
 
-        {/* Image Right 55% - full height no gaps */}
+        {/* Image Right 55% - full height with fades */}
         <div className="relative h-full order-1 lg:order-2">
           <Image
             src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1400&q=90"
@@ -70,6 +70,10 @@ export function CERSection() {
             className="object-cover"
             loading="lazy"
           />
+          {/* Top fade */}
+          <div className="absolute top-0 left-0 right-0 h-[80px] bg-gradient-to-b from-[#EFEFED] to-transparent pointer-events-none" />
+          {/* Bottom fade */}
+          <div className="absolute bottom-0 left-0 right-0 h-[80px] bg-gradient-to-b from-transparent to-[#EFEFED] pointer-events-none" />
         </div>
       </div>
     </section>
