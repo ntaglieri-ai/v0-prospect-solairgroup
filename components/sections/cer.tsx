@@ -12,7 +12,7 @@ const benefits = [
 
 export function CERSection() {
   return (
-    <section id="cer" className="h-screen bg-[#F5F5F3] flex items-center mb-[50px]">
+    <section id="cer" className="h-screen bg-[#EFEFED] flex items-center mb-[50px]">
       <div className="w-full h-full grid lg:grid-cols-[45%_55%]">
         {/* Text Left 45% - centered vertically */}
         <div className="flex items-center py-[100px] px-8 lg:px-20 order-2 lg:order-1">

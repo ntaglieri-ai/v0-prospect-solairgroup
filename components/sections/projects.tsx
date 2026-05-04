@@ -37,7 +37,7 @@ const projects = [
 
 export function ProjectsSection() {
   return (
-    <section id="portfolio" className="min-h-[80vh] py-[100px] bg-[#F5F5F3] mb-[50px]">
+    <section id="portfolio" className="min-h-[80vh] py-[100px] bg-[#EFEFED] mb-[50px]">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">

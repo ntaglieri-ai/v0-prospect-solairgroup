@@ -87,7 +87,7 @@ export function WhyChooseUsSection() {
               className="grid lg:grid-cols-[45%_55%] min-h-screen mb-[50px]"
             >
               {/* Text - centered vertically */}
-              <div className="flex items-center justify-center bg-[#F5F5F3] px-8 lg:px-20 py-20 lg:py-0 order-2 lg:order-1">
+              <div className="flex items-center justify-center bg-[#EFEFED] px-8 lg:px-20 py-20 lg:py-0 order-2 lg:order-1">
                 <div className="max-w-md">
                   <p className="overline text-[#6B6B6B] mb-5">
                     {service.overline}
