@@ -13,22 +13,22 @@ const navLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-[#0F1117] text-white">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16">
-        {/* Logo centered */}
+        {/* Logo centered - DM Sans weight 500 */}
         <div className="text-center mb-10">
-          <Link href="/" className="text-sm font-medium tracking-widest">
+          <Link href="/" className="text-sm font-medium tracking-[0.2em]">
             SOLAIR GROUP
           </Link>
         </div>
 
-        {/* Navigation links centered */}
+        {/* Navigation links centered - DM Sans 11px uppercase */}
         <div className="flex flex-wrap justify-center gap-8 mb-10">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-xs uppercase tracking-wider text-white/60 hover:text-white transition-colors"
+              className="text-[11px] uppercase tracking-[0.12em] text-white/60 hover:text-white transition-colors"
             >
               {link.label}
             </Link>
@@ -40,7 +40,7 @@ export function Footer() {
           Solair Group opera in tutta Italia con sedi a Catania, Giarre (CT), Treviso (TV) e Torino (TO)
         </p>
 
-        {/* Bottom bar */}
+        {/* Bottom bar with divider */}
         <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-xs text-white/30">

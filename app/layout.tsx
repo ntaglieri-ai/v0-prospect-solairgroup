@@ -1,11 +1,11 @@
 import type { Metadata } from "next"
-import { Urbanist, Cormorant_Garamond } from "next/font/google"
+import { DM_Sans, Cormorant_Garamond } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
-const urbanist = Urbanist({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-urbanist",
+  variable: "--font-dm-sans",
   weight: ["300", "400", "500"],
   display: "swap",
 })
@@ -18,7 +18,7 @@ const cormorant = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
-  title: "Solair Group | Impianti Fotovoltaici Chiavi in Mano - Risparmia con il Solare",
+  title: "Solair Group | Impianti Fotovoltaici Chiavi in Mano – Risparmia con il Solare",
   description: "Solair Group installa impianti fotovoltaici su misura per privati e aziende in tutta Italia. Chiavi in mano, incentivi fiscali, monitoraggio remoto e garanzia totale. Richiedi un preventivo gratuito.",
   keywords: "impianto fotovoltaico, pannelli solari, incentivi fotovoltaico, comunita energetica, detrazione fiscale solare, energia rinnovabile Italia",
   robots: "index, follow",
@@ -28,8 +28,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "it_IT",
     url: "https://solairgroup.it",
+    images: [
+      {
+        url: "https://solairgroup.it/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Solair Group - Impianti Fotovoltaici",
+      },
+    ],
+  },
+  alternates: {
+    canonical: "https://solairgroup.it",
   },
 }
+
+// Sitemap hint: /, /configuratore, /#chi-siamo, /#servizi, /#recensioni, /#soluzioni, /#cer, /#contatti
 
 export default function RootLayout({
   children,
@@ -37,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="it" className={`${urbanist.variable} ${cormorant.variable}`}>
+    <html lang="it" className={`${dmSans.variable} ${cormorant.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -76,7 +89,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-[var(--font-urbanist)] font-light antialiased bg-white text-[#0A0A0A]">
+      <body className="font-sans font-light antialiased bg-white text-[#0A0A0A]">
         {children}
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>

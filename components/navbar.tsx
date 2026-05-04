@@ -35,17 +35,17 @@ export function Navbar() {
     >
       <nav className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
+          {/* Logo - Cormorant Garamond weight 400 */}
           <Link 
             href="/" 
-            className={`text-sm font-medium tracking-[0.2em] transition-colors duration-300 ${
+            className={`font-heading text-base font-normal tracking-[0.2em] transition-colors duration-300 ${
               isScrolled ? "text-[#0A0A0A]" : "text-white"
             }`}
           >
             SOLAIR GROUP
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - DM Sans 11px uppercase */}
           <div className="hidden lg:flex items-center gap-10">
             {navLinks.map((link) => (
               <Link

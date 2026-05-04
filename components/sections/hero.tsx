@@ -19,52 +19,54 @@ export function HeroSection() {
             type="video/mp4"
           />
         </video>
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black/40" />
+        {/* Overlay gradient that fades to white at bottom */}
+        <div 
+          className="absolute inset-0" 
+          style={{ 
+            background: "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.45) 60%, rgba(255,255,255,1) 100%)" 
+          }} 
+        />
       </div>
 
       {/* Content */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-6">
         <div className="text-center max-w-4xl">
-          {/* Overline */}
-          <p className="text-xs tracking-widest uppercase font-medium mb-6 text-white/60">
+          {/* Overline - DM Sans 11px uppercase */}
+          <p className="text-[11px] tracking-[0.2em] uppercase font-normal mb-6 text-white/60">
             Energia Rinnovabile - Italia
           </p>
 
-          {/* H1 Title */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white leading-tight mb-6">
+          {/* H1 Title - Cormorant Garamond weight 300 */}
+          <h1 className="font-heading text-white leading-[1.05] mb-6">
             Indipendenza energetica per ogni abitazione
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-base md:text-lg font-light text-white/70 max-w-xl mx-auto mb-10">
+          {/* Subtitle - DM Sans weight 300 */}
+          <p className="text-base font-light text-white/75 max-w-xl mx-auto mb-10">
             Impianti fotovoltaici chiavi in mano per privati e aziende in tutta Italia
           </p>
 
-          {/* CTA */}
+          {/* CTA - btn-outline-white style */}
           <a
             href="#contatti"
-            className="inline-block border border-white text-white px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-white hover:text-black transition-all duration-300"
+            className="btn-outline-white"
           >
             Richiedi preventivo gratuito
           </a>
 
-          {/* Micro-copy */}
-          <p className="mt-6 text-xs text-white/50">
+          {/* Micro-copy - DM Sans 11px */}
+          <p className="mt-6 text-[11px] text-white/50 font-light">
             Nessun impegno - Risposta entro 24 ore
           </p>
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-24 left-1/2 -translate-x-1/2">
+        <div className="absolute bottom-32 left-1/2 -translate-x-1/2">
           <a href="#chi-siamo" className="flex flex-col items-center gap-2 text-white/50 hover:text-white/80 transition-colors">
-            <ChevronDown className="h-5 w-5 animate-bounce" />
+            <ChevronDown className="h-5 w-5 animate-scroll" />
           </a>
         </div>
       </div>
-
-      {/* Gradient fade to white */}
-      <div className="absolute bottom-0 left-0 right-0 h-[120px] bg-gradient-to-b from-transparent to-white z-20 pointer-events-none" />
     </section>
   )
 }

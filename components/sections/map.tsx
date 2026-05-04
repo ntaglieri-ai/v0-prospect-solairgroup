@@ -9,36 +9,32 @@ const locations = [
 
 export function MapSection() {
   return (
-    <section className="relative py-8 bg-white">
+    <section className="py-20 bg-white">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-6">
-          <p className="text-xs uppercase tracking-widest text-gray-500 mb-4">Sedi</p>
-          <h2 className="text-3xl md:text-4xl font-light text-gray-900">
+        <div className="text-center mb-16">
+          <h2 className="font-heading text-[#0A0A0A]">
             Le nostre sedi in Italia
           </h2>
         </div>
 
-        {/* 4 Columns */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* 4 Columns with vertical separators */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
           {locations.map((location, index) => (
             <div 
               key={location.city}
-              className={`py-6 text-center ${
-                index > 0 ? "lg:border-l lg:border-gray-200" : ""
+              className={`py-8 text-center ${
+                index > 0 ? "lg:border-l lg:border-[#E8E8E8]" : ""
               }`}
             >
-              <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">{location.region}</p>
-              <h3 className="text-lg font-light text-gray-900 mb-3">{location.city}</h3>
-              <p className="text-sm text-gray-500 font-light mb-1">{location.contact}</p>
-              <p className="text-sm text-gray-500 font-light">{location.phone}</p>
+              <p className="overline text-[#6B6B6B] mb-2">{location.region}</p>
+              <h3 className="text-lg font-normal text-[#0A0A0A] mb-3">{location.city}</h3>
+              <p className="text-sm text-[#6B6B6B] font-light mb-1">{location.contact}</p>
+              <p className="text-sm text-[#6B6B6B] font-light">{location.phone}</p>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Gradient fade to dark footer */}
-      <div className="absolute bottom-0 left-0 right-0 h-[100px] bg-gradient-to-b from-transparent to-gray-900/30 pointer-events-none" />
     </section>
   )
 }
