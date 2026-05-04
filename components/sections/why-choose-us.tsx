@@ -49,16 +49,16 @@ const services = [
 
 export function WhyChooseUsSection() {
   return (
-    <section id="servizi" className="border-t border-[#E8E8E8]">
+    <section id="servizi">
       {services.map((service, index) => {
         const isOdd = index % 2 === 0
 
         if (isOdd) {
-          // Full-bleed background image with overlay - text centered vertically
+          // Full-bleed background image with overlay - text centered vertically at exact center
           return (
             <div
               key={service.title}
-              className="relative min-h-[80vh] flex items-center justify-center border-t border-[#E8E8E8] first:border-t-0"
+              className="relative h-screen flex items-center justify-center"
             >
               <Image
                 src={service.image}
@@ -69,8 +69,8 @@ export function WhyChooseUsSection() {
               />
               <div className="absolute inset-0 bg-black/35" />
               
-              {/* Content centered vertically with breathing room */}
-              <div className="relative z-10 w-full h-full flex items-center px-8 lg:px-[10vw] py-[120px]">
+              {/* Content centered at exact vertical center */}
+              <div className="relative z-10 w-full flex items-center justify-start px-8 lg:px-[10vw]">
                 <div className="max-w-xl">
                   <p className="overline text-white/60 mb-5">
                     {service.overline}
@@ -86,14 +86,16 @@ export function WhyChooseUsSection() {
             </div>
           )
         } else {
-          // Split layout: text left, image right 55%
+          // Split layout: text left, image right 55% - 100vh height
           return (
             <div
               key={service.title}
-              className="min-h-[80vh] bg-[#F7F7F5] flex items-center border-t border-[#E8E8E8]"
+              className="relative h-screen bg-[#F5F5F3]"
             >
-              <div className="w-full grid lg:grid-cols-[45%_55%] h-full">
-                {/* Text - centered vertically with padding */}
+              {/* Gradient transition from previous full-bleed */}
+              <div className="absolute top-0 left-0 right-0 h-[80px] bg-gradient-to-b from-[rgba(0,0,0,0.05)] to-transparent pointer-events-none z-10" />
+              <div className="w-full h-full grid lg:grid-cols-[45%_55%]">
+                {/* Text - centered vertically */}
                 <div className="flex items-center px-8 lg:px-20 py-[100px] order-2 lg:order-1">
                   <div className="max-w-md">
                     <p className="overline text-[#6B6B6B] mb-5">
@@ -107,8 +109,8 @@ export function WhyChooseUsSection() {
                     </p>
                   </div>
                 </div>
-                {/* Image - full height 100% */}
-                <div className="relative min-h-[500px] lg:min-h-[80vh] order-1 lg:order-2">
+                {/* Image - full height 100% no gaps */}
+                <div className="relative h-full order-1 lg:order-2">
                   <Image
                     src={service.image}
                     alt={service.alt}

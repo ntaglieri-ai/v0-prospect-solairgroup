@@ -12,9 +12,9 @@ const benefits = [
 
 export function CERSection() {
   return (
-    <section id="cer" className="min-h-[90vh] bg-white flex items-center border-t border-[#E8E8E8]">
-      <div className="w-full grid lg:grid-cols-[45%_55%]">
-        {/* Text Left 45% - padding 80px, centered vertically */}
+    <section id="cer" className="h-screen bg-[#F5F5F3] flex items-center">
+      <div className="w-full h-full grid lg:grid-cols-[45%_55%]">
+        {/* Text Left 45% - centered vertically */}
         <div className="flex items-center py-[100px] px-8 lg:px-20 order-2 lg:order-1">
           <div className="max-w-lg">
             <p className="overline text-[#6B6B6B] mb-4">
@@ -61,8 +61,8 @@ export function CERSection() {
           </div>
         </div>
 
-        {/* Image Right 55% - full height, warm sunset light */}
-        <div className="relative h-[500px] lg:h-auto lg:min-h-[90vh] order-1 lg:order-2">
+        {/* Image Right 55% - full height no gaps */}
+        <div className="relative h-full order-1 lg:order-2">
           <Image
             src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1400&q=90"
             alt="Quartiere con pannelli solari sui tetti luce calda tramonto"
