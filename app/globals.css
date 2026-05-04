@@ -30,7 +30,7 @@
 
 @theme inline {
   --font-sans: var(--font-urbanist), 'Urbanist', system-ui, sans-serif;
-  --font-heading: var(--font-urbanist), 'Urbanist', system-ui, sans-serif;
+  --font-heading: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
   --font-mono: 'Geist Mono', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -143,6 +143,27 @@
 
 .animate-delay-300 {
   animation-delay: 300ms;
+}
+
+/* Headings with Cormorant Garamond */
+h1, h2, h3, .font-heading {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  line-height: 1.05;
+}
+
+h1 {
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 300;
+}
+
+h2 {
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  font-weight: 300;
+}
+
+h3 {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 400;
 }
 
 /* Input Tesla style */

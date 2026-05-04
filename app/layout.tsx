@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Urbanist } from "next/font/google"
+import { Urbanist, Cormorant_Garamond } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
@@ -7,6 +7,13 @@ const urbanist = Urbanist({
   subsets: ["latin"],
   variable: "--font-urbanist",
   weight: ["300", "400", "500"],
+  display: "swap",
+})
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-cormorant",
+  weight: ["300", "400"],
   display: "swap",
 })
 
@@ -30,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="it" className={urbanist.variable}>
+    <html lang="it" className={`${urbanist.variable} ${cormorant.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

@@ -4,13 +4,13 @@ import Image from "next/image"
 
 export function AboutSection() {
   return (
-    <section id="chi-siamo" className="min-h-screen bg-white flex items-center py-20">
+    <section id="chi-siamo" className="min-h-screen bg-white flex items-center py-20 -mt-[60px] pt-[80px]">
       <div className="w-full grid lg:grid-cols-2 gap-0">
         {/* Left - Image */}
         <div className="relative h-[400px] lg:h-auto lg:min-h-[600px]">
           <Image
-            src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=1400&q=90"
-            alt="Installazione impianto fotovoltaico su tetto residenziale"
+            src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1400&q=95"
+            alt="Casa moderna con pannelli solari sul tetto vista drone"
             fill
             className="object-cover"
           />

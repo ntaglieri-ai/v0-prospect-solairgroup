@@ -56,12 +56,15 @@ export function HeroSection() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+        <div className="absolute bottom-24 left-1/2 -translate-x-1/2">
           <a href="#chi-siamo" className="flex flex-col items-center gap-2 text-white/50 hover:text-white/80 transition-colors">
             <ChevronDown className="h-5 w-5 animate-bounce" />
           </a>
         </div>
       </div>
+
+      {/* Gradient fade to white */}
+      <div className="absolute bottom-0 left-0 right-0 h-[120px] bg-gradient-to-b from-transparent to-white z-20 pointer-events-none" />
     </section>
   )
 }
