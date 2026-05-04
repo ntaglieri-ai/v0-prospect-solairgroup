@@ -44,7 +44,7 @@ export function TestimonialsSection() {
   const prev = () => setCurrentIndex((prev) => Math.max(prev - 1, 0))
 
   return (
-    <section id="recensioni" className="relative min-h-[60vh] py-[100px] bg-[#F5F5F3] flex items-center">
+    <section id="recensioni" className="relative min-h-[60vh] py-[100px] bg-[#F5F5F3] flex items-center mb-[50px]">
       {/* Gradient transition from previous full-bleed */}
       <div className="absolute top-0 left-0 right-0 h-[80px] bg-gradient-to-b from-[rgba(0,0,0,0.05)] to-transparent pointer-events-none" />
       <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">

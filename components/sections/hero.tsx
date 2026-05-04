@@ -4,7 +4,7 @@ import { ChevronDown } from "lucide-react"
 
 export function HeroSection() {
   return (
-    <section id="home" className="relative h-screen overflow-hidden">
+    <section id="home" className="relative h-screen overflow-hidden mb-[50px]">
       {/* Video Background */}
       <div className="absolute inset-0 w-full h-full">
         <video

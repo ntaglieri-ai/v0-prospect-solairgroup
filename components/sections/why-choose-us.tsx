@@ -49,7 +49,7 @@ const services = [
 
 export function WhyChooseUsSection() {
   return (
-    <section id="servizi">
+    <section id="servizi" className="mb-[50px]">
       {services.map((service, index) => {
         const isOdd = index % 2 === 0
 
