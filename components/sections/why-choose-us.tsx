@@ -31,13 +31,7 @@ const services = [
     image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1400&q=90",
     alt: "Quartiere residenziale con pannelli solari sui tetti visto dall'alto",
   },
-  {
-    overline: "Sicurezza",
-    title: "Sistema Anti-Blackout EPS",
-    description: "Il nostro sistema EPS garantisce continuita energetica anche in caso di interruzione della rete. Zero dipendenza dal fornitore esterno.",
-    image: "https://images.unsplash.com/photo-1513828583688-c52646db42da?w=1400&q=90",
-    alt: "Casa moderna con pannelli solari e sistema di accumulo energia",
-  },
+  
   {
     overline: "Qualita",
     title: "Pannelli Solari di Qualita Premium",
