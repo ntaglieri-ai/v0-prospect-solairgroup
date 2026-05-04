@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { DM_Sans, Cormorant_Garamond } from "next/font/google"
+import { DM_Sans, Outfit } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
@@ -10,10 +10,10 @@ const dmSans = DM_Sans({
   display: "swap",
 })
 
-const cormorant = Cormorant_Garamond({
+const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-cormorant",
-  weight: ["300", "400"],
+  variable: "--font-outfit",
+  weight: ["200", "300", "400"],
   display: "swap",
 })
 
@@ -50,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="it" className={`${dmSans.variable} ${cormorant.variable}`}>
+    <html lang="it" className={`${dmSans.variable} ${outfit.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
