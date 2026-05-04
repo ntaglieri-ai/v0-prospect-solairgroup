@@ -1,12 +1,19 @@
 import type { Metadata } from "next"
-import { Urbanist } from "next/font/google"
+import { DM_Sans, Outfit } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
-const urbanist = Urbanist({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-urbanist",
+  variable: "--font-dm-sans",
   weight: ["300", "400", "500"],
+  display: "swap",
+})
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  weight: ["200", "300", "400"],
   display: "swap",
 })
 
@@ -30,46 +37,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="it" className={urbanist.variable}>
+    <html lang="it" className={`${dmSans.variable} ${outfit.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://images.unsplash.com" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "LocalBusiness",
-              name: "Solair Group",
-              telephone: "+390952900278",
-              email: "info@solairgroup.it",
-              url: "https://solairgroup.it",
-              areaServed: "Italia",
-              address: [
-                { "@type": "PostalAddress", addressLocality: "Catania", addressRegion: "Sicilia", addressCountry: "IT" },
-                { "@type": "PostalAddress", addressLocality: "Giarre", addressRegion: "Sicilia", addressCountry: "IT" },
-                { "@type": "PostalAddress", addressLocality: "Treviso", addressRegion: "Veneto", addressCountry: "IT" },
-                { "@type": "PostalAddress", addressLocality: "Torino", addressRegion: "Piemonte", addressCountry: "IT" },
-              ],
-            }),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "AggregateRating",
-              itemReviewed: { "@type": "Organization", name: "Solair Group" },
-              ratingValue: "5",
-              bestRating: "5",
-              reviewCount: "99",
-            }),
-          }}
-        />
       </head>
-      <body className="font-[var(--font-urbanist)] font-light antialiased bg-white text-[#0A0A0A]">
+      <body className="font-sans font-light antialiased bg-[#FAFAF8] text-[#0A0A0A]">
         {children}
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
