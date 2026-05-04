@@ -20,9 +20,9 @@ export function HeroSection() {
             type="video/mp4"
           />
         </video>
-        {/* Light overlay - subtle for readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-transparent" />
+        {/* Light dark overlay - max 25-30% opacity for text contrast while keeping image visible */}
+        <div className="absolute inset-0 bg-black/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20" />
       </div>
 
       {/* Content */}
@@ -38,7 +38,7 @@ export function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-[10px] tracking-[0.4em] uppercase text-[#0A0A0A]/60 mb-8 font-light"
+            className="text-[10px] tracking-[0.4em] uppercase text-white/70 mb-8 font-light"
           >
             Energia rinnovabile dal 2018
           </motion.p>
@@ -48,7 +48,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-[var(--font-display)] font-light text-[#0A0A0A] leading-[1.1] mb-8 tracking-tight"
+            className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-[var(--font-display)] font-light text-white leading-[1.1] mb-8 tracking-tight"
           >
             Il futuro dell&apos;energia
             <br />
@@ -60,12 +60,12 @@ export function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.8 }}
-            className="text-base sm:text-lg text-[#0A0A0A]/60 max-w-xl mx-auto mb-12 font-light leading-relaxed"
+            className="text-base sm:text-lg text-white/80 max-w-xl mx-auto mb-12 font-light leading-relaxed"
           >
             Soluzioni fotovoltaiche su misura per la tua indipendenza energetica
           </motion.p>
 
-          {/* CTA */}
+          {/* CTA - Tesla style: thin white border, transparent bg, uppercase */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -73,7 +73,7 @@ export function HeroSection() {
           >
             <a
               href="#contatti"
-              className="btn-tesla"
+              className="inline-block text-[11px] font-light tracking-[0.25em] uppercase px-8 py-4 text-white border border-white/40 hover:bg-white hover:text-[#0A0A0A] transition-all duration-300"
               aria-label="Richiedi un preventivo gratuito"
             >
               Richiedi preventivo
@@ -88,7 +88,7 @@ export function HeroSection() {
           transition={{ delay: 1.2, duration: 0.8 }}
           className="absolute bottom-12 left-1/2 -translate-x-1/2"
         >
-          <a href="#chi-siamo" className="flex flex-col items-center gap-2 text-[#0A0A0A]/40 hover:text-[#0A0A0A]/60 transition-colors">
+          <a href="#chi-siamo" className="flex flex-col items-center gap-2 text-white/50 hover:text-white/80 transition-colors">
             <span className="text-[9px] tracking-[0.3em] uppercase font-light">Scorri</span>
             <ChevronDown className="h-5 w-5 animate-scroll" />
           </a>
