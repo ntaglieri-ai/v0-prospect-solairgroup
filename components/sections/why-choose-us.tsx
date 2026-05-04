@@ -21,8 +21,8 @@ const services = [
     overline: "Tecnologia",
     title: "Monitoraggio Impianto Fotovoltaico",
     description: "Ogni impianto include un sistema di monitoraggio in tempo reale. Controlli la produzione e i consumi direttamente dal tuo smartphone.",
-    image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=1400&q=90",
-    alt: "Persona controlla app monitoraggio impianto fotovoltaico su smartphone",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&q=90",
+    alt: "Persona controlla grafici energetici su smartphone per monitoraggio impianto fotovoltaico",
   },
   {
     overline: "Comunita",
@@ -49,7 +49,7 @@ const services = [
 
 export function WhyChooseUsSection() {
   return (
-    <section id="servizi" className="section-divider">
+    <section id="servizi">
       {services.map((service, index) => {
         const isOdd = index % 2 === 0
 
