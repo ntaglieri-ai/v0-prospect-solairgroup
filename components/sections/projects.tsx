@@ -31,10 +31,10 @@ const projects = [
 
 export function ProjectsSection() {
   return (
-    <section id="portfolio" className="relative min-h-screen py-24 bg-gray-50">
+    <section id="portfolio" className="relative min-h-screen py-8 bg-gray-50">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-6">
           <p className="text-xs uppercase tracking-widest text-gray-500 mb-4">Portfolio</p>
           <h2 className="text-3xl md:text-4xl font-light text-gray-900">
             I nostri progetti realizzati

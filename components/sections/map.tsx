@@ -9,10 +9,10 @@ const locations = [
 
 export function MapSection() {
   return (
-    <section className="relative py-24 bg-white">
+    <section className="relative py-8 bg-white">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-6">
           <p className="text-xs uppercase tracking-widest text-gray-500 mb-4">Sedi</p>
           <h2 className="text-3xl md:text-4xl font-light text-gray-900">
             Le nostre sedi in Italia

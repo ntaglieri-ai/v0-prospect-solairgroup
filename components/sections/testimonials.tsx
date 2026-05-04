@@ -44,10 +44,10 @@ export function TestimonialsSection() {
   const prev = () => setCurrentIndex((prev) => Math.max(prev - 1, 0))
 
   return (
-    <section id="recensioni" className="min-h-[70vh] py-24 bg-gray-50 flex items-center">
+    <section id="recensioni" className="min-h-[70vh] py-8 bg-gray-50 flex items-center">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-6">
           <p className="text-xs uppercase tracking-widest text-gray-500 mb-4">Testimonianze</p>
           <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-8">
             Cosa dicono i nostri clienti
