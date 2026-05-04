@@ -4,10 +4,10 @@ import Image from "next/image"
 
 export function AboutSection() {
   return (
-    <section id="chi-siamo" className="min-h-[90vh] bg-white flex items-center">
+    <section id="chi-siamo" className="min-h-screen bg-white flex items-center py-[100px]">
       <div className="w-full grid lg:grid-cols-2 gap-0">
         {/* Left - Image 50% height full */}
-        <div className="relative h-[400px] lg:h-auto lg:min-h-[90vh]">
+        <div className="relative h-[500px] lg:h-auto lg:min-h-[70vh]">
           <Image
             src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1400&q=95"
             alt="Casa moderna con pannelli solari sul tetto vista drone con cielo azzurro"
@@ -17,8 +17,8 @@ export function AboutSection() {
           />
         </div>
 
-        {/* Right - Text with padding 80px */}
-        <div className="flex items-center py-12 lg:py-0 px-8 lg:px-20">
+        {/* Right - Text with padding */}
+        <div className="flex items-center py-16 lg:py-20 px-8 lg:px-20">
           <div className="max-w-lg">
             {/* Overline */}
             <p className="overline text-[#6B6B6B] mb-4">

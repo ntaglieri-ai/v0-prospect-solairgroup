@@ -58,7 +58,7 @@ export function WhyChooseUsSection() {
           return (
             <div 
               key={service.title}
-              className="relative min-h-[80vh] flex items-center"
+              className="relative min-h-[80vh] flex items-center py-[120px]"
             >
               <Image
                 src={service.image}
@@ -67,9 +67,9 @@ export function WhyChooseUsSection() {
                 className="object-cover"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-black/30" />
-              <div className="relative z-10 w-full px-8 lg:px-[10vw] py-20">
-                <div className="max-w-xl">
+              <div className="absolute inset-0 bg-black/35" />
+              <div className="relative z-10 w-full h-full flex items-center px-8 lg:px-[10vw]">
+                <div className="max-w-xl mx-auto lg:mx-0">
                   <p className="overline text-white/70 mb-4">{service.overline}</p>
                   <h3 className="font-heading text-white mb-6">
                     {service.title}
@@ -86,10 +86,10 @@ export function WhyChooseUsSection() {
           return (
             <div 
               key={service.title}
-              className="min-h-[80vh] bg-[#F7F7F5] flex items-center"
+              className="min-h-[80vh] bg-[#F7F7F5] flex items-center py-[100px] border-t border-[#E8E8E8]"
             >
-              <div className="w-full grid lg:grid-cols-[45%_55%]">
-                <div className="flex items-center px-8 lg:px-20 py-16 lg:py-0 order-2 lg:order-1">
+              <div className="w-full grid lg:grid-cols-[45%_55%] gap-8">
+                <div className="flex items-center px-8 lg:px-20 py-12 lg:py-20 order-2 lg:order-1">
                   <div className="max-w-md">
                     <p className="overline text-[#6B6B6B] mb-4">{service.overline}</p>
                     <h3 className="font-heading text-[#0A0A0A] mb-6">
@@ -100,7 +100,7 @@ export function WhyChooseUsSection() {
                     </p>
                   </div>
                 </div>
-                <div className="relative h-[400px] lg:h-auto lg:min-h-[80vh] order-1 lg:order-2">
+                <div className="relative h-[450px] lg:h-auto lg:min-h-[60vh] order-1 lg:order-2">
                   <Image
                     src={service.image}
                     alt={service.alt}
