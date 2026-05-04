@@ -4,8 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #FFFFFF;
-  --background-alt: #F7F7F5;
+  --background: #FAFAF8;
+  --background-alt: #F4F4F2;
   --foreground: #0A0A0A;
   --foreground-muted: #6B6B6B;
   --border-color: #E8E8E8;
@@ -59,7 +59,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-white text-[#0A0A0A];
+    @apply bg-[#FAFAF8] text-[#0A0A0A];
     font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
   }
 }

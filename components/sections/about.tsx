@@ -4,7 +4,7 @@ import Image from "next/image"
 
 export function AboutSection() {
   return (
-    <section id="chi-siamo" className="min-h-screen bg-white flex items-center py-[100px]">
+    <section id="chi-siamo" className="min-h-screen bg-[#FAFAF8] flex items-center py-[100px]">
       <div className="w-full grid lg:grid-cols-2 gap-0">
         {/* Left - Image 50% height full */}
         <div className="relative h-[500px] lg:h-auto lg:min-h-[70vh]">
