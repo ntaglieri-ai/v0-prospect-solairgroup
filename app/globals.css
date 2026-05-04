@@ -4,43 +4,43 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Premium dark palette */
-  --background: #0A0A08;
-  --background-alt: #1A1A18;
-  --foreground: #F2EDE4;
-  --foreground-muted: rgba(242, 237, 228, 0.6);
-  --accent: #C8A96E;
-  --accent-hover: #B8995E;
+  /* Tesla-style light palette */
+  --background: #FFFFFF;
+  --background-alt: #F9F9F7;
+  --foreground: #0A0A0A;
+  --foreground-muted: rgba(10, 10, 10, 0.6);
+  --accent: #0A0A0A;
+  --accent-hover: #333333;
   
-  /* Legacy tokens - updated for dark theme */
-  --card: #1A1A18;
-  --card-foreground: #F2EDE4;
-  --popover: #1A1A18;
-  --popover-foreground: #F2EDE4;
-  --primary: #C8A96E;
-  --primary-foreground: #0A0A08;
-  --secondary: #1A1A18;
-  --secondary-foreground: #F2EDE4;
-  --muted: #1A1A18;
-  --muted-foreground: rgba(242, 237, 228, 0.6);
+  /* Legacy tokens */
+  --card: #FFFFFF;
+  --card-foreground: #0A0A0A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0A0A0A;
+  --primary: #0A0A0A;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F4F4F2;
+  --secondary-foreground: #0A0A0A;
+  --muted: #F4F4F2;
+  --muted-foreground: rgba(10, 10, 10, 0.6);
   --destructive: #ef4444;
-  --destructive-foreground: #F2EDE4;
-  --border: rgba(242, 237, 228, 0.1);
-  --input: rgba(242, 237, 228, 0.1);
-  --ring: #C8A96E;
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(10, 10, 10, 0.1);
+  --input: rgba(10, 10, 10, 0.1);
+  --ring: #0A0A0A;
   --radius: 0.5rem;
   
   /* Brand colors */
-  --navy: #0A0A08;
-  --teal: #C8A96E;
-  --teal-dark: #B8995E;
-  --light-bg: #1A1A18;
-  --yellow: #C8A96E;
+  --navy: #0A0A0A;
+  --teal: #0A0A0A;
+  --teal-dark: #333333;
+  --light-bg: #F4F4F2;
+  --yellow: #0A0A0A;
 }
 
 @theme inline {
-  --font-sans: var(--font-body), 'DM Sans', system-ui, sans-serif;
-  --font-heading: var(--font-display), 'Cormorant Garamond', Georgia, serif;
+  --font-sans: var(--font-body), 'Inter Tight', system-ui, sans-serif;
+  --font-heading: var(--font-display), 'Inter Tight', system-ui, sans-serif;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -80,29 +80,29 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-[#0A0A08] text-[#F2EDE4];
+    @apply bg-white text-[#0A0A0A];
   }
 }
 
-/* Premium button styles */
-.btn-premium {
-  @apply inline-flex items-center justify-center uppercase tracking-[0.2em] text-sm font-medium;
-  @apply border border-[#F2EDE4]/30 bg-transparent px-8 py-4;
+/* Tesla-style minimal button */
+.btn-tesla {
+  @apply inline-flex items-center justify-center uppercase tracking-[0.15em] text-sm font-medium;
+  @apply border border-[#0A0A0A] bg-transparent text-[#0A0A0A] px-8 py-4;
   @apply transition-all duration-300 ease-out;
 }
 
-.btn-premium:hover {
-  @apply bg-[#F2EDE4] text-[#0A0A08] border-[#F2EDE4];
+.btn-tesla:hover {
+  @apply bg-[#0A0A0A] text-white;
 }
 
-.btn-premium-gold {
-  @apply inline-flex items-center justify-center uppercase tracking-[0.2em] text-sm font-medium;
-  @apply border border-[#C8A96E]/50 bg-transparent text-[#C8A96E] px-8 py-4;
+.btn-tesla-filled {
+  @apply inline-flex items-center justify-center uppercase tracking-[0.15em] text-sm font-medium;
+  @apply border border-[#0A0A0A] bg-[#0A0A0A] text-white px-8 py-4;
   @apply transition-all duration-300 ease-out;
 }
 
-.btn-premium-gold:hover {
-  @apply bg-[#C8A96E] text-[#0A0A08] border-[#C8A96E];
+.btn-tesla-filled:hover {
+  @apply bg-transparent text-[#0A0A0A];
 }
 
 /* Scroll indicator animation */
@@ -115,13 +115,13 @@
   animation: scroll-bounce 2s ease-in-out infinite;
 }
 
-/* Glassmorphism */
+/* Light glassmorphism */
 .glass {
-  @apply backdrop-blur-xl bg-[#0A0A08]/70;
-  border-bottom: 1px solid rgba(242, 237, 228, 0.08);
+  @apply backdrop-blur-xl bg-white/80;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.06);
 }
 
-.glass-light {
-  @apply backdrop-blur-xl bg-[#F2EDE4]/5;
-  border: 1px solid rgba(242, 237, 228, 0.1);
+.glass-card {
+  @apply backdrop-blur-xl bg-white/90;
+  border: 1px solid rgba(10, 10, 10, 0.08);
 }

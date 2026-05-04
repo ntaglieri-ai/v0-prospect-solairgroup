@@ -17,7 +17,7 @@ export function MapSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section id="lavora" className="min-h-[90vh] py-32 bg-[#0A0A08]" ref={ref}>
+    <section id="lavora" className="min-h-[90vh] py-32 bg-[#F9F9F7]" ref={ref}>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Map Header */}
         <motion.div
@@ -26,35 +26,35 @@ export function MapSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <p className="text-[10px] tracking-[0.4em] uppercase text-[#C8A96E] mb-6 font-light">
+          <p className="text-[10px] tracking-[0.4em] uppercase text-[#0A0A0A]/50 mb-6 font-light">
             Le nostre sedi
           </p>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[var(--font-display)] font-normal text-[#F2EDE4] leading-[1.15] mb-16">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[var(--font-display)] font-light text-[#0A0A0A] leading-[1.15] mb-16">
             Operiamo in
             <br />
-            <span className="italic">tutta Italia</span>
+            <span className="font-normal">tutta Italia</span>
           </h2>
           
           {/* Locations Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-1">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#0A0A0A]/10">
             {locations.map((location, index) => (
               <motion.div
                 key={location.city}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-[#1A1A18] border border-[#F2EDE4]/5 p-8 group hover:border-[#C8A96E]/30 transition-all duration-500"
+                className="bg-white p-8 group hover:bg-[#F9F9F7] transition-all duration-500"
               >
-                <MapPin className="h-5 w-5 text-[#C8A96E] mb-4 mx-auto" />
-                <p className="font-[var(--font-display)] text-[#F2EDE4] mb-1">{location.city}</p>
-                <p className="text-xs text-[#F2EDE4]/40 font-light">{location.region}</p>
+                <MapPin className="h-5 w-5 text-[#0A0A0A] mb-4 mx-auto" />
+                <p className="font-[var(--font-display)] text-[#0A0A0A] mb-1">{location.city}</p>
+                <p className="text-xs text-[#0A0A0A]/40 font-light">{location.region}</p>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
         {/* About & Careers */}
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center pt-16 border-t border-[#F2EDE4]/10">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center pt-16 border-t border-[#0A0A0A]/10">
           {/* Left - Image */}
           <motion.div
             initial={{ opacity: 0, x: -60 }}
@@ -63,13 +63,12 @@ export function MapSection() {
             className="relative aspect-[4/3] overflow-hidden"
           >
             <Image
-              src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80"
-              alt="Tecnico installatore Solair Group al lavoro"
+              src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?w=800&q=80"
+              alt="Team Solair Group al lavoro"
               fill
-              className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+              className="object-cover"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A08] via-transparent to-transparent opacity-60" />
           </motion.div>
 
           {/* Right - Text & Careers */}
@@ -78,37 +77,37 @@ export function MapSection() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <p className="text-[10px] tracking-[0.4em] uppercase text-[#C8A96E] mb-6 font-light">
+            <p className="text-[10px] tracking-[0.4em] uppercase text-[#0A0A0A]/50 mb-6 font-light">
               Chi siamo
             </p>
-            <h3 className="text-3xl sm:text-4xl font-[var(--font-display)] font-normal text-[#F2EDE4] mb-6 leading-[1.15]">
-              Esperienza e <span className="italic">innovazione</span>
+            <h3 className="text-3xl sm:text-4xl font-[var(--font-display)] font-light text-[#0A0A0A] mb-6 leading-[1.15]">
+              Esperienza e <span className="font-normal">innovazione</span>
             </h3>
-            <p className="text-base text-[#F2EDE4]/60 mb-12 leading-relaxed font-light">
+            <p className="text-base text-[#0A0A0A]/60 mb-12 leading-relaxed font-light">
               Solair Group nasce con l&apos;obiettivo di rendere accessibile a tutti l&apos;energia rinnovabile. 
               Da anni forniamo impianti fotovoltaici, pompe di calore e soluzioni su misura per privati e aziende.
             </p>
 
             {/* Careers Card */}
-            <div className="border border-[#F2EDE4]/10 p-8">
+            <div className="border border-[#0A0A0A]/10 bg-white p-8">
               <div className="flex items-center gap-3 mb-6">
-                <Briefcase className="h-5 w-5 text-[#C8A96E]" />
-                <h4 className="text-lg font-[var(--font-display)] text-[#F2EDE4]">Lavora con noi</h4>
+                <Briefcase className="h-5 w-5 text-[#0A0A0A]" />
+                <h4 className="text-lg font-[var(--font-display)] text-[#0A0A0A]">Lavora con noi</h4>
               </div>
-              <p className="text-sm text-[#F2EDE4]/50 mb-6 font-light">Siamo alla ricerca di:</p>
+              <p className="text-sm text-[#0A0A0A]/50 mb-6 font-light">Siamo alla ricerca di:</p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center gap-3">
-                  <Users className="h-4 w-4 text-[#C8A96E]" />
-                  <span className="text-[#F2EDE4]/80 font-light">Installatori</span>
+                  <Users className="h-4 w-4 text-[#0A0A0A]" />
+                  <span className="text-[#0A0A0A]/80 font-light">Installatori</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Users className="h-4 w-4 text-[#C8A96E]" />
-                  <span className="text-[#F2EDE4]/80 font-light">Commerciali</span>
+                  <Users className="h-4 w-4 text-[#0A0A0A]" />
+                  <span className="text-[#0A0A0A]/80 font-light">Commerciali</span>
                 </li>
               </ul>
               <a
                 href="mailto:info@solairgroup.it"
-                className="block w-full text-center py-4 text-[10px] tracking-[0.2em] uppercase font-medium bg-[#C8A96E] text-[#0A0A08] hover:bg-[#B8995E] transition-all duration-300"
+                className="block w-full text-center py-4 text-[10px] tracking-[0.2em] uppercase font-medium bg-[#0A0A0A] text-white hover:bg-[#333] transition-all duration-300"
               >
                 Candidati ora
               </a>

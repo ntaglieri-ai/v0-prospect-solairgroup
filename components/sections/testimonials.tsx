@@ -8,22 +8,22 @@ const testimonials = [
   {
     name: "Carmelo Ragusa",
     rating: 5,
-    text: "Volevo ringraziare Gaetano la parte commerciale che mi ha fatto conoscere ed acquistare il prodotto. Professionalità e competenza al top. Consiglio vivamente Solair Group.",
+    text: "Volevo ringraziare Gaetano la parte commerciale che mi ha fatto conoscere ed acquistare il prodotto. Professionalita e competenza al top. Consiglio vivamente Solair Group.",
   },
   {
     name: "Ma Lav",
     rating: 5,
-    text: "Ho scelto Solair Group per l'installazione del mio impianto fotovoltaico e sono rimasto molto soddisfatto. Dall'inizio alla fine, il team è stato professionale e competente.",
+    text: "Ho scelto Solair Group per l installazione del mio impianto fotovoltaico e sono rimasto molto soddisfatto. Dall inizio alla fine, il team e stato professionale e competente.",
   },
   {
     name: "Tommaso Nano",
     rating: 5,
-    text: "Ho scelto Solair Group per l'installazione del mio impianto fotovoltaico e sono rimasto davvero soddisfatto. Servizio eccellente e personale qualificato.",
+    text: "Ho scelto Solair Group per l installazione del mio impianto fotovoltaico e sono rimasto davvero soddisfatto. Servizio eccellente e personale qualificato.",
   },
   {
     name: "Giuseppe Ferrara",
     rating: 5,
-    text: "Esperienza fantastica con Solair Group. Impianto installato in tempi record e già vedo i risparmi in bolletta. Team cortese e sempre disponibile per ogni domanda.",
+    text: "Esperienza fantastica con Solair Group. Impianto installato in tempi record e gia vedo i risparmi in bolletta. Team cortese e sempre disponibile per ogni domanda.",
   },
   {
     name: "Maria Rossi",
@@ -59,7 +59,7 @@ export function TestimonialsSection() {
   }, [maxIndex])
 
   return (
-    <section id="testimonianze" className="min-h-[90vh] py-32 bg-[#1A1A18]" ref={ref}>
+    <section id="testimonianze" className="min-h-[90vh] py-32 bg-white" ref={ref}>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -67,22 +67,22 @@ export function TestimonialsSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <p className="text-[10px] tracking-[0.4em] uppercase text-[#C8A96E] mb-6 font-light">
+          <p className="text-[10px] tracking-[0.4em] uppercase text-[#0A0A0A]/50 mb-6 font-light">
             Recensioni verificate
           </p>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[var(--font-display)] font-normal text-[#F2EDE4] leading-[1.15] mb-8">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[var(--font-display)] font-light text-[#0A0A0A] leading-[1.15] mb-8">
             Le esperienze
             <br />
-            <span className="italic">dei nostri clienti</span>
+            <span className="font-normal">dei nostri clienti</span>
           </h2>
           <div className="flex items-center justify-center gap-4">
-            <span className="text-sm tracking-[0.1em] uppercase text-[#F2EDE4]/60 font-light">Eccellente</span>
+            <span className="text-sm tracking-[0.1em] uppercase text-[#0A0A0A]/60 font-light">Eccellente</span>
             <div className="flex gap-1">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-[#C8A96E] text-[#C8A96E]" />
+                <Star key={i} className="h-4 w-4 fill-[#0A0A0A] text-[#0A0A0A]" />
               ))}
             </div>
-            <span className="text-sm text-[#F2EDE4]/40 font-light">99 recensioni Google</span>
+            <span className="text-sm text-[#0A0A0A]/40 font-light">99 recensioni Google</span>
           </div>
         </motion.div>
 
@@ -102,18 +102,18 @@ export function TestimonialsSection() {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className={`flex-shrink-0 ${isMobile ? "w-full" : "w-[calc(33.333%-1rem)]"}`}
                 >
-                  <div className="bg-[#0A0A08] border border-[#F2EDE4]/10 p-8 h-full">
+                  <div className="bg-[#F9F9F7] border border-[#0A0A0A]/5 p-8 h-full">
                     <div className="flex gap-1 mb-6">
                       {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="h-3 w-3 fill-[#C8A96E] text-[#C8A96E]" />
+                        <Star key={i} className="h-3 w-3 fill-[#0A0A0A] text-[#0A0A0A]" />
                       ))}
                     </div>
-                    <p className="text-[#F2EDE4]/70 text-sm leading-relaxed mb-6 font-light italic">
+                    <p className="text-[#0A0A0A]/70 text-sm leading-relaxed mb-6 font-light">
                       &quot;{testimonial.text}&quot;
                     </p>
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-px bg-[#C8A96E]" />
-                      <p className="text-sm text-[#F2EDE4]/90 tracking-wide">{testimonial.name}</p>
+                      <div className="w-8 h-px bg-[#0A0A0A]" />
+                      <p className="text-sm text-[#0A0A0A] tracking-wide">{testimonial.name}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -125,7 +125,7 @@ export function TestimonialsSection() {
           <button
             onClick={prev}
             disabled={currentIndex === 0}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 border border-[#F2EDE4]/20 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#F2EDE4] hover:text-[#0A0A08] transition-all duration-300 text-[#F2EDE4]/60"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 border border-[#0A0A0A]/20 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#0A0A0A] hover:text-white transition-all duration-300 text-[#0A0A0A]/60 bg-white"
             aria-label="Recensione precedente"
           >
             <ChevronLeft className="h-5 w-5" />
@@ -133,7 +133,7 @@ export function TestimonialsSection() {
           <button
             onClick={next}
             disabled={currentIndex >= maxIndex}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 border border-[#F2EDE4]/20 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#F2EDE4] hover:text-[#0A0A08] transition-all duration-300 text-[#F2EDE4]/60"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 border border-[#0A0A0A]/20 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#0A0A0A] hover:text-white transition-all duration-300 text-[#0A0A0A]/60 bg-white"
             aria-label="Recensione successiva"
           >
             <ChevronRight className="h-5 w-5" />
@@ -147,7 +147,7 @@ export function TestimonialsSection() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-center mt-20"
         >
-          <a href="#contatti" className="btn-premium">
+          <a href="#contatti" className="btn-tesla">
             Scopri come possiamo aiutarti
           </a>
         </motion.div>

@@ -1,18 +1,18 @@
 import type { Metadata } from "next"
-import { Cormorant_Garamond, DM_Sans, Outfit } from "next/font/google"
+import { Inter_Tight, Outfit } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
-const cormorantGaramond = Cormorant_Garamond({
+const interTight = Inter_Tight({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
 })
 
-const dmSans = DM_Sans({
+const interTightBody = Inter_Tight({
   subsets: ["latin"],
   variable: "--font-body",
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500"],
 })
 
 const outfit = Outfit({
@@ -22,11 +22,11 @@ const outfit = Outfit({
 })
 
 export const metadata: Metadata = {
-  title: "Solair Group | Impianti Fotovoltaici Chiavi in Mano – Risparmia con il Solare",
+  title: "Solair Group | Impianti Fotovoltaici Chiavi in Mano",
   description:
     "Solair Group installa impianti fotovoltaici per privati e aziende in tutta Italia. Detrazione 50%, incentivi CER, monitoraggio remoto e installatori certificati. Richiedi un preventivo gratuito.",
   keywords:
-    "impianto fotovoltaico, pannelli solari, incentivi fotovoltaico, comunità energetica, detrazione fiscale solare, pompa di calore, installazione fotovoltaico Italia",
+    "impianto fotovoltaico, pannelli solari, incentivi fotovoltaico, comunita energetica, detrazione fiscale solare, pompa di calore, installazione fotovoltaico Italia",
   generator: "v0.app",
   icons: {
     icon: [
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     apple: "/apple-icon.png",
   },
   openGraph: {
-    title: "Solair Group | Impianti Fotovoltaici Chiavi in Mano – Risparmia con il Solare",
+    title: "Solair Group | Impianti Fotovoltaici Chiavi in Mano",
     description:
       "Solair Group installa impianti fotovoltaici per privati e aziende in tutta Italia. Detrazione 50%, incentivi CER, monitoraggio remoto e installatori certificati.",
     type: "website",
@@ -74,7 +74,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="it" className={`${cormorantGaramond.variable} ${dmSans.variable} ${outfit.variable}`}>
+    <html lang="it" className={`${interTight.variable} ${interTightBody.variable} ${outfit.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -129,7 +129,7 @@ export default function RootLayout({
                   name: "Quanto costa un impianto fotovoltaico?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "Il costo varia da 5.000€ a 15.000€ a seconda della potenza, del tipo di pannelli e della complessità dell'installazione.",
+                    text: "Il costo varia da 5.000 a 15.000 euro a seconda della potenza, del tipo di pannelli e della complessita dell installazione.",
                   },
                 },
                 {
@@ -142,10 +142,10 @@ export default function RootLayout({
                 },
                 {
                   "@type": "Question",
-                  name: "Cos'è una Comunità Energetica Rinnovabile (CER)?",
+                  name: "Cos e una Comunita Energetica Rinnovabile (CER)?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "Una CER permette a più utenti di condividere energia prodotta da fonti rinnovabili, ottenendo incentivi e risparmi in bolletta.",
+                    text: "Una CER permette a piu utenti di condividere energia prodotta da fonti rinnovabili, ottenendo incentivi e risparmi in bolletta.",
                   },
                 },
                 {
@@ -153,7 +153,7 @@ export default function RootLayout({
                   name: "In quanto tempo si installa un impianto fotovoltaico?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "Mediamente in 1-3 giorni lavorativi, a seconda della complessità del progetto.",
+                    text: "Mediamente in 1-3 giorni lavorativi, a seconda della complessita del progetto.",
                   },
                 },
                 {
@@ -161,7 +161,7 @@ export default function RootLayout({
                   name: "Solair Group opera in tutta Italia?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "Sì, operiamo con filiali a Catania, Torino, Treviso e Giarre, coprendo tutto il territorio nazionale.",
+                    text: "Si, operiamo con filiali a Catania, Torino, Treviso e Giarre, coprendo tutto il territorio nazionale.",
                   },
                 },
               ],
@@ -169,7 +169,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-[var(--font-body)] antialiased bg-[#0A0A08] text-[#F2EDE4]">
+      <body className="font-[var(--font-body)] font-light antialiased bg-white text-[#0A0A0A]">
         {children}
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
