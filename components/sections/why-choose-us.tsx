@@ -90,35 +90,31 @@ export function WhyChooseUsSection() {
           return (
             <div
               key={service.title}
-              className="relative h-screen bg-[#F5F5F3]"
+              className="grid lg:grid-cols-[45%_55%] min-h-screen"
             >
-              {/* Gradient transition from previous full-bleed */}
-              <div className="absolute top-0 left-0 right-0 h-[80px] bg-gradient-to-b from-[rgba(0,0,0,0.05)] to-transparent pointer-events-none z-10" />
-              <div className="w-full h-full grid lg:grid-cols-[45%_55%]">
-                {/* Text - centered vertically */}
-                <div className="flex items-center px-8 lg:px-20 py-[100px] order-2 lg:order-1">
-                  <div className="max-w-md">
-                    <p className="overline text-[#6B6B6B] mb-5">
-                      {service.overline}
-                    </p>
-                    <h3 className="font-heading text-[#0A0A0A] mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
-                      {service.title}
-                    </h3>
-                    <p className="body-text">
-                      {service.description}
-                    </p>
-                  </div>
+              {/* Text - centered vertically */}
+              <div className="flex items-center justify-center bg-[#F5F5F3] px-8 lg:px-20 py-20 lg:py-0 order-2 lg:order-1">
+                <div className="max-w-md">
+                  <p className="overline text-[#6B6B6B] mb-5">
+                    {service.overline}
+                  </p>
+                  <h3 className="font-heading text-[#0A0A0A] mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
+                    {service.title}
+                  </h3>
+                  <p className="body-text">
+                    {service.description}
+                  </p>
                 </div>
-                {/* Image - full height 100% no gaps */}
-                <div className="relative h-full order-1 lg:order-2">
-                  <Image
-                    src={service.image}
-                    alt={service.alt}
-                    fill
-                    className="object-cover"
-                    loading="lazy"
-                  />
-                </div>
+              </div>
+              {/* Image - full height stretches to match text column */}
+              <div className="relative min-h-[60vh] lg:min-h-0 order-1 lg:order-2">
+                <Image
+                  src={service.image}
+                  alt={service.alt}
+                  fill
+                  className="object-cover"
+                  loading="lazy"
+                />
               </div>
             </div>
           )
