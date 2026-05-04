@@ -35,7 +35,7 @@
 
 @layer base {
   * {
-    @apply border-[#E8E8E8] outline-ring/50;
+    @apply border-[#E8E8E8];
   }
   html {
     scroll-behavior: smooth;
