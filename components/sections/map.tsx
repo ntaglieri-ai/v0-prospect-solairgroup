@@ -9,7 +9,7 @@ const locations = [
 
 export function MapSection() {
   return (
-    <section className="py-[100px] bg-white">
+    <section className="py-[100px] bg-white section-divider">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
