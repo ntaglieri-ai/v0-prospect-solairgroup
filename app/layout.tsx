@@ -1,70 +1,26 @@
 import type { Metadata } from "next"
-import { Inter_Tight, Outfit } from "next/font/google"
+import { Urbanist } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
-const interTight = Inter_Tight({
+const urbanist = Urbanist({
   subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["300", "400", "500", "600", "700"],
-})
-
-const interTightBody = Inter_Tight({
-  subsets: ["latin"],
-  variable: "--font-body",
+  variable: "--font-urbanist",
   weight: ["300", "400", "500"],
-})
-
-const outfit = Outfit({
-  subsets: ["latin"],
-  variable: "--font-outfit",
-  weight: ["400", "500", "600", "700"],
+  display: "swap",
 })
 
 export const metadata: Metadata = {
-  title: "Solair Group | Impianti Fotovoltaici Chiavi in Mano",
-  description:
-    "Solair Group installa impianti fotovoltaici per privati e aziende in tutta Italia. Detrazione 50%, incentivi CER, monitoraggio remoto e installatori certificati. Richiedi un preventivo gratuito.",
-  keywords:
-    "impianto fotovoltaico, pannelli solari, incentivi fotovoltaico, comunita energetica, detrazione fiscale solare, pompa di calore, installazione fotovoltaico Italia",
-  generator: "v0.app",
-  icons: {
-    icon: [
-      {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
-    apple: "/apple-icon.png",
-  },
+  title: "Solair Group | Impianti Fotovoltaici Chiavi in Mano - Risparmia con il Solare",
+  description: "Solair Group installa impianti fotovoltaici su misura per privati e aziende in tutta Italia. Chiavi in mano, incentivi fiscali, monitoraggio remoto e garanzia totale. Richiedi un preventivo gratuito.",
+  keywords: "impianto fotovoltaico, pannelli solari, incentivi fotovoltaico, comunita energetica, detrazione fiscale solare, energia rinnovabile Italia",
+  robots: "index, follow",
   openGraph: {
     title: "Solair Group | Impianti Fotovoltaici Chiavi in Mano",
-    description:
-      "Solair Group installa impianti fotovoltaici per privati e aziende in tutta Italia. Detrazione 50%, incentivi CER, monitoraggio remoto e installatori certificati.",
+    description: "Solair Group installa impianti fotovoltaici su misura per privati e aziende in tutta Italia. Chiavi in mano, incentivi fiscali, monitoraggio remoto e garanzia totale.",
     type: "website",
     locale: "it_IT",
     url: "https://solairgroup.it",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Solair Group | Impianti Fotovoltaici Chiavi in Mano",
-    description:
-      "Solair Group installa impianti fotovoltaici per privati e aziende in tutta Italia. Richiedi un preventivo gratuito.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  alternates: {
-    canonical: "https://solairgroup.it",
   },
 }
 
@@ -74,45 +30,27 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="it" className={`${interTight.variable} ${interTightBody.variable} ${outfit.variable}`}>
+    <html lang="it" className={urbanist.variable}>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://images.unsplash.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Organization",
+              "@type": "LocalBusiness",
               name: "Solair Group",
+              telephone: "+390952900278",
+              email: "info@solairgroup.it",
               url: "https://solairgroup.it",
-              logo: "https://solairgroup.it/logo.png",
-              contactPoint: [
-                {
-                  "@type": "ContactPoint",
-                  telephone: "+39-095-290-0278",
-                  contactType: "customer service",
-                  areaServed: "IT",
-                  availableLanguage: "Italian",
-                },
-              ],
+              areaServed: "Italia",
               address: [
-                {
-                  "@type": "PostalAddress",
-                  addressLocality: "Catania",
-                  addressRegion: "Sicilia",
-                  addressCountry: "IT",
-                },
-                {
-                  "@type": "PostalAddress",
-                  addressLocality: "Torino",
-                  addressRegion: "Piemonte",
-                  addressCountry: "IT",
-                },
-                {
-                  "@type": "PostalAddress",
-                  addressLocality: "Treviso",
-                  addressRegion: "Veneto",
-                  addressCountry: "IT",
-                },
+                { "@type": "PostalAddress", addressLocality: "Catania", addressRegion: "Sicilia", addressCountry: "IT" },
+                { "@type": "PostalAddress", addressLocality: "Giarre", addressRegion: "Sicilia", addressCountry: "IT" },
+                { "@type": "PostalAddress", addressLocality: "Treviso", addressRegion: "Veneto", addressCountry: "IT" },
+                { "@type": "PostalAddress", addressLocality: "Torino", addressRegion: "Piemonte", addressCountry: "IT" },
               ],
             }),
           }}
@@ -122,54 +60,16 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "FAQPage",
-              mainEntity: [
-                {
-                  "@type": "Question",
-                  name: "Quanto costa un impianto fotovoltaico?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Il costo varia da 5.000 a 15.000 euro a seconda della potenza, del tipo di pannelli e della complessita dell installazione.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "Quali incentivi esistono per il fotovoltaico nel 2024?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Detrazione fiscale 50% per privati e fondo perduto PNRR 40% per le imprese.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "Cos e una Comunita Energetica Rinnovabile (CER)?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Una CER permette a piu utenti di condividere energia prodotta da fonti rinnovabili, ottenendo incentivi e risparmi in bolletta.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "In quanto tempo si installa un impianto fotovoltaico?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Mediamente in 1-3 giorni lavorativi, a seconda della complessita del progetto.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "Solair Group opera in tutta Italia?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Si, operiamo con filiali a Catania, Torino, Treviso e Giarre, coprendo tutto il territorio nazionale.",
-                  },
-                },
-              ],
+              "@type": "AggregateRating",
+              itemReviewed: { "@type": "Organization", name: "Solair Group" },
+              ratingValue: "5",
+              bestRating: "5",
+              reviewCount: "99",
             }),
           }}
         />
       </head>
-      <body className="font-[var(--font-body)] font-light antialiased bg-white text-[#0A0A0A]">
+      <body className="font-[var(--font-urbanist)] font-light antialiased bg-white text-[#0A0A0A]">
         {children}
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>

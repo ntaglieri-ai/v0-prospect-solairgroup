@@ -1,94 +1,101 @@
 "use client"
 
-import { useRef } from "react"
-import { motion, useInView } from "framer-motion"
+import { useRef, useEffect } from "react"
 import Image from "next/image"
 
 const projects = [
   {
-    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=90",
     date: "Marzo 2024",
   },
   {
-    image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=90",
     date: "Febbraio 2024",
   },
   {
-    image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&q=90",
     date: "Gennaio 2024",
   },
   {
-    image: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=800&q=90",
     date: "Dicembre 2023",
   },
   {
-    image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=90",
     date: "Novembre 2023",
   },
   {
-    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=90",
     date: "Ottobre 2023",
   },
   {
-    image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1545209463-4ef10d1a1ace?w=800&q=90",
     date: "Settembre 2023",
   },
   {
-    image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?w=800&q=90",
     date: "Agosto 2023",
   },
 ]
 
 export function ProjectsSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-fade-in-up")
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+
+    if (sectionRef.current) {
+      const elements = sectionRef.current.querySelectorAll("[data-animate]")
+      elements.forEach((el) => observer.observe(el))
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <section className="min-h-[90vh] py-32 bg-white" ref={ref}>
+    <section id="portfolio" ref={sectionRef} className="min-h-[80vh] py-32 bg-[#F7F7F5]">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-8 mb-16"
-        >
-          <div>
-            <p className="text-[10px] tracking-[0.4em] uppercase text-[#0A0A0A]/50 mb-6 font-light">
-              Portfolio
-            </p>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[var(--font-display)] font-light text-[#0A0A0A] leading-[1.15]">
-              I nostri progetti
-              <br />
-              <span className="font-normal">realizzati</span>
-            </h2>
-          </div>
-          <a href="#contatti" className="btn-tesla">
-            Passa al rinnovabile
-          </a>
-        </motion.div>
+        {/* Header */}
+        <div data-animate className="opacity-0 text-center mb-16">
+          <p className="overline text-[#6B6B6B] mb-4">Portfolio</p>
+          <h2 
+            className="font-light text-[#0A0A0A]"
+            style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
+          >
+            I nostri progetti realizzati
+          </h2>
+        </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#0A0A0A]/10">
+        {/* Grid 2 columns */}
+        <div data-animate className="opacity-0 animate-delay-150 grid grid-cols-2 gap-6">
           {projects.map((project, index) => (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.05 }}
-              className="relative group aspect-square overflow-hidden bg-white"
+              className="group relative aspect-[4/3] overflow-hidden cursor-pointer"
             >
               <Image
                 src={project.image}
-                alt={`Progetto fotovoltaico ${project.date}`}
+                alt={`Impianto fotovoltaico installato da Solair Group - ${project.date}`}
                 fill
-                className="object-cover group-hover:scale-105 transition-all duration-700"
+                className="object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.02]"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent group-hover:from-white/90 transition-all duration-500" />
-              <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                <p className="text-[10px] tracking-[0.2em] uppercase text-[#0A0A0A]/60 mb-1">{project.date}</p>
-                <p className="text-sm text-[#0A0A0A] font-light">Solair Group</p>
+              {/* Caption below image */}
+              <div className="absolute bottom-0 left-0 right-0 bg-white py-4 px-4">
+                <p className="text-[11px] uppercase tracking-[0.12em] text-[#6B6B6B]">
+                  {project.date} &middot; Solair Group
+                </p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

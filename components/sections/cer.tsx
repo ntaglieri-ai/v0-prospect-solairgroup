@@ -1,88 +1,114 @@
 "use client"
 
-import { useRef } from "react"
-import { motion, useInView } from "framer-motion"
+import { useRef, useEffect } from "react"
 import Image from "next/image"
-import { Zap, Search, Users } from "lucide-react"
 
-const features = [
-  { icon: Zap, text: "Autoconsumo diffuso" },
-  { icon: Search, text: "Risparmio fino al 40% in bolletta" },
-  { icon: Users, text: "Energia 100% rinnovabile" },
+const benefits = [
+  "Autoconsumo diffuso dell'energia prodotta",
+  "Risparmio fino al 40% in bolletta",
+  "Incentivi statali dedicati",
+  "Energia 100% rinnovabile",
+  "Nessun vincolo contrattuale minimo",
 ]
 
 export function CERSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-fade-in-up")
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+
+    if (sectionRef.current) {
+      const elements = sectionRef.current.querySelectorAll("[data-animate]")
+      elements.forEach((el) => observer.observe(el))
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <section id="cer" className="min-h-[90vh] py-32 bg-[#F9F9F7] relative overflow-hidden" ref={ref}>
-      {/* Full bleed background image */}
-      <div className="absolute inset-0">
-        <Image
-          src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=80"
-          alt="Pannelli solari al tramonto"
-          fill
-          className="object-cover"
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/70" />
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="max-w-2xl">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
-            <p className="text-[10px] tracking-[0.4em] uppercase text-[#0A0A0A]/50 mb-6 font-light">
+    <section id="cer" ref={sectionRef} className="min-h-[90vh] bg-white flex items-center">
+      <div className="w-full grid lg:grid-cols-[45%_55%]">
+        {/* Text Left */}
+        <div className="flex items-center py-16 lg:py-0 px-8 lg:px-20 order-2 lg:order-1">
+          <div className="max-w-lg">
+            <p 
+              data-animate 
+              className="opacity-0 overline text-[#6B6B6B] mb-6"
+            >
               Solair CER
             </p>
 
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[var(--font-display)] font-light text-[#0A0A0A] mb-8 leading-[1.15]">
-              Unisciti alla
-              <br />
-              <span className="font-normal">rivoluzione energetica</span>
+            <h2 
+              data-animate 
+              className="opacity-0 animate-delay-150 font-light text-[#0A0A0A] mb-8 leading-[1.15]"
+              style={{ fontSize: "clamp(2.2rem, 4vw, 3.2rem)" }}
+            >
+              Comunita Energetiche Rinnovabili
             </h2>
 
-            <p className="text-base text-[#0A0A0A]/60 mb-12 leading-relaxed font-light max-w-lg">
-              Le Comunita Energetiche Rinnovabili (CER) permettono a cittadini, imprese e enti di produrre, 
-              condividere e consumare energia pulita insieme, ottenendo vantaggi economici e ambientali.
+            <p 
+              data-animate 
+              className="opacity-0 animate-delay-300 text-base text-[#6B6B6B] mb-10 leading-relaxed font-light"
+            >
+              Le Comunita Energetiche Rinnovabili permettono a privati, condomini e aziende 
+              di produrre e condividere energia pulita, riducendo la bolletta fino al 40% 
+              e accedendo a incentivi statali dedicati.
             </p>
 
-            <div className="space-y-6 mb-12">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={feature.text}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-                  className="flex items-center gap-4"
+            {/* Benefits list */}
+            <div 
+              data-animate 
+              className="opacity-0 animate-delay-300 space-y-0 mb-10"
+            >
+              {benefits.map((benefit, index) => (
+                <div 
+                  key={index} 
+                  className="flex items-center gap-4 py-4 border-b border-[#E8E8E8] last:border-0"
                 >
-                  <div className="w-10 h-10 border border-[#0A0A0A]/20 flex items-center justify-center">
-                    <feature.icon className="h-4 w-4 text-[#0A0A0A]" />
-                  </div>
-                  <span className="text-[#0A0A0A]/80 font-light">{feature.text}</span>
-                </motion.div>
+                  <span className="text-[#6B6B6B]">&bull;</span>
+                  <span className="text-sm text-[#0A0A0A] font-light">{benefit}</span>
+                </div>
               ))}
             </div>
 
-            <a href="#contatti" className="btn-tesla">
-              Contattaci ora
-            </a>
-          </motion.div>
+            {/* Stat */}
+            <div 
+              data-animate 
+              className="opacity-0 animate-delay-300 mb-10 pt-6 border-t border-[#E8E8E8]"
+            >
+              <p className="text-4xl font-light text-[#0A0A0A]">20+</p>
+              <p className="text-[11px] uppercase tracking-[0.15em] text-[#6B6B6B] mt-2 font-medium">
+                Configurazioni CER attive in Italia
+              </p>
+            </div>
 
-          {/* Stats badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-20 inline-block border border-[#0A0A0A]/10 bg-white p-8"
-          >
-            <p className="text-4xl font-[var(--font-display)] font-light text-[#0A0A0A]">20+</p>
-            <p className="text-[10px] tracking-[0.2em] uppercase text-[#0A0A0A]/40 mt-2">Configurazioni attive</p>
-          </motion.div>
+            <a href="#contatti" className="btn-outline">
+              Scopri di piu
+            </a>
+          </div>
+        </div>
+
+        {/* Image Right 55% */}
+        <div 
+          data-animate 
+          className="opacity-0 relative h-[50vh] lg:h-auto lg:min-h-[90vh] order-1 lg:order-2"
+        >
+          <Image
+            src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1400&q=90"
+            alt="Comunita energetica rinnovabile - pannelli solari condivisi"
+            fill
+            className="object-cover"
+            loading="lazy"
+          />
         </div>
       </div>
     </section>

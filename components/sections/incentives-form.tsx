@@ -1,26 +1,37 @@
 "use client"
 
-import { useRef, useState } from "react"
-import { motion, useInView } from "framer-motion"
-import { Check, ArrowRight } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { useRef, useState, useEffect } from "react"
+import { Star } from "lucide-react"
 
 const incentives = [
-  "Detrazione Fiscale 50% per privati",
-  "Fondo perduto del 40% PNRR",
+  "Detrazione IRPEF 50%",
+  "Conto Energia GSE",
+  "PNRR 40% fondo perduto",
 ]
 
 export function IncentivesFormSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const sectionRef = useRef<HTMLElement>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-fade-in-up")
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+
+    if (sectionRef.current) {
+      const elements = sectionRef.current.querySelectorAll("[data-animate]")
+      elements.forEach((el) => observer.observe(el))
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -33,135 +44,120 @@ export function IncentivesFormSection() {
   return (
     <section
       id="contatti"
-      className="min-h-[90vh] py-32 bg-[#F9F9F7] relative overflow-hidden"
-      ref={ref}
+      ref={sectionRef}
+      className="min-h-[90vh] py-32 bg-[#F7F7F5] flex items-center"
     >
-      {/* Background image with overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1400&q=80')`,
-        }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/80" />
-
-      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Left - Text */}
-          <motion.div
-            initial={{ opacity: 0, x: -60 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
-            <p className="text-[10px] tracking-[0.4em] uppercase text-[#0A0A0A]/50 mb-6 font-light">
-              Contattaci
-            </p>
+          <div data-animate className="opacity-0">
+            <p className="overline text-[#6B6B6B] mb-6">Incentivi</p>
 
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[var(--font-display)] font-light text-[#0A0A0A] mb-8 leading-[1.15]">
-              Scopri gli incentivi
-              <br />
-              <span className="font-normal">per il fotovoltaico</span>
+            <h2 
+              className="font-light text-[#0A0A0A] mb-8 leading-[1.15]"
+              style={{ fontSize: "clamp(2.2rem, 4vw, 3.2rem)" }}
+            >
+              Scopri gli incentivi per il tuo impianto
             </h2>
 
-            <div className="space-y-4 mb-8">
-              {incentives.map((incentive, index) => (
-                <motion.div
+            <ul className="space-y-0 mb-8">
+              {incentives.map((incentive) => (
+                <li 
                   key={incentive}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-                  className="flex items-center gap-4"
+                  className="flex items-center gap-4 py-4 border-b border-[#E8E8E8] last:border-0"
                 >
-                  <div className="w-8 h-8 border border-[#0A0A0A]/20 flex items-center justify-center">
-                    <Check className="h-4 w-4 text-[#0A0A0A]" />
-                  </div>
-                  <span className="text-[#0A0A0A]/80 font-light">{incentive}</span>
-                </motion.div>
+                  <span className="text-[#0A0A0A]">&bull;</span>
+                  <span className="text-[#0A0A0A] font-light">{incentive}</span>
+                </li>
               ))}
-            </div>
-          </motion.div>
+            </ul>
+          </div>
 
           {/* Right - Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 60 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="bg-white border border-[#0A0A0A]/10 p-10 shadow-sm"
+          <div 
+            data-animate 
+            className="opacity-0 animate-delay-150 bg-white border border-[#E8E8E8] p-12"
+            style={{ borderRadius: "2px" }}
           >
-            <div className="mb-8">
-              <h3 className="text-xl font-[var(--font-display)] text-[#0A0A0A] mb-2">
-                Modulo di idoneita
-              </h3>
-              <div className="w-12 h-px bg-[#0A0A0A]" />
-            </div>
+            <form onSubmit={handleSubmit} className="space-y-0">
+              <input
+                type="text"
+                placeholder="Nome e Cognome"
+                required
+                className="input-tesla"
+                aria-label="Nome e Cognome"
+              />
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <Input
-                  type="text"
-                  placeholder="Nome e Cognome"
-                  required
-                  className="w-full bg-[#F9F9F7] border-[#0A0A0A]/10 py-6 px-4 text-[#0A0A0A] placeholder:text-[#0A0A0A]/40 focus:border-[#0A0A0A] focus:ring-[#0A0A0A] rounded-none"
-                  aria-label="Nome e Cognome"
-                />
-              </div>
+              <input
+                type="tel"
+                placeholder="Telefono"
+                required
+                className="input-tesla"
+                aria-label="Telefono"
+              />
 
-              <div>
-                <Input
-                  type="tel"
-                  placeholder="Numero di telefono"
-                  required
-                  className="w-full bg-[#F9F9F7] border-[#0A0A0A]/10 py-6 px-4 text-[#0A0A0A] placeholder:text-[#0A0A0A]/40 focus:border-[#0A0A0A] focus:ring-[#0A0A0A] rounded-none"
-                  aria-label="Numero di telefono"
-                />
-              </div>
+              <input
+                type="email"
+                placeholder="Email"
+                required
+                className="input-tesla"
+                aria-label="Email"
+              />
 
-              <div>
-                <Select>
-                  <SelectTrigger
-                    className="w-full bg-[#F9F9F7] border-[#0A0A0A]/10 py-6 px-4 text-[#0A0A0A] focus:border-[#0A0A0A] focus:ring-[#0A0A0A] rounded-none [&>span]:text-[#0A0A0A]/40"
-                    aria-label="Tipo di tetto"
-                  >
-                    <SelectValue placeholder="Tipo di tetto" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border-[#0A0A0A]/10">
-                    <SelectItem value="falda" className="text-[#0A0A0A]">Tetto a Falda</SelectItem>
-                    <SelectItem value="piano" className="text-[#0A0A0A]">Tetto Piano</SelectItem>
-                    <SelectItem value="altro" className="text-[#0A0A0A]">Altro</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Input
-                  type="text"
-                  placeholder="Luogo di installazione"
-                  required
-                  className="w-full bg-[#F9F9F7] border-[#0A0A0A]/10 py-6 px-4 text-[#0A0A0A] placeholder:text-[#0A0A0A]/40 focus:border-[#0A0A0A] focus:ring-[#0A0A0A] rounded-none"
-                  aria-label="Luogo di installazione"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-[#0A0A0A] text-white py-4 text-[10px] tracking-[0.2em] uppercase font-medium hover:bg-[#333] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
+              <select
+                required
+                className="input-tesla appearance-none cursor-pointer"
+                aria-label="Tipo immobile"
+                defaultValue=""
               >
-                {isSubmitting ? (
-                  "Invio in corso..."
-                ) : (
-                  <>
-                    Richiedi preventivo
-                    <ArrowRight className="h-4 w-4" />
-                  </>
-                )}
-              </button>
+                <option value="" disabled>Tipo immobile</option>
+                <option value="casa">Casa</option>
+                <option value="azienda">Azienda</option>
+                <option value="condominio">Condominio</option>
+              </select>
+
+              <input
+                type="text"
+                placeholder="Provincia"
+                required
+                className="input-tesla"
+                aria-label="Provincia"
+              />
+
+              <textarea
+                placeholder="Messaggio (opzionale)"
+                rows={3}
+                className="input-tesla resize-none"
+                aria-label="Messaggio"
+              />
+
+              <div className="pt-6">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn-filled"
+                >
+                  {isSubmitting ? "Invio in corso..." : "Richiedi preventivo gratuito"}
+                </button>
+              </div>
             </form>
 
-            <p className="text-center text-xs text-[#0A0A0A]/40 mt-6 font-light">
-              Ti contatteremo entro 24 ore
-            </p>
-          </motion.div>
+            {/* Trust badge */}
+            <div className="mt-8 pt-6 border-t border-[#E8E8E8] text-center">
+              <div className="flex items-center justify-center gap-2 text-[11px] text-[#6B6B6B]">
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-3 w-3 fill-[#0A0A0A] text-[#0A0A0A]" />
+                  ))}
+                </div>
+                <span>99 recensioni</span>
+                <span>&middot;</span>
+                <span>Certificati GSE</span>
+                <span>&middot;</span>
+                <span>Garanzia 25 anni</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

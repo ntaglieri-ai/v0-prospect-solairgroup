@@ -4,44 +4,34 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Tesla-style light palette */
   --background: #FFFFFF;
-  --background-alt: #F9F9F7;
+  --background-alt: #F7F7F5;
   --foreground: #0A0A0A;
-  --foreground-muted: rgba(10, 10, 10, 0.6);
-  --accent: #0A0A0A;
-  --accent-hover: #333333;
+  --foreground-muted: #6B6B6B;
+  --border-color: #E8E8E8;
   
-  /* Legacy tokens */
   --card: #FFFFFF;
   --card-foreground: #0A0A0A;
   --popover: #FFFFFF;
   --popover-foreground: #0A0A0A;
   --primary: #0A0A0A;
   --primary-foreground: #FFFFFF;
-  --secondary: #F4F4F2;
+  --secondary: #F7F7F5;
   --secondary-foreground: #0A0A0A;
-  --muted: #F4F4F2;
-  --muted-foreground: rgba(10, 10, 10, 0.6);
+  --muted: #F7F7F5;
+  --muted-foreground: #6B6B6B;
   --destructive: #ef4444;
   --destructive-foreground: #FFFFFF;
-  --border: rgba(10, 10, 10, 0.1);
-  --input: rgba(10, 10, 10, 0.1);
+  --border: #E8E8E8;
+  --input: #E8E8E8;
   --ring: #0A0A0A;
-  --radius: 0.5rem;
-  
-  /* Brand colors */
-  --navy: #0A0A0A;
-  --teal: #0A0A0A;
-  --teal-dark: #333333;
-  --light-bg: #F4F4F2;
-  --yellow: #0A0A0A;
+  --radius: 2px;
 }
 
 @theme inline {
-  --font-sans: var(--font-body), 'Inter Tight', system-ui, sans-serif;
-  --font-heading: var(--font-display), 'Inter Tight', system-ui, sans-serif;
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --font-sans: var(--font-urbanist), 'Urbanist', system-ui, sans-serif;
+  --font-heading: var(--font-urbanist), 'Urbanist', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -54,27 +44,17 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-navy: var(--navy);
-  --color-teal: var(--teal);
-  --color-teal-dark: var(--teal-dark);
-  --color-light-bg: var(--light-bg);
-  --color-yellow: var(--yellow);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: calc(var(--radius) - 1px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-[#E8E8E8] outline-ring/50;
   }
   html {
     scroll-behavior: smooth;
@@ -84,28 +64,54 @@
   }
 }
 
-/* Tesla-style minimal button */
-.btn-tesla {
-  @apply inline-flex items-center justify-center uppercase tracking-[0.15em] text-sm font-medium;
-  @apply border border-[#0A0A0A] bg-transparent text-[#0A0A0A] px-8 py-4;
+/* Tesla-style buttons */
+.btn-outline {
+  @apply inline-flex items-center justify-center;
+  @apply border border-current bg-transparent;
+  @apply px-8 py-3;
+  @apply text-xs uppercase tracking-[0.1em] font-medium;
   @apply transition-all duration-300 ease-out;
 }
 
-.btn-tesla:hover {
-  @apply bg-[#0A0A0A] text-white;
+.btn-outline:hover {
+  @apply bg-[#0A0A0A] text-white border-[#0A0A0A];
 }
 
-.btn-tesla-filled {
-  @apply inline-flex items-center justify-center uppercase tracking-[0.15em] text-sm font-medium;
-  @apply border border-[#0A0A0A] bg-[#0A0A0A] text-white px-8 py-4;
+.btn-outline-white {
+  @apply inline-flex items-center justify-center;
+  @apply border border-white/85 bg-transparent text-white;
+  @apply px-10 py-3.5;
+  @apply text-xs uppercase tracking-[0.1em] font-medium;
   @apply transition-all duration-300 ease-out;
 }
 
-.btn-tesla-filled:hover {
+.btn-outline-white:hover {
+  @apply bg-white text-[#0A0A0A];
+}
+
+.btn-filled {
+  @apply inline-flex items-center justify-center;
+  @apply bg-[#0A0A0A] text-white border border-[#0A0A0A];
+  @apply px-8 py-4 w-full;
+  @apply text-xs uppercase tracking-[0.1em] font-medium;
+  @apply transition-all duration-300 ease-out;
+}
+
+.btn-filled:hover {
   @apply bg-transparent text-[#0A0A0A];
 }
 
-/* Scroll indicator animation */
+/* Overline text style */
+.overline {
+  @apply text-[11px] uppercase tracking-[0.2em] font-medium;
+}
+
+/* Section padding */
+.section-padding {
+  @apply px-6 md:px-12 lg:px-20;
+}
+
+/* Scroll indicator */
 @keyframes scroll-bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(8px); }
@@ -115,13 +121,34 @@
   animation: scroll-bounce 2s ease-in-out infinite;
 }
 
-/* Light glassmorphism */
-.glass {
-  @apply backdrop-blur-xl bg-white/80;
-  border-bottom: 1px solid rgba(10, 10, 10, 0.06);
+/* Fade in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.glass-card {
-  @apply backdrop-blur-xl bg-white/90;
-  border: 1px solid rgba(10, 10, 10, 0.08);
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-delay-150 {
+  animation-delay: 150ms;
+}
+
+.animate-delay-300 {
+  animation-delay: 300ms;
+}
+
+/* Input Tesla style */
+.input-tesla {
+  @apply w-full bg-transparent border-0 border-b border-[#E8E8E8] py-4 px-0;
+  @apply text-[#0A0A0A] placeholder:text-[#6B6B6B];
+  @apply focus:outline-none focus:border-[#0A0A0A];
+  @apply transition-colors duration-300;
 }

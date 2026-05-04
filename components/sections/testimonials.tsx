@@ -1,40 +1,33 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
-import { motion, useInView } from "framer-motion"
 import { Star, ChevronLeft, ChevronRight } from "lucide-react"
 
 const testimonials = [
   {
     name: "Carmelo Ragusa",
-    rating: 5,
     text: "Volevo ringraziare Gaetano la parte commerciale che mi ha fatto conoscere ed acquistare il prodotto. Professionalita e competenza al top. Consiglio vivamente Solair Group.",
   },
   {
     name: "Ma Lav",
-    rating: 5,
-    text: "Ho scelto Solair Group per l installazione del mio impianto fotovoltaico e sono rimasto molto soddisfatto. Dall inizio alla fine, il team e stato professionale e competente.",
+    text: "Ho scelto Solair Group per l'installazione del mio impianto fotovoltaico e sono rimasto molto soddisfatto. Dall'inizio alla fine, il team e stato professionale e competente.",
   },
   {
     name: "Tommaso Nano",
-    rating: 5,
-    text: "Ho scelto Solair Group per l installazione del mio impianto fotovoltaico e sono rimasto davvero soddisfatto. Servizio eccellente e personale qualificato.",
+    text: "Ho scelto Solair Group per l'installazione del mio impianto fotovoltaico e sono rimasto davvero soddisfatto. Servizio eccellente e personale qualificato.",
   },
   {
     name: "Giuseppe Ferrara",
-    rating: 5,
     text: "Esperienza fantastica con Solair Group. Impianto installato in tempi record e gia vedo i risparmi in bolletta. Team cortese e sempre disponibile per ogni domanda.",
   },
   {
     name: "Maria Rossi",
-    rating: 5,
     text: "Finalmente indipendenza energetica! Grazie a Solair Group ho un impianto efficiente e un servizio di monitoraggio eccezionale. Lo consiglio a tutti.",
   },
 ]
 
 export function TestimonialsSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const sectionRef = useRef<HTMLElement>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -45,112 +38,106 @@ export function TestimonialsSection() {
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-fade-in-up")
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+
+    if (sectionRef.current) {
+      const elements = sectionRef.current.querySelectorAll("[data-animate]")
+      elements.forEach((el) => observer.observe(el))
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
   const visibleCount = isMobile ? 1 : 3
   const maxIndex = testimonials.length - visibleCount
 
   const next = () => setCurrentIndex((prev) => Math.min(prev + 1, maxIndex))
   const prev = () => setCurrentIndex((prev) => Math.max(prev - 1, 0))
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1))
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [maxIndex])
-
   return (
-    <section id="testimonianze" className="min-h-[90vh] py-32 bg-white" ref={ref}>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
-          <p className="text-[10px] tracking-[0.4em] uppercase text-[#0A0A0A]/50 mb-6 font-light">
-            Recensioni verificate
-          </p>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[var(--font-display)] font-light text-[#0A0A0A] leading-[1.15] mb-8">
-            Le esperienze
-            <br />
-            <span className="font-normal">dei nostri clienti</span>
+    <section id="recensioni" ref={sectionRef} className="min-h-[70vh] py-32 bg-[#F7F7F5] flex items-center">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
+        {/* Header */}
+        <div data-animate className="opacity-0 text-center mb-16">
+          <p className="overline text-[#6B6B6B] mb-4">Testimonianze</p>
+          <h2 
+            className="font-light text-[#0A0A0A] mb-8"
+            style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
+          >
+            Cosa dicono i nostri clienti
           </h2>
-          <div className="flex items-center justify-center gap-4">
-            <span className="text-sm tracking-[0.1em] uppercase text-[#0A0A0A]/60 font-light">Eccellente</span>
-            <div className="flex gap-1">
+          
+          {/* Badge */}
+          <div className="inline-flex items-center gap-3 px-6 py-3 border border-[#E8E8E8] bg-white">
+            <span className="text-[11px] uppercase tracking-[0.1em] text-[#6B6B6B] font-medium">Eccellente</span>
+            <span className="text-[#6B6B6B]">&middot;</span>
+            <span className="text-[11px] text-[#6B6B6B]">99 recensioni Google</span>
+            <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-[#0A0A0A] text-[#0A0A0A]" />
+                <Star key={i} className="h-3 w-3 fill-[#0A0A0A] text-[#0A0A0A]" />
               ))}
             </div>
-            <span className="text-sm text-[#0A0A0A]/40 font-light">99 recensioni Google</span>
           </div>
-        </motion.div>
+        </div>
 
         {/* Carousel */}
-        <div className="relative">
+        <div data-animate className="opacity-0 animate-delay-150 relative">
           <div className="overflow-hidden">
-            <motion.div
-              className="flex gap-6"
-              animate={{ x: `-${currentIndex * (100 / visibleCount + 1.5)}%` }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            <div
+              className="flex gap-6 transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${currentIndex * (100 / visibleCount)}%)` }}
             >
               {testimonials.map((testimonial, index) => (
-                <motion.div
+                <div
                   key={index}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
                   className={`flex-shrink-0 ${isMobile ? "w-full" : "w-[calc(33.333%-1rem)]"}`}
                 >
-                  <div className="bg-[#F9F9F7] border border-[#0A0A0A]/5 p-8 h-full">
-                    <div className="flex gap-1 mb-6">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="h-3 w-3 fill-[#0A0A0A] text-[#0A0A0A]" />
+                  <div className="bg-white border border-[#E8E8E8] p-10 h-full" style={{ borderRadius: "2px" }}>
+                    <div className="flex gap-0.5 mb-6">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-4 w-4 fill-[#0A0A0A] text-[#0A0A0A]" />
                       ))}
                     </div>
-                    <p className="text-[#0A0A0A]/70 text-sm leading-relaxed mb-6 font-light">
+                    <p className="text-[#0A0A0A] text-sm leading-relaxed mb-8 font-light">
                       &quot;{testimonial.text}&quot;
                     </p>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-px bg-[#0A0A0A]" />
-                      <p className="text-sm text-[#0A0A0A] tracking-wide">{testimonial.name}</p>
-                    </div>
+                    <p className="text-[11px] uppercase tracking-[0.12em] text-[#6B6B6B]">
+                      {testimonial.name}
+                    </p>
                   </div>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           </div>
 
           {/* Navigation Arrows */}
           <button
             onClick={prev}
             disabled={currentIndex === 0}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 border border-[#0A0A0A]/20 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#0A0A0A] hover:text-white transition-all duration-300 text-[#0A0A0A]/60 bg-white"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 border border-[#E8E8E8] flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#0A0A0A] hover:text-white hover:border-[#0A0A0A] transition-all duration-300 text-[#0A0A0A] bg-white"
             aria-label="Recensione precedente"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-4 w-4" />
           </button>
           <button
             onClick={next}
             disabled={currentIndex >= maxIndex}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 border border-[#0A0A0A]/20 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#0A0A0A] hover:text-white transition-all duration-300 text-[#0A0A0A]/60 bg-white"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 border border-[#E8E8E8] flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#0A0A0A] hover:text-white hover:border-[#0A0A0A] transition-all duration-300 text-[#0A0A0A] bg-white"
             aria-label="Recensione successiva"
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-4 w-4" />
           </button>
         </div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-center mt-20"
-        >
-          <a href="#contatti" className="btn-tesla">
-            Scopri come possiamo aiutarti
-          </a>
-        </motion.div>
       </div>
     </section>
   )

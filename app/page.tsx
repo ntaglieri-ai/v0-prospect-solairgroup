@@ -6,7 +6,6 @@ import { TestimonialsSection } from "@/components/sections/testimonials"
 import { PackagesSection } from "@/components/sections/packages"
 import { ProjectsSection } from "@/components/sections/projects"
 import { CERSection } from "@/components/sections/cer"
-import { CERIncentiveSection } from "@/components/sections/cer-incentive"
 import { IncentivesFormSection } from "@/components/sections/incentives-form"
 import { MapSection } from "@/components/sections/map"
 import { Footer } from "@/components/footer"
@@ -23,7 +22,6 @@ export default function Home() {
         <PackagesSection />
         <ProjectsSection />
         <CERSection />
-        <CERIncentiveSection />
         <IncentivesFormSection />
         <MapSection />
       </main>
