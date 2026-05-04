@@ -21,7 +21,7 @@ export function IncentivesFormSection() {
   }
 
   return (
-    <section id="contatti" className="min-h-screen py-[100px] bg-[#F7F7F5] flex items-center border-t border-[#E8E8E8]">
+    <section id="contatti" className="min-h-screen py-[100px] bg-[#F4F4F2] flex items-center">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
           {/* Left - Text */}

@@ -44,7 +44,7 @@ export function TestimonialsSection() {
   const prev = () => setCurrentIndex((prev) => Math.max(prev - 1, 0))
 
   return (
-    <section id="recensioni" className="min-h-[70vh] py-[100px] bg-[#F7F7F5] flex items-center border-t border-[#E8E8E8]">
+    <section id="recensioni" className="min-h-[70vh] py-[100px] bg-[#F4F4F2] flex items-center">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
         {/* Header */}
         <div className="text-center mb-12">
