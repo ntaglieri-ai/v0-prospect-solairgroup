@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { ChevronDown } from "lucide-react"
 
 export function HeroSection() {
@@ -33,6 +34,17 @@ export function HeroSection() {
       {/* Content - centered vertically with breathing room */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-6">
         <div className="text-center max-w-4xl">
+          {/* Logo */}
+          <div className="relative w-48 h-16 mx-auto mb-8">
+            <Image
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_solair-removebg-preview-PfUS5nX8wvG7lum1UFtzJFCVB3CQ7I.png"
+              alt="Solair Group"
+              fill
+              className="object-contain brightness-0 invert"
+              priority
+            />
+          </div>
+
           {/* Overline - DM Sans */}
           <p className="overline text-white/60 mb-6">
             Energia Rinnovabile · Italia
