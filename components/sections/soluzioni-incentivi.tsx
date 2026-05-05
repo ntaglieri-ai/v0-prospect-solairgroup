@@ -78,10 +78,10 @@ const incentivi = [
 
 // ── palette ──────────────────────────────────────────────
 const C = {
-  bg:        "#e4e6e8",   // pietra fredda base
+  bg:        "#E8E8E8",   // sfondo uniforme sezione
   bgCard:    "#d8dbde",   // cards standard
   bgCardHl:  "#cdd1d5",   // card highlight
-  bgCta:     "#dcdfe2",   // striscia CTA leggermente diversa
+  bgCta:     "#E8E8E8",   // stesso sfondo della sezione
   border:    "#c4c8cc",   // separatori
   text:      "#1c1f22",   // testo primario
   textMid:   "#4a5058",   // testo secondario
