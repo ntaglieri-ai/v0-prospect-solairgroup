@@ -5,9 +5,7 @@ import { WhyChooseUsSection } from "@/components/sections/why-choose-us"
 import { PortfolioSlideshow } from "@/components/sections/portfolio-slideshow"
 import { SolairCERSection } from "@/components/sections/solair-cer"
 import { TestimonialsSection } from "@/components/sections/testimonials"
-import { PackagesSection } from "@/components/sections/packages"
-
-import { IncentivesFormSection } from "@/components/sections/incentives-form"
+import { SoluzioniIncentiviSection } from "@/components/sections/soluzioni-incentivi"
 import { MapSection } from "@/components/sections/map"
 import { Footer } from "@/components/footer"
 
@@ -22,8 +20,7 @@ export default function Home() {
         <PortfolioSlideshow />
         <SolairCERSection />
         <TestimonialsSection />
-        <PackagesSection />
-        <IncentivesFormSection />
+        <SoluzioniIncentiviSection />
         <MapSection />
       </main>
       <Footer />
