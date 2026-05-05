@@ -66,11 +66,7 @@ export function Navbar() {
             ))}
             <Link
               href="/configuratore"
-              className={`overline px-5 py-2 border transition-all duration-300 ${
-                isScrolled 
-                  ? "border-[#1e3a5f] text-[#1e3a5f] hover:bg-[#1e3a5f] hover:text-white" 
-                  : "border-white/85 text-white hover:bg-white hover:text-[#1e3a5f]"
-              }`}
+              className="overline px-5 py-2 bg-[#2e8b72] text-white border-0 hover:bg-[#226b57] transition-all duration-300"
             >
               Configuratore
             </Link>
@@ -80,11 +76,7 @@ export function Navbar() {
           <div className="lg:hidden flex items-center gap-3">
             <Link
               href="/configuratore"
-              className={`overline px-4 py-2 border transition-all duration-300 ${
-                isScrolled 
-                  ? "border-[#1e3a5f] text-[#1e3a5f]" 
-                  : "border-white/85 text-white"
-              }`}
+              className="overline px-4 py-2 bg-[#2e8b72] text-white border-0 hover:bg-[#226b57] transition-all duration-300"
             >
               Configura
             </Link>
