@@ -14,7 +14,7 @@ export function SolairCERSection() {
   return (
     <section
       id="cer"
-      className="relative min-h-screen mb-0 md:mb-[50px]"
+      className="relative min-h-screen mb-[20px] md:mb-[50px]"
     >
       {/* Mobile: Full background image */}
       <div className="absolute inset-0 md:hidden">
