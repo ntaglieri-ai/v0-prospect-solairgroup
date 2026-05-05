@@ -37,7 +37,7 @@ export function HeroSection() {
           {/* Logo */}
           <div className="relative w-[720px] h-60 mx-auto mb-0">
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_solair-removebg-preview-PfUS5nX8wvG7lum1UFtzJFCVB3CQ7I.png"
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-05-05%20at%2018.34.28-TKp1yMmCV408F7LvM5typoeBo55TG3.jpeg"
               alt="Solair Group"
               fill
               className="object-contain brightness-0 invert"
