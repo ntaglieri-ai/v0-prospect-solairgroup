@@ -38,7 +38,7 @@ export function HeroSection() {
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-6">
         <div className="text-center max-w-4xl">
           {/* Logo */}
-          <div className="relative w-[360px] h-30 mx-auto mb-0">
+          <div className="relative w-[200px] md:w-[360px] h-16 md:h-30 mx-auto mb-0">
             <Image
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp_Image_2026-05-05_at_18.34.28-removebg-preview-1BVOsiAd1yhDgv9eOJpKcg5rntHuff.png"
               alt="Solair Group"
