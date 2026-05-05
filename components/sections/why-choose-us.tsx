@@ -36,8 +36,8 @@ const services = [
     overline: "Qualita",
     title: "Pannelli Solari di Qualita Premium",
     description: "Utilizziamo esclusivamente pannelli e inverter dei migliori brand mondiali, con garanzia fino a 25 anni sulla produzione.",
-    image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=1400&q=90",
-    alt: "Dettaglio ravvicinato di pannello fotovoltaico premium celle solari",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/solar-panels-on-roof-DQKbI8vUnnBfcopYGHEKjvfmPpOjS2.jpg",
+    alt: "Pannelli solari premium installati su tetto con tegole grigie con luce solare calda",
   },
 ]
 
