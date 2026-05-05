@@ -4,7 +4,7 @@ import Image from "next/image"
 
 export function AboutSection() {
   return (
-    <section id="chi-siamo" className="relative min-h-screen bg-[#E8E8E8] flex items-center mb-[20px] md:mb-[50px]">
+    <section id="chi-siamo" className="relative min-h-screen bg-[#E8E8E8] flex items-center mb-0 md:mb-[50px]">
       {/* Mobile: Full background image with overlay */}
       <div className="absolute inset-0 md:hidden">
         <Image
