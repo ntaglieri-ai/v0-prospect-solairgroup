@@ -1415,7 +1415,7 @@ function renderPrezzo() {
     const prezzo = PREZZI_SOLO_FV[state.kwp];
     if (prezzo) {
       state.prezzoBase = prezzo;
-      document.getElementById('pb_prezzo').textContent = '€ ' + prezzo.toLocaleString('it-IT') + ' <span style="font-size:12px;color:var(--muted);">— senza accumulo</span>';
+      document.getElementById('pb_prezzo').innerHTML = '€ ' + prezzo.toLocaleString('it-IT') + ' <span style="font-size:12px;color:var(--muted);font-weight:400;">— senza accumulo</span>';
       document.getElementById('prezzo_taglia').style.display = 'block';
       document.getElementById('btn-s1').disabled = false;
     } else {
