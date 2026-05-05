@@ -27,7 +27,7 @@ const packages = [
 
 export function PackagesSection() {
   return (
-    <section id="soluzioni" className="min-h-[80vh] py-[100px] bg-[#E8E8E8] flex items-center mb-[50px]">
+    <section id="soluzioni" className="min-h-[80vh] py-[100px] bg-[#E8E8E8] flex items-center mb-[25px]">
       <div className="mx-auto max-w-6xl px-6 lg:px-8 w-full">
         {/* Header */}
         <div className="text-center mb-16">

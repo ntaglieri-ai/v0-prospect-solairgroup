@@ -64,8 +64,8 @@ export function MapSection() {
       })
 
       const map = L.map(mapRef.current!, {
-        center: [42.5, 12.5],
-        zoom: 5,
+        center: [41.5, 13.5],
+        zoom: 5.5,
         zoomControl: true,
         scrollWheelZoom: false,
       })
