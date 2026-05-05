@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Menu, X } from "lucide-react"
 
 const navLinks = [
@@ -34,8 +35,21 @@ export function Navbar() {
       }`}
     >
       <nav className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
-        <div className="flex items-center justify-center h-20">
-          {/* Desktop Navigation - Centered */}
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link href="/" className="relative h-12 w-28">
+            <Image
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp_Image_2026-05-05_at_18.34.28-removebg-preview-rlWc3q38NGodyFUqcCA2TsRp7eyfiY.png"
+              alt="Solair Group"
+              fill
+              className={`object-contain object-left transition-all duration-300 ${
+                isScrolled ? "brightness-100" : "brightness-0 invert"
+              }`}
+              priority
+            />
+          </Link>
+
+          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-10">
             {navLinks.map((link) => (
               <Link
