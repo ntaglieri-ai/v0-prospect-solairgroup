@@ -6,6 +6,15 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/configuratore',
+        destination: '/configuratore-solair-v6.html',
+        permanent: false,
+      },
+    ]
+  },
 }
 
 export default nextConfig
