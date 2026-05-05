@@ -36,8 +36,8 @@ const services = [
     overline: "Solair CER",
     title: "Comunita Energetiche Rinnovabili",
     description: "Le Comunita Energetiche Rinnovabili permettono a privati, condomini e aziende di produrre e condividere energia pulita, riducendo la bolletta fino al 40% e accedendo a incentivi statali dedicati.",
-    image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1400&q=90",
-    alt: "Quartiere con pannelli solari sui tetti luce calda tramonto",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/pexels-marianne-rixhon-10955129-6233727-3kdk6ZmZA8eJXzi2V7BvxzAq23spiO.jpg",
+    alt: "Quartiere residenziale europeo con pannelli solari sui tetti al tramonto",
     isCER: true,
   },
   
