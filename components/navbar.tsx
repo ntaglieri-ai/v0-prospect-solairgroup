@@ -37,7 +37,7 @@ export function Navbar() {
       <nav className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="relative h-10 w-32">
+          <Link href="/" className="relative h-20 w-64">
             <Image
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_solair-removebg-preview-PfUS5nX8wvG7lum1UFtzJFCVB3CQ7I.png"
               alt="Solair Group"
