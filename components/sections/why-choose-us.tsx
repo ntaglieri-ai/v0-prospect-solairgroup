@@ -35,7 +35,7 @@ const services = [
 
 export function WhyChooseUsSection() {
   return (
-    <section id="servizi" className="mb-[50px]">
+    <section id="servizi" className="mb-0 md:mb-[50px]">
       {services.map((service, index) => {
         const isOdd = index % 2 === 0
 
@@ -44,7 +44,7 @@ export function WhyChooseUsSection() {
           return (
             <div
               key={service.title}
-              className="relative h-screen flex items-center justify-center mb-[50px]"
+              className="relative h-screen flex items-center justify-center mb-0 md:mb-[50px]"
             >
               <Image
                 src={service.image}
@@ -53,7 +53,9 @@ export function WhyChooseUsSection() {
                 className="object-cover"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-black/35" />
+              {/* Mobile: gradient overlay bottom to top, Desktop: uniform overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30 md:bg-black/35 md:bg-none" />
+              <div className="absolute inset-0 hidden md:block bg-black/35" />
               
               {/* Content centered at exact vertical center */}
               <div className="relative z-10 w-full flex items-center justify-start px-8 lg:px-[10vw]">
@@ -72,28 +74,14 @@ export function WhyChooseUsSection() {
             </div>
           )
         } else {
-          // Split layout: text left, image right 55% - 100vh height
+          // Split layout: on mobile becomes full-bleed with text overlay
           return (
             <div
               key={service.title}
-              className="grid lg:grid-cols-[45%_55%] min-h-screen mb-[50px]"
+              className="relative min-h-screen mb-0 md:mb-[50px]"
             >
-              {/* Text - centered vertically */}
-              <div className="flex items-center justify-center bg-[#E8E8E8] px-8 lg:px-20 py-20 lg:py-0 order-2 lg:order-1">
-                <div className="max-w-md">
-                  <p className="overline text-[#6B6B6B] mb-5">
-                    {service.overline}
-                  </p>
-                  <h3 className="font-heading text-[#0A0A0A] mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
-                    {service.title}
-                  </h3>
-                  <p className="body-text">
-                    {service.description}
-                  </p>
-                </div>
-              </div>
-              {/* Image - full height stretches to match text column */}
-              <div className="relative min-h-[60vh] lg:min-h-0 order-1 lg:order-2">
+              {/* Mobile: Full background image */}
+              <div className="absolute inset-0 md:hidden">
                 <Image
                   src={service.image}
                   alt={service.alt}
@@ -101,6 +89,51 @@ export function WhyChooseUsSection() {
                   className="object-cover"
                   loading="lazy"
                 />
+                {/* Dark gradient overlay bottom to top for mobile */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30" />
+              </div>
+
+              {/* Desktop: Grid layout */}
+              <div className="hidden md:grid lg:grid-cols-[45%_55%] min-h-screen">
+                {/* Text - centered vertically */}
+                <div className="flex items-center justify-center bg-[#E8E8E8] px-8 lg:px-20 py-20 lg:py-0">
+                  <div className="max-w-md">
+                    <p className="overline text-[#6B6B6B] mb-5">
+                      {service.overline}
+                    </p>
+                    <h3 className="font-heading text-[#0A0A0A] mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
+                      {service.title}
+                    </h3>
+                    <p className="body-text">
+                      {service.description}
+                    </p>
+                  </div>
+                </div>
+                {/* Image - full height */}
+                <div className="relative min-h-[60vh] lg:min-h-0">
+                  <Image
+                    src={service.image}
+                    alt={service.alt}
+                    fill
+                    className="object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+
+              {/* Mobile: Text overlay */}
+              <div className="relative z-10 flex items-center justify-center min-h-screen px-8 py-20 md:hidden">
+                <div className="max-w-md">
+                  <p className="overline text-white/60 mb-5">
+                    {service.overline}
+                  </p>
+                  <h3 className="font-heading text-white mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
+                    {service.title}
+                  </h3>
+                  <p className="body-text text-white/75">
+                    {service.description}
+                  </p>
+                </div>
               </div>
             </div>
           )
