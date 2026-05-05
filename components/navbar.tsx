@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Menu, X } from "lucide-react"
 
 const navLinks = [
@@ -29,23 +30,26 @@ export function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? "bg-white border-b border-[#E8E8E8]" 
+          ? "bg-white border-b border-[#d0d6da]" 
           : "bg-transparent"
       }`}
     >
       <nav className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
         <div className="flex items-center justify-between h-20">
-          {/* Logo - Cormorant Garamond weight 400 */}
-          <Link 
-            href="/" 
-            className={`font-heading text-sm font-normal tracking-[0.2em] transition-colors duration-300 ${
-              isScrolled ? "text-[#0A0A0A]" : "text-white"
-            }`}
-          >
-            SOLAIR GROUP
+          {/* Logo */}
+          <Link href="/" className="relative h-12 w-28">
+            <Image
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp_Image_2026-05-05_at_18.34.28-removebg-preview-rlWc3q38NGodyFUqcCA2TsRp7eyfiY.png"
+              alt="Solair Group"
+              fill
+              className={`object-contain object-left transition-all duration-300 ${
+                isScrolled ? "brightness-100" : "brightness-0 invert"
+              }`}
+              priority
+            />
           </Link>
 
-          {/* Desktop Navigation - DM Sans 11px uppercase */}
+          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-10">
             {navLinks.map((link) => (
               <Link
@@ -53,7 +57,7 @@ export function Navbar() {
                 href={link.href}
                 className={`overline transition-colors duration-300 ${
                   isScrolled 
-                    ? "text-[#0A0A0A] hover:text-[#6B6B6B]" 
+                    ? "text-[#1e3a5f] hover:text-[#2e8b72]" 
                     : "text-white/90 hover:text-white"
                 }`}
               >
@@ -62,11 +66,7 @@ export function Navbar() {
             ))}
             <Link
               href="/configuratore"
-              className={`overline px-5 py-2 border transition-all duration-300 ${
-                isScrolled 
-                  ? "border-[#0A0A0A] text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white" 
-                  : "border-white/85 text-white hover:bg-white hover:text-[#0A0A0A]"
-              }`}
+              className="overline px-5 py-2 bg-[#2e8b72] text-white border-0 hover:bg-[#226b57] transition-all duration-300"
             >
               Configuratore
             </Link>
@@ -76,17 +76,13 @@ export function Navbar() {
           <div className="lg:hidden flex items-center gap-3">
             <Link
               href="/configuratore"
-              className={`overline px-4 py-2 border transition-all duration-300 ${
-                isScrolled 
-                  ? "border-[#0A0A0A] text-[#0A0A0A]" 
-                  : "border-white/85 text-white"
-              }`}
+              className="overline px-4 py-2 bg-[#2e8b72] text-white border-0 hover:bg-[#226b57] transition-all duration-300"
             >
               Configura
             </Link>
             <button
               className={`p-2 transition-colors duration-300 ${
-                isScrolled ? "text-[#0A0A0A]" : "text-white"
+                isScrolled ? "text-[#1e3a5f]" : "text-white"
               }`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Chiudi menu" : "Apri menu"}
@@ -98,13 +94,13 @@ export function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-white border-b border-[#E8E8E8]">
+          <div className="lg:hidden absolute top-full left-0 right-0 bg-white border-b border-[#d0d6da]">
             <div className="flex flex-col py-6 px-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="overline text-[#0A0A0A] py-3 border-b border-[#E8E8E8] last:border-0"
+                  className="overline text-[#1e3a5f] py-3 border-b border-[#d0d6da] last:border-0"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}

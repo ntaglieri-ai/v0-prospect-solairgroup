@@ -96,15 +96,15 @@ export function WhyChooseUsSection() {
               {/* Desktop: Grid layout */}
               <div className="hidden md:grid lg:grid-cols-[45%_55%] min-h-screen">
                 {/* Text - centered vertically */}
-                <div className="flex items-center justify-center bg-[#E8E8E8] px-8 lg:px-20 py-20 lg:py-0">
+                <div className="flex items-center justify-center bg-[#f4f6f7] px-8 lg:px-20 py-20 lg:py-0">
                   <div className="max-w-md">
-                    <p className="overline text-[#6B6B6B] mb-5">
+                    <p className="overline text-[#8a9aaa] mb-5">
                       {service.overline}
                     </p>
-                    <h3 className="font-heading text-[#0A0A0A] mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
+                    <h3 className="font-heading text-[#1e3a5f] mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
                       {service.title}
                     </h3>
-                    <p className="body-text">
+                    <p className="body-text text-[#4a6080]">
                       {service.description}
                     </p>
                   </div>

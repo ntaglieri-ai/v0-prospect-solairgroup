@@ -85,7 +85,7 @@ export function MapSection() {
           html: `<div style="
             width: 14px;
             height: 14px;
-            background: ${active ? "#e65c00" : "#f5881f"};
+            background: ${active ? "#226b57" : "#2e8b72"};
             border: 2.5px solid white;
             border-radius: 50%;
             box-shadow: 0 2px 6px rgba(0,0,0,0.35);
@@ -138,7 +138,7 @@ export function MapSection() {
             html: `<div style="
               width: 14px;
               height: 14px;
-              background: ${isActive ? "#e65c00" : "#f5881f"};
+              background: ${isActive ? "#226b57" : "#2e8b72"};
               border: 2.5px solid white;
               border-radius: 50%;
               box-shadow: 0 2px 6px rgba(0,0,0,0.35);
@@ -166,7 +166,7 @@ export function MapSection() {
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       />
 
-      <section className="bg-[#E8E8E8] mb-0 md:mb-[25px]">
+      <section className="bg-[#f4f6f7] mb-0 md:mb-[25px]">
         <div className="grid lg:grid-cols-[55%_45%] min-h-[500px]">
           {/* Leaflet Map - Left 55% */}
           <div 
@@ -175,15 +175,15 @@ export function MapSection() {
           />
 
           {/* Sidebar - Right 45% */}
-          <div className="flex flex-col justify-center px-8 lg:px-10 py-12 border-l border-[#D8D8D8]">
-            <p className="overline text-[#6B6B6B] mb-3">Sedi</p>
-            <h2 className="font-heading text-[#0A0A0A] mb-10" style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", lineHeight: 1.2 }}>
+          <div className="flex flex-col justify-center px-8 lg:px-10 py-12 border-l border-[#d0d6da]">
+            <p className="overline text-[#8a9aaa] mb-3">Sedi</p>
+            <h2 className="font-heading text-[#1e3a5f] mb-10" style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", lineHeight: 1.2 }}>
               Le nostre sedi<br />in Italia
             </h2>
 
             {Object.entries(grouped).map(([regione, items]) => (
               <div key={regione} className="mb-8">
-                <p className="text-[10px] tracking-[0.14em] uppercase text-[#999] mb-4 pt-4 border-t border-[#D8D8D8]">
+                <p className="text-[10px] tracking-[0.14em] uppercase text-[#8a9aaa] mb-4 pt-4 border-t border-[#d0d6da]">
                   {regione}
                 </p>
 
@@ -192,16 +192,16 @@ export function MapSection() {
                     key={sede.id}
                     onClick={() => setActiveId(sede.id)}
                     className={`cursor-pointer mb-5 pl-3 border-l-2 transition-colors ${
-                      activeId === sede.id ? "border-[#f5881f]" : "border-transparent"
+                      activeId === sede.id ? "border-[#2e8b72]" : "border-transparent"
                     }`}
                   >
                     <p className={`text-xl mb-1 transition-all ${
-                      activeId === sede.id ? "font-medium text-[#0A0A0A]" : "font-normal text-[#333]"
+                      activeId === sede.id ? "font-medium text-[#1e3a5f]" : "font-normal text-[#4a6080]"
                     }`}>
                       {sede.citta}
                     </p>
-                    <p className="text-[13px] text-[#888] mb-0.5">{sede.referente}</p>
-                    <p className="text-[13px] text-[#888]">{sede.telefono}</p>
+                    <p className="text-[13px] text-[#8a9aaa] mb-0.5">{sede.referente}</p>
+                    <p className="text-[13px] text-[#8a9aaa]">{sede.telefono}</p>
                   </div>
                 ))}
               </div>
