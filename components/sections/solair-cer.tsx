@@ -26,7 +26,7 @@ export function SolairCERSection() {
           loading="lazy"
         />
         {/* Dark gradient overlay bottom to top for mobile */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/60 to-black/30" />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)" }} />
       </div>
 
       {/* Desktop: Grid layout */}
@@ -88,13 +88,13 @@ export function SolairCERSection() {
       {/* Mobile: Text overlay */}
       <div className="relative z-10 flex items-center justify-center min-h-screen px-8 py-20 md:hidden">
         <div className="max-w-lg">
-          <p className="overline text-white/60 mb-5">
+          <p className="overline text-[#F5F5F0]/70 mb-5">
             Solair CER
           </p>
-          <h3 className="font-heading text-white mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
+          <h3 className="font-heading text-[#F5F5F0] mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
             Comunita Energetiche Rinnovabili
           </h3>
-          <p className="body-text text-white/75 mb-10">
+          <p className="body-text text-[#F5F5F0]/85 mb-10">
             Le Comunita Energetiche Rinnovabili permettono a privati, condomini e aziende di produrre e condividere energia pulita, riducendo la bolletta fino al 40% e accedendo a incentivi statali dedicati.
           </p>
           
@@ -103,25 +103,25 @@ export function SolairCERSection() {
             {cerBenefits.map((benefit, idx) => (
               <div 
                 key={idx} 
-                className="flex items-center gap-4 py-4 border-b border-white/20 last:border-0"
+                className="flex items-center gap-4 py-4 border-b border-[#F5F5F0]/20 last:border-0"
               >
-                <span className="text-white/60">—</span>
-                <span className="text-sm text-white font-light">{benefit}</span>
+                <span className="text-[#F5F5F0]/70">—</span>
+                <span className="text-sm text-[#F5F5F0] font-light">{benefit}</span>
               </div>
             ))}
           </div>
           
           {/* Stat */}
-          <div className="mb-10 pt-6 border-t border-white/20">
-            <p className="font-heading text-[3rem] text-white">20+</p>
-            <p className="overline text-white/60 mt-1">
+          <div className="mb-10 pt-6 border-t border-[#F5F5F0]/20">
+            <p className="font-heading text-[3rem] text-[#F5F5F0]">20+</p>
+            <p className="overline text-[#F5F5F0]/70 mt-1">
               CER attive in Italia
             </p>
           </div>
 
           <a 
             href="#contatti" 
-            className="btn-outline text-white border-white/40 hover:border-white"
+            className="btn-outline text-[#F5F5F0] border-[#F5F5F0]/40 hover:border-[#F5F5F0]"
           >
             Scopri di piu
           </a>

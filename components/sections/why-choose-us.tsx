@@ -54,7 +54,7 @@ export function WhyChooseUsSection() {
                 loading="lazy"
               />
               {/* Mobile: gradient overlay bottom to top, Desktop: uniform overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30 md:bg-black/35 md:bg-none" />
+              <div className="absolute inset-0 md:hidden" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)" }} />
               <div className="absolute inset-0 hidden md:block bg-black/35" />
               
               {/* Content centered at exact vertical center */}
@@ -90,7 +90,7 @@ export function WhyChooseUsSection() {
                   loading="lazy"
                 />
                 {/* Dark gradient overlay bottom to top for mobile */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30" />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)" }} />
               </div>
 
               {/* Desktop: Grid layout */}
@@ -124,13 +124,13 @@ export function WhyChooseUsSection() {
               {/* Mobile: Text overlay */}
               <div className="relative z-10 flex items-center justify-center min-h-screen px-8 py-20 md:hidden">
                 <div className="max-w-md">
-                  <p className="overline text-white/60 mb-5">
+                  <p className="overline text-[#F5F5F0]/70 mb-5">
                     {service.overline}
                   </p>
-                  <h3 className="font-heading text-white mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
+                  <h3 className="font-heading text-[#F5F5F0] mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
                     {service.title}
                   </h3>
-                  <p className="body-text text-white/75">
+                  <p className="body-text text-[#F5F5F0]/85">
                     {service.description}
                   </p>
                 </div>
