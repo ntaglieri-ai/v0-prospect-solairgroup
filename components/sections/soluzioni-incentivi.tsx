@@ -508,6 +508,9 @@ export function SoluzioniIncentiviSection() {
         </div>
       </div>
 
+      {/* ── SEPARATOR (before map) ── */}
+      <Separator />
+
       <style jsx>{`
         @media (max-width: 900px) {
           .cards-grid {
