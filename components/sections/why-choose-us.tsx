@@ -14,8 +14,8 @@ const services = [
     overline: "Team",
     title: "Tecnici Certificati GSE",
     description: "Il nostro team e composto da tecnici qualificati e certificati GSE, con anni di esperienza su impianti residenziali e industriali.",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=90",
-    alt: "Tecnico certificato installa pannello solare su tetto",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-05-05%20at%2010.14.55-aCiyOxrNPdUQe1uf2iuWnqepMqFnHj.jpeg",
+    alt: "Due tecnici con giubbotti arancioni e caschi ispezionano impianto fotovoltaico su tetto industriale",
   },
   {
     overline: "Tecnologia",
