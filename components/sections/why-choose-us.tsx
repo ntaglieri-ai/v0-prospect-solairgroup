@@ -21,8 +21,8 @@ const services = [
     overline: "Tecnologia",
     title: "Monitoraggio Impianto Fotovoltaico",
     description: "Ogni impianto include un sistema di monitoraggio in tempo reale. Controlli la produzione e i consumi direttamente dal tuo smartphone.",
-    image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=1400&q=90",
-    alt: "Persona controlla app monitoraggio impianto fotovoltaico su smartphone",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Remote-solar-monitoring-5IjV5qO369r2OV5oiyjHSN9cDfzCGW.png",
+    alt: "Mani che tengono smartphone con app di monitoraggio solare davanti a pannelli fotovoltaici",
   },
   {
     overline: "Comunita",
