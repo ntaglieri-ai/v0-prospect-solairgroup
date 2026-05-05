@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
-
 const pacchetti = [
   {
     id: "smart",
     linea: "Smart One",
+    livello: "Linea Base",
     sottotitolo: "La soluzione d'ingresso per chi vuole produrre energia in modo semplice ed efficace.",
     badge: null,
     highlight: false,
@@ -17,13 +16,12 @@ const pacchetti = [
       "Monitoraggio remoto incluso",
       "Ingresso Solair CER",
     ],
-    garanzia: "10 anni",
-    ip: "IP20",
-    eps: false,
+    tags: ["10 anni", "IP20"],
   },
   {
     id: "plus",
     linea: "Power Plus",
+    livello: "Linea Intermedia",
     sottotitolo: "Alta tensione, protezione anti-blackout e brand leader mondiale. Il nostro più venduto.",
     badge: "Più scelto",
     highlight: true,
@@ -35,13 +33,12 @@ const pacchetti = [
       "EPS anti-blackout incluso",
       "Ingresso Solair CER",
     ],
-    garanzia: "12 anni",
-    ip: "IP65",
-    eps: true,
+    tags: ["12 anni", "IP65", "Anti-blackout"],
   },
   {
     id: "premium",
     linea: "Premium Top",
+    livello: "Linea Premium",
     sottotitolo: "Il massimo dell'accumulo con BYD Battery-Box HVE: la batteria più sottile e affidabile sul mercato.",
     badge: null,
     highlight: false,
@@ -54,9 +51,7 @@ const pacchetti = [
       "EPS anti-blackout incluso",
       "Ingresso Solair CER",
     ],
-    garanzia: "15 anni",
-    ip: "IP65",
-    eps: true,
+    tags: ["15 anni", "IP65", "Anti-blackout"],
   },
 ];
 
@@ -64,42 +59,98 @@ const incentivi = [
   {
     valore: "50%",
     titolo: "Detrazione IRPEF",
-    descrizione: "Recupera metà del costo in 10 anni sulla dichiarazione dei redditi per installazioni residenziali.",
+    descrizione:
+      "Recupera metà del costo in 10 anni sulla dichiarazione dei redditi per installazioni residenziali.",
   },
   {
     valore: "GSE",
     titolo: "Conto Energia",
-    descrizione: "Incentivo statale per l'energia immessa in rete: il tuo impianto genera valore anche quando non consumi.",
+    descrizione:
+      "Incentivo statale per l'energia immessa in rete: il tuo impianto genera valore anche quando non consumi.",
   },
   {
     valore: "40%",
     titolo: "PNRR Fondo perduto",
-    descrizione: "Contributo a fondo perduto fino al 40% per imprese e pubblica amministrazione tramite bandi PNRR.",
+    descrizione:
+      "Contributo a fondo perduto fino al 40% per imprese e pubblica amministrazione tramite bandi PNRR.",
   },
 ];
+
+// ── palette ──────────────────────────────────────────────
+const C = {
+  bg:        "#e4e6e8",   // pietra fredda base
+  bgCard:    "#d8dbde",   // cards standard
+  bgCardHl:  "#cdd1d5",   // card highlight
+  bgCta:     "#dcdfe2",   // striscia CTA leggermente diversa
+  border:    "#c4c8cc",   // separatori
+  text:      "#1c1f22",   // testo primario
+  textMid:   "#4a5058",   // testo secondario
+  textMuted: "#8a9099",   // label, didascalie
+  tag:       "#c4c8cc",   // pill tag bg
+  tagText:   "#4a5058",
+  btn:       "#1c1f22",
+  btnText:   "#ffffff",
+};
 
 const WHATSAPP_URL =
   "https://wa.me/393497988101?text=Ciao%2C%20vorrei%20informazioni%20sui%20pannelli%20solari%20Solair";
 const CONFIGURATORE_URL = "/configuratore";
 
+// ── sub-components ────────────────────────────────────────
+function Separator() {
+  return (
+    <div
+      style={{
+        maxWidth: "1120px",
+        margin: "0 auto",
+        padding: "0 24px",
+      }}
+    >
+      <div style={{ height: "1px", background: C.border }} />
+    </div>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      style={{ flexShrink: 0, marginTop: "1px" }}
+    >
+      <circle cx="7" cy="7" r="6.5" stroke={C.border} />
+      <path
+        d="M4.5 7L6.2 8.8L9.5 5.5"
+        stroke={C.textMid}
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+// ── main component ────────────────────────────────────────
 export function SoluzioniIncentiviSection() {
   return (
     <section
       id="soluzioni"
       style={{
-        background: "#e8e5e0",
+        background: C.bg,
         fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-        color: "#1a1a1a",
+        color: C.text,
       }}
     >
-      {/* HEADER */}
+      {/* ── HEADER ── */}
       <div style={{ textAlign: "center", padding: "96px 24px 72px" }}>
         <p
           style={{
             fontSize: "11px",
             letterSpacing: "0.14em",
             textTransform: "uppercase",
-            color: "#aaa",
+            color: C.textMuted,
             marginBottom: "16px",
           }}
         >
@@ -107,11 +158,12 @@ export function SoluzioniIncentiviSection() {
         </p>
         <h2
           style={{
-            fontSize: "clamp(38px, 5vw, 64px)",
+            fontSize: "clamp(38px, 5vw, 62px)",
             fontWeight: 300,
             lineHeight: 1.1,
             marginBottom: "20px",
-            letterSpacing: "-0.01em",
+            letterSpacing: "-0.02em",
+            color: C.text,
           }}
         >
           I nostri pacchetti
@@ -119,10 +171,10 @@ export function SoluzioniIncentiviSection() {
         <p
           style={{
             fontSize: "15px",
-            color: "#888",
+            color: C.textMid,
             maxWidth: "460px",
             margin: "0 auto",
-            lineHeight: 1.6,
+            lineHeight: 1.7,
           }}
         >
           Tre linee di impianto fotovoltaico con accumulo, chiavi in mano.
@@ -130,7 +182,7 @@ export function SoluzioniIncentiviSection() {
         </p>
       </div>
 
-      {/* CARDS */}
+      {/* ── CARDS ── */}
       <div
         style={{
           maxWidth: "1120px",
@@ -146,10 +198,10 @@ export function SoluzioniIncentiviSection() {
           <div
             key={p.id}
             style={{
-              background: p.highlight ? "#d4d0c8" : "#dedad4",
+              background: p.highlight ? C.bgCardHl : C.bgCard,
               padding: "40px 32px 36px",
               position: "relative",
-              borderTop: p.highlight ? "2px solid #1a1a1a" : "2px solid transparent",
+              borderTop: `2px solid ${p.highlight ? C.text : "transparent"}`,
               display: "flex",
               flexDirection: "column",
             }}
@@ -163,10 +215,11 @@ export function SoluzioniIncentiviSection() {
                   fontSize: "10px",
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
-                  color: "#888",
-                  border: "1px solid #bbb",
-                  padding: "3px 8px",
+                  color: C.textMid,
+                  border: `1px solid ${C.border}`,
+                  padding: "3px 9px",
                   borderRadius: "2px",
+                  background: C.bg,
                 }}
               >
                 {p.badge}
@@ -178,19 +231,20 @@ export function SoluzioniIncentiviSection() {
                 fontSize: "10px",
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
-                color: "#aaa",
+                color: C.textMuted,
                 marginBottom: "10px",
               }}
             >
-              {p.id === "smart" ? "Linea Base" : p.id === "plus" ? "Linea Intermedia" : "Linea Premium"}
+              {p.livello}
             </p>
 
             <h3
               style={{
                 fontSize: "26px",
                 fontWeight: 400,
-                marginBottom: "16px",
+                marginBottom: "14px",
                 letterSpacing: "-0.01em",
+                color: C.text,
               }}
             >
               {p.linea}
@@ -199,16 +253,18 @@ export function SoluzioniIncentiviSection() {
             <p
               style={{
                 fontSize: "13px",
-                color: "#777",
-                lineHeight: 1.6,
+                color: C.textMid,
+                lineHeight: 1.65,
                 marginBottom: "28px",
-                minHeight: "60px",
+                minHeight: "58px",
               }}
             >
               {p.sottotitolo}
             </p>
 
-            <ul style={{ listStyle: "none", padding: 0, margin: "0 0 28px", flex: 1 }}>
+            <ul
+              style={{ listStyle: "none", padding: 0, margin: "0 0 28px", flex: 1 }}
+            >
               {p.features.map((f) => (
                 <li
                   key={f}
@@ -217,42 +273,28 @@ export function SoluzioniIncentiviSection() {
                     alignItems: "flex-start",
                     gap: "10px",
                     fontSize: "13px",
-                    color: "#444",
+                    color: C.textMid,
                     marginBottom: "9px",
                     lineHeight: 1.4,
                   }}
                 >
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="none"
-                    style={{ flexShrink: 0, marginTop: "1px" }}
-                  >
-                    <circle cx="7" cy="7" r="6.5" stroke="#bbb" />
-                    <path
-                      d="M4.5 7L6.2 8.8L9.5 5.5"
-                      stroke="#666"
-                      strokeWidth="1.2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  <CheckIcon />
                   {f}
                 </li>
               ))}
             </ul>
 
+            {/* tag pills */}
             <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-              {[p.garanzia, p.ip, ...(p.eps ? ["Anti-blackout"] : [])].map((tag) => (
+              {p.tags.map((tag) => (
                 <span
                   key={tag}
                   style={{
                     fontSize: "11px",
                     padding: "4px 10px",
-                    background: "#ccc9c2",
+                    background: C.tag,
                     borderRadius: "2px",
-                    color: "#555",
+                    color: C.tagText,
                     letterSpacing: "0.04em",
                   }}
                 >
@@ -264,28 +306,33 @@ export function SoluzioniIncentiviSection() {
         ))}
       </div>
 
-      {/* INCENTIVI */}
+      {/* ── SEPARATOR ── */}
+      <div style={{ margin: "60px 0 0" }}>
+        <Separator />
+      </div>
+
+      {/* ── INCENTIVI ── */}
       <div
         id="incentivi"
         style={{
           maxWidth: "1120px",
-          margin: "60px auto 0",
-          padding: "80px 24px",
+          margin: "0 auto",
+          padding: "72px 24px",
           display: "grid",
           gridTemplateColumns: "1fr 2fr",
           gap: "80px",
           alignItems: "start",
-          borderTop: "1px solid #ccc9c2",
         }}
         className="incentivi-grid"
       >
+        {/* left */}
         <div>
           <p
             style={{
               fontSize: "11px",
               letterSpacing: "0.14em",
               textTransform: "uppercase",
-              color: "#aaa",
+              color: C.textMuted,
               marginBottom: "16px",
             }}
           >
@@ -296,7 +343,8 @@ export function SoluzioniIncentiviSection() {
               fontSize: "clamp(26px, 3vw, 38px)",
               fontWeight: 300,
               lineHeight: 1.2,
-              letterSpacing: "-0.01em",
+              letterSpacing: "-0.02em",
+              color: C.text,
             }}
           >
             Riduci il costo
@@ -306,9 +354,9 @@ export function SoluzioniIncentiviSection() {
           <p
             style={{
               fontSize: "13px",
-              color: "#888",
+              color: C.textMid,
               marginTop: "16px",
-              lineHeight: 1.6,
+              lineHeight: 1.7,
             }}
           >
             Gli incentivi statali possono coprire una parte significativa
@@ -317,6 +365,7 @@ export function SoluzioniIncentiviSection() {
           </p>
         </div>
 
+        {/* right */}
         <div
           style={{
             display: "grid",
@@ -331,26 +380,40 @@ export function SoluzioniIncentiviSection() {
                 style={{
                   fontSize: "36px",
                   fontWeight: 300,
-                  color: "#1a1a1a",
-                  marginBottom: "8px",
+                  color: C.text,
+                  marginBottom: "10px",
                   lineHeight: 1,
                   letterSpacing: "-0.02em",
                 }}
               >
                 {inc.valore}
               </p>
-              <div style={{ width: "24px", height: "1px", background: "#bbb", marginBottom: "12px" }} />
+              <div
+                style={{
+                  width: "24px",
+                  height: "1px",
+                  background: C.border,
+                  marginBottom: "12px",
+                }}
+              />
               <p
                 style={{
                   fontSize: "13px",
                   fontWeight: 500,
-                  color: "#333",
+                  color: C.text,
                   marginBottom: "8px",
+                  letterSpacing: "0.01em",
                 }}
               >
                 {inc.titolo}
               </p>
-              <p style={{ fontSize: "12px", color: "#888", lineHeight: 1.6 }}>
+              <p
+                style={{
+                  fontSize: "12px",
+                  color: C.textMid,
+                  lineHeight: 1.65,
+                }}
+              >
                 {inc.descrizione}
               </p>
             </div>
@@ -358,26 +421,28 @@ export function SoluzioniIncentiviSection() {
         </div>
       </div>
 
-      {/* CTA */}
+      {/* ── SEPARATOR ── */}
+      <Separator />
+
+      {/* ── CTA ── */}
       <div
         id="contatti"
         style={{
-          borderTop: "1px solid #ccc9c2",
+          background: C.bgCta,
           padding: "64px 24px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           gap: "32px",
-          background: "#e0ddd7",
         }}
       >
         <p
           style={{
             fontSize: "14px",
-            color: "#888",
+            color: C.textMid,
             textAlign: "center",
-            maxWidth: "420px",
-            lineHeight: 1.7,
+            maxWidth: "440px",
+            lineHeight: 1.75,
             margin: 0,
           }}
         >
@@ -385,19 +450,27 @@ export function SoluzioniIncentiviSection() {
           la soluzione giusta, oppure parla direttamente con un nostro consulente.
         </p>
 
-        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "12px",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
           <a
             href={CONFIGURATORE_URL}
             style={{
               display: "inline-block",
               padding: "15px 36px",
-              background: "#1a1a1a",
-              color: "white",
+              background: C.btn,
+              color: C.btnText,
               fontSize: "11px",
               letterSpacing: "0.12em",
               textTransform: "uppercase",
               textDecoration: "none",
               borderRadius: "2px",
+              transition: "opacity 0.2s",
             }}
             onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.75")}
             onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
@@ -415,18 +488,19 @@ export function SoluzioniIncentiviSection() {
               gap: "9px",
               padding: "15px 36px",
               background: "transparent",
-              color: "#1a1a1a",
+              color: C.text,
               fontSize: "11px",
               letterSpacing: "0.12em",
               textTransform: "uppercase",
               textDecoration: "none",
-              border: "1px solid #bbb",
+              border: `1px solid ${C.border}`,
               borderRadius: "2px",
+              transition: "border-color 0.2s",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#1a1a1a")}
-            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#bbb")}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = C.text)}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = C.border)}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="#555">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill={C.textMid}>
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
             </svg>
             Contatta Solair su WhatsApp
