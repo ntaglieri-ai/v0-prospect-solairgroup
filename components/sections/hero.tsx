@@ -67,13 +67,13 @@ export function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/configuratore"
-              className="btn-outline-white"
+              className="btn-outline-white w-full sm:w-64 text-center"
             >
-              Configura e Ordina il tuo Impianto
+              Configura e Ordina
             </a>
             <button
               onClick={() => setIsContactOpen(true)}
-              className="btn-outline-white"
+              className="btn-outline-white w-full sm:w-64"
             >
               Contatta Solair
             </button>
