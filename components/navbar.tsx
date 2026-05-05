@@ -29,7 +29,7 @@ export function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? "bg-white border-b border-[#E8E8E8]" 
+          ? "bg-white border-b border-[#d0d6da]" 
           : "bg-transparent"
       }`}
     >
@@ -39,7 +39,7 @@ export function Navbar() {
           <Link 
             href="/" 
             className={`font-heading text-sm font-normal tracking-[0.2em] transition-colors duration-300 ${
-              isScrolled ? "text-[#0A0A0A]" : "text-white"
+              isScrolled ? "text-[#1e3a5f]" : "text-white"
             }`}
           >
             SOLAIR GROUP
@@ -53,7 +53,7 @@ export function Navbar() {
                 href={link.href}
                 className={`overline transition-colors duration-300 ${
                   isScrolled 
-                    ? "text-[#0A0A0A] hover:text-[#6B6B6B]" 
+                    ? "text-[#1e3a5f] hover:text-[#2e8b72]" 
                     : "text-white/90 hover:text-white"
                 }`}
               >
@@ -64,8 +64,8 @@ export function Navbar() {
               href="/configuratore"
               className={`overline px-5 py-2 border transition-all duration-300 ${
                 isScrolled 
-                  ? "border-[#0A0A0A] text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white" 
-                  : "border-white/85 text-white hover:bg-white hover:text-[#0A0A0A]"
+                  ? "border-[#1e3a5f] text-[#1e3a5f] hover:bg-[#1e3a5f] hover:text-white" 
+                  : "border-white/85 text-white hover:bg-white hover:text-[#1e3a5f]"
               }`}
             >
               Configuratore
@@ -78,7 +78,7 @@ export function Navbar() {
               href="/configuratore"
               className={`overline px-4 py-2 border transition-all duration-300 ${
                 isScrolled 
-                  ? "border-[#0A0A0A] text-[#0A0A0A]" 
+                  ? "border-[#1e3a5f] text-[#1e3a5f]" 
                   : "border-white/85 text-white"
               }`}
             >
@@ -86,7 +86,7 @@ export function Navbar() {
             </Link>
             <button
               className={`p-2 transition-colors duration-300 ${
-                isScrolled ? "text-[#0A0A0A]" : "text-white"
+                isScrolled ? "text-[#1e3a5f]" : "text-white"
               }`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Chiudi menu" : "Apri menu"}
@@ -98,13 +98,13 @@ export function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-white border-b border-[#E8E8E8]">
+          <div className="lg:hidden absolute top-full left-0 right-0 bg-white border-b border-[#d0d6da]">
             <div className="flex flex-col py-6 px-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="overline text-[#0A0A0A] py-3 border-b border-[#E8E8E8] last:border-0"
+                  className="overline text-[#1e3a5f] py-3 border-b border-[#d0d6da] last:border-0"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}

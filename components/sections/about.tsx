@@ -4,7 +4,7 @@ import Image from "next/image"
 
 export function AboutSection() {
   return (
-    <section id="chi-siamo" className="relative min-h-screen bg-[#E8E8E8] flex items-center mb-0 md:mb-[50px]">
+    <section id="chi-siamo" className="relative min-h-screen bg-[#f4f6f7] flex items-center mb-0 md:mb-[50px]">
       {/* Mobile: Full background image with overlay */}
       <div className="absolute inset-0 md:hidden">
         <Image
@@ -33,35 +33,35 @@ export function AboutSection() {
         </div>
 
         {/* Right - Text with padding 80px, centered vertically */}
-        <div className="flex items-center py-[100px] px-8 lg:px-20 md:bg-[#E8E8E8]">
+        <div className="flex items-center py-[100px] px-8 lg:px-20 md:bg-[#f4f6f7]">
           <div className="max-w-lg">
-            <p className="overline mb-4 text-[#6B6B6B] mobile-text-pearl-70">
+            <p className="overline mb-4 text-[#8a9aaa] mobile-text-pearl-70">
               Chi Siamo
             </p>
 
-            <h2 className="font-heading mb-6 text-[#0A0A0A] mobile-text-pearl">
+            <h2 className="font-heading mb-6 text-[#1e3a5f] mobile-text-pearl">
               L&apos;energia pulita, finalmente accessibile
             </h2>
 
-            <p className="body-text mb-10 mobile-text-pearl-85">
+            <p className="body-text mb-10 text-[#4a6080] mobile-text-pearl-85">
               Solair Group e il partner di fiducia per il fotovoltaico in Italia. 
               Installiamo impianti chiavi in mano con assistenza completa: dalla progettazione 
               alle pratiche GSE, dal monitoraggio remoto alla manutenzione.
             </p>
 
             {/* Stats with vertical dividers */}
-            <div className="flex items-center gap-0 pt-8 border-t border-[#E8E8E8] mobile-border-pearl-20">
+            <div className="flex items-center gap-0 pt-8 border-t border-[#d0d6da] mobile-border-pearl-20">
               <div className="pr-8">
-                <p className="font-heading text-[2.5rem] text-[#0A0A0A] mobile-text-pearl">500+</p>
-                <p className="overline mt-1 text-[#6B6B6B] mobile-text-pearl-70">Impianti</p>
+                <p className="font-heading text-[2.5rem] text-[#1e3a5f] mobile-text-pearl">500+</p>
+                <p className="overline mt-1 text-[#8a9aaa] mobile-text-pearl-70">Impianti</p>
               </div>
-              <div className="border-l border-[#E8E8E8] mobile-border-pearl-20 px-8">
-                <p className="font-heading text-[2.5rem] text-[#0A0A0A] mobile-text-pearl">4</p>
-                <p className="overline mt-1 text-[#6B6B6B] mobile-text-pearl-70">Sedi</p>
+              <div className="border-l border-[#d0d6da] mobile-border-pearl-20 px-8">
+                <p className="font-heading text-[2.5rem] text-[#1e3a5f] mobile-text-pearl">4</p>
+                <p className="overline mt-1 text-[#8a9aaa] mobile-text-pearl-70">Sedi</p>
               </div>
-              <div className="border-l border-[#E8E8E8] mobile-border-pearl-20 pl-8">
-                <p className="font-heading text-[2.5rem] text-[#0A0A0A] mobile-text-pearl">98%</p>
-                <p className="overline mt-1 text-[#6B6B6B] mobile-text-pearl-70">Soddisfatti</p>
+              <div className="border-l border-[#d0d6da] mobile-border-pearl-20 pl-8">
+                <p className="font-heading text-[2.5rem] text-[#1e3a5f] mobile-text-pearl">98%</p>
+                <p className="overline mt-1 text-[#8a9aaa] mobile-text-pearl-70">Soddisfatti</p>
               </div>
             </div>
           </div>

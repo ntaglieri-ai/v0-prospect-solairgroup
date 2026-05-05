@@ -38,15 +38,15 @@ export function CERIncentiveSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <p className="text-[10px] tracking-[0.4em] uppercase text-[#0A0A0A]/50 mb-6 font-light">
+          <p className="text-[10px] tracking-[0.4em] uppercase text-[#8a9aaa] mb-6 font-light">
             Incentivi CER
           </p>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[var(--font-display)] font-light text-[#0A0A0A] leading-[1.15] mb-6">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[var(--font-display)] font-light text-[#1e3a5f] leading-[1.15] mb-6">
             Massimizza i tuoi
             <br />
             <span className="font-normal">guadagni</span>
           </h2>
-          <p className="text-base text-[#0A0A0A]/50 max-w-xl mx-auto font-light">
+          <p className="text-base text-[#4a6080] max-w-xl mx-auto font-light">
             Scopri come ottenere il massimo dal tuo impianto con le comunita energetiche
           </p>
         </motion.div>
@@ -61,19 +61,19 @@ export function CERIncentiveSection() {
               transition={{ duration: 0.6, delay: index * 0.15 }}
               className="flex items-center"
             >
-              <div className="bg-[#F9F9F7] border border-[#0A0A0A]/10 p-10 text-center min-w-[280px] group hover:border-[#0A0A0A]/30 transition-all duration-500">
-                <div className="w-12 h-12 border border-[#0A0A0A]/20 flex items-center justify-center mx-auto mb-6 group-hover:bg-[#0A0A0A] group-hover:border-[#0A0A0A] transition-all duration-500">
-                  <step.icon className="h-5 w-5 text-[#0A0A0A] group-hover:text-white transition-all duration-500" />
+              <div className="bg-[#eaecee] border border-[#d0d6da] p-10 text-center min-w-[280px] group hover:border-[#1e3a5f] transition-all duration-500">
+                <div className="w-12 h-12 border border-[#d0d6da] flex items-center justify-center mx-auto mb-6 group-hover:bg-[#1e3a5f] group-hover:border-[#1e3a5f] transition-all duration-500">
+                  <step.icon className="h-5 w-5 text-[#1e3a5f] group-hover:text-white transition-all duration-500" />
                 </div>
-                <h3 className="font-[var(--font-display)] text-[#0A0A0A] mb-3">{step.title}</h3>
-                <p className="text-2xl font-[var(--font-display)] font-light text-[#0A0A0A] mb-2">{step.value}</p>
-                <span className="text-[9px] tracking-[0.2em] uppercase text-[#0A0A0A]/40 font-light">
+                <h3 className="font-[var(--font-display)] text-[#1e3a5f] mb-3">{step.title}</h3>
+                <p className="text-2xl font-[var(--font-display)] font-light text-[#1e3a5f] mb-2">{step.value}</p>
+                <span className="text-[9px] tracking-[0.2em] uppercase text-[#8a9aaa] font-light">
                   {step.label}
                 </span>
               </div>
               
               {index < flowSteps.length - 1 && (
-                <ArrowRight className="h-6 w-6 text-[#0A0A0A]/20 mx-4 hidden lg:block" />
+                <ArrowRight className="h-6 w-6 text-[#d0d6da] mx-4 hidden lg:block" />
               )}
             </motion.div>
           ))}

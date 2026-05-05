@@ -76,20 +76,22 @@ const incentivi = [
   },
 ];
 
-// ── palette ──────────────────────────────────────────────
+// ── palette Solair Group ──────────────────────────────────
 const C = {
-  bg:        "#E8E8E8",   // sfondo uniforme sezione
-  bgCard:    "#d8dbde",   // cards standard
-  bgCardHl:  "#cdd1d5",   // card highlight
-  bgCta:     "#E8E8E8",   // stesso sfondo della sezione
-  border:    "#c4c8cc",   // separatori
-  text:      "#1c1f22",   // testo primario
-  textMid:   "#4a5058",   // testo secondario
-  textMuted: "#8a9099",   // label, didascalie
-  tag:       "#c4c8cc",   // pill tag bg
-  tagText:   "#4a5058",
-  btn:       "#1c1f22",
+  bg:        "#f4f6f7",   // background principale
+  bgCard:    "#eaecee",   // cards standard
+  bgCardHl:  "#e0e4e7",   // card highlight
+  bgCta:     "#f4f6f7",   // stesso sfondo della sezione
+  border:    "#d0d6da",   // separatori
+  text:      "#1e3a5f",   // testo primario (navy)
+  textMid:   "#4a6080",   // testo secondario
+  textMuted: "#8a9aaa",   // label, didascalie
+  tag:       "#d0d6da",   // pill tag bg
+  tagText:   "#4a6080",
+  btn:       "#1e3a5f",   // button primario (navy)
   btnText:   "#ffffff",
+  accent:    "#2e8b72",   // accento CTA (teal)
+  accentHover: "#226b57", // accento hover
 };
 
 const WHATSAPP_URL =

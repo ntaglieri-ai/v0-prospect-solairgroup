@@ -44,23 +44,23 @@ export function TestimonialsSection() {
   const prev = () => setCurrentIndex((prev) => Math.max(prev - 1, 0))
 
   return (
-    <section id="recensioni" className="relative min-h-[60vh] py-[100px] bg-[#E8E8E8] flex items-center mb-0 md:mb-[50px]">
+    <section id="recensioni" className="relative min-h-[60vh] py-[100px] bg-[#f4f6f7] flex items-center mb-0 md:mb-[50px]">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
         {/* Header */}
         <div className="text-center mb-16">
-          <p className="overline text-[#6B6B6B] mb-4">Testimonianze</p>
-          <h2 className="font-heading text-[#0A0A0A] mb-8">
+          <p className="overline text-[#8a9aaa] mb-4">Testimonianze</p>
+          <h2 className="font-heading text-[#1e3a5f] mb-8">
             Cosa dicono i nostri clienti
           </h2>
           
           {/* Badge */}
-          <div className="inline-flex items-center gap-3 px-6 py-3 border border-[#E8E8E8] bg-white">
-            <span className="overline text-[#6B6B6B]">Eccellente</span>
-            <span className="text-[#E8E8E8]">·</span>
-            <span className="text-[11px] text-[#6B6B6B]">99 recensioni Google</span>
+          <div className="inline-flex items-center gap-3 px-6 py-3 border border-[#d0d6da] bg-white">
+            <span className="overline text-[#8a9aaa]">Eccellente</span>
+            <span className="text-[#d0d6da]">·</span>
+            <span className="text-[11px] text-[#8a9aaa]">99 recensioni Google</span>
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-3 w-3 fill-[#0A0A0A] text-[#0A0A0A]" />
+                <Star key={i} className="h-3 w-3 fill-[#2e8b72] text-[#2e8b72]" />
               ))}
             </div>
           </div>
@@ -78,16 +78,16 @@ export function TestimonialsSection() {
                   key={index}
                   className={`flex-shrink-0 ${isMobile ? "w-full" : "w-[calc(33.333%-1rem)]"}`}
                 >
-                  <div className="bg-white border border-[#E8E8E8] p-10 h-full">
+                  <div className="bg-white border border-[#d0d6da] p-10 h-full">
                     <div className="flex gap-0.5 mb-6">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-[#0A0A0A] text-[#0A0A0A]" />
+                        <Star key={i} className="h-4 w-4 fill-[#2e8b72] text-[#2e8b72]" />
                       ))}
                     </div>
-                    <p className="text-[#0A0A0A] text-sm leading-relaxed mb-8 font-light">
+                    <p className="text-[#1e3a5f] text-sm leading-relaxed mb-8 font-light">
                       &quot;{testimonial.text}&quot;
                     </p>
-                    <p className="overline text-[#6B6B6B]">
+                    <p className="overline text-[#8a9aaa]">
                       {testimonial.name}
                     </p>
                   </div>
@@ -100,7 +100,7 @@ export function TestimonialsSection() {
           <button
             onClick={prev}
             disabled={currentIndex === 0}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 border border-[#E8E8E8] flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#0A0A0A] hover:text-white hover:border-[#0A0A0A] transition-all duration-300 text-[#0A0A0A] bg-white"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 border border-[#d0d6da] flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#1e3a5f] hover:text-white hover:border-[#1e3a5f] transition-all duration-300 text-[#1e3a5f] bg-white"
             aria-label="Recensione precedente"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -108,7 +108,7 @@ export function TestimonialsSection() {
           <button
             onClick={next}
             disabled={currentIndex >= maxIndex}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 border border-[#E8E8E8] flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#0A0A0A] hover:text-white hover:border-[#0A0A0A] transition-all duration-300 text-[#0A0A0A] bg-white"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 border border-[#d0d6da] flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#1e3a5f] hover:text-white hover:border-[#1e3a5f] transition-all duration-300 text-[#1e3a5f] bg-white"
             aria-label="Recensione successiva"
           >
             <ChevronRight className="h-4 w-4" />

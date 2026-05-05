@@ -21,11 +21,11 @@ export function HeroSection() {
             type="video/mp4"
           />
         </video>
-        {/* Gradient overlay that fades to white */}
+        {/* Gradient overlay that fades to background */}
         <div 
           className="absolute inset-0" 
           style={{
-            background: "linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 60%, rgba(232,232,232,1) 100%)"
+            background: "linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 60%, rgba(244,246,247,1) 100%)"
           }}
         />
       </div>
