@@ -6,7 +6,7 @@ import { PortfolioSlideshow } from "@/components/sections/portfolio-slideshow"
 import { SolairCERSection } from "@/components/sections/solair-cer"
 import { TestimonialsSection } from "@/components/sections/testimonials"
 import { PackagesSection } from "@/components/sections/packages"
-import { ProjectsSection } from "@/components/sections/projects"
+
 import { IncentivesFormSection } from "@/components/sections/incentives-form"
 import { MapSection } from "@/components/sections/map"
 import { Footer } from "@/components/footer"
@@ -23,8 +23,6 @@ export default function Home() {
         <SolairCERSection />
         <TestimonialsSection />
         <PackagesSection />
-        <ProjectsSection />
-        
         <IncentivesFormSection />
         <MapSection />
       </main>
