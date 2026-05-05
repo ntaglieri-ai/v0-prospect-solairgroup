@@ -5,28 +5,28 @@ import Image from "next/image"
 
 const portfolioSlides = [
   {
-    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1400&q=90",
-    alt: "Impianto fotovoltaico residenziale su villa moderna",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-05-05%20at%2012.47.34%20%282%29-Xqge444QaRZ9vSZXk0pECwAqTJrw91.jpeg",
+    alt: "Pannelli solari su tetto piano con vista su paese siciliano e montagne",
   },
   {
-    image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1400&q=90",
-    alt: "Pannelli solari su tetti di quartiere residenziale",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-05-05%20at%2012.47.33-B07J5R5jJuzKTIi4ACCR6KncWOuS1w.jpeg",
+    alt: "Impianto fotovoltaico a terra su struttura metallica in campagna con colline",
   },
   {
-    image: "https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?w=1400&q=90",
-    alt: "Impianto fotovoltaico industriale su capannone",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-05-05%20at%2012.47.34-rbliXLBYWrDvmtNOoTfn4aFo4DhGnw.jpeg",
+    alt: "Pannelli solari su tetto con vista su porto turistico e citta costiera",
   },
   {
-    image: "https://images.unsplash.com/photo-1566093097221-ac2335b09e70?w=1400&q=90",
-    alt: "Dettaglio installazione pannelli solari",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-05-05%20at%2012.47.34%20%283%29-naERKcsKNPKnIVC9zlQGrn45dnn2Mh.jpeg",
+    alt: "Pannelli solari su tetto in tegole rosse con vista su colline verdi e montagne",
   },
   {
-    image: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1400&q=90",
-    alt: "Campo fotovoltaico con pannelli in serie",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-05-05%20at%2012.47.34%20%281%29-rFf14zFe1V2g4i9JIi83zH8OfnMaAH.jpeg",
+    alt: "Villa moderna con piscina infinity di notte con pannelli solari sul tetto",
   },
   {
-    image: "https://images.unsplash.com/photo-1592833159155-c62df1b65634?w=1400&q=90",
-    alt: "Pannelli solari su tetto con cielo azzurro",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-05-05%20at%2012.47.34%20%284%29-QknYucyOPuBdn0IcHB14cGgfTATtld.jpeg",
+    alt: "Pannelli solari su tetto in tegole con vista su quartiere residenziale e montagna",
   },
 ]
 
