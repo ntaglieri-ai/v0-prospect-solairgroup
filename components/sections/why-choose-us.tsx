@@ -7,8 +7,8 @@ const services = [
     overline: "Installazione",
     title: "Installazione Fotovoltaico Chiavi in Mano",
     description: "Dalla consulenza iniziale all'allaccio in rete: gestiamo ogni fase dell'installazione, incluse le pratiche burocratiche e gli incentivi fiscali.",
-    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1400&q=90",
-    alt: "Installatori professionisti montano pannelli fotovoltaici su tetto residenziale",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-05-05%20at%2010.06.47-UX922PTtbvn2fUcjSvYp3QCeC8GZ3E.jpeg",
+    alt: "Villa moderna con pannelli solari sul tetto affacciata sul mare",
   },
   {
     overline: "Team",
