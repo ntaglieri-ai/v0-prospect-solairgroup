@@ -28,8 +28,8 @@ const services = [
     overline: "Comunita",
     title: "Comunita Energetica Rinnovabile",
     description: "Entra nella nostra Comunita Energetica Rinnovabile e condividi l'energia prodotta con altri membri, ottenendo incentivi aggiuntivi fino al 40%.",
-    image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1400&q=90",
-    alt: "Quartiere residenziale con pannelli solari sui tetti visto dall'alto",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/pexels-marianne-rixhon-10955129-6233727-YAP3fpLluE6D0JEQo1wxIicKGa6NPi.jpg",
+    alt: "Quartiere residenziale europeo con pannelli solari sui tetti al tramonto",
   },
   
   {
