@@ -9,12 +9,12 @@ const locations = [
 
 export function MapSection() {
   return (
-    <section className="bg-[#E8E8E8] mb-[50px]">
-      <div className="grid lg:grid-cols-[55%_45%] min-h-[500px]">
+    <section className="bg-[#E8E8E8] mb-[25px]">
+      <div className="grid lg:grid-cols-[55%_45%] min-h-[450px]">
         {/* Google Maps - Left 55% */}
-        <div className="relative h-[400px] lg:h-auto lg:min-h-[500px]">
+        <div className="relative h-[350px] lg:h-auto lg:min-h-[450px]">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2897447!2d12.5!3d42.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDLCsDMwJzAwLjAiTiAxMsKwMzAnMDAuMCJF!5e0!3m2!1sit!2sit!4v1234567890"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3100000!2d12.5!3d42.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d4fe82448dd2b5%3A0x2ba0ffb49bc78c39!2sItalia!5e0!3m2!1sit!2sit!4v1699000000000"
             width="100%"
             height="100%"
             style={{ border: 0 }}
@@ -27,7 +27,7 @@ export function MapSection() {
         </div>
 
         {/* Content - Right 45% */}
-        <div className="flex flex-col justify-center px-8 lg:px-16 py-16 lg:py-20">
+        <div className="flex flex-col justify-center px-8 lg:px-16 py-10 lg:py-12">
           {/* Header */}
           <div className="mb-12">
             <p className="overline text-[#6B6B6B] mb-4">Sedi</p>
