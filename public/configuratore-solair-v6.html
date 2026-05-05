@@ -709,7 +709,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 <!-- STEP 2: TAGLIA (kWp + kWh) -->
 <div class="section" id="s1">
   <h2 class="section-title">Scegli la taglia</h2>
-  <p class="section-sub" id="s1_sub">Seleziona potenza e capacità batteria disponibili per la tua linea.</p>
+  <p class="section-sub" id="s1_sub">Seleziona la potenza. L'accumulo è opzionale — puoi aggiungerlo ora o in seguito.</p>
 
   <div class="step-selector">
     <div class="step-selector-label">Potenza pannelli (kWp)</div>
@@ -717,7 +717,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
   </div>
 
   <div class="step-selector">
-    <div class="step-selector-label">Capacità batteria (kWh)</div>
+    <div class="step-selector-label">Capacità batteria (kWh) <span style="font-size:11px;color:var(--muted);font-weight:400;">— opzionale</span></div>
     <div class="step-buttons" id="kwh_buttons"></div>
   </div>
 
@@ -1310,11 +1310,20 @@ function goTo(n) {
 
 // ─── STEP 1: LINEA ───
 function scegliLinea(linea) {
+  if (state.linea === linea) {
+    // deseleziona
+    state.linea = null;
+    state.kwp = null;
+    state.kwh = null;
+    state.prezzoBase = 0;
+    document.querySelectorAll('.linea-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('btn-s0').disabled = true;
+    return;
+  }
   state.linea = linea;
   state.kwp = null;
   state.kwh = null;
   state.prezzoBase = 0;
-
   document.querySelectorAll('.linea-card').forEach(c => c.classList.remove('selected'));
   document.getElementById('card_' + linea).classList.add('selected');
   document.getElementById('btn-s0').disabled = false;
@@ -1333,7 +1342,19 @@ function renderTaglia() {
     const btn = document.createElement('button');
     btn.className = 'step-btn' + (state.kwp === kw ? ' selected' : '');
     btn.textContent = kw + ' kWp';
-    btn.onclick = () => { state.kwp = kw; renderPrezzo(); renderKwpButtons(); };
+    btn.onclick = () => {
+      if (state.kwp === kw) {
+        // deseleziona
+        state.kwp = null;
+        state.prezzoBase = 0;
+        document.getElementById('prezzo_taglia').style.display = 'none';
+        document.getElementById('btn-s1').disabled = true;
+      } else {
+        state.kwp = kw;
+      }
+      renderPrezzo();
+      renderKwpButtons();
+    };
     kwpContainer.appendChild(btn);
   });
 
@@ -1344,7 +1365,19 @@ function renderTaglia() {
     const btn = document.createElement('button');
     btn.className = 'step-btn' + (state.kwh === kh ? ' selected' : '');
     btn.textContent = kh + ' kWh';
-    btn.onclick = () => { state.kwh = kh; renderPrezzo(); renderKwhButtons(); };
+    btn.onclick = () => {
+      if (state.kwh === kh) {
+        // deseleziona
+        state.kwh = null;
+        state.prezzoBase = 0;
+        document.getElementById('prezzo_taglia').style.display = 'none';
+        document.getElementById('btn-s1').disabled = true;
+      } else {
+        state.kwh = kh;
+      }
+      renderPrezzo();
+      renderKwhButtons();
+    };
     kwhContainer.appendChild(btn);
   });
 }
@@ -1362,13 +1395,32 @@ function renderKwhButtons() {
 }
 
 function renderPrezzo() {
-  if (state.kwp && state.kwh) {
+  if (!state.kwp) {
+    document.getElementById('prezzo_taglia').style.display = 'none';
+    document.getElementById('btn-s1').disabled = true;
+    return;
+  }
+  if (state.kwh) {
+    // Con accumulo: prezzo da tabella
     const prezzo = PREZZI[state.linea][state.kwp][state.kwh];
     if (prezzo) {
       state.prezzoBase = prezzo;
       document.getElementById('pb_prezzo').textContent = '€ ' + prezzo.toLocaleString('it-IT');
       document.getElementById('prezzo_taglia').style.display = 'block';
       document.getElementById('btn-s1').disabled = false;
+    }
+  } else {
+    // Senza accumulo: prezzo solo fotovoltaico dal listino monofase
+    const PREZZI_SOLO_FV = { 3:5290, 4:6000, 5:6590, 6:7290, 7:7890, 8:8490, 9:8990 };
+    const prezzo = PREZZI_SOLO_FV[state.kwp];
+    if (prezzo) {
+      state.prezzoBase = prezzo;
+      document.getElementById('pb_prezzo').textContent = '€ ' + prezzo.toLocaleString('it-IT') + ' <span style="font-size:12px;color:var(--muted);">— senza accumulo</span>';
+      document.getElementById('prezzo_taglia').style.display = 'block';
+      document.getElementById('btn-s1').disabled = false;
+    } else {
+      document.getElementById('prezzo_taglia').style.display = 'none';
+      document.getElementById('btn-s1').disabled = false; // kWp scelto basta per andare avanti
     }
   }
 }
@@ -1383,6 +1435,18 @@ window.goTo = function(n) {
 
 // ─── STEP 3: TETTO ───
 function scegliTetto(tipo) {
+  if (state.tetto === tipo) {
+    // deseleziona
+    state.tetto = null;
+    state.extraZavorre = 0;
+    state.prezzoTotale = state.prezzoBase;
+    ['piano','falde','vento'].forEach(t => {
+      document.getElementById('tetto_' + t).classList.remove('selected');
+    });
+    document.getElementById('prezzo_tetto_box').style.display = 'none';
+    document.getElementById('btn-s2').disabled = true;
+    return;
+  }
   state.tetto = tipo;
   ['piano','falde','vento'].forEach(t => {
     document.getElementById('tetto_' + t).classList.toggle('selected', t === tipo);
@@ -1413,6 +1477,13 @@ function renderTettoPrezzo() {
 
 // ─── STEP 4: PANNELLI ───
 function selectPannello(el) {
+  if (el.classList.contains('selected')) {
+    // deseleziona
+    el.classList.remove('selected');
+    state.pannello = null;
+    document.getElementById('btn-s3').disabled = true;
+    return;
+  }
   document.querySelectorAll('.pannello-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
   state.pannello = el.querySelector('.p-brand').textContent + ' ' + el.querySelector('.p-model').textContent;
@@ -1432,7 +1503,7 @@ function goToRiepilogo() {
   const LINEE_LABEL = { smart: 'Smart One', power: 'Power Plus', premium: 'Premium Top' };
   document.getElementById('r_linea').textContent = LINEE_LABEL[state.linea] || '–';
   document.getElementById('r_potenza').textContent = state.kwp + ' kWp';
-  document.getElementById('r_accumulo').textContent = state.kwh + ' kWh';
+  document.getElementById('r_accumulo').textContent = state.kwh ? state.kwh + ' kWh' : 'Non incluso';
   document.getElementById('r_pannelli').textContent = state.pannello || '–';
   document.getElementById('r_tetto').textContent = ZAVORRE_LABEL[state.tetto] || '–';
   if (state.extraZavorre > 0) {
@@ -1599,7 +1670,7 @@ async function inviaRichiesta() {
     data_firma_cliente: '',
     linea: LINEE_LABEL[state.linea] || state.linea,
     potenza: state.kwp,
-    accumulo_kwh: state.kwh,
+    accumulo_kwh: state.kwh || 'Non incluso',
     pannello: state.pannello,
     tipo_tetto: ZAVORRE_LABEL[state.tetto],
     extra_zavorre: state.extraZavorre,
