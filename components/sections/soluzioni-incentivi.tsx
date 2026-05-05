@@ -146,7 +146,7 @@ export function SoluzioniIncentiviSection() {
       }}
     >
       {/* ── HEADER ── */}
-      <div style={{ textAlign: "center", padding: "96px 24px 72px" }}>
+      <div style={{ textAlign: "center", padding: "48px 24px 72px" }}>
         <p
           style={{
             fontSize: "11px",
