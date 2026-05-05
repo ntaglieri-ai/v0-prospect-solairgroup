@@ -4,88 +4,102 @@ import { useState } from "react";
 
 const pacchetti = [
   {
-    id: "base",
-    nome: "Residenziale Base",
-    sottotitolo: "Ideale per abitazioni fino a 100mq",
-    features: [
-      "3.0 kWp di potenza",
-      "Pannelli monocristallini",
-      "Inverter di qualità",
-      "Monitoraggio base",
-    ],
-    risparmio: "fino a 500 €/anno",
+    id: "smart",
+    linea: "Smart One",
+    sottotitolo: "La soluzione d'ingresso per chi vuole produrre energia in modo semplice ed efficace.",
+    badge: null,
     highlight: false,
+    features: [
+      "Pannelli monocristallini ad alta efficienza",
+      "Inverter Solis con accumulo bassa tensione",
+      "Batterie V-TAC LiFePo",
+      "10 anni di garanzia",
+      "Monitoraggio remoto incluso",
+      "Ingresso Solair CER",
+    ],
+    garanzia: "10 anni",
+    ip: "IP20",
+    eps: false,
   },
   {
     id: "plus",
-    nome: "Residenziale Plus",
-    sottotitolo: "Per chi vuole massimizzare l'autoconsumo",
-    features: [
-      "6.0 kWp di potenza",
-      "Accumulo 5kWh",
-      "Monitoraggio avanzato",
-      "Ottimizzatori",
-    ],
-    risparmio: "fino a 800 €/anno",
+    linea: "Power Plus",
+    sottotitolo: "Alta tensione, protezione anti-blackout e brand leader mondiale. Il nostro più venduto.",
+    badge: "Più scelto",
     highlight: true,
+    features: [
+      "Pannelli LONGi / Trina Solar / Qcells",
+      "Inverter Sineng ibrido monofase",
+      "Batterie Sineng alta tensione IP65",
+      "12 anni di garanzia",
+      "EPS anti-blackout incluso",
+      "Ingresso Solair CER",
+    ],
+    garanzia: "12 anni",
+    ip: "IP65",
+    eps: true,
   },
   {
-    id: "business",
-    nome: "Business Premium",
-    sottotitolo: "Soluzioni per aziende",
-    features: [
-      "Da 10 a 100+ kWp",
-      "Progettazione custom",
-      "Monitoraggio enterprise",
-      "Manutenzione dedicata",
-    ],
-    risparmio: "calcolato su misura",
+    id: "premium",
+    linea: "Premium Top",
+    sottotitolo: "Il massimo dell'accumulo con BYD Battery-Box HVE: la batteria più sottile e affidabile sul mercato.",
+    badge: null,
     highlight: false,
+    features: [
+      "Pannelli monocristallini premium",
+      "Inverter BYD Power-Box ibrido",
+      "BYD Battery-Box HVE alta tensione",
+      "15 anni di garanzia",
+      "80% capacità garantita al 10° anno",
+      "EPS anti-blackout incluso",
+      "Ingresso Solair CER",
+    ],
+    garanzia: "15 anni",
+    ip: "IP65",
+    eps: true,
   },
 ];
 
 const incentivi = [
   {
-    codice: "50%",
+    valore: "50%",
     titolo: "Detrazione IRPEF",
-    descrizione: "Recupera metà del costo in 10 anni sulla dichiarazione dei redditi.",
+    descrizione: "Recupera metà del costo in 10 anni sulla dichiarazione dei redditi per installazioni residenziali.",
   },
   {
-    codice: "GSE",
+    valore: "GSE",
     titolo: "Conto Energia",
-    descrizione: "Incentivo statale per l'energia immessa in rete dal tuo impianto.",
+    descrizione: "Incentivo statale per l'energia immessa in rete: il tuo impianto genera valore anche quando non consumi.",
   },
   {
-    codice: "40%",
+    valore: "40%",
     titolo: "PNRR Fondo perduto",
-    descrizione: "Contributo a fondo perduto per imprese e pubblica amministrazione.",
+    descrizione: "Contributo a fondo perduto fino al 40% per imprese e pubblica amministrazione tramite bandi PNRR.",
   },
 ];
 
 const WHATSAPP_URL =
-  "https://wa.me/393497988101?text=Ciao%2C%20vorrei%20informazioni%20sui%20pannelli%20solari";
+  "https://wa.me/393497988101?text=Ciao%2C%20vorrei%20informazioni%20sui%20pannelli%20solari%20Solair";
 const CONFIGURATORE_URL = "/configuratore";
 
 export function SoluzioniIncentiviSection() {
-  const [hoverCard, setHoverCard] = useState<string | null>(null);
-
   return (
     <section
       id="soluzioni"
       style={{
-        background: "#f0ede8",
-        padding: "100px 0 0",
+        background: "#e8e5e0",
         fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+        color: "#1a1a1a",
       }}
     >
-      {/* Header */}
-      <div style={{ textAlign: "center", padding: "0 24px 64px" }}>
+      {/* HEADER */}
+      <div style={{ textAlign: "center", padding: "96px 24px 72px" }}>
         <p
           style={{
             fontSize: "11px",
             letterSpacing: "0.14em",
             textTransform: "uppercase",
-            color: "#999",
+            color: "#aaa",
             marginBottom: "16px",
           }}
         >
@@ -93,282 +107,299 @@ export function SoluzioniIncentiviSection() {
         </p>
         <h2
           style={{
-            fontSize: "clamp(36px, 5vw, 64px)",
+            fontSize: "clamp(38px, 5vw, 64px)",
             fontWeight: 300,
-            color: "#1a1a1a",
             lineHeight: 1.1,
             marginBottom: "20px",
+            letterSpacing: "-0.01em",
           }}
         >
           I nostri pacchetti
         </h2>
-        <p style={{ fontSize: "16px", color: "#777", maxWidth: "480px", margin: "0 auto" }}>
-          Non sai quale soluzione fa per te? Usa il nostro configuratore.
+        <p
+          style={{
+            fontSize: "15px",
+            color: "#888",
+            maxWidth: "460px",
+            margin: "0 auto",
+            lineHeight: 1.6,
+          }}
+        >
+          Tre linee di impianto fotovoltaico con accumulo, chiavi in mano.
+          Tutte includono progettazione, installazione e pratiche GSE.
         </p>
       </div>
 
-      {/* Cards */}
+      {/* CARDS */}
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "0",
-          maxWidth: "1100px",
+          maxWidth: "1120px",
           margin: "0 auto",
           padding: "0 24px",
-          alignItems: "end",
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "2px",
         }}
         className="cards-grid"
       >
         {pacchetti.map((p) => (
           <div
             key={p.id}
-            onMouseEnter={() => setHoverCard(p.id)}
-            onMouseLeave={() => setHoverCard(null)}
             style={{
-              background: p.highlight ? "#1a1a1a" : "white",
-              color: p.highlight ? "white" : "#1a1a1a",
-              padding: p.highlight ? "48px 36px 40px" : "36px 36px 32px",
-              borderRadius: "4px 4px 0 0",
-              transition: "transform 0.25s ease",
-              transform: hoverCard === p.id && !p.highlight ? "translateY(-4px)" : "none",
+              background: p.highlight ? "#d4d0c8" : "#dedad4",
+              padding: "40px 32px 36px",
               position: "relative",
-              marginTop: p.highlight ? "0" : "24px",
+              borderTop: p.highlight ? "2px solid #1a1a1a" : "2px solid transparent",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
-            {p.highlight && (
-              <div
+            {p.badge && (
+              <span
                 style={{
                   position: "absolute",
-                  top: "16px",
+                  top: "20px",
                   right: "20px",
                   fontSize: "10px",
-                  letterSpacing: "0.12em",
+                  letterSpacing: "0.1em",
                   textTransform: "uppercase",
-                  color: "#f5881f",
+                  color: "#888",
+                  border: "1px solid #bbb",
+                  padding: "3px 8px",
+                  borderRadius: "2px",
                 }}
               >
-                Piu scelto
-              </div>
+                {p.badge}
+              </span>
             )}
 
             <p
               style={{
-                fontSize: "11px",
-                letterSpacing: "0.12em",
+                fontSize: "10px",
+                letterSpacing: "0.14em",
                 textTransform: "uppercase",
-                color: p.highlight ? "#888" : "#bbb",
-                marginBottom: "12px",
+                color: "#aaa",
+                marginBottom: "10px",
               }}
             >
-              {p.id === "business" ? "Business" : "Residenziale"}
+              {p.id === "smart" ? "Linea Base" : p.id === "plus" ? "Linea Intermedia" : "Linea Premium"}
             </p>
 
             <h3
               style={{
-                fontSize: "24px",
+                fontSize: "26px",
                 fontWeight: 400,
-                marginBottom: "8px",
+                marginBottom: "16px",
+                letterSpacing: "-0.01em",
               }}
             >
-              {p.nome.replace("Residenziale ", "").replace("Business ", "")}
+              {p.linea}
             </h3>
 
             <p
               style={{
                 fontSize: "13px",
-                color: p.highlight ? "#aaa" : "#888",
+                color: "#777",
+                lineHeight: 1.6,
                 marginBottom: "28px",
-                minHeight: "36px",
+                minHeight: "60px",
               }}
             >
               {p.sottotitolo}
             </p>
 
-            <ul style={{ listStyle: "none", padding: 0, margin: "0 0 28px" }}>
+            <ul style={{ listStyle: "none", padding: 0, margin: "0 0 28px", flex: 1 }}>
               {p.features.map((f) => (
                 <li
                   key={f}
                   style={{
                     display: "flex",
-                    alignItems: "center",
+                    alignItems: "flex-start",
                     gap: "10px",
-                    fontSize: "14px",
-                    color: p.highlight ? "#ddd" : "#444",
-                    marginBottom: "10px",
+                    fontSize: "13px",
+                    color: "#444",
+                    marginBottom: "9px",
+                    lineHeight: 1.4,
                   }}
                 >
-                  <span
-                    style={{
-                      width: "16px",
-                      height: "16px",
-                      borderRadius: "50%",
-                      background: p.highlight ? "#f5881f" : "#1a1a1a",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                    }}
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    style={{ flexShrink: 0, marginTop: "1px" }}
                   >
-                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none">
-                      <path
-                        d="M1 3L3 5L7 1"
-                        stroke="white"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </span>
+                    <circle cx="7" cy="7" r="6.5" stroke="#bbb" />
+                    <path
+                      d="M4.5 7L6.2 8.8L9.5 5.5"
+                      stroke="#666"
+                      strokeWidth="1.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                   {f}
                 </li>
               ))}
             </ul>
 
-            <p
-              style={{
-                fontSize: "12px",
-                color: p.highlight ? "#f5881f" : "#999",
-                marginBottom: "20px",
-                fontStyle: "italic",
-              }}
-            >
-              Risparmio stimato: {p.risparmio}
-            </p>
+            <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+              {[p.garanzia, p.ip, ...(p.eps ? ["Anti-blackout"] : [])].map((tag) => (
+                <span
+                  key={tag}
+                  style={{
+                    fontSize: "11px",
+                    padding: "4px 10px",
+                    background: "#ccc9c2",
+                    borderRadius: "2px",
+                    color: "#555",
+                    letterSpacing: "0.04em",
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
         ))}
       </div>
 
-      {/* Incentivi strip */}
+      {/* INCENTIVI */}
       <div
         id="incentivi"
         style={{
-          background: "#1a1a1a",
-          padding: "56px 40px",
+          maxWidth: "1120px",
+          margin: "60px auto 0",
+          padding: "80px 24px",
+          display: "grid",
+          gridTemplateColumns: "1fr 2fr",
+          gap: "80px",
+          alignItems: "start",
+          borderTop: "1px solid #ccc9c2",
         }}
+        className="incentivi-grid"
       >
+        <div>
+          <p
+            style={{
+              fontSize: "11px",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "#aaa",
+              marginBottom: "16px",
+            }}
+          >
+            Incentivi
+          </p>
+          <h3
+            style={{
+              fontSize: "clamp(26px, 3vw, 38px)",
+              fontWeight: 300,
+              lineHeight: 1.2,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            Riduci il costo
+            <br />
+            del tuo impianto
+          </h3>
+          <p
+            style={{
+              fontSize: "13px",
+              color: "#888",
+              marginTop: "16px",
+              lineHeight: 1.6,
+            }}
+          >
+            Gli incentivi statali possono coprire una parte significativa
+            dell&apos;investimento. I nostri consulenti ti guidano nell&apos;accesso
+            a tutte le agevolazioni disponibili.
+          </p>
+        </div>
+
         <div
           style={{
-            maxWidth: "1100px",
-            margin: "0 auto",
             display: "grid",
-            gridTemplateColumns: "1fr 2fr",
-            gap: "60px",
-            alignItems: "center",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: "40px",
           }}
-          className="incentivi-grid"
+          className="incentivi-items"
         >
-          <div>
-            <p
-              style={{
-                fontSize: "11px",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "#666",
-                marginBottom: "16px",
-              }}
-            >
-              Incentivi
-            </p>
-            <h3
-              style={{
-                fontSize: "clamp(28px, 3vw, 40px)",
-                fontWeight: 300,
-                color: "white",
-                lineHeight: 1.2,
-              }}
-            >
-              Riduci il costo
-              <br />
-              del tuo impianto
-            </h3>
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "32px",
-            }}
-            className="incentivi-items"
-          >
-            {incentivi.map((inc) => (
-              <div key={inc.codice}>
-                <p
-                  style={{
-                    fontSize: "32px",
-                    fontWeight: 300,
-                    color: "#f5881f",
-                    marginBottom: "6px",
-                    lineHeight: 1,
-                  }}
-                >
-                  {inc.codice}
-                </p>
-                <p
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 500,
-                    color: "white",
-                    marginBottom: "8px",
-                  }}
-                >
-                  {inc.titolo}
-                </p>
-                <p style={{ fontSize: "13px", color: "#777", lineHeight: 1.5 }}>
-                  {inc.descrizione}
-                </p>
-              </div>
-            ))}
-          </div>
+          {incentivi.map((inc) => (
+            <div key={inc.valore}>
+              <p
+                style={{
+                  fontSize: "36px",
+                  fontWeight: 300,
+                  color: "#1a1a1a",
+                  marginBottom: "8px",
+                  lineHeight: 1,
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                {inc.valore}
+              </p>
+              <div style={{ width: "24px", height: "1px", background: "#bbb", marginBottom: "12px" }} />
+              <p
+                style={{
+                  fontSize: "13px",
+                  fontWeight: 500,
+                  color: "#333",
+                  marginBottom: "8px",
+                }}
+              >
+                {inc.titolo}
+              </p>
+              <p style={{ fontSize: "12px", color: "#888", lineHeight: 1.6 }}>
+                {inc.descrizione}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* CTA strip */}
+      {/* CTA */}
       <div
         id="contatti"
         style={{
-          background: "#f0ede8",
-          padding: "64px 40px",
-          textAlign: "center",
+          borderTop: "1px solid #ccc9c2",
+          padding: "64px 24px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "32px",
+          background: "#e0ddd7",
         }}
       >
         <p
           style={{
-            fontSize: "15px",
-            color: "#777",
-            marginBottom: "32px",
-            maxWidth: "480px",
-            margin: "0 auto 32px",
+            fontSize: "14px",
+            color: "#888",
+            textAlign: "center",
+            maxWidth: "420px",
+            lineHeight: 1.7,
+            margin: 0,
           }}
         >
-          Scopri quanto puoi risparmiare con il configuratore oppure parla subito
-          con un nostro consulente.
+          Non sai quale linea fa per te? Usa il configuratore per trovare
+          la soluzione giusta, oppure parla direttamente con un nostro consulente.
         </p>
 
-        <div
-          style={{
-            display: "flex",
-            gap: "16px",
-            justifyContent: "center",
-            flexWrap: "wrap",
-          }}
-        >
+        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
           <a
             href={CONFIGURATORE_URL}
             style={{
               display: "inline-block",
-              padding: "16px 36px",
+              padding: "15px 36px",
               background: "#1a1a1a",
               color: "white",
-              fontSize: "12px",
+              fontSize: "11px",
               letterSpacing: "0.12em",
               textTransform: "uppercase",
               textDecoration: "none",
               borderRadius: "2px",
-              transition: "opacity 0.2s",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.8")}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.75")}
             onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
           >
             Configura il tuo impianto
@@ -381,27 +412,21 @@ export function SoluzioniIncentiviSection() {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "10px",
-              padding: "16px 36px",
-              background: "white",
+              gap: "9px",
+              padding: "15px 36px",
+              background: "transparent",
               color: "#1a1a1a",
-              fontSize: "12px",
+              fontSize: "11px",
               letterSpacing: "0.12em",
               textTransform: "uppercase",
               textDecoration: "none",
+              border: "1px solid #bbb",
               borderRadius: "2px",
-              border: "1px solid #ddd",
-              transition: "border-color 0.2s",
             }}
             onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#1a1a1a")}
-            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#ddd")}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#bbb")}
           >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="#25D366"
-            >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#555">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
             </svg>
             Contatta Solair su WhatsApp
