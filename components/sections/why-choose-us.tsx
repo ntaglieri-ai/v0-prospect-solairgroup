@@ -2,6 +2,14 @@
 
 import Image from "next/image"
 
+const cerBenefits = [
+  "Autoconsumo diffuso dell'energia prodotta",
+  "Risparmio fino al 40% in bolletta",
+  "Incentivi statali dedicati",
+  "Energia 100% rinnovabile",
+  "Nessun vincolo contrattuale minimo",
+]
+
 const services = [
   {
     overline: "Installazione",
@@ -25,11 +33,12 @@ const services = [
     alt: "Mani che tengono smartphone con app di monitoraggio solare davanti a pannelli fotovoltaici",
   },
   {
-    overline: "Comunita",
-    title: "Comunita Energetica Rinnovabile",
-    description: "Entra nella nostra Comunita Energetica Rinnovabile e condividi l'energia prodotta con altri membri, ottenendo incentivi aggiuntivi fino al 40%.",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/pexels-marianne-rixhon-10955129-6233727-YAP3fpLluE6D0JEQo1wxIicKGa6NPi.jpg",
-    alt: "Quartiere residenziale europeo con pannelli solari sui tetti al tramonto",
+    overline: "Solair CER",
+    title: "Comunita Energetiche Rinnovabili",
+    description: "Le Comunita Energetiche Rinnovabili permettono a privati, condomini e aziende di produrre e condividere energia pulita, riducendo la bolletta fino al 40% e accedendo a incentivi statali dedicati.",
+    image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1400&q=90",
+    alt: "Quartiere con pannelli solari sui tetti luce calda tramonto",
+    isCER: true,
   },
   
   {
@@ -81,23 +90,58 @@ export function WhyChooseUsSection() {
           )
         } else {
           // Split layout: text left, image right 55% - 100vh height
+          const isCER = 'isCER' in service && service.isCER
+          
           return (
             <div
               key={service.title}
               className="grid lg:grid-cols-[45%_55%] min-h-screen mb-[50px]"
+              id={isCER ? "cer" : undefined}
             >
               {/* Text - centered vertically */}
               <div className="flex items-center justify-center bg-[#E8E8E8] px-8 lg:px-20 py-20 lg:py-0 order-2 lg:order-1">
-                <div className="max-w-md">
+                <div className={isCER ? "max-w-lg" : "max-w-md"}>
                   <p className="overline text-[#6B6B6B] mb-5">
                     {service.overline}
                   </p>
                   <h3 className="font-heading text-[#0A0A0A] mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
                     {service.title}
                   </h3>
-                  <p className="body-text">
+                  <p className={`body-text ${isCER ? 'mb-10' : ''}`}>
                     {service.description}
                   </p>
+                  
+                  {/* CER Benefits list */}
+                  {isCER && (
+                    <>
+                      <div className="space-y-0 mb-10">
+                        {cerBenefits.map((benefit, idx) => (
+                          <div 
+                            key={idx} 
+                            className="flex items-center gap-4 py-4 border-b border-[#D8D8D8] last:border-0"
+                          >
+                            <span className="text-[#6B6B6B]">—</span>
+                            <span className="text-sm text-[#0A0A0A] font-light">{benefit}</span>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      {/* Stat */}
+                      <div className="mb-10 pt-6 border-t border-[#D8D8D8]">
+                        <p className="font-heading text-[3rem] text-[#0A0A0A]">20+</p>
+                        <p className="overline text-[#6B6B6B] mt-1">
+                          CER attive in Italia
+                        </p>
+                      </div>
+
+                      <a 
+                        href="#contatti" 
+                        className="btn-outline text-[#0A0A0A]"
+                      >
+                        Scopri di piu
+                      </a>
+                    </>
+                  )}
                 </div>
               </div>
               {/* Image - full height stretches to match text column */}
