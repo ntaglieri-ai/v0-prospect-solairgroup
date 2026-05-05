@@ -9,12 +9,14 @@ export function AboutSection() {
         {/* Left - Image 50% full height */}
         <div className="relative h-[500px] lg:h-auto lg:min-h-screen">
           <Image
-            src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1400&q=90"
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-05-05%20at%2009.56.49-h8SJNVgUOLg7xWL6OiumcFkE6pdbzB.jpeg"
             alt="Pannelli solari su tetto residenziale con cielo azzurro"
             fill
             className="object-cover"
             loading="lazy"
           />
+          {/* Light overlay for visual harmony */}
+          <div className="absolute inset-0 bg-black/10" />
         </div>
 
         {/* Right - Text with padding 80px, centered vertically */}
