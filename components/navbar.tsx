@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Menu, X } from "lucide-react"
 
 const navLinks = [
@@ -35,14 +36,17 @@ export function Navbar() {
     >
       <nav className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
         <div className="flex items-center justify-between h-20">
-          {/* Logo - Cormorant Garamond weight 400 */}
-          <Link 
-            href="/" 
-            className={`font-heading text-sm font-normal tracking-[0.2em] transition-colors duration-300 ${
-              isScrolled ? "text-[#1e3a5f]" : "text-white"
-            }`}
-          >
-            SOLAIR GROUP
+          {/* Logo */}
+          <Link href="/" className="relative h-10 w-32">
+            <Image
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_solair-removebg-preview-PfUS5nX8wvG7lum1UFtzJFCVB3CQ7I.png"
+              alt="Solair Group"
+              fill
+              className={`object-contain object-left transition-all duration-300 ${
+                isScrolled ? "brightness-100" : "brightness-0 invert"
+              }`}
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation - DM Sans 11px uppercase */}
