@@ -166,7 +166,7 @@ export function MapSection() {
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       />
 
-      <section className="bg-[#f4f6f7] mb-0 md:mb-[25px]">
+      <section className="bg-[#f4f6f7] mt-[50px] mb-0 md:mb-[25px]">
         <div className="grid lg:grid-cols-[55%_45%] min-h-[500px]">
           {/* Leaflet Map - Left 55% */}
           <div 
