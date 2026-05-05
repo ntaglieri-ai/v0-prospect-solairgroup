@@ -76,13 +76,12 @@
   font-weight: 400;
 }
 
-/* Body text */
+/* Body text - color can be overridden with inline styles */
 .body-text {
   font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
   font-size: 1rem;
   font-weight: 300;
   line-height: 1.8;
-  color: #6B6B6B;
 }
 
 /* Section padding - breathing room */
@@ -224,4 +223,20 @@
   background: linear-gradient(to bottom, #E8E8E8, transparent);
   pointer-events: none;
   z-index: 5;
+}
+
+/* Mobile text colors for photo overlay sections */
+@media (max-width: 767px) {
+  .mobile-text-pearl {
+    color: #F5F5F0 !important;
+  }
+  .mobile-text-pearl-70 {
+    color: rgba(245, 245, 240, 0.7) !important;
+  }
+  .mobile-text-pearl-85 {
+    color: rgba(245, 245, 240, 0.85) !important;
+  }
+  .mobile-border-pearl-20 {
+    border-color: rgba(245, 245, 240, 0.2) !important;
+  }
 }

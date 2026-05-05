@@ -60,13 +60,13 @@ export function WhyChooseUsSection() {
               {/* Content centered at exact vertical center */}
               <div className="relative z-10 w-full flex items-center justify-start px-8 lg:px-[10vw]">
                 <div className="max-w-xl">
-                  <p className="overline text-white/60 mb-5">
+                  <p className="overline mobile-text-pearl-70 md:text-white/60 mb-5">
                     {service.overline}
                   </p>
-                  <h3 className="font-heading text-white mb-6" style={{ fontSize: "clamp(2.5rem, 4vw, 3.5rem)" }}>
+                  <h3 className="font-heading mobile-text-pearl md:text-white mb-6" style={{ fontSize: "clamp(2.5rem, 4vw, 3.5rem)" }}>
                     {service.title}
                   </h3>
-                  <p className="body-text text-white/75">
+                  <p className="body-text mobile-text-pearl-85 md:text-white/75">
                     {service.description}
                   </p>
                 </div>
@@ -124,13 +124,13 @@ export function WhyChooseUsSection() {
               {/* Mobile: Text overlay */}
               <div className="relative z-10 flex items-center justify-center min-h-screen px-8 py-20 md:hidden">
                 <div className="max-w-md">
-                  <p className="overline text-[#F5F5F0]/70 mb-5">
+                  <p className="overline mobile-text-pearl-70 mb-5">
                     {service.overline}
                   </p>
-                  <h3 className="font-heading text-[#F5F5F0] mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
+                  <h3 className="font-heading mobile-text-pearl mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
                     {service.title}
                   </h3>
-                  <p className="body-text text-[#F5F5F0]/85">
+                  <p className="body-text mobile-text-pearl-85">
                     {service.description}
                   </p>
                 </div>

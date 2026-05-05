@@ -88,13 +88,13 @@ export function SolairCERSection() {
       {/* Mobile: Text overlay */}
       <div className="relative z-10 flex items-center justify-center min-h-screen px-8 py-20 md:hidden">
         <div className="max-w-lg">
-          <p className="overline text-[#F5F5F0]/70 mb-5">
+          <p className="overline mb-5 mobile-text-pearl-70">
             Solair CER
           </p>
-          <h3 className="font-heading text-[#F5F5F0] mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
+          <h3 className="font-heading mb-6 mobile-text-pearl" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
             Comunita Energetiche Rinnovabili
           </h3>
-          <p className="body-text text-[#F5F5F0]/85 mb-10">
+          <p className="body-text mb-10 mobile-text-pearl-85">
             Le Comunita Energetiche Rinnovabili permettono a privati, condomini e aziende di produrre e condividere energia pulita, riducendo la bolletta fino al 40% e accedendo a incentivi statali dedicati.
           </p>
           
@@ -103,25 +103,26 @@ export function SolairCERSection() {
             {cerBenefits.map((benefit, idx) => (
               <div 
                 key={idx} 
-                className="flex items-center gap-4 py-4 border-b border-[#F5F5F0]/20 last:border-0"
+                className="flex items-center gap-4 py-4 last:border-0 mobile-border-pearl-20"
+                style={{ borderBottomWidth: "1px", borderBottomStyle: "solid" }}
               >
-                <span className="text-[#F5F5F0]/70">—</span>
-                <span className="text-sm text-[#F5F5F0] font-light">{benefit}</span>
+                <span className="mobile-text-pearl-70">—</span>
+                <span className="text-sm font-light mobile-text-pearl">{benefit}</span>
               </div>
             ))}
           </div>
           
           {/* Stat */}
-          <div className="mb-10 pt-6 border-t border-[#F5F5F0]/20">
-            <p className="font-heading text-[3rem] text-[#F5F5F0]">20+</p>
-            <p className="overline text-[#F5F5F0]/70 mt-1">
+          <div className="mb-10 pt-6 mobile-border-pearl-20" style={{ borderTopWidth: "1px", borderTopStyle: "solid" }}>
+            <p className="font-heading mobile-text-pearl" style={{ fontSize: "3rem" }}>20+</p>
+            <p className="overline mt-1 mobile-text-pearl-70">
               CER attive in Italia
             </p>
           </div>
 
           <a 
             href="#contatti" 
-            className="btn-outline text-[#F5F5F0] border-[#F5F5F0]/40 hover:border-[#F5F5F0]"
+            className="btn-outline mobile-text-pearl mobile-border-pearl-20"
           >
             Scopri di piu
           </a>
