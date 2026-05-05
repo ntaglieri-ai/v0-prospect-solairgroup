@@ -307,7 +307,7 @@ export function SoluzioniIncentiviSection() {
       </div>
 
       {/* ── SEPARATOR ── */}
-      <div style={{ margin: "60px 0 0" }}>
+      <div style={{ padding: "64px 0" }}>
         <Separator />
       </div>
 
@@ -317,7 +317,7 @@ export function SoluzioniIncentiviSection() {
         style={{
           maxWidth: "1120px",
           margin: "0 auto",
-          padding: "72px 24px",
+          padding: "0 24px",
           display: "grid",
           gridTemplateColumns: "1fr 2fr",
           gap: "80px",
@@ -422,14 +422,16 @@ export function SoluzioniIncentiviSection() {
       </div>
 
       {/* ── SEPARATOR ── */}
-      <Separator />
+      <div style={{ padding: "64px 0" }}>
+        <Separator />
+      </div>
 
       {/* ── CTA ── */}
       <div
         id="contatti"
         style={{
           background: C.bgCta,
-          padding: "64px 24px",
+          padding: "0 24px 64px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -509,7 +511,9 @@ export function SoluzioniIncentiviSection() {
       </div>
 
       {/* ── SEPARATOR (before map) ── */}
-      <Separator />
+      <div style={{ paddingBottom: "64px" }}>
+        <Separator />
+      </div>
 
       <style jsx>{`
         @media (max-width: 900px) {
