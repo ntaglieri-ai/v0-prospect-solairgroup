@@ -44,7 +44,7 @@ export function WhyChooseUsSection() {
           return (
             <div
               key={service.title}
-              className="relative h-screen flex items-center justify-center mb-[50px]"
+              className="relative h-[95vh] flex items-center justify-center mb-[50px]"
             >
               <Image
                 src={service.image}
@@ -76,7 +76,7 @@ export function WhyChooseUsSection() {
           return (
             <div
               key={service.title}
-              className="grid lg:grid-cols-[45%_55%] min-h-screen mb-[50px]"
+              className="grid lg:grid-cols-[45%_55%] min-h-[95vh] mb-[50px]"
             >
               {/* Text - centered vertically */}
               <div className="flex items-center justify-center bg-[#E8E8E8] px-8 lg:px-20 py-20 lg:py-0 order-2 lg:order-1">

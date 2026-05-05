@@ -47,7 +47,7 @@ export function PortfolioSlideshow() {
   }
 
   return (
-    <section id="portfolio" className="relative h-screen mb-[50px] overflow-hidden">
+    <section id="portfolio" className="relative h-[95vh] mb-[50px] overflow-hidden">
       {/* Slides */}
       {portfolioSlides.map((slide, index) => (
         <div

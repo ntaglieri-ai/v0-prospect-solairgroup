@@ -4,10 +4,10 @@ import Image from "next/image"
 
 export function AboutSection() {
   return (
-    <section id="chi-siamo" className="relative min-h-screen bg-[#E8E8E8] flex items-center mb-[50px]">
+    <section id="chi-siamo" className="relative min-h-[95vh] bg-[#E8E8E8] flex items-center mb-[50px]">
       <div className="w-full grid lg:grid-cols-2">
         {/* Left - Image 50% full height */}
-        <div className="relative h-[500px] lg:h-auto lg:min-h-screen">
+        <div className="relative h-[500px] lg:h-auto lg:min-h-[95vh]">
           <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-05-05%20at%2009.56.49-h8SJNVgUOLg7xWL6OiumcFkE6pdbzB.jpeg"
             alt="Pannelli solari su tetto residenziale con cielo azzurro"
