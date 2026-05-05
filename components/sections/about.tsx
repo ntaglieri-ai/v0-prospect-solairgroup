@@ -4,12 +4,10 @@ import Image from "next/image"
 
 export function AboutSection() {
   return (
-    <section id="chi-siamo" className="relative min-h-screen bg-[#EFEFED] flex items-center mb-[50px]">
+    <section id="chi-siamo" className="relative min-h-screen bg-[#E8E8E8] flex items-center mb-[50px]">
       <div className="w-full grid lg:grid-cols-2">
         {/* Left - Image 50% full height */}
         <div className="relative h-[500px] lg:h-auto lg:min-h-screen">
-          {/* Bottom fade on image */}
-          <div className="absolute bottom-0 left-0 right-0 h-[80px] bg-gradient-to-b from-transparent to-[#EFEFED] z-10 pointer-events-none" />
           <Image
             src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1400&q=90"
             alt="Pannelli solari su tetto residenziale con cielo azzurro"

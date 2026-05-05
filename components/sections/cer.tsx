@@ -12,7 +12,7 @@ const benefits = [
 
 export function CERSection() {
   return (
-    <section id="cer" className="h-screen bg-[#EFEFED] flex items-center mb-[50px]">
+    <section id="cer" className="h-screen bg-[#E8E8E8] flex items-center mb-[50px]">
       <div className="w-full h-full grid lg:grid-cols-[45%_55%]">
         {/* Text Left 45% - centered vertically */}
         <div className="flex items-center py-[100px] px-8 lg:px-20 order-2 lg:order-1">
@@ -61,7 +61,7 @@ export function CERSection() {
           </div>
         </div>
 
-        {/* Image Right 55% - full height with fades */}
+        {/* Image Right 55% - full height */}
         <div className="relative h-full order-1 lg:order-2">
           <Image
             src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1400&q=90"
@@ -70,10 +70,6 @@ export function CERSection() {
             className="object-cover"
             loading="lazy"
           />
-          {/* Top fade */}
-          <div className="absolute top-0 left-0 right-0 h-[80px] bg-gradient-to-b from-[#EFEFED] to-transparent pointer-events-none" />
-          {/* Bottom fade */}
-          <div className="absolute bottom-0 left-0 right-0 h-[80px] bg-gradient-to-b from-transparent to-[#EFEFED] pointer-events-none" />
         </div>
       </div>
     </section>
