@@ -12,6 +12,26 @@ export const sede = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'regione',
+      title: 'Regione',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Sicilia', value: 'Sicilia' },
+          { title: 'Veneto', value: 'Veneto' },
+          { title: 'Piemonte', value: 'Piemonte' },
+          { title: 'Lombardia', value: 'Lombardia' },
+          { title: 'Lazio', value: 'Lazio' },
+          { title: 'Campania', value: 'Campania' },
+          { title: 'Puglia', value: 'Puglia' },
+          { title: 'Emilia-Romagna', value: 'Emilia-Romagna' },
+          { title: 'Toscana', value: 'Toscana' },
+          { title: 'Calabria', value: 'Calabria' },
+        ],
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'referente',
       title: 'Referente',
       type: 'string',

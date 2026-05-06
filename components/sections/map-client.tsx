@@ -1,51 +1,17 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import type { Sede } from "@/lib/sanity/queries"
 
-const sedi = [
-  {
-    id: 1,
-    regione: "Sicilia",
-    citta: "Catania",
-    referente: "Marco Rossi",
-    telefono: "+39 095 290 0278",
-    lat: 37.5079,
-    lng: 15.083,
-  },
-  {
-    id: 2,
-    regione: "Sicilia",
-    citta: "Giarre (CT)",
-    referente: "Luca Ferrara",
-    telefono: "+39 095 290 0278",
-    lat: 37.727,
-    lng: 15.1842,
-  },
-  {
-    id: 3,
-    regione: "Veneto",
-    citta: "Treviso (TV)",
-    referente: "Anna Bianchi",
-    telefono: "+39 095 290 0278",
-    lat: 45.6669,
-    lng: 12.243,
-  },
-  {
-    id: 4,
-    regione: "Piemonte",
-    citta: "Torino (TO)",
-    referente: "Giuseppe Verdi",
-    telefono: "+39 095 290 0278",
-    lat: 45.0703,
-    lng: 7.6869,
-  },
-]
+interface MapSectionClientProps {
+  sedi: Sede[]
+}
 
-export function MapSection() {
+export function MapSectionClient({ sedi }: MapSectionClientProps) {
   const mapRef = useRef<HTMLDivElement>(null)
   const mapInstanceRef = useRef<any>(null)
   const markersRef = useRef<any[]>([])
-  const [activeId, setActiveId] = useState<number | null>(null)
+  const [activeId, setActiveId] = useState<string | null>(null)
 
   useEffect(() => {
     if (typeof window === "undefined") return
@@ -102,10 +68,10 @@ export function MapSection() {
         }).addTo(map)
 
         marker.on("click", () => {
-          setActiveId(sede.id)
+          setActiveId(sede._id)
         })
 
-        markersRef.current.push({ id: sede.id, marker })
+        markersRef.current.push({ id: sede._id, marker })
       })
 
       mapInstanceRef.current = map
@@ -123,7 +89,7 @@ export function MapSection() {
     if (!mapInstanceRef.current || activeId === null) return
 
     import("leaflet").then((L) => {
-      const sede = sedi.find((s) => s.id === activeId)
+      const sede = sedi.find((s) => s._id === activeId)
       if (!sede) return
 
       mapInstanceRef.current.flyTo([sede.lat, sede.lng], 10, {
@@ -154,10 +120,11 @@ export function MapSection() {
 
   // Group sedi by region
   const grouped = sedi.reduce((acc, sede) => {
-    if (!acc[sede.regione]) acc[sede.regione] = []
-    acc[sede.regione].push(sede)
+    const regione = sede.regione || "Altro"
+    if (!acc[regione]) acc[regione] = []
+    acc[regione].push(sede)
     return acc
-  }, {} as Record<string, typeof sedi>)
+  }, {} as Record<string, Sede[]>)
 
   return (
     <>
@@ -189,14 +156,14 @@ export function MapSection() {
 
                 {items.map((sede) => (
                   <div
-                    key={sede.id}
-                    onClick={() => setActiveId(sede.id)}
+                    key={sede._id}
+                    onClick={() => setActiveId(sede._id)}
                     className={`cursor-pointer mb-5 pl-3 border-l-2 transition-colors ${
-                      activeId === sede.id ? "border-[#2e8b72]" : "border-transparent"
+                      activeId === sede._id ? "border-[#2e8b72]" : "border-transparent"
                     }`}
                   >
                     <p className={`text-xl mb-1 transition-all ${
-                      activeId === sede.id ? "font-medium text-[#1e3a5f]" : "font-normal text-[#4a6080]"
+                      activeId === sede._id ? "font-medium text-[#1e3a5f]" : "font-normal text-[#4a6080]"
                     }`}>
                       {sede.citta}
                     </p>
