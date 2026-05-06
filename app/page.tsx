@@ -6,7 +6,7 @@ import { PortfolioSlideshow } from "@/components/sections/portfolio-slideshow"
 import { SolairCERSection } from "@/components/sections/solair-cer"
 import { TestimonialsSection } from "@/components/sections/testimonials"
 import { SoluzioniIncentiviSection } from "@/components/sections/soluzioni-incentivi"
-import { MapSection } from "@/components/sections/map"
+import { MapSection } from "@/components/sections/map-wrapper"
 import { Footer } from "@/components/footer"
 
 export default function Home() {
