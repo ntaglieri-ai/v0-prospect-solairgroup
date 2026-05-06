@@ -57,6 +57,15 @@ export function Footer() {
               <Link href="/terms" className="text-xs text-white/30 hover:text-white/60 transition-colors" style={{ fontFamily: "var(--font-dm-sans)" }}>
                 Terms
               </Link>
+              <a 
+                href="https://solairgroup.sanity.studio" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hidden sm:inline text-xs text-white/30 hover:text-white/60 transition-colors" 
+                style={{ fontFamily: "var(--font-dm-sans)" }}
+              >
+                Area Riservata
+              </a>
             </div>
           </div>
         </div>
