@@ -83,6 +83,12 @@ export default function RootLayout({
       <body className="font-sans font-light antialiased bg-[#f4f6f7] text-[#1e3a5f]">
         {children}
         {process.env.NODE_ENV === "production" && <Analytics />}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.GPTTConfig = { uuid: 'b7e5639e1cb444cd98c37342a90053f9', domain: 'app.gptchatbot.it' }`,
+          }}
+        />
+        <script src="https://app.gptchatbot.it/widget-asset.min.js" defer />
       </body>
     </html>
   )
