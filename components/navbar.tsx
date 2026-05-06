@@ -100,12 +100,21 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="overline text-[#1e3a5f] py-3 border-b border-[#d0d6da] last:border-0"
+                  className="overline text-[#1e3a5f] py-3 border-b border-[#d0d6da]"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
                 </Link>
               ))}
+              <a
+                href="https://solairgroup.sanity.studio"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="overline text-[#4a6080] py-3"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Area Riservata
+              </a>
             </div>
           </div>
         )}
