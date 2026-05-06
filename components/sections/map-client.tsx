@@ -30,8 +30,8 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
       })
 
       const map = L.map(mapRef.current!, {
-        center: [41.5, 13.5],
-        zoom: 5.5,
+        center: [42.5, 12.5],
+        zoom: 6,
         zoomControl: true,
         scrollWheelZoom: false,
       })
@@ -49,17 +49,16 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         L.divIcon({
           className: "",
           html: `<div style="
-            width: 14px;
-            height: 14px;
-            background: ${active ? "#226b57" : "#2e8b72"};
-            border: 2.5px solid white;
+            width: ${active ? "24px" : "20px"};
+            height: ${active ? "24px" : "20px"};
+            background: ${active ? "#1e3a5f" : "#2e8b72"};
+            border: 3px solid white;
             border-radius: 50%;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.35);
-            transition: transform 0.2s;
-            transform: ${active ? "scale(1.4)" : "scale(1)"};
+            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+            transition: all 0.2s ease;
           "></div>`,
-          iconSize: [14, 14],
-          iconAnchor: [7, 7],
+          iconSize: [active ? 24 : 20, active ? 24 : 20],
+          iconAnchor: [active ? 12 : 10, active ? 12 : 10],
         })
 
       sedi.forEach((sede) => {
@@ -73,6 +72,12 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
 
         markersRef.current.push({ id: sede._id, marker })
       })
+
+      // Fit map to show all markers with padding
+      if (sedi.length > 0) {
+        const bounds = L.latLngBounds(sedi.map(s => [s.lat, s.lng]))
+        map.fitBounds(bounds, { padding: [50, 50], maxZoom: 7 })
+      }
 
       mapInstanceRef.current = map
     })
@@ -102,16 +107,16 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
           L.divIcon({
             className: "",
             html: `<div style="
-              width: 14px;
-              height: 14px;
-              background: ${isActive ? "#226b57" : "#2e8b72"};
-              border: 2.5px solid white;
+              width: ${isActive ? "24px" : "20px"};
+              height: ${isActive ? "24px" : "20px"};
+              background: ${isActive ? "#1e3a5f" : "#2e8b72"};
+              border: 3px solid white;
               border-radius: 50%;
-              box-shadow: 0 2px 6px rgba(0,0,0,0.35);
-              transform: ${isActive ? "scale(1.5)" : "scale(1)"};
+              box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+              transition: all 0.2s ease;
             "></div>`,
-            iconSize: [14, 14],
-            iconAnchor: [7, 7],
+            iconSize: [isActive ? 24 : 20, isActive ? 24 : 20],
+            iconAnchor: [isActive ? 12 : 10, isActive ? 12 : 10],
           })
         )
       })
