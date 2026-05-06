@@ -306,7 +306,6 @@ export default function ConfiguratorePage() {
     try {
       const res = await fetch(MAKE_WEBHOOK_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       })
       if (res.ok || res.status === 200) {
