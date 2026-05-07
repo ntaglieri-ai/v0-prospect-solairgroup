@@ -1683,6 +1683,19 @@ async function inviaRichiesta() {
 
   const LINEE_LABEL = { smart: 'Smart One', power: 'Power Plus', premium: 'Premium Top' };
 
+  // Get form values with null safety
+  const getVal = (id) => {
+    const el = document.getElementById(id);
+    return el ? el.value : '';
+  };
+
+  const nomeVal = getVal('f_nome');
+  const cognomeVal = getVal('f_cognome');
+  const emailVal = getVal('f_email');
+  const telefonoVal = getVal('f_telefono');
+
+  console.log('[v0] Form values:', { nome: nomeVal, cognome: cognomeVal, email: emailVal, telefono: telefonoVal });
+
   const payload = {
     numero_contratto: numeroContratto,
     data_contratto: dataFormattata,
@@ -1695,15 +1708,15 @@ async function inviaRichiesta() {
     extra_zavorre: state.extraZavorre,
     prezzo_base: state.prezzoBase,
     prezzo_totale: state.prezzoTotale,
-    nome: document.getElementById('f_nome').value,
-    cognome: document.getElementById('f_cognome').value,
-    email: document.getElementById('f_email').value,
-    telefono: normalizzaTelefono(document.getElementById('f_telefono').value),
-    codice_fiscale: document.getElementById('f_cf').value,
-    indirizzo: document.getElementById('f_indirizzo').value,
-    tipo_immobile: document.getElementById('f_tipo').value,
-    incentivo: document.getElementById('f_incentivo').value,
-    note: document.getElementById('f_note').value,
+    nome: nomeVal,
+    cognome: cognomeVal,
+    email: emailVal,
+    telefono: normalizzaTelefono(telefonoVal),
+    codice_fiscale: getVal('f_cf'),
+    indirizzo: getVal('f_indirizzo'),
+    tipo_immobile: getVal('f_tipo'),
+    incentivo: getVal('f_incentivo'),
+    note: getVal('f_note'),
     modalita_pagamento: pagamentoState.modalita === 'finanziamento' ? 'Finanziamento Deutsche Bank' : 'Bonifico bancario',
     anticipo: pagamentoState.modalita === 'finanziamento' ? pagamentoState.anticipo : '',
     num_rate: pagamentoState.modalita === 'finanziamento' ? pagamentoState.nRate : '',
@@ -1713,6 +1726,8 @@ async function inviaRichiesta() {
     num_documenti: state.files.length + state.docRiconoscimento.length,
     data_invio: now.toISOString(),
   };
+
+  console.log('[v0] Sending payload to webhook:', JSON.stringify(payload, null, 2));
 
   try {
     const res = await fetch(MAKE_WEBHOOK_URL, {
