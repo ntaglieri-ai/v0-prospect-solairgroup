@@ -70,6 +70,7 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); min-height: 100
 }
 .step-tab.active { color: var(--navy); border-bottom-color: var(--navy); }
 .step-tab.completed { color: var(--teal); }
+.step-tab.disabled { pointer-events: none; opacity: 0.5; cursor: default; }
 .step-num {
   width: 20px; height: 20px; border-radius: 50%;
   background: var(--surface2); border: 1px solid var(--border);
@@ -150,6 +151,95 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); min-height: 100
   background: var(--surface2); color: var(--mid); font-weight: 600;
 }
 .lc-tag.highlight { background: var(--teal-light); color: var(--teal); }
+
+/* TAGLIA CARD nel suggerimento */
+.sg-taglia-card {
+  border: 2px solid var(--border); border-radius: 12px;
+  padding: 14px 18px; cursor: pointer; transition: all 0.2s;
+  background: var(--surface);
+}
+.sg-taglia-card:hover { border-color: var(--navy-border); background: var(--navy-light); }
+.sg-taglia-card.selected { border-color: var(--navy); background: var(--navy-light); }
+
+/* PREMIUM RESULT BLOCK */
+.sg-hero-result {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--teal-dark) 100%);
+  border-radius: 18px; padding: 28px 24px 24px;
+  color: white; margin-bottom: 20px; position: relative; overflow: hidden;
+}
+.sg-hero-result::before {
+  content: ''; position: absolute; top: -40px; right: -40px;
+  width: 160px; height: 160px; border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+}
+.sg-hero-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
+  margin-bottom: 14px; color: rgba(255,255,255,0.9);
+}
+.sg-hero-linea {
+  font-size: 28px; font-weight: 800; margin-bottom: 10px;
+  line-height: 1.1;
+}
+.sg-hero-why {
+  font-size: 13px; color: rgba(255,255,255,0.82); line-height: 1.6;
+  margin-bottom: 18px;
+}
+.sg-hero-features {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.sg-hero-feature {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,0.12); border-radius: 20px;
+  padding: 4px 12px; font-size: 11px; color: rgba(255,255,255,0.9);
+}
+.sg-hero-feature::before { content: "✓"; font-weight: 700; }
+
+/* TAGLIA OPTION CARD */
+.sg-taglia-option {
+  border: 2px solid var(--border); border-radius: 14px;
+  padding: 16px 20px; cursor: pointer; transition: all 0.2s;
+  background: var(--surface); position: relative;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.sg-taglia-option:hover {
+  border-color: var(--navy-border); background: var(--navy-light);
+  transform: translateY(-1px); box-shadow: 0 4px 16px rgba(30,58,95,0.1);
+}
+.sg-taglia-option.selected {
+  border-color: var(--navy); background: var(--navy-light);
+}
+.sg-taglia-option .to-badge {
+  position: absolute; top: -9px; left: 16px;
+  background: var(--teal); color: white;
+  font-size: 9px; font-weight: 800; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 2px 9px; border-radius: 8px;
+}
+.sg-taglia-option .to-specs { flex: 1; }
+.sg-taglia-option .to-kwp {
+  font-size: 17px; font-weight: 800; color: var(--text); margin-bottom: 2px;
+}
+.sg-taglia-option .to-detail {
+  font-size: 11px; color: var(--mid);
+}
+.sg-taglia-option .to-price-wrap { text-align: right; }
+.sg-taglia-option .to-price {
+  font-size: 22px; font-weight: 800; color: var(--navy);
+}
+.sg-taglia-option .to-iva {
+  font-size: 10px; color: var(--muted); margin-top: 1px;
+}
+
+/* RISPARMIO STIMATO */
+.sg-risparmio {
+  background: var(--teal-light); border: 1px solid var(--teal-border);
+  border-radius: 10px; padding: 12px 16px; font-size: 12px;
+  color: var(--teal); margin-top: 8px; display: none;
+}
+.sg-risparmio strong { font-size: 14px; }
 
 /* STEP SELECTOR (kWp / kWh) */
 .step-selector { margin-bottom: 28px; }
@@ -465,7 +555,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
   <div class="container" style="max-width:580px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
       <button class="sg-back" onclick="tornaIntro()">← Cambia modalità</button>
-      <a href="/" style="font-size:12px;font-weight:600;color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--navy)'" onmouseout="this.style.color='var(--muted)'">Torna al sito →</a>
+      <a href="/" style="font-size:12px;font-weight:600;color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--navy)'" onmouseout="this.style.color='var(--muted)'" onclick="resetCompleto()">Torna al sito →</a>
     </div>
 
     <!-- BARRA PROGRESSO -->
@@ -573,22 +663,32 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
       </div>
     </div>
 
-    <!-- RISULTATO -->
+    <!-- RISULTATO PREMIUM -->
     <div id="sgRisultato" style="display:none;">
-      <div class="sg-question">La tua soluzione consigliata</div>
-      <div class="sg-sub">Basato sulle tue risposte, ecco la linea più adatta a te</div>
 
-      <div class="sg-result-card">
-        <div class="sg-result-label">Consigliato per te</div>
-        <div class="sg-result-line" id="sg_nome_linea">–</div>
-        <div class="sg-result-why" id="sg_motivazione">–</div>
-        <ul class="sg-result-features" id="sg_features"></ul>
-        <button class="btn-primary teal" style="width:100%;justify-content:center;font-size:15px;padding:14px;" onclick="sceglieLineSuggerita()">
-          Scegli questa linea e configura →
-        </button>
+      <!-- HERO SOLUZIONE -->
+      <div class="sg-hero-result">
+        <div class="sg-hero-badge">⭐ Consigliato per te</div>
+        <div class="sg-hero-linea" id="sg_nome_linea">–</div>
+        <div class="sg-hero-why" id="sg_motivazione">–</div>
+        <ul class="sg-hero-features" id="sg_features"></ul>
       </div>
 
-      <div style="text-align:center;margin-top:8px;">
+      <!-- SELEZIONE TAGLIA -->
+      <div style="margin-bottom:24px;">
+        <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;">Scegli la taglia</div>
+        <div style="font-size:12px;color:var(--mid);margin-bottom:14px;">Prezzo IVA inclusa · chiavi in mano · EPS anti-blackout incluso</div>
+        <div id="sg_taglie_grid" style="display:flex;flex-direction:column;gap:12px;margin-bottom:12px;"></div>
+        <div class="sg-risparmio" id="sg_risparmio">
+          ☀️ Con questa configurazione puoi risparmiare circa <strong id="sg_risparmio_val">–</strong> l'anno in bolletta
+        </div>
+      </div>
+
+      <button class="btn-primary teal" id="sg_btn_procedi" style="width:100%;justify-content:center;font-size:15px;padding:15px;margin-bottom:12px;" onclick="procediDaSuggerimento()" disabled>
+        Vai al form → Ricevi la tua offerta
+      </button>
+
+      <div style="text-align:center;">
         <button class="btn-secondary" onclick="sgAvanti(3)" style="font-size:12px;">← Modifica le risposte</button>
       </div>
     </div>
@@ -633,7 +733,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 <div class="container">
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;margin-top:-8px;">
   <button onclick="tornaIntro()" style="background:none;border:none;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;padding:0;display:flex;align-items:center;gap:4px;" onmouseover="this.style.color='var(--navy)'" onmouseout="this.style.color='var(--muted)'">← Ricomincia da capo</button>
-  <a href="/" style="font-size:12px;font-weight:600;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:4px;" onmouseover="this.style.color='var(--navy)'" onmouseout="this.style.color='var(--muted)'">Torna al sito →</a>
+  <a href="/" style="font-size:12px;font-weight:600;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:4px;" onmouseover="this.style.color='var(--navy)'" onmouseout="this.style.color='var(--muted)'" onclick="resetCompleto()">Torna al sito →</a>
 </div>
 
 <!-- STEP 1: SCELTA LINEA -->
@@ -841,12 +941,20 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
       <input type="tel" id="f_telefono" placeholder="+39 333 000 0000">
     </div>
     <div class="form-group">
-      <label>Codice Fiscale</label>
-      <input type="text" id="f_cf" placeholder="RSSMRA80A01H501Z">
+      <label>Codice Fiscale *</label>
+      <input type="text" id="f_cf" placeholder="RSSMRA80A01H501Z" maxlength="16" style="text-transform:uppercase;">
     </div>
     <div class="form-group full">
       <label>Indirizzo installazione *</label>
-      <input type="text" id="f_indirizzo" placeholder="Via Roma 1, 00100 Roma (RM)">
+      <input type="text" id="f_indirizzo" placeholder="Via Roma 1">
+    </div>
+    <div class="form-group">
+      <label>Città *</label>
+      <input type="text" id="f_citta" placeholder="Roma">
+    </div>
+    <div class="form-group">
+      <label>Provincia *</label>
+      <input type="text" id="f_provincia" placeholder="RM" maxlength="2" style="text-transform:uppercase;">
     </div>
     <div class="form-group">
       <label>Tipo immobile</label>
@@ -873,28 +981,6 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
       <textarea id="f_note" rows="3" placeholder="Informazioni aggiuntive..."></textarea>
     </div>
   </div>
-
-  <hr class="divider">
-  <div style="font-size:13px; font-weight:600; margin-bottom:6px;">🪪 Documento di riconoscimento *</div>
-  <div class="info-box" style="border-color:rgba(239,68,68,0.3); background:rgba(239,68,68,0.05);">⚠️ Obbligatorio. Carica fronte e retro della carta d'identità o passaporto.</div>
-  <div class="upload-area" onclick="document.getElementById('docRiconoscimentoInput').click()" id="docRiconoscimentoArea">
-    <div class="upload-icon">🪪</div>
-    <div class="upload-label">Carica documento di riconoscimento</div>
-    <div class="upload-sub">JPG, PNG, PDF — fronte e retro</div>
-    <input type="file" id="docRiconoscimentoInput" multiple accept=".pdf,.jpg,.jpeg,.png" onchange="handleDocRiconoscimento(this.files)">
-  </div>
-  <div class="file-list" id="docRiconoscimentoList"></div>
-
-  <hr class="divider">
-  <div style="font-size:13px; font-weight:600; margin-bottom:12px;">📎 Documenti aggiuntivi (opzionale)</div>
-  <div class="info-box">💡 Puoi allegare planimetria, visura catastale o copia bolletta.</div>
-  <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-    <div class="upload-icon">📁</div>
-    <div class="upload-label">Carica documenti</div>
-    <div class="upload-sub">PDF, JPG, PNG — max 10MB per file</div>
-    <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png" onchange="handleFiles(this.files)">
-  </div>
-  <div class="file-list" id="fileList"></div>
 
   <div class="nav-btns">
     <button class="btn-secondary" onclick="goTo(3)">← Indietro</button>
@@ -924,6 +1010,8 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
     <div class="riepilogo-row"><span class="r-label">Email</span><span class="r-val" id="r_email">–</span></div>
     <div class="riepilogo-row"><span class="r-label">Telefono</span><span class="r-val" id="r_tel">–</span></div>
     <div class="riepilogo-row"><span class="r-label">Indirizzo</span><span class="r-val" id="r_ind">–</span></div>
+    <div class="riepilogo-row"><span class="r-label">Città</span><span class="r-val" id="r_citta">–</span></div>
+    <div class="riepilogo-row"><span class="r-label">Codice Fiscale</span><span class="r-val" id="r_cf">–</span></div>
   </div>
 
   <!-- PAGAMENTO -->
@@ -1044,6 +1132,82 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 
 <script>
 
+// ─── RESET COMPLETO ───
+function resetCompleto() {
+  // Reset stato configuratore
+  state.linea = null;
+  state.kwp = null;
+  state.kwh = null;
+  state.prezzoBase = 0;
+  state.tetto = null;
+  state.extraZavorre = 0;
+  state.prezzoTotale = 0;
+  state.pannello = null;
+  state.files = [];
+  state.docRiconoscimento = [];
+
+  // Reset pagamento
+  pagamentoState.modalita = null;
+  pagamentoState.anticipo = 0;
+  pagamentoState.nRate = 60;
+  pagamentoState.rata = 0;
+  pagamentoState.taeg = 0;
+
+  // Reset suggerimento
+  [0,1,2,3].forEach(i => { sgAnswers[i] = null; });
+
+  // Reset UI selezionata nel configuratore
+  document.querySelectorAll('.linea-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.step-btn').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.card-option').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.pannello-card').forEach(c => c.classList.remove('selected'));
+
+  // Reset pulsanti avanti
+  ['btn-s0','btn-s1','btn-s2','btn-s3'].forEach(id => {
+    const b = document.getElementById(id);
+    if (b) b.disabled = true;
+  });
+
+  // Reset form
+  ['f_nome','f_cognome','f_email','f_telefono','f_cf','f_indirizzo','f_citta','f_provincia','f_note'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  ['f_tipo','f_incentivo'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.selectedIndex = 0;
+  });
+
+  // Reset consensi
+  ['cb1','cb2','cb3','cb4'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.checked = false;
+  });
+
+  // Reset pagamento UI
+  document.querySelectorAll('.pagamento-card').forEach(c => c.classList.remove('selected'));
+  const prb = document.getElementById('pagamento_riepilogo_box');
+  if (prb) prb.style.display = 'none';
+
+  // Porta al primo step
+  goTo(0);
+
+  // Reset suggerimento UI
+  [0,1,2,3].forEach(i => {
+    const q = document.getElementById('sgQ' + i);
+    if (q) { q.style.display = i === 0 ? 'block' : 'none'; }
+    const btn = document.getElementById('sgBtn' + i);
+    if (btn) btn.disabled = true;
+    const step = document.getElementById('sgp' + i);
+    if (step) step.className = i === 0 ? 'sg-progress-step active' : 'sg-progress-step';
+    // Deseleziona opzioni suggerimento
+    const sgq = document.getElementById('sgQ' + i);
+    if (sgq) sgq.querySelectorAll('.sg-option').forEach(o => o.classList.remove('selected'));
+  });
+  const sgRis = document.getElementById('sgRisultato');
+  if (sgRis) sgRis.style.display = 'none';
+}
+
 // ─── INTRO ───
 function avviaConfigurazione() {
   document.getElementById('introPage').style.display = 'none';
@@ -1056,6 +1220,7 @@ function avviaSuggerimento() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function tornaIntro() {
+  resetCompleto();
   document.getElementById('suggerimentoPage').style.display = 'none';
   document.getElementById('configuratorePage').style.display = 'none';
   document.getElementById('introPage').style.display = 'block';
@@ -1137,7 +1302,7 @@ function calcolaSuggerimento() {
   document.getElementById('sg_nome_linea').textContent = info.nome;
   document.getElementById('sg_motivazione').textContent = info.why;
   const ul = document.getElementById('sg_features');
-  ul.innerHTML = info.features.map(f => `<li>${f}</li>`).join('');
+  ul.innerHTML = info.features.map(f => `<li class="sg-hero-feature">${f}</li>`).join('');
 
   // Salva linea suggerita nello state
   state.linea = linea;
@@ -1148,6 +1313,121 @@ function calcolaSuggerimento() {
   });
   [0,1,2,3].forEach(i => { const q = document.getElementById('sgQ' + i); if (q) q.style.display = 'none'; });
   document.getElementById('sgRisultato').style.display = 'block';
+
+  // Renderizza le taglie disponibili per la linea consigliata
+  renderTaglieSuggerimento(linea);
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── SUGGERIMENTO: SELEZIONE TAGLIA DIRETTA ───
+const sgState = { kwp: null, kwh: null };
+
+// Risparmio stimato per kWp (€/anno approssimativo)
+const RISPARMIO_PER_KWP = { 6: 900, 7: 1050, 8: 1200, 9: 1350 };
+
+function renderTaglieSuggerimento(linea) {
+  sgState.kwp = null;
+  sgState.kwh = null;
+  const btn = document.getElementById('sg_btn_procedi');
+  if (btn) btn.disabled = true;
+
+  // Nascondi risparmio
+  const rispBox = document.getElementById('sg_risparmio');
+  if (rispBox) rispBox.style.display = 'none';
+
+  const prezziLinea = PREZZI[linea];
+  const kwhOpts = KWH_OPTIONS[linea];
+  const kwpOpts = Object.keys(prezziLinea).map(Number).sort((a,b)=>a-b);
+  const grid = document.getElementById('sg_taglie_grid');
+  grid.innerHTML = '';
+
+  // Badge: la combo centrale è "consigliata"
+  const middleKwp = kwpOpts[Math.floor(kwpOpts.length / 2)];
+  const middleKwh = kwhOpts[Math.floor(kwhOpts.length / 2)];
+
+  kwpOpts.forEach(kwp => {
+    kwhOpts.forEach(kwh => {
+      const prezzo = prezziLinea[kwp][kwh];
+      if (!prezzo) return;
+      const isConsigliata = (kwp === middleKwp && kwh === middleKwh);
+
+      const card = document.createElement('div');
+      card.className = 'sg-taglia-option' + (isConsigliata ? ' selected' : '');
+      if (isConsigliata) {
+        // Pre-seleziona la taglia consigliata
+        sgState.kwp = kwp;
+        sgState.kwh = kwh;
+        if (btn) btn.disabled = false;
+      }
+      card.dataset.kwp = kwp;
+      card.dataset.kwh = kwh;
+
+      const pannelliNum = Math.ceil(kwp * 1000 / 450);
+      const prodAnnua = Math.round(kwp * 1150);
+
+      card.innerHTML = `
+        ${isConsigliata ? '<div class="to-badge">⭐ La più scelta</div>' : ''}
+        <div class="to-specs">
+          <div class="to-kwp">${kwp} kWp + ${kwh} kWh</div>
+          <div class="to-detail">≈ ${pannelliNum} pannelli · ~${prodAnnua.toLocaleString('it-IT')} kWh/anno</div>
+        </div>
+        <div class="to-price-wrap">
+          <div class="to-price">€ ${prezzo.toLocaleString('it-IT')}</div>
+          <div class="to-iva">IVA inclusa</div>
+        </div>`;
+
+      card.onclick = () => {
+        document.querySelectorAll('.sg-taglia-option').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        sgState.kwp = kwp;
+        sgState.kwh = kwh;
+        const btn = document.getElementById('sg_btn_procedi');
+        if (btn) btn.disabled = false;
+        // Mostra risparmio stimato
+        const rBox = document.getElementById('sg_risparmio');
+        const rVal = document.getElementById('sg_risparmio_val');
+        if (rBox && rVal) {
+          const risparmio = RISPARMIO_PER_KWP[kwp] || Math.round(kwp * 150);
+          rVal.textContent = `€ ${risparmio.toLocaleString('it-IT')}`;
+          rBox.style.display = 'block';
+        }
+      };
+      grid.appendChild(card);
+    });
+  });
+
+  // Mostra risparmio della pre-selezione
+  if (sgState.kwp) {
+    const rBox = document.getElementById('sg_risparmio');
+    const rVal = document.getElementById('sg_risparmio_val');
+    if (rBox && rVal) {
+      const risparmio = RISPARMIO_PER_KWP[sgState.kwp] || Math.round(sgState.kwp * 150);
+      rVal.textContent = `€ ${risparmio.toLocaleString('it-IT')}`;
+      rBox.style.display = 'block';
+    }
+  }
+}
+
+function procediDaSuggerimento() {
+  if (!sgState.kwp || !sgState.kwh) return;
+
+  // Popola lo state principale
+  state.kwp = sgState.kwp;
+  state.kwh = sgState.kwh;
+  const prezzo = PREZZI[state.linea][state.kwp][state.kwh];
+  state.prezzoBase = prezzo;
+  // Default tetto piano (no zavorre)
+  state.tetto = 'piano';
+  state.extraZavorre = 0;
+  state.prezzoTotale = prezzo;
+  // Default pannello Longi
+  state.pannello = 'LONGi Solar Hi-MO X10 Explorer';
+
+  // Vai al configuratore al form dati (step 4)
+  document.getElementById('suggerimentoPage').style.display = 'none';
+  document.getElementById('configuratorePage').style.display = 'block';
+  goTo(4);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1303,6 +1583,8 @@ function goTo(n) {
     if (tab) {
       tab.classList.toggle('active', i === n);
       tab.classList.toggle('completed', i < n);
+      // Disabilita tutti i tab nella pagina riepilogo (step 5)
+      tab.classList.toggle('disabled', n === 5);
     }
   });
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1492,52 +1774,49 @@ function selectPannello(el) {
 
 // ─── STEP 5: FORM → RIEPILOGO ───
 function goToRiepilogo() {
-  if (state.docRiconoscimento.length === 0) {
-    const area = document.getElementById('docRiconoscimentoArea');
-    if (area) {
-      area.style.borderColor = 'rgba(239,68,68,0.6)';
-      area.style.background = 'rgba(239,68,68,0.05)';
-      area.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // Validazione campi obbligatori
+  const required = [
+    { id: 'f_nome', label: 'Nome' },
+    { id: 'f_cognome', label: 'Cognome' },
+    { id: 'f_email', label: 'Email' },
+    { id: 'f_telefono', label: 'Telefono' },
+    { id: 'f_cf', label: 'Codice Fiscale' },
+    { id: 'f_indirizzo', label: 'Indirizzo' },
+    { id: 'f_citta', label: 'Città' },
+    { id: 'f_provincia', label: 'Provincia' },
+  ];
+  for (const field of required) {
+    const el = document.getElementById(field.id);
+    if (!el || !el.value.trim()) {
+      el.style.borderColor = 'rgba(239,68,68,0.6)';
+      el.focus();
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
     }
-    return;
+    el.style.borderColor = '';
   }
 
   const LINEE_LABEL = { smart: 'Smart One', power: 'Power Plus', premium: 'Premium Top' };
-  
-  const setTextSafe = (id, text) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = text;
-  };
-  
-  setTextSafe('r_linea', LINEE_LABEL[state.linea] || '–');
-  setTextSafe('r_potenza', state.kwp + ' kWp');
-  setTextSafe('r_accumulo', state.kwh ? state.kwh + ' kWh' : 'Non incluso');
-  setTextSafe('r_pannelli', state.pannello || '–');
-  setTextSafe('r_tetto', ZAVORRE_LABEL[state.tetto] || '–');
-  
+  document.getElementById('r_linea').textContent = LINEE_LABEL[state.linea] || '–';
+  document.getElementById('r_potenza').textContent = state.kwp + ' kWp';
+  document.getElementById('r_accumulo').textContent = state.kwh ? state.kwh + ' kWh' : 'Non incluso';
+  document.getElementById('r_pannelli').textContent = state.pannello || '–';
+  document.getElementById('r_tetto').textContent = ZAVORRE_LABEL[state.tetto] || '–';
   if (state.extraZavorre > 0) {
-    setTextSafe('r_zavorra', '+ € ' + state.extraZavorre.toLocaleString('it-IT'));
-    const zavorraRow = document.getElementById('r_zavorra_row');
-    if (zavorraRow) zavorraRow.style.display = 'flex';
+    document.getElementById('r_zavorra').textContent = '+ € ' + state.extraZavorre.toLocaleString('it-IT');
+    document.getElementById('r_zavorra_row').style.display = 'flex';
   }
-  
-  setTextSafe('r_prezzo', '€ ' + state.prezzoTotale.toLocaleString('it-IT'));
-  
-  const fNome = document.getElementById('f_nome');
-  const fCognome = document.getElementById('f_cognome');
-  const fEmail = document.getElementById('f_email');
-  const fTelefono = document.getElementById('f_telefono');
-  const fIndirizzo = document.getElementById('f_indirizzo');
-  
-  setTextSafe('r_nome', ((fNome?.value || '') + ' ' + (fCognome?.value || '')).trim() || '–');
-  setTextSafe('r_email', fEmail?.value || '–');
-  setTextSafe('r_tel', fTelefono?.value || '–');
-  setTextSafe('r_ind', fIndirizzo?.value || '–');
-  
+  document.getElementById('r_prezzo').textContent = '€ ' + state.prezzoTotale.toLocaleString('it-IT');
+  document.getElementById('r_nome').textContent = (document.getElementById('f_nome').value + ' ' + document.getElementById('f_cognome').value).trim() || '–';
+  document.getElementById('r_email').textContent = document.getElementById('f_email').value || '–';
+  document.getElementById('r_tel').textContent = document.getElementById('f_telefono').value || '–';
+  document.getElementById('r_ind').textContent = document.getElementById('f_indirizzo').value || '–';
+  document.getElementById('r_citta').textContent = (document.getElementById('f_citta').value + ' (' + document.getElementById('f_provincia').value.toUpperCase() + ')') || '–';
+  document.getElementById('r_cf').textContent = document.getElementById('f_cf').value.toUpperCase() || '–';
   goTo(5);
 }
 
-// ─── PAGAMENTO ──���
+// ─── PAGAMENTO ───
 function scegliPagamento(tipo) {
   pagamentoState.modalita = tipo;
   document.querySelectorAll('.pagamento-card').forEach(c => c.classList.remove('selected'));
@@ -1699,8 +1978,10 @@ async function inviaRichiesta() {
     cognome: document.getElementById('f_cognome').value,
     email: document.getElementById('f_email').value,
     telefono: normalizzaTelefono(document.getElementById('f_telefono').value),
-    codice_fiscale: document.getElementById('f_cf').value,
+    codice_fiscale: document.getElementById('f_cf').value.toUpperCase(),
     indirizzo: document.getElementById('f_indirizzo').value,
+    citta: document.getElementById('f_citta').value,
+    provincia: document.getElementById('f_provincia').value.toUpperCase(),
     tipo_immobile: document.getElementById('f_tipo').value,
     incentivo: document.getElementById('f_incentivo').value,
     note: document.getElementById('f_note').value,
@@ -1710,7 +1991,6 @@ async function inviaRichiesta() {
     rata_mensile: pagamentoState.modalita === 'finanziamento' ? pagamentoState.rata : '',
     tan: pagamentoState.modalita === 'finanziamento' ? 6.90 : '',
     taeg: pagamentoState.modalita === 'finanziamento' ? pagamentoState.taeg : '',
-    num_documenti: state.files.length + state.docRiconoscimento.length,
     data_invio: now.toISOString(),
   };
 

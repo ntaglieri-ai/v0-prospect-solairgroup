@@ -306,7 +306,6 @@ export default function ConfiguratorePage() {
     try {
       const res = await fetch(MAKE_WEBHOOK_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       })
       if (res.ok || res.status === 200) {
@@ -947,7 +946,7 @@ export default function ConfiguratorePage() {
               </div>
               <div style={{ flex: 1, background: "#eef1f4", border: "1px solid #d0d6da", borderRadius: 10, padding: "10px 14px", textAlign: "center" }}>
                 <div style={{ fontSize: 10, color: "#4a6080", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 2 }}>TAEG indicativo</div>
-                <div style={{ fontSize: 16, fontWeight: 800, color: "#1e3a5f" }}>{finTaeg ? `${finTaeg.toFixed(2)}%` : "���"}</div>
+                <div style={{ fontSize: 16, fontWeight: 800, color: "#1e3a5f" }}>{finTaeg ? `${finTaeg.toFixed(2)}%` : "–"}</div>
               </div>
             </div>
 
