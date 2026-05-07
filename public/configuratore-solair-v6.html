@@ -678,10 +678,28 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
       <div style="margin-bottom:24px;">
         <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;">Scegli la taglia</div>
         <div style="font-size:12px;color:var(--mid);margin-bottom:14px;">Prezzo IVA inclusa · chiavi in mano · EPS anti-blackout incluso</div>
-        <div id="sg_taglie_grid" style="display:flex;flex-direction:column;gap:12px;margin-bottom:12px;"></div>
+        <!-- Card consigliata (sempre visibile) -->
+        <div id="sg_card_consigliata"></div>
+
+        <!-- Risparmio -->
         <div class="sg-risparmio" id="sg_risparmio">
           ☀️ Con questa configurazione puoi risparmiare circa <strong id="sg_risparmio_val">–</strong> l'anno in bolletta
         </div>
+
+        <!-- Accordion altre opzioni -->
+        <button id="sg_toggle_altre" onclick="toggleAltreOpzioni()" style="
+          background:none; border:none; width:100%; padding:10px 0 4px;
+          font-family:'Outfit',sans-serif; cursor:pointer; display:flex;
+          align-items:center; justify-content:center; gap:6px;
+          font-size:12px; font-weight:600; color:var(--muted);
+          transition:color 0.2s;
+        " onmouseover="this.style.color='var(--navy)'" onmouseout="this.style.color='var(--muted)'">
+          <span id="sg_toggle_icon">▾</span> Scopri altre opzioni
+        </button>
+        <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:2px;margin-bottom:10px;">
+          Tutte adatte ai tuoi obiettivi
+        </div>
+        <div id="sg_taglie_altre" style="display:none;flex-direction:column;gap:10px;margin-bottom:12px;"></div>
       </div>
 
       <button class="btn-primary teal" id="sg_btn_procedi" style="width:100%;justify-content:center;font-size:15px;padding:15px;margin-bottom:12px;" onclick="procediDaSuggerimento()" disabled>
@@ -1326,25 +1344,80 @@ const sgState = { kwp: null, kwh: null };
 // Risparmio stimato per kWp (€/anno approssimativo)
 const RISPARMIO_PER_KWP = { 6: 900, 7: 1050, 8: 1200, 9: 1350 };
 
+function creaCardTaglia(kwp, kwh, prezzo, isSelected, badgeText) {
+  const card = document.createElement('div');
+  card.className = 'sg-taglia-option' + (isSelected ? ' selected' : '');
+  card.dataset.kwp = kwp;
+  card.dataset.kwh = kwh;
+  const pannelliNum = Math.ceil(kwp * 1000 / 450);
+  const prodAnnua = Math.round(kwp * 1150);
+  card.innerHTML = `
+    ${badgeText ? `<div class="to-badge">${badgeText}</div>` : ''}
+    <div class="to-specs">
+      <div class="to-kwp">${kwp} kWp + ${kwh} kWh</div>
+      <div class="to-detail">≈ ${pannelliNum} pannelli · ~${prodAnnua.toLocaleString('it-IT')} kWh/anno</div>
+    </div>
+    <div class="to-price-wrap">
+      <div class="to-price">€ ${prezzo.toLocaleString('it-IT')}</div>
+      <div class="to-iva">IVA inclusa</div>
+    </div>`;
+  card.onclick = () => {
+    document.querySelectorAll('.sg-taglia-option').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    sgState.kwp = kwp;
+    sgState.kwh = kwh;
+    const btn = document.getElementById('sg_btn_procedi');
+    if (btn) btn.disabled = false;
+    const rBox = document.getElementById('sg_risparmio');
+    const rVal = document.getElementById('sg_risparmio_val');
+    if (rBox && rVal) {
+      const risparmio = RISPARMIO_PER_KWP[kwp] || Math.round(kwp * 150);
+      rVal.textContent = `€ ${risparmio.toLocaleString('it-IT')}`;
+      rBox.style.display = 'block';
+    }
+  };
+  return card;
+}
+
+function toggleAltreOpzioni() {
+  const container = document.getElementById('sg_taglie_altre');
+  const icon = document.getElementById('sg_toggle_icon');
+  const btn = document.getElementById('sg_toggle_altre');
+  if (container.style.display === 'none') {
+    container.style.display = 'flex';
+    icon.textContent = '▴';
+    btn.querySelector('span + span') && (btn.querySelector('span + span').textContent = 'Nascondi');
+  } else {
+    container.style.display = 'none';
+    icon.textContent = '▾';
+  }
+}
+
 function renderTaglieSuggerimento(linea) {
   sgState.kwp = null;
   sgState.kwh = null;
   const btn = document.getElementById('sg_btn_procedi');
   if (btn) btn.disabled = true;
 
-  // Nascondi risparmio
   const rispBox = document.getElementById('sg_risparmio');
   if (rispBox) rispBox.style.display = 'none';
+
+  // Chiudi accordion se aperto
+  const altreContainer = document.getElementById('sg_taglie_altre');
+  if (altreContainer) { altreContainer.style.display = 'none'; altreContainer.innerHTML = ''; }
+  const icon = document.getElementById('sg_toggle_icon');
+  if (icon) icon.textContent = '▾';
 
   const prezziLinea = PREZZI[linea];
   const kwhOpts = KWH_OPTIONS[linea];
   const kwpOpts = Object.keys(prezziLinea).map(Number).sort((a,b)=>a-b);
-  const grid = document.getElementById('sg_taglie_grid');
-  grid.innerHTML = '';
 
-  // Badge: la combo centrale è "consigliata"
+  // Taglia consigliata = kWp centrale × kWh centrale
   const middleKwp = kwpOpts[Math.floor(kwpOpts.length / 2)];
   const middleKwh = kwhOpts[Math.floor(kwhOpts.length / 2)];
+
+  const consigliataContainer = document.getElementById('sg_card_consigliata');
+  consigliataContainer.innerHTML = '';
 
   kwpOpts.forEach(kwp => {
     kwhOpts.forEach(kwh => {
@@ -1352,61 +1425,24 @@ function renderTaglieSuggerimento(linea) {
       if (!prezzo) return;
       const isConsigliata = (kwp === middleKwp && kwh === middleKwh);
 
-      const card = document.createElement('div');
-      card.className = 'sg-taglia-option' + (isConsigliata ? ' selected' : '');
       if (isConsigliata) {
-        // Pre-seleziona la taglia consigliata
         sgState.kwp = kwp;
         sgState.kwh = kwh;
         if (btn) btn.disabled = false;
-      }
-      card.dataset.kwp = kwp;
-      card.dataset.kwh = kwh;
-
-      const pannelliNum = Math.ceil(kwp * 1000 / 450);
-      const prodAnnua = Math.round(kwp * 1150);
-
-      card.innerHTML = `
-        ${isConsigliata ? '<div class="to-badge">⭐ La più scelta</div>' : ''}
-        <div class="to-specs">
-          <div class="to-kwp">${kwp} kWp + ${kwh} kWh</div>
-          <div class="to-detail">≈ ${pannelliNum} pannelli · ~${prodAnnua.toLocaleString('it-IT')} kWh/anno</div>
-        </div>
-        <div class="to-price-wrap">
-          <div class="to-price">€ ${prezzo.toLocaleString('it-IT')}</div>
-          <div class="to-iva">IVA inclusa</div>
-        </div>`;
-
-      card.onclick = () => {
-        document.querySelectorAll('.sg-taglia-option').forEach(c => c.classList.remove('selected'));
-        card.classList.add('selected');
-        sgState.kwp = kwp;
-        sgState.kwh = kwh;
-        const btn = document.getElementById('sg_btn_procedi');
-        if (btn) btn.disabled = false;
-        // Mostra risparmio stimato
-        const rBox = document.getElementById('sg_risparmio');
-        const rVal = document.getElementById('sg_risparmio_val');
-        if (rBox && rVal) {
-          const risparmio = RISPARMIO_PER_KWP[kwp] || Math.round(kwp * 150);
-          rVal.textContent = `€ ${risparmio.toLocaleString('it-IT')}`;
-          rBox.style.display = 'block';
+        const card = creaCardTaglia(kwp, kwh, prezzo, true, '⭐ La più adatta per te');
+        consigliataContainer.appendChild(card);
+        // Risparmio iniziale
+        if (rispBox) {
+          const rVal = document.getElementById('sg_risparmio_val');
+          if (rVal) rVal.textContent = `€ ${(RISPARMIO_PER_KWP[kwp] || Math.round(kwp * 150)).toLocaleString('it-IT')}`;
+          rispBox.style.display = 'block';
         }
-      };
-      grid.appendChild(card);
+      } else {
+        const card = creaCardTaglia(kwp, kwh, prezzo, false, null);
+        altreContainer.appendChild(card);
+      }
     });
   });
-
-  // Mostra risparmio della pre-selezione
-  if (sgState.kwp) {
-    const rBox = document.getElementById('sg_risparmio');
-    const rVal = document.getElementById('sg_risparmio_val');
-    if (rBox && rVal) {
-      const risparmio = RISPARMIO_PER_KWP[sgState.kwp] || Math.round(sgState.kwp * 150);
-      rVal.textContent = `€ ${risparmio.toLocaleString('it-IT')}`;
-      rBox.style.display = 'block';
-    }
-  }
 }
 
 function procediDaSuggerimento() {
