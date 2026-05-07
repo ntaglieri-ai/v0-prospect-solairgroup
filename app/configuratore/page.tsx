@@ -3,8 +3,8 @@
 import { useState, useRef } from "react"
 import Image from "next/image"
 
-// Webhook URL Zapier
-const MAKE_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/18603730/4y307rk/"
+// Webhook URL Make
+const MAKE_WEBHOOK_URL = "https://hook.eu1.make.com/2clnfl0s9958wkei5uq8vp26wbmyfqf6"
 
 // Listino prezzi Maggio 2026
 const PREZZI: Record<string, Record<number, Record<number, number>>> = {
@@ -306,7 +306,6 @@ export default function ConfiguratorePage() {
     try {
       const res = await fetch(MAKE_WEBHOOK_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       })
       if (res.ok || res.status === 200) {
