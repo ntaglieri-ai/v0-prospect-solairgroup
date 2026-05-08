@@ -59,21 +59,25 @@ export function Navbar({ forceDark = false }: NavbarProps) {
             />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-10">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`overline transition-colors duration-300 ${
-                  isDarkMode 
-                    ? "text-[#1e3a5f] hover:text-[#2e8b72]" 
-                    : "text-white/90 hover:text-white"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+          {/* Desktop Navigation - Centered links + Configuratore on right */}
+          <div className="hidden lg:flex items-center flex-1">
+            {/* Centered nav links */}
+            <div className="flex-1 flex justify-center items-center gap-10">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`overline transition-colors duration-300 ${
+                    isDarkMode 
+                      ? "text-[#1e3a5f] hover:text-[#2e8b72]" 
+                      : "text-white/90 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+            {/* Configuratore button stays on right */}
             <Link
               href="/configuratore"
               className="overline px-5 py-2 bg-[#2e8b72] text-white border-0 hover:bg-[#226b57] transition-all duration-300"
