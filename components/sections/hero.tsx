@@ -11,16 +11,24 @@ export function HeroSection() {
 
   return (
     <section id="home" className="relative h-screen overflow-hidden mb-0 md:mb-[80px]">
-      {/* Video Background */}
+      {/* Video Background with poster fallback for LCP */}
       <div className="absolute inset-0 w-full h-full">
+        {/* Poster image shown immediately while video loads */}
+        <Image
+          src="/images/hero-poster.jpg"
+          alt=""
+          fill
+          priority
+          className="object-cover"
+        />
         <video
           autoPlay
           loop
           muted
           playsInline
+          preload="metadata"
+          poster="/images/hero-poster.jpg"
           className="absolute inset-0 w-full h-full object-cover"
-          // @ts-expect-error fetchpriority is valid but not typed
-          fetchpriority="high"
         >
           <source
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/video-montagna-P49xRXx2saAsU8zfcKTsA2hDEf9STU.mp4"
