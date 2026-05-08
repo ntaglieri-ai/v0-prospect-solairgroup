@@ -108,6 +108,7 @@ export default async function RootLayout({
         </DatiAziendaliProvider>
         {process.env.NODE_ENV === "production" && <Analytics />}
         <script
+          type="text/javascript"
           dangerouslySetInnerHTML={{
             __html: `window.GPTTConfig = { uuid: 'b7e5639e1cb444cd98c37342a90053f9', domain: 'app.gptchatbot.it' }`,
           }}
