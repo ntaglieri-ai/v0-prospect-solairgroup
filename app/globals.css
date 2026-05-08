@@ -234,15 +234,15 @@
 /* Mobile text colors for photo overlay sections */
 @media (max-width: 767px) {
   .mobile-text-pearl {
-    color: #F5F5F0 !important;
+    color: #FFFFFF !important;
   }
   .mobile-text-pearl-70 {
-    color: rgba(245, 245, 240, 0.7) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
   }
   .mobile-text-pearl-85 {
-    color: rgba(245, 245, 240, 0.85) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
   }
   .mobile-border-pearl-20 {
-    border-color: rgba(245, 245, 240, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
   }
 }

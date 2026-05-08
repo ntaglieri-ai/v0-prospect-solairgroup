@@ -71,7 +71,7 @@ export function PortfolioSlideshow() {
 
       {/* Content overlay */}
       <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-        <p className="overline text-white/60 mb-4">Portfolio</p>
+        <p className="overline text-white/90 mb-4">Portfolio</p>
         <h2 className="font-heading text-white text-center mb-8" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
           I Nostri Progetti
         </h2>

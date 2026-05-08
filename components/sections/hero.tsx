@@ -59,7 +59,7 @@ export function HeroSection() {
           </div>
 
           {/* Overline - DM Sans */}
-          <p className="overline text-white/60 mb-6 mt-0">
+          <p className="overline text-white/90 mb-6 mt-0">
             Energia Rinnovabile · Italia
           </p>
 
@@ -69,7 +69,7 @@ export function HeroSection() {
           </h1>
 
           {/* Subtitle - DM Sans */}
-          <p className="text-base font-light text-white/75 max-w-xl mx-auto mb-10" style={{ fontFamily: "var(--font-dm-sans)" }}>
+          <p className="text-base font-light text-white/95 max-w-xl mx-auto mb-10" style={{ fontFamily: "var(--font-dm-sans)" }}>
             Impianti fotovoltaici chiavi in mano per privati e aziende in tutta Italia
           </p>
 
