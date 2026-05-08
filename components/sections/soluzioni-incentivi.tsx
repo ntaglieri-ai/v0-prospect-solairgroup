@@ -8,8 +8,8 @@ const pacchetti = [
     sottotitolo: "La soluzione d'ingresso per chi vuole produrre energia in modo semplice ed efficace.",
     badge: null,
     highlight: false,
-    bgColor: "#F1F5F9",
-    accentColor: "#64748B",
+    bgColor: "#E2E8F0",
+    accentColor: "#475569",
     features: [
       "Pannelli monocristallini ad alta efficienza",
       "Inverter Solis con accumulo bassa tensione",
@@ -27,8 +27,8 @@ const pacchetti = [
     sottotitolo: "Alta tensione, protezione anti-blackout e brand leader mondiale. Il nostro più venduto.",
     badge: "Più scelto",
     highlight: true,
-    bgColor: "#F0FDFA",
-    accentColor: "#0D9488",
+    bgColor: "#CCFBF1",
+    accentColor: "#0F766E",
     features: [
       "Pannelli LONGi / Trina Solar / Qcells",
       "Inverter Sineng ibrido monofase",
@@ -46,8 +46,8 @@ const pacchetti = [
     sottotitolo: "Il massimo dell'accumulo con BYD Battery-Box HVE: la batteria più sottile e affidabile sul mercato.",
     badge: null,
     highlight: false,
-    bgColor: "#FDF8F0",
-    accentColor: "#B45309",
+    bgColor: "#FEF3C7",
+    accentColor: "#D97706",
     features: [
       "Pannelli monocristallini premium",
       "Inverter BYD Power-Box ibrido",
