@@ -3,9 +3,11 @@
 import { useState } from "react"
 import Image from "next/image"
 import { ChevronDown, Phone, Mail, X } from "lucide-react"
+import { useHomepage } from "@/lib/context/dati-aziendali-context"
 
 export function HeroSection() {
   const [isContactOpen, setIsContactOpen] = useState(false)
+  const homepage = useHomepage()
 
   return (
     <section id="home" className="relative h-screen overflow-hidden mb-0 md:mb-[80px]">
@@ -69,13 +71,13 @@ export function HeroSection() {
               href="/configuratore"
               className="btn-outline-white w-full sm:w-64 text-center"
             >
-              Configura e Ordina
+              {homepage?.heroCtaPrimario || "Configura e Ordina"}
             </a>
             <button
               onClick={() => setIsContactOpen(true)}
               className="btn-outline-white w-full sm:w-64"
             >
-              Contatta Solair
+              {homepage?.heroCtaSecondario || "Contatta Solair"}
             </button>
           </div>
         </div>

@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { DM_Sans, Outfit } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { sanityFetch } from "@/lib/sanity"
-import { datiAziendaliQuery, type DatiAziendali } from "@/lib/sanity/queries"
+import { datiAziendaliQuery, homepageQuery, type DatiAziendali, type Homepage } from "@/lib/sanity/queries"
 import { DatiAziendaliProvider } from "@/lib/context/dati-aziendali-context"
 import "./globals.css"
 
@@ -42,15 +42,23 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  // Fetch dati aziendali once at the root level
+  // Fetch dati aziendali and homepage once at the root level
   let datiAziendali: DatiAziendali | null = null
+  let homepage: Homepage | null = null
+  
   try {
-    datiAziendali = await sanityFetch<DatiAziendali>({
-      query: datiAziendaliQuery,
-      tags: ["datiAziendali"],
-    })
+    [datiAziendali, homepage] = await Promise.all([
+      sanityFetch<DatiAziendali>({
+        query: datiAziendaliQuery,
+        tags: ["datiAziendali"],
+      }),
+      sanityFetch<Homepage>({
+        query: homepageQuery,
+        tags: ["homepage"],
+      }),
+    ])
   } catch (error) {
-    console.error("Error fetching datiAziendali:", error)
+    console.error("Error fetching Sanity data:", error)
   }
 
   return (
@@ -95,7 +103,7 @@ export default async function RootLayout({
         {/* Sitemap: /, /configuratore, /#chi-siamo, /#servizi, /#recensioni, /#soluzioni, /#cer, /#contatti */}
       </head>
       <body className="font-sans font-light antialiased bg-[#f4f6f7] text-[#1e3a5f]">
-        <DatiAziendaliProvider datiAziendali={datiAziendali}>
+        <DatiAziendaliProvider datiAziendali={datiAziendali} homepage={homepage}>
           {children}
         </DatiAziendaliProvider>
         {process.env.NODE_ENV === "production" && <Analytics />}
