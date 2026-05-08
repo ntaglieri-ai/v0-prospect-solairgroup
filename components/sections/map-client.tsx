@@ -143,7 +143,7 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
           {/* Leaflet Map - Left 55% */}
           <div 
             ref={mapRef} 
-            className="h-[400px] lg:h-auto lg:min-h-[500px] w-full"
+            className="h-[400px] lg:h-auto lg:min-h-[500px] w-full relative z-0"
           />
 
           {/* Sidebar - Right 45% */}
