@@ -159,30 +159,6 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Certification Badges Row */}
-        <div className="border-t border-white/10 pt-8 pb-8">
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-            <div className="flex items-center gap-2 text-white/40">
-              <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18l6.9 3.45L12 11.09 5.1 7.63 12 4.18zM4 8.82l7 3.5v7.36l-7-3.5V8.82zm9 10.86v-7.36l7-3.5v7.36l-7 3.5z"/>
-              </svg>
-              <span className="text-xs font-medium tracking-wide" style={{ fontFamily: "var(--font-dm-sans)" }}>TUV</span>
-            </div>
-            <div className="flex items-center gap-2 text-white/40">
-              <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
-              <span className="text-xs font-medium tracking-wide" style={{ fontFamily: "var(--font-dm-sans)" }}>CE</span>
-            </div>
-            <div className="flex items-center gap-2 text-white/40">
-              <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
-              </svg>
-              <span className="text-xs font-medium tracking-wide" style={{ fontFamily: "var(--font-dm-sans)" }}>GSE</span>
-            </div>
-          </div>
-        </div>
-
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
