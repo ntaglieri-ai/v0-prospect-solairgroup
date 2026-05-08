@@ -12,14 +12,18 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
   const mapInstanceRef = useRef<any>(null)
   const markersRef = useRef<any[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
-  const [mapReady, setMapReady] = useState(false)
+  const sediRef = useRef(sedi)
+  sediRef.current = sedi
 
-  // Initialize map once on mount
+  // Initialize map and markers once on mount
   useEffect(() => {
-    if (typeof window === "undefined" || mapInstanceRef.current) return
+    if (typeof window === "undefined") return
+    if (!mapRef.current) return
+
+    let mapInstance: any = null
 
     import("leaflet").then((L) => {
-      if (!mapRef.current || mapInstanceRef.current) return
+      if (!mapRef.current) return
 
       delete (L.Icon.Default.prototype as any)._getIconUrl
       L.Icon.Default.mergeOptions({
@@ -37,6 +41,8 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         zoomControl: true,
         scrollWheelZoom: false,
       })
+      mapInstance = map
+      mapInstanceRef.current = map
 
       L.tileLayer(
         "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
@@ -47,74 +53,59 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         }
       ).addTo(map)
 
-      mapInstanceRef.current = map
-      setMapReady(true)
+      // Add markers immediately using current sedi data
+      const currentSedi = sediRef.current
+      if (currentSedi && currentSedi.length > 0) {
+        const createIcon = (active: boolean) =>
+          L.divIcon({
+            className: "",
+            html: `<div style="
+              width: ${active ? "24px" : "20px"};
+              height: ${active ? "24px" : "20px"};
+              background: ${active ? "#1e3a5f" : "#2e8b72"};
+              border: 3px solid white;
+              border-radius: 50%;
+              box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+              transition: all 0.2s ease;
+            "></div>`,
+            iconSize: [active ? 24 : 20, active ? 24 : 20],
+            iconAnchor: [active ? 12 : 10, active ? 12 : 10],
+          })
+
+        // Filter sedi with valid coordinates
+        const validSedi = currentSedi.filter(sede => 
+          sede.lat !== undefined && sede.lng !== undefined && 
+          !isNaN(sede.lat) && !isNaN(sede.lng)
+        )
+
+        validSedi.forEach((sede) => {
+          const marker = L.marker([sede.lat, sede.lng], {
+            icon: createIcon(false),
+          }).addTo(map)
+
+          marker.on("click", () => {
+            setActiveId(sede._id)
+          })
+
+          markersRef.current.push({ id: sede._id, marker })
+        })
+
+        // Fit map to show all markers with padding
+        if (validSedi.length > 0) {
+          const bounds = L.latLngBounds(validSedi.map(s => [s.lat, s.lng]))
+          map.fitBounds(bounds, { padding: [60, 60], maxZoom: 6 })
+        }
+      }
     })
 
     return () => {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove()
+      if (mapInstance) {
+        mapInstance.remove()
         mapInstanceRef.current = null
         markersRef.current = []
       }
     }
   }, [])
-
-  // Add markers when map is ready and sedi data is available
-  useEffect(() => {
-    if (!mapReady || !mapInstanceRef.current || !sedi || sedi.length === 0) return
-
-    import("leaflet").then((L) => {
-      const map = mapInstanceRef.current
-      if (!map) return
-
-      // Clear existing markers
-      markersRef.current.forEach(({ marker }) => {
-        map.removeLayer(marker)
-      })
-      markersRef.current = []
-
-      const createIcon = (active: boolean) =>
-        L.divIcon({
-          className: "",
-          html: `<div style="
-            width: ${active ? "24px" : "20px"};
-            height: ${active ? "24px" : "20px"};
-            background: ${active ? "#1e3a5f" : "#2e8b72"};
-            border: 3px solid white;
-            border-radius: 50%;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
-            transition: all 0.2s ease;
-          "></div>`,
-          iconSize: [active ? 24 : 20, active ? 24 : 20],
-          iconAnchor: [active ? 12 : 10, active ? 12 : 10],
-        })
-
-      // Filter sedi with valid coordinates
-      const validSedi = sedi.filter(sede => 
-        sede.lat !== undefined && sede.lng !== undefined && 
-        !isNaN(sede.lat) && !isNaN(sede.lng)
-      )
-
-      validSedi.forEach((sede) => {
-        const marker = L.marker([sede.lat, sede.lng], {
-          icon: createIcon(false),
-        }).addTo(map)
-
-        marker.on("click", () => {
-          setActiveId(sede._id)
-        })
-
-        markersRef.current.push({ id: sede._id, marker })
-      })
-
-      // Fit map to show all markers with padding
-      if (validSedi.length > 0) {
-        const bounds = L.latLngBounds(validSedi.map(s => [s.lat, s.lng]))
-        map.fitBounds(bounds, { padding: [60, 60], maxZoom: 6 })
-      }
-    })
-  }, [mapReady, sedi])
 
   useEffect(() => {
     if (!mapInstanceRef.current || activeId === null) return
