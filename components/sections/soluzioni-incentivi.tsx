@@ -8,6 +8,8 @@ const pacchetti = [
     sottotitolo: "La soluzione d'ingresso per chi vuole produrre energia in modo semplice ed efficace.",
     badge: null,
     highlight: false,
+    bgColor: "#F1F5F9",
+    accentColor: "#64748B",
     features: [
       "Pannelli monocristallini ad alta efficienza",
       "Inverter Solis con accumulo bassa tensione",
@@ -25,6 +27,8 @@ const pacchetti = [
     sottotitolo: "Alta tensione, protezione anti-blackout e brand leader mondiale. Il nostro più venduto.",
     badge: "Più scelto",
     highlight: true,
+    bgColor: "#F0FDFA",
+    accentColor: "#0D9488",
     features: [
       "Pannelli LONGi / Trina Solar / Qcells",
       "Inverter Sineng ibrido monofase",
@@ -42,6 +46,8 @@ const pacchetti = [
     sottotitolo: "Il massimo dell'accumulo con BYD Battery-Box HVE: la batteria più sottile e affidabile sul mercato.",
     badge: null,
     highlight: false,
+    bgColor: "#FDF8F0",
+    accentColor: "#B45309",
     features: [
       "Pannelli monocristallini premium",
       "Inverter BYD Power-Box ibrido",
@@ -113,7 +119,7 @@ function Separator() {
   );
 }
 
-function CheckIcon() {
+function CheckIcon({ color = C.textMid }: { color?: string }) {
   return (
     <svg
       width="14"
@@ -122,10 +128,10 @@ function CheckIcon() {
       fill="none"
       style={{ flexShrink: 0, marginTop: "1px" }}
     >
-      <circle cx="7" cy="7" r="6.5" stroke={C.border} />
+      <circle cx="7" cy="7" r="6.5" stroke={color} strokeOpacity="0.4" />
       <path
         d="M4.5 7L6.2 8.8L9.5 5.5"
-        stroke={C.textMid}
+        stroke={color}
         strokeWidth="1.2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -200,10 +206,10 @@ export function SoluzioniIncentiviSection() {
           <div
             key={p.id}
             style={{
-              background: p.highlight ? C.bgCardHl : C.bgCard,
+              background: p.bgColor,
               padding: "40px 32px 36px",
               position: "relative",
-              borderTop: `2px solid ${p.highlight ? C.text : "transparent"}`,
+              borderTop: `3px solid ${p.accentColor}`,
               display: "flex",
               flexDirection: "column",
             }}
@@ -246,7 +252,7 @@ export function SoluzioniIncentiviSection() {
                 fontWeight: 400,
                 marginBottom: "14px",
                 letterSpacing: "-0.01em",
-                color: C.text,
+                color: p.accentColor,
               }}
             >
               {p.linea}
@@ -280,7 +286,7 @@ export function SoluzioniIncentiviSection() {
                     lineHeight: 1.4,
                   }}
                 >
-                  <CheckIcon />
+                  <CheckIcon color={p.accentColor} />
                   {f}
                 </li>
               ))}
