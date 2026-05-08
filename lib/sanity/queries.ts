@@ -24,6 +24,19 @@ export const homepageQuery = groq`
   }
 `
 
+// CER query
+export const cerQuery = groq`
+  *[_type == "cer"][0] {
+    titolo,
+    descrizione,
+    vantaggi,
+    comePartecipare,
+    incentivo,
+    ctaTesto,
+    ctaLink
+  }
+`
+
 // Dati Aziendali query
 export const datiAziendaliQuery = groq`
   *[_type == "datiAziendali"][0] {
@@ -68,6 +81,16 @@ export interface Homepage {
   soluzioniTitolo?: string
   incentiviTitolo?: string
   cerTitolo?: string
+}
+
+export interface CER {
+  titolo?: string
+  descrizione?: string
+  vantaggi?: string[]
+  comePartecipare?: string[]
+  incentivo?: number
+  ctaTesto?: string
+  ctaLink?: string
 }
 
 export interface DatiAziendali {
