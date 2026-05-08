@@ -1,16 +1,23 @@
 "use client"
 
 import Image from "next/image"
+import type { CER } from "@/lib/sanity/queries"
 
-const cerBenefits = [
-  "Autoconsumo diffuso dell'energia prodotta",
-  "Risparmio fino al 40% in bolletta",
-  "Incentivi statali dedicati",
-  "Energia 100% rinnovabile",
-  "Nessun vincolo contrattuale minimo",
-]
+interface SolairCERClientProps {
+  cer: CER
+}
 
-export function SolairCERSection() {
+export function SolairCERClient({ cer }: SolairCERClientProps) {
+  // Handle vantaggi which can be either strings or objects with {_key, titolo}
+  const rawVantaggi = cer.vantaggi || []
+  const cerBenefits = rawVantaggi.map((v: string | { _key: string; titolo: string }) => 
+    typeof v === 'string' ? v : v.titolo
+  )
+  const titolo = cer.titolo || "Comunità Energetiche Rinnovabili"
+  const descrizione = cer.descrizione || ""
+  const incentivo = cer.incentivo || 20
+  const ctaTesto = cer.ctaTesto || "Scopri di più"
+  const ctaLink = cer.ctaLink || "#contatti"
   return (
     <section
       id="cer"
@@ -38,10 +45,10 @@ export function SolairCERSection() {
               Solair CER
             </p>
             <h3 className="font-heading text-[#1e3a5f] mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
-              Comunita Energetiche Rinnovabili
+              {titolo}
             </h3>
             <p className="body-text text-[#4a6080] mb-10">
-              Le Comunita Energetiche Rinnovabili permettono a privati, condomini e aziende di produrre e condividere energia pulita, riducendo la bolletta fino al 40% e accedendo a incentivi statali dedicati.
+              {descrizione}
             </p>
             
             {/* CER Benefits list */}
@@ -59,17 +66,17 @@ export function SolairCERSection() {
             
             {/* Stat */}
             <div className="mb-10 pt-6 border-t border-[#d0d6da]">
-              <p className="font-heading text-[3rem] text-[#1e3a5f]">20+</p>
+              <p className="font-heading text-[3rem] text-[#1e3a5f]">{incentivo}+</p>
               <p className="overline text-[#8a9aaa] mt-1">
                 CER attive in Italia
               </p>
             </div>
 
             <a 
-              href="#contatti" 
+              href={ctaLink} 
               className="btn-outline text-[#1e3a5f]"
             >
-              Scopri di piu
+              {ctaTesto}
             </a>
           </div>
         </div>
@@ -92,10 +99,10 @@ export function SolairCERSection() {
             Solair CER
           </p>
           <h3 className="font-heading mb-6 mobile-text-pearl" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
-            Comunita Energetiche Rinnovabili
+            {titolo}
           </h3>
           <p className="body-text mb-10 mobile-text-pearl-85">
-            Le Comunita Energetiche Rinnovabili permettono a privati, condomini e aziende di produrre e condividere energia pulita, riducendo la bolletta fino al 40% e accedendo a incentivi statali dedicati.
+            {descrizione}
           </p>
           
           {/* CER Benefits list */}
@@ -114,17 +121,17 @@ export function SolairCERSection() {
           
           {/* Stat */}
           <div className="mb-10 pt-6 mobile-border-pearl-20" style={{ borderTopWidth: "1px", borderTopStyle: "solid" }}>
-            <p className="font-heading mobile-text-pearl" style={{ fontSize: "3rem" }}>20+</p>
+            <p className="font-heading mobile-text-pearl" style={{ fontSize: "3rem" }}>{incentivo}+</p>
             <p className="overline mt-1 mobile-text-pearl-70">
               CER attive in Italia
             </p>
           </div>
 
           <a 
-            href="#contatti" 
+            href={ctaLink} 
             className="btn-outline mobile-text-pearl mobile-border-pearl-20"
           >
-            Scopri di piu
+            {ctaTesto}
           </a>
         </div>
       </div>

@@ -152,6 +152,9 @@ export function Footer() {
               {datiAziendali?.copyright || "© 2024 Solair Group. Tutti i diritti riservati."}
             </p>
             <div className="flex items-center gap-6">
+              <Link href="/faq" className="text-xs text-white/50 hover:text-white/80 transition-colors" style={{ fontFamily: "var(--font-dm-sans)" }}>
+                FAQ
+              </Link>
               <Link href="/privacy" className="text-xs text-white/50 hover:text-white/80 transition-colors" style={{ fontFamily: "var(--font-dm-sans)" }}>
                 Privacy
               </Link>

@@ -24,6 +24,28 @@ export const homepageQuery = groq`
   }
 `
 
+// CER query
+export const cerQuery = groq`
+  *[_type == "cer"][0] {
+    titolo,
+    descrizione,
+    vantaggi,
+    comePartecipare,
+    incentivo,
+    ctaTesto,
+    ctaLink
+  }
+`
+
+// FAQ query
+export const faqQuery = groq`
+  *[_type == "faq" && attiva == true] | order(ordine asc) {
+    domanda,
+    risposta,
+    categoria
+  }
+`
+
 // Dati Aziendali query
 export const datiAziendaliQuery = groq`
   *[_type == "datiAziendali"][0] {
@@ -68,6 +90,22 @@ export interface Homepage {
   soluzioniTitolo?: string
   incentiviTitolo?: string
   cerTitolo?: string
+}
+
+export interface CER {
+  titolo?: string
+  descrizione?: string
+  vantaggi?: (string | { _key: string; titolo: string })[]
+  comePartecipare?: (string | { _key: string; titolo: string })[]
+  incentivo?: number
+  ctaTesto?: string
+  ctaLink?: string
+}
+
+export interface FAQ {
+  domanda: string
+  risposta: string
+  categoria?: string
 }
 
 export interface DatiAziendali {
