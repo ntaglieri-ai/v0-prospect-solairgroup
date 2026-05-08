@@ -52,33 +52,25 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         maxZoom: 19,
       }).addTo(map)
 
-      const createIcon = (active: boolean) =>
-        L.divIcon({
-          className: "",
-          html: `<div style="
-            width: ${active ? "24px" : "20px"};
-            height: ${active ? "24px" : "20px"};
-            background: ${active ? "#1e3a5f" : "#2e8b72"};
-            border: 3px solid white;
-            border-radius: 50%;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
-            transition: all 0.2s ease;
-          "></div>`,
-          iconSize: [active ? 24 : 20, active ? 24 : 20],
-          iconAnchor: [active ? 12 : 10, active ? 12 : 10],
-        })
+      // Custom icon using standard Leaflet icon
+      const customIcon = L.icon({
+        iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+        iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+        shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+      })
 
       // Filter and add markers
       const validSedi = sedi.filter(
         (sede) => sede.lat != null && sede.lng != null && !isNaN(sede.lat) && !isNaN(sede.lng)
       )
 
-      console.log("[v0] Adding markers for", validSedi.length, "sedi")
-
       validSedi.forEach((sede) => {
-        console.log("[v0] Creating marker at", sede.lat, sede.lng, "for", sede.citta)
         const marker = L.marker([sede.lat, sede.lng], {
-          icon: createIcon(false),
+          icon: customIcon,
         }).addTo(map)
 
         marker.on("click", () => {
