@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState, useCallback } from "react"
+import { useEffect, useRef, useState } from "react"
 import type { Sede } from "@/lib/sanity/queries"
 
 interface MapSectionClientProps {
@@ -11,19 +11,25 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null)
   const mapInstanceRef = useRef<any>(null)
   const markersRef = useRef<any[]>([])
+  const sediRef = useRef<Sede[]>(sedi)
   const [activeId, setActiveId] = useState<string | null>(null)
   const [mounted, setMounted] = useState(false)
+
+  // Keep sediRef in sync
+  sediRef.current = sedi
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  // Initialize map and markers
+  // Initialize map and markers - only runs once on mount
   useEffect(() => {
     if (!mounted) return
     if (!mapContainerRef.current) return
-    if (mapInstanceRef.current) return // Already initialized
-    if (!sedi || sedi.length === 0) return
+    if (mapInstanceRef.current) return
+
+    const currentSedi = sediRef.current
+    if (!currentSedi || currentSedi.length === 0) return
 
     const initMap = async () => {
       const L = await import("leaflet")
@@ -52,7 +58,7 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         maxZoom: 19,
       }).addTo(map)
 
-      // Custom icon using standard Leaflet icon
+      // Custom icon
       const customIcon = L.icon({
         iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
         iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
@@ -63,11 +69,12 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         shadowSize: [41, 41]
       })
 
-      // Filter and add markers
-      const validSedi = sedi.filter(
+      // Filter valid sedi
+      const validSedi = currentSedi.filter(
         (sede) => sede.lat != null && sede.lng != null && !isNaN(sede.lat) && !isNaN(sede.lng)
       )
 
+      // Add markers
       validSedi.forEach((sede) => {
         const marker = L.marker([sede.lat, sede.lng], {
           icon: customIcon,
@@ -96,13 +103,16 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         markersRef.current = []
       }
     }
-  }, [mounted, sedi])
+  }, [mounted])
 
+  // Handle active marker change
   useEffect(() => {
     if (!mapInstanceRef.current || activeId === null) return
 
+    const currentSedi = sediRef.current
+
     import("leaflet").then((L) => {
-      const sede = sedi.find((s) => s._id === activeId)
+      const sede = currentSedi.find((s) => s._id === activeId)
       if (!sede) return
 
       mapInstanceRef.current.flyTo([sede.lat, sede.lng], 10, {
@@ -148,13 +158,13 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
 
       <section className="bg-[#f4f6f7] mt-[50px] mb-0 md:mb-[25px] relative" style={{ zIndex: 1, isolation: 'isolate' }}>
         <div className="grid lg:grid-cols-[55%_45%] min-h-[500px]">
-          {/* Leaflet Map - Left 55% */}
+          {/* Leaflet Map */}
           <div 
             ref={mapContainerRef} 
             className="h-[400px] lg:h-auto lg:min-h-[500px] w-full relative z-0"
           />
 
-          {/* Sidebar - Right 45% */}
+          {/* Sidebar */}
           <div className="flex flex-col justify-center px-8 lg:px-10 py-12 border-l border-[#d0d6da]">
             <p className="overline text-[#8a9aaa] mb-3">Sedi</p>
             <h2 className="font-heading text-[#1e3a5f] mb-10" style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", lineHeight: 1.2 }}>
