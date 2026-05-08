@@ -39,11 +39,11 @@ export function Footer() {
       />
       
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-20">
-        {/* Top Section: Logo + Navigation + Contact Info - 3 Column Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mb-16 md:items-start">
-          {/* Logo & Description - Left */}
+        {/* Header Row: Logo + Navigazione + Contatti titles aligned */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          {/* Logo - Left */}
           <div>
-            <Link href="/" className="relative inline-block h-14 w-32 mb-6">
+            <Link href="/" className="relative inline-block h-10 w-28">
               <Image
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp_Image_2026-05-05_at_18.34.28-removebg-preview-rlWc3q38NGodyFUqcCA2TsRp7eyfiY.png"
                 alt="Solair Group"
@@ -51,6 +51,27 @@ export function Footer() {
                 className="object-contain object-left brightness-0 invert"
               />
             </Link>
+          </div>
+          
+          {/* Navigazione Title - Center */}
+          <div className="md:text-center">
+            <h4 className="text-xs font-medium tracking-[0.2em] uppercase text-white/90" style={{ fontFamily: "var(--font-dm-sans)" }}>
+              Navigazione
+            </h4>
+          </div>
+          
+          {/* Contatti Title - Right */}
+          <div className="md:text-right">
+            <h4 className="text-xs font-medium tracking-[0.2em] uppercase text-white/90" style={{ fontFamily: "var(--font-dm-sans)" }}>
+              Contatti
+            </h4>
+          </div>
+        </div>
+        
+        {/* Content Row: Description + Nav Links + Contact Info */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mb-16">
+          {/* Description - Left */}
+          <div>
             <p className="text-sm text-white/70 font-light leading-relaxed mb-4" style={{ fontFamily: "var(--font-dm-sans)" }}>
               Solair Group opera in tutta Italia con sedi a Catania, Giarre (CT), Treviso (TV) e Torino (TO)
             </p>
@@ -61,9 +82,6 @@ export function Footer() {
 
           {/* Navigation Links - Center */}
           <div className="md:text-center">
-            <h4 className="text-xs font-medium tracking-[0.2em] uppercase mb-6 text-white/90" style={{ fontFamily: "var(--font-dm-sans)" }}>
-              Navigazione
-            </h4>
             <div className="flex flex-wrap md:justify-center gap-x-6 gap-y-3">
               {navLinks.map((link) => (
                 <Link
@@ -80,9 +98,6 @@ export function Footer() {
 
           {/* Contact Info - Right */}
           <div className="md:text-right">
-            <h4 className="text-xs font-medium tracking-[0.2em] uppercase mb-6 text-white/90" style={{ fontFamily: "var(--font-dm-sans)" }}>
-              Contatti
-            </h4>
             <div className="space-y-4">
               <a 
                 href={`tel:${telefono}`}
