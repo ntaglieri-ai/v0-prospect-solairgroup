@@ -1111,7 +1111,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
     <div class="tan-taeg-row">
       <div class="tan-taeg-box">
         <div class="tt-label">TAN fisso</div>
-        <div class="tt-val">6,90%</div>
+        <div class="tt-val" id="popup_tan_val">6,90%</div>
       </div>
       <div class="tan-taeg-box">
         <div class="tt-label">TAEG indicativo</div>
@@ -1149,6 +1149,38 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 </div><!-- end configuratorePage -->
 
 <script>
+
+// ─── FETCH DATI DA SANITY ALL'AVVIO ───
+(async function loadSanityData() {
+  try {
+    const res = await fetch('/api/configuratore-data');
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    
+    if (data.prezzi) PREZZI = data.prezzi;
+    if (data.kwhOptions) KWH_OPTIONS = data.kwhOptions;
+    if (data.zavorreCosto) ZAVORRE_COSTO = data.zavorreCosto;
+    if (data.dbTable && data.dbTable.length > 0) DB_TABLE = data.dbTable;
+    if (data.tan) {
+      TAN_RATE = data.tan;
+      // Update TAN display in the page
+      const tanEl = document.getElementById('popup_tan_val');
+      if (tanEl) tanEl.textContent = TAN_RATE.toFixed(2).replace('.', ',') + '%';
+    }
+    if (data.whatsapp) {
+      WHATSAPP_NUMBER = data.whatsapp;
+      // Update WhatsApp links in the page
+      document.querySelectorAll('a[href*="wa.me"]').forEach(el => {
+        const oldHref = el.getAttribute('href');
+        const newHref = oldHref.replace(/wa\.me\/\d+/, 'wa.me/' + WHATSAPP_NUMBER);
+        el.setAttribute('href', newHref);
+      });
+    }
+    console.log('[Configuratore] Dati Sanity caricati');
+  } catch (err) {
+    console.warn('[Configuratore] Fallback ai dati hardcoded:', err.message);
+  }
+})();
 
 // ─── RESET COMPLETO ───
 function resetCompleto() {
@@ -1485,9 +1517,12 @@ function sceglieLineSuggerita() {
 // ─── WEBHOOK ───
 const MAKE_WEBHOOK_URL = 'https://hook.eu1.make.com/2clnfl0s9958wkei5uq8vp26wbmyfqf6';
 
-// ─── LISTINO PREZZI MAGGIO 2026 ───
+// ─── NUMERO WHATSAPP (aggiornato da Sanity) ───
+let WHATSAPP_NUMBER = '393497988101';
+
+// ─── LISTINO PREZZI (fallback, aggiornato da Sanity) ───
 // Struttura: PREZZI[linea][kwp][kwh] = prezzo €
-const PREZZI = {
+let PREZZI = {
   smart: {
     6:  { 10: 8800, 16: 9400, 20: 10700, 32: 11900 },
     7:  { 10: 9300, 16: 10000, 20: 11200, 32: 12400 },
@@ -1508,15 +1543,15 @@ const PREZZI = {
   },
 };
 
-// Opzioni kWh per linea
-const KWH_OPTIONS = {
+// Opzioni kWh per linea (fallback, aggiornato da Sanity)
+let KWH_OPTIONS = {
   smart:   [10, 16, 20, 32],
   power:   [10.6, 15.9, 21.2],
   premium: [12.9, 17.2, 21.4],
 };
 
-// Costo zavorre per tipo tetto (€/kWp, IVA 10% inclusa)
-const ZAVORRE_COSTO = {
+// Costo zavorre per tipo tetto (€/kWp, IVA 10% inclusa) - fallback, aggiornato da Sanity
+let ZAVORRE_COSTO = {
   piano: 0,
   falde: 100,
   vento: 150,
@@ -1527,10 +1562,13 @@ const ZAVORRE_LABEL = {
   vento: 'Falde con vento forte',
 };
 
+// ─── TAN FINANZIAMENTO (aggiornato da Sanity) ───
+let TAN_RATE = 6.90;
+
 // ─── TABELLA FINANZIAMENTO Deutsche Bank Easy Prod.31 ───
-// Campionamento rappresentativo dalla tabella REN
+// Campionamento rappresentativo dalla tabella REN (fallback, aggiornato da Sanity)
 // Formato: [importo, nRate, rata, taeg]
-const DB_TABLE = [
+let DB_TABLE = [
   [1000,12,87,19.55],[1000,24,45,15.38],[1000,36,31,14.90],[1000,48,24,14.53],[1000,60,20,14.65],
   [2000,12,174,13.82],[2000,24,90,11.69],[2000,36,62,11.30],[2000,48,48,11.02],[2000,60,40,11.24],
   [3000,12,260,11.18],[3000,24,135,10.47],[3000,36,93,10.10],[3000,48,72,9.85],[3000,60,60,10.10],
@@ -1920,7 +1958,7 @@ function confermaFinanziamento() {
   document.getElementById('pg_riepilogo_rate_box').style.display = 'block';
   document.getElementById('pg_riepilogo_anticipo').textContent = '€ ' + pagamentoState.anticipo.toLocaleString('it-IT');
   document.getElementById('pg_riepilogo_rata').textContent = pagamentoState.nRate + ' rate · € ' + pagamentoState.rata.toLocaleString('it-IT') + '/mese';
-  document.getElementById('pg_riepilogo_tanaeg').textContent = '6,90% · ' + pagamentoState.taeg.toFixed(2) + '%';
+  document.getElementById('pg_riepilogo_tanaeg').textContent = TAN_RATE.toFixed(2).replace('.', ',') + '% · ' + pagamentoState.taeg.toFixed(2) + '%';
   aggiornaConsensi();
 }
 
@@ -2025,7 +2063,7 @@ async function inviaRichiesta() {
     anticipo: pagamentoState.modalita === 'finanziamento' ? pagamentoState.anticipo : '',
     num_rate: pagamentoState.modalita === 'finanziamento' ? pagamentoState.nRate : '',
     rata_mensile: pagamentoState.modalita === 'finanziamento' ? pagamentoState.rata : '',
-    tan: pagamentoState.modalita === 'finanziamento' ? 6.90 : '',
+    tan: pagamentoState.modalita === 'finanziamento' ? TAN_RATE : '',
     taeg: pagamentoState.modalita === 'finanziamento' ? pagamentoState.taeg : '',
     data_invio: now.toISOString(),
   };
