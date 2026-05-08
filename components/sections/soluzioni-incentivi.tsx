@@ -8,6 +8,8 @@ const pacchetti = [
     sottotitolo: "La soluzione d'ingresso per chi vuole produrre energia in modo semplice ed efficace.",
     badge: null,
     highlight: false,
+    bgColor: "#E2E8F0",
+    accentColor: "#475569",
     features: [
       "Pannelli monocristallini ad alta efficienza",
       "Inverter Solis con accumulo bassa tensione",
@@ -25,6 +27,8 @@ const pacchetti = [
     sottotitolo: "Alta tensione, protezione anti-blackout e brand leader mondiale. Il nostro più venduto.",
     badge: "Più scelto",
     highlight: true,
+    bgColor: "#CCFBF1",
+    accentColor: "#0F766E",
     features: [
       "Pannelli LONGi / Trina Solar / Qcells",
       "Inverter Sineng ibrido monofase",
@@ -42,6 +46,8 @@ const pacchetti = [
     sottotitolo: "Il massimo dell'accumulo con BYD Battery-Box HVE: la batteria più sottile e affidabile sul mercato.",
     badge: null,
     highlight: false,
+    bgColor: "#FEF3C7",
+    accentColor: "#D97706",
     features: [
       "Pannelli monocristallini premium",
       "Inverter BYD Power-Box ibrido",
@@ -113,7 +119,7 @@ function Separator() {
   );
 }
 
-function CheckIcon() {
+function CheckIcon({ color = C.textMid }: { color?: string }) {
   return (
     <svg
       width="14"
@@ -122,10 +128,10 @@ function CheckIcon() {
       fill="none"
       style={{ flexShrink: 0, marginTop: "1px" }}
     >
-      <circle cx="7" cy="7" r="6.5" stroke={C.border} />
+      <circle cx="7" cy="7" r="6.5" stroke={color} strokeOpacity="0.4" />
       <path
         d="M4.5 7L6.2 8.8L9.5 5.5"
-        stroke={C.textMid}
+        stroke={color}
         strokeWidth="1.2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -200,10 +206,10 @@ export function SoluzioniIncentiviSection() {
           <div
             key={p.id}
             style={{
-              background: p.highlight ? C.bgCardHl : C.bgCard,
+              background: p.bgColor,
               padding: "40px 32px 36px",
               position: "relative",
-              borderTop: `2px solid ${p.highlight ? C.text : "transparent"}`,
+              borderTop: `3px solid ${p.accentColor}`,
               display: "flex",
               flexDirection: "column",
             }}
@@ -217,11 +223,12 @@ export function SoluzioniIncentiviSection() {
                   fontSize: "10px",
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
-                  color: C.textMid,
-                  border: `1px solid ${C.border}`,
-                  padding: "3px 9px",
-                  borderRadius: "2px",
-                  background: C.bg,
+                  fontWeight: 600,
+                  color: "#B91C1C",
+                  border: "none",
+                  padding: "4px 10px",
+                  borderRadius: "3px",
+                  background: "#FEE2E2",
                 }}
               >
                 {p.badge}
@@ -233,8 +240,9 @@ export function SoluzioniIncentiviSection() {
                 fontSize: "10px",
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
-                color: C.textMuted,
+                color: "#64748B",
                 marginBottom: "10px",
+                fontWeight: 500,
               }}
             >
               {p.livello}
@@ -246,7 +254,7 @@ export function SoluzioniIncentiviSection() {
                 fontWeight: 400,
                 marginBottom: "14px",
                 letterSpacing: "-0.01em",
-                color: C.text,
+                color: p.accentColor,
               }}
             >
               {p.linea}
@@ -255,7 +263,7 @@ export function SoluzioniIncentiviSection() {
             <p
               style={{
                 fontSize: "13px",
-                color: C.textMid,
+                color: "#334155",
                 lineHeight: 1.65,
                 marginBottom: "28px",
                 minHeight: "58px",
@@ -275,12 +283,12 @@ export function SoluzioniIncentiviSection() {
                     alignItems: "flex-start",
                     gap: "10px",
                     fontSize: "13px",
-                    color: C.textMid,
+                    color: "#1e293b",
                     marginBottom: "9px",
                     lineHeight: 1.4,
                   }}
                 >
-                  <CheckIcon />
+                  <CheckIcon color={p.accentColor} />
                   {f}
                 </li>
               ))}
