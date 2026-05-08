@@ -9,12 +9,17 @@ import { accessorio } from './accessorio'
 import { immagineGalleria } from './immagineGalleria'
 import { documentoPdf } from './documentoPdf'
 import { datiAziendali } from './datiAziendali'
+import linea from './linea'
+import priceList from './priceList'
+import finanziamentoTable from './finanziamentoTable'
+import configuratoreSettings from './configuratoreSettings'
 
 export const schemaTypes = [
   // Singleton
   homepage,
   datiAziendali,
   cer,
+  configuratoreSettings,
   // Documents
   sede,
   recensione,
@@ -24,4 +29,7 @@ export const schemaTypes = [
   accessorio,
   immagineGalleria,
   documentoPdf,
+  linea,
+  priceList,
+  finanziamentoTable,
 ]
