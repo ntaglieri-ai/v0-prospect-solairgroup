@@ -229,10 +229,7 @@
   z-index: 5;
 }
 
-/* Leaflet map z-index override - keep below navbar but preserve marker visibility */
-.leaflet-container {
-  z-index: 1 !important;
-}
+
 
 /* Mobile text colors for photo overlay sections */
 @media (max-width: 767px) {
