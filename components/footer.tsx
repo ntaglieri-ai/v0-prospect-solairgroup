@@ -39,10 +39,10 @@ export function Footer() {
       />
       
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-20">
-        {/* Top Section: Logo + Contact Info */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+        {/* Top Section: Logo + Navigation + Contact Info - Same Row */}
+        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-12 mb-16">
           {/* Logo & Description */}
-          <div>
+          <div className="flex-shrink-0 lg:w-1/3">
             <Link href="/" className="relative inline-block h-14 w-32 mb-6">
               <Image
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp_Image_2026-05-05_at_18.34.28-removebg-preview-rlWc3q38NGodyFUqcCA2TsRp7eyfiY.png"
@@ -59,12 +59,12 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Navigation Links */}
-          <div>
+          {/* Navigation Links - Centered */}
+          <div className="flex-1 lg:text-center">
             <h4 className="text-xs font-medium tracking-[0.2em] uppercase mb-6 text-white/90" style={{ fontFamily: "var(--font-dm-sans)" }}>
               Navigazione
             </h4>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-wrap justify-start lg:justify-center gap-x-6 gap-y-3">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -78,15 +78,15 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Contact Info */}
-          <div>
+          {/* Contact Info - Centered */}
+          <div className="flex-shrink-0 lg:w-1/3 lg:text-right">
             <h4 className="text-xs font-medium tracking-[0.2em] uppercase mb-6 text-white/90" style={{ fontFamily: "var(--font-dm-sans)" }}>
               Contatti
             </h4>
             <div className="space-y-4">
               <a 
                 href={`tel:${telefono}`}
-                className="flex items-center gap-3 text-sm text-white/70 hover:text-white transition-colors duration-200"
+                className="flex items-center lg:justify-end gap-3 text-sm text-white/70 hover:text-white transition-colors duration-200"
                 style={{ fontFamily: "var(--font-dm-sans)" }}
               >
                 <Phone size={18} className="text-white/50" />
@@ -96,7 +96,7 @@ export function Footer() {
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm text-white/70 hover:text-white transition-colors duration-200"
+                className="flex items-center lg:justify-end gap-3 text-sm text-white/70 hover:text-white transition-colors duration-200"
                 style={{ fontFamily: "var(--font-dm-sans)" }}
               >
                 <MessageCircle size={18} className="text-white/50" />
@@ -104,7 +104,7 @@ export function Footer() {
               </a>
               <a 
                 href={`mailto:${email}`}
-                className="flex items-center gap-3 text-sm text-white/70 hover:text-white transition-colors duration-200"
+                className="flex items-center lg:justify-end gap-3 text-sm text-white/70 hover:text-white transition-colors duration-200"
                 style={{ fontFamily: "var(--font-dm-sans)" }}
               >
                 <Mail size={18} className="text-white/50" />
@@ -114,7 +114,7 @@ export function Footer() {
 
             {/* Social Links - Larger with hover effects */}
             {(facebook || instagram || linkedin) && (
-              <div className="flex items-center gap-5 mt-8">
+              <div className="flex items-center lg:justify-end gap-5 mt-8">
                 {facebook && (
                   <a 
                     href={facebook}
