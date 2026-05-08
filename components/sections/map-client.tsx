@@ -8,62 +8,77 @@ interface MapSectionClientProps {
 }
 
 export function MapSectionClient({ sedi }: MapSectionClientProps) {
-  const mapRef = useRef<HTMLDivElement>(null)
+  const mapContainerRef = useRef<HTMLDivElement>(null)
   const mapInstanceRef = useRef<any>(null)
   const markersRef = useRef<any[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
+  const [isClient, setIsClient] = useState(false)
 
+  // Only render on client
   useEffect(() => {
-    if (typeof window === "undefined") return
+    setIsClient(true)
+  }, [])
 
-    import("leaflet").then((L) => {
-      if (!mapRef.current || mapInstanceRef.current) return
+  // Initialize map and markers
+  useEffect(() => {
+    if (!isClient) return
+    if (!mapContainerRef.current) return
+    if (mapInstanceRef.current) return
+    if (!sedi || sedi.length === 0) return
 
+    let map: any = null
+
+    const initMap = async () => {
+      const L = await import("leaflet")
+
+      // Fix Leaflet default icon issue
       delete (L.Icon.Default.prototype as any)._getIconUrl
       L.Icon.Default.mergeOptions({
-        iconRetinaUrl:
-          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-        iconUrl:
-          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-        shadowUrl:
-          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+        iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+        iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+        shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
       })
 
-      const map = L.map(mapRef.current!, {
+      if (!mapContainerRef.current) return
+
+      map = L.map(mapContainerRef.current, {
         center: [42.5, 12.5],
         zoom: 6,
         zoomControl: true,
         scrollWheelZoom: false,
       })
 
-      L.tileLayer(
-        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-        {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-          maxZoom: 19,
-        }
-      ).addTo(map)
+      mapInstanceRef.current = map
 
-      const createIcon = (active: boolean) =>
-        L.divIcon({
-          className: "",
-          html: `<div style="
-            width: ${active ? "24px" : "20px"};
-            height: ${active ? "24px" : "20px"};
-            background: ${active ? "#1e3a5f" : "#2e8b72"};
-            border: 3px solid white;
-            border-radius: 50%;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
-            transition: all 0.2s ease;
-          "></div>`,
-          iconSize: [active ? 24 : 20, active ? 24 : 20],
-          iconAnchor: [active ? 12 : 10, active ? 12 : 10],
-        })
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+        maxZoom: 19,
+      }).addTo(map)
 
-      sedi.forEach((sede) => {
+      // Custom icon - teal colored circle
+      const createMarkerIcon = () => L.divIcon({
+        className: "custom-marker",
+        html: `<div style="
+          width: 20px;
+          height: 20px;
+          background: #2e8b72;
+          border: 3px solid white;
+          border-radius: 50%;
+          box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+        "></div>`,
+        iconSize: [20, 20],
+        iconAnchor: [10, 10],
+      })
+
+      // Filter valid sedi
+      const validSedi = sedi.filter(
+        (sede) => sede.lat != null && sede.lng != null && !isNaN(sede.lat) && !isNaN(sede.lng)
+      )
+
+      // Add markers
+      validSedi.forEach((sede) => {
         const marker = L.marker([sede.lat, sede.lng], {
-          icon: createIcon(false),
+          icon: createMarkerIcon(),
         }).addTo(map)
 
         marker.on("click", () => {
@@ -73,23 +88,26 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         markersRef.current.push({ id: sede._id, marker })
       })
 
-      // Fit map to show all markers with padding
-      if (sedi.length > 0) {
-        const bounds = L.latLngBounds(sedi.map(s => [s.lat, s.lng]))
+      // Fit bounds to show all markers with good zoom
+      if (validSedi.length > 0) {
+        const bounds = L.latLngBounds(validSedi.map((s) => [s.lat, s.lng]))
         map.fitBounds(bounds, { padding: [50, 50], maxZoom: 7 })
       }
+    }
 
-      mapInstanceRef.current = map
-    })
+    initMap()
 
     return () => {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove()
+      if (map) {
+        map.remove()
         mapInstanceRef.current = null
+        markersRef.current = []
       }
     }
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isClient])
 
+  // Handle active marker change
   useEffect(() => {
     if (!mapInstanceRef.current || activeId === null) return
 
@@ -105,7 +123,7 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         const isActive = id === activeId
         marker.setIcon(
           L.divIcon({
-            className: "",
+            className: "custom-marker",
             html: `<div style="
               width: ${isActive ? "24px" : "20px"};
               height: ${isActive ? "24px" : "20px"};
@@ -113,7 +131,6 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
               border: 3px solid white;
               border-radius: 50%;
               box-shadow: 0 3px 8px rgba(0,0,0,0.4);
-              transition: all 0.2s ease;
             "></div>`,
             iconSize: [isActive ? 24 : 20, isActive ? 24 : 20],
             iconAnchor: [isActive ? 12 : 10, isActive ? 12 : 10],
@@ -121,6 +138,7 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         )
       })
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId])
 
   // Group sedi by region
@@ -138,15 +156,15 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       />
 
-      <section className="bg-[#f4f6f7] mt-[50px] mb-0 md:mb-[25px] relative" style={{ zIndex: 1, isolation: 'isolate' }}>
+      <section className="bg-[#f4f6f7] mt-[50px] mb-0 md:mb-[25px] relative z-[1]">
         <div className="grid lg:grid-cols-[55%_45%] min-h-[500px]">
-          {/* Leaflet Map - Left 55% */}
+          {/* Leaflet Map */}
           <div 
-            ref={mapRef} 
-            className="h-[400px] lg:h-auto lg:min-h-[500px] w-full relative z-0"
+            ref={mapContainerRef} 
+            className="h-[400px] lg:h-auto lg:min-h-[500px] w-full"
           />
 
-          {/* Sidebar - Right 45% */}
+          {/* Sidebar */}
           <div className="flex flex-col justify-center px-8 lg:px-10 py-12 border-l border-[#d0d6da]">
             <p className="overline text-[#8a9aaa] mb-3">Sedi</p>
             <h2 className="font-heading text-[#1e3a5f] mb-10" style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", lineHeight: 1.2 }}>
