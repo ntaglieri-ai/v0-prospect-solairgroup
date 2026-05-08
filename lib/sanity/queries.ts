@@ -86,8 +86,8 @@ export interface Homepage {
 export interface CER {
   titolo?: string
   descrizione?: string
-  vantaggi?: string[]
-  comePartecipare?: string[]
+  vantaggi?: (string | { _key: string; titolo: string })[]
+  comePartecipare?: (string | { _key: string; titolo: string })[]
   incentivo?: number
   ctaTesto?: string
   ctaLink?: string

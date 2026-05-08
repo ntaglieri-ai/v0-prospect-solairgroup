@@ -8,7 +8,11 @@ interface SolairCERClientProps {
 }
 
 export function SolairCERClient({ cer }: SolairCERClientProps) {
-  const cerBenefits = cer.vantaggi || []
+  // Handle vantaggi which can be either strings or objects with {_key, titolo}
+  const rawVantaggi = cer.vantaggi || []
+  const cerBenefits = rawVantaggi.map((v: string | { _key: string; titolo: string }) => 
+    typeof v === 'string' ? v : v.titolo
+  )
   const titolo = cer.titolo || "Comunità Energetiche Rinnovabili"
   const descrizione = cer.descrizione || ""
   const incentivo = cer.incentivo || 20
