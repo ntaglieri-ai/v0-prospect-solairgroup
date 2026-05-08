@@ -2,12 +2,13 @@ import { groq } from "next-sanity"
 
 // Sede queries
 export const sediQuery = groq`
-  *[_type == "sede"] | order(citta asc) {
+  *[_type == "sede"] | order(regione asc) {
     _id,
     citta,
     regione,
     referente,
     telefono,
+    email,
     lat,
     lng
   }
@@ -80,6 +81,7 @@ export interface Sede {
   regione?: string
   referente: string
   telefono: string
+  email?: string
   lat: number
   lng: number
 }

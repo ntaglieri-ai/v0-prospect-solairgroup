@@ -173,7 +173,8 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
                       {sede.citta}
                     </p>
                     <p className="text-[13px] text-[#8a9aaa] mb-0.5">{sede.referente}</p>
-                    <p className="text-[13px] text-[#8a9aaa]">{sede.telefono}</p>
+                    <p className="text-[13px] text-[#8a9aaa] mb-0.5">{sede.telefono}</p>
+                    {sede.email && <p className="text-[13px] text-[#8a9aaa]">{sede.email}</p>}
                   </div>
                 ))}
               </div>
