@@ -11,7 +11,7 @@ export async function getLinee() {
       consigliata, badgeLabel,
       features, tags
     }
-  `)
+  `, {}, { cache: 'no-store' })
 }
 
 // ── LISTINO PREZZI ──
@@ -22,7 +22,7 @@ export async function getPrezzi() {
       linea,
       righe[] { kwp, prezzi[] { kwh, prezzo } }
     }
-  `)
+  `, {}, { cache: 'no-store' })
 
   const PREZZI: Record<string, Record<number, Record<number, number>>> = {}
   for (const pl of raw) {
@@ -45,7 +45,7 @@ export async function getDBTable() {
       tan,
       righe[] { importo, nRate, rata, taeg }
     }
-  `)
+  `, {}, { cache: 'no-store' })
 
   if (!raw) return { tan: 6.9, table: [] }
 
@@ -65,5 +65,5 @@ export async function getSettings() {
       costoZavorreVento,
       pannelli
     }
-  `)
+  `, {}, { cache: 'no-store' })
 }
