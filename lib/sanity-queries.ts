@@ -7,7 +7,7 @@ import { client } from './sanity' // il tuo client Sanity configurato
 export async function getLinee() {
   return client.fetch(`
     *[_type == "linea"] | order(ordine asc) {
-      id, ordine, livello, nome, brand,
+      linea, ordine, livello, nome, brand,
       consigliata, badgeLabel,
       features, tags
     }
