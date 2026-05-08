@@ -1,24 +1,38 @@
 "use client"
 
 import { createContext, useContext, type ReactNode } from "react"
-import type { DatiAziendali } from "@/lib/sanity/queries"
+import type { DatiAziendali, Homepage } from "@/lib/sanity/queries"
 
-const DatiAziendaliContext = createContext<DatiAziendali | null>(null)
+interface SanityData {
+  datiAziendali: DatiAziendali | null
+  homepage: Homepage | null
+}
+
+const SanityDataContext = createContext<SanityData>({
+  datiAziendali: null,
+  homepage: null,
+})
 
 export function DatiAziendaliProvider({
   children,
   datiAziendali,
+  homepage,
 }: {
   children: ReactNode
   datiAziendali: DatiAziendali | null
+  homepage: Homepage | null
 }) {
   return (
-    <DatiAziendaliContext.Provider value={datiAziendali}>
+    <SanityDataContext.Provider value={{ datiAziendali, homepage }}>
       {children}
-    </DatiAziendaliContext.Provider>
+    </SanityDataContext.Provider>
   )
 }
 
 export function useDatiAziendali() {
-  return useContext(DatiAziendaliContext)
+  return useContext(SanityDataContext).datiAziendali
+}
+
+export function useHomepage() {
+  return useContext(SanityDataContext).homepage
 }

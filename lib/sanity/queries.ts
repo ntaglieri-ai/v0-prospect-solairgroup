@@ -13,6 +13,17 @@ export const sediQuery = groq`
   }
 `
 
+// Homepage query
+export const homepageQuery = groq`
+  *[_type == "homepage"][0] {
+    heroCtaPrimario,
+    heroCtaSecondario,
+    soluzioniTitolo,
+    incentiviTitolo,
+    cerTitolo
+  }
+`
+
 // Dati Aziendali query
 export const datiAziendaliQuery = groq`
   *[_type == "datiAziendali"][0] {
@@ -49,6 +60,14 @@ export interface Sede {
   telefono: string
   lat: number
   lng: number
+}
+
+export interface Homepage {
+  heroCtaPrimario?: string
+  heroCtaSecondario?: string
+  soluzioniTitolo?: string
+  incentiviTitolo?: string
+  cerTitolo?: string
 }
 
 export interface DatiAziendali {
