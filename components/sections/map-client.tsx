@@ -138,12 +138,12 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       />
 
-      <section className="bg-[#f4f6f7] mt-[50px] mb-0 md:mb-[25px]">
+      <section className="bg-[#f4f6f7] mt-[50px] mb-0 md:mb-[25px] relative" style={{ zIndex: 1, isolation: 'isolate' }}>
         <div className="grid lg:grid-cols-[55%_45%] min-h-[500px]">
           {/* Leaflet Map - Left 55% */}
           <div 
             ref={mapRef} 
-            className="h-[400px] lg:h-auto lg:min-h-[500px] w-full"
+            className="h-[400px] lg:h-auto lg:min-h-[500px] w-full relative z-0"
           />
 
           {/* Sidebar - Right 45% */}
