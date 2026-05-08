@@ -223,11 +223,12 @@ export function SoluzioniIncentiviSection() {
                   fontSize: "10px",
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
-                  color: C.textMid,
-                  border: `1px solid ${C.border}`,
-                  padding: "3px 9px",
-                  borderRadius: "2px",
-                  background: C.bg,
+                  fontWeight: 600,
+                  color: "#B91C1C",
+                  border: "none",
+                  padding: "4px 10px",
+                  borderRadius: "3px",
+                  background: "#FEE2E2",
                 }}
               >
                 {p.badge}
@@ -239,8 +240,9 @@ export function SoluzioniIncentiviSection() {
                 fontSize: "10px",
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
-                color: C.textMuted,
+                color: "#64748B",
                 marginBottom: "10px",
+                fontWeight: 500,
               }}
             >
               {p.livello}
@@ -261,7 +263,7 @@ export function SoluzioniIncentiviSection() {
             <p
               style={{
                 fontSize: "13px",
-                color: C.textMid,
+                color: "#334155",
                 lineHeight: 1.65,
                 marginBottom: "28px",
                 minHeight: "58px",
@@ -281,7 +283,7 @@ export function SoluzioniIncentiviSection() {
                     alignItems: "flex-start",
                     gap: "10px",
                     fontSize: "13px",
-                    color: C.textMid,
+                    color: "#1e293b",
                     marginBottom: "9px",
                     lineHeight: 1.4,
                   }}
