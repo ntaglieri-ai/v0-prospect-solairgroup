@@ -14,10 +14,17 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
   const [activeId, setActiveId] = useState<string | null>(null)
 
   useEffect(() => {
-    if (typeof window === "undefined") return
+    if (typeof window === "undefined" || !sedi || sedi.length === 0) return
 
     import("leaflet").then((L) => {
-      if (!mapRef.current || mapInstanceRef.current) return
+      if (!mapRef.current) return
+      
+      // Clean up existing map if reinitializing
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove()
+        mapInstanceRef.current = null
+        markersRef.current = []
+      }
 
       delete (L.Icon.Default.prototype as any)._getIconUrl
       L.Icon.Default.mergeOptions({
@@ -61,7 +68,13 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
           iconAnchor: [active ? 12 : 10, active ? 12 : 10],
         })
 
-      sedi.forEach((sede) => {
+      // Filter sedi with valid coordinates
+      const validSedi = sedi.filter(sede => 
+        sede.lat !== undefined && sede.lng !== undefined && 
+        !isNaN(sede.lat) && !isNaN(sede.lng)
+      )
+
+      validSedi.forEach((sede) => {
         const marker = L.marker([sede.lat, sede.lng], {
           icon: createIcon(false),
         }).addTo(map)
@@ -73,10 +86,10 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         markersRef.current.push({ id: sede._id, marker })
       })
 
-      // Fit map to show all markers with padding
-      if (sedi.length > 0) {
-        const bounds = L.latLngBounds(sedi.map(s => [s.lat, s.lng]))
-        map.fitBounds(bounds, { padding: [50, 50], maxZoom: 7 })
+      // Fit map to show all markers with padding - zoom level 6 to see all Italy
+      if (validSedi.length > 0) {
+        const bounds = L.latLngBounds(validSedi.map(s => [s.lat, s.lng]))
+        map.fitBounds(bounds, { padding: [60, 60], maxZoom: 6 })
       }
 
       mapInstanceRef.current = map
@@ -86,9 +99,10 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove()
         mapInstanceRef.current = null
+        markersRef.current = []
       }
     }
-  }, [])
+  }, [sedi])
 
   useEffect(() => {
     if (!mapInstanceRef.current || activeId === null) return
