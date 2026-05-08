@@ -40,7 +40,7 @@ export function Footer() {
       
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-20">
         {/* Header Row: Logo + Navigazione + Contatti titles aligned */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-3">
           {/* Logo - Left */}
           <div>
             <Link href="/" className="relative inline-block h-10 w-28">
