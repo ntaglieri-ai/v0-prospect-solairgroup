@@ -229,6 +229,21 @@
   z-index: 5;
 }
 
+/* Leaflet map z-index override - keep below navbar */
+.leaflet-container {
+  z-index: 1 !important;
+}
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-control-container,
+.leaflet-top,
+.leaflet-bottom {
+  z-index: auto !important;
+}
+
 /* Mobile text colors for photo overlay sections */
 @media (max-width: 767px) {
   .mobile-text-pearl {
