@@ -7,18 +7,26 @@ import { Menu, X } from "lucide-react"
 import { useDatiAziendali } from "@/lib/context/dati-aziendali-context"
 
 const navLinks = [
-  { href: "#chi-siamo", label: "Impianti" },
-  { href: "#servizi", label: "Servizi" },
-  { href: "#recensioni", label: "Recensioni" },
-  { href: "#soluzioni", label: "Soluzioni" },
-  { href: "#cer", label: "CER" },
-  { href: "#contatti", label: "Contatti" },
+  { href: "/", label: "Home" },
+  { href: "/#chi-siamo", label: "Impianti" },
+  { href: "/#servizi", label: "Servizi" },
+  { href: "/#recensioni", label: "Recensioni" },
+  { href: "/#soluzioni", label: "Soluzioni" },
+  { href: "/#cer", label: "CER" },
+  { href: "/#contatti", label: "Contatti" },
 ]
 
-export function Navbar() {
+interface NavbarProps {
+  forceDark?: boolean
+}
+
+export function Navbar({ forceDark = false }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const datiAziendali = useDatiAziendali()
+  
+  // Use dark mode if forceDark is true OR if scrolled
+  const isDarkMode = forceDark || isScrolled
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,7 +39,7 @@ export function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
+        isDarkMode 
           ? "bg-white border-b border-[#d0d6da]" 
           : "bg-transparent"
       }`}
@@ -45,7 +53,7 @@ export function Navbar() {
               alt="Solair Group"
               fill
               className={`object-contain object-left transition-all duration-300 ${
-                isScrolled ? "brightness-100" : "brightness-0 invert"
+                isDarkMode ? "brightness-100" : "brightness-0 invert"
               }`}
               priority
             />
@@ -58,7 +66,7 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={`overline transition-colors duration-300 ${
-                  isScrolled 
+                  isDarkMode 
                     ? "text-[#1e3a5f] hover:text-[#2e8b72]" 
                     : "text-white/90 hover:text-white"
                 }`}
@@ -84,7 +92,7 @@ export function Navbar() {
             </Link>
             <button
               className={`p-2 transition-colors duration-300 ${
-                isScrolled ? "text-[#1e3a5f]" : "text-white"
+                isDarkMode ? "text-[#1e3a5f]" : "text-white"
               }`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Chiudi menu" : "Apri menu"}

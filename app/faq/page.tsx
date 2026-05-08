@@ -31,7 +31,7 @@ export default async function FAQPage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar forceDark />
       <main className="min-h-screen bg-[#f4f6f7]">
         {/* Header */}
         <section className="pt-32 pb-16 px-6 md:px-12 lg:px-20">
