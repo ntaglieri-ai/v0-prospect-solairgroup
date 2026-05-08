@@ -37,6 +37,15 @@ export const cerQuery = groq`
   }
 `
 
+// FAQ query
+export const faqQuery = groq`
+  *[_type == "faq" && attiva == true] | order(ordine asc) {
+    domanda,
+    risposta,
+    categoria
+  }
+`
+
 // Dati Aziendali query
 export const datiAziendaliQuery = groq`
   *[_type == "datiAziendali"][0] {
@@ -91,6 +100,12 @@ export interface CER {
   incentivo?: number
   ctaTesto?: string
   ctaLink?: string
+}
+
+export interface FAQ {
+  domanda: string
+  risposta: string
+  categoria?: string
 }
 
 export interface DatiAziendali {
