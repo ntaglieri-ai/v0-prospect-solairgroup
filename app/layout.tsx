@@ -1,6 +1,9 @@
 import type { Metadata } from "next"
 import { DM_Sans, Outfit } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { sanityFetch } from "@/lib/sanity"
+import { datiAziendaliQuery, type DatiAziendali } from "@/lib/sanity/queries"
+import { DatiAziendaliProvider } from "@/lib/context/dati-aziendali-context"
 import "./globals.css"
 
 const dmSans = DM_Sans({
@@ -34,11 +37,22 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  // Fetch dati aziendali once at the root level
+  let datiAziendali: DatiAziendali | null = null
+  try {
+    datiAziendali = await sanityFetch<DatiAziendali>({
+      query: datiAziendaliQuery,
+      tags: ["datiAziendali"],
+    })
+  } catch (error) {
+    console.error("Error fetching datiAziendali:", error)
+  }
+
   return (
     <html lang="it" className={`${dmSans.variable} ${outfit.variable}`}>
       <head>
@@ -81,7 +95,9 @@ export default function RootLayout({
         {/* Sitemap: /, /configuratore, /#chi-siamo, /#servizi, /#recensioni, /#soluzioni, /#cer, /#contatti */}
       </head>
       <body className="font-sans font-light antialiased bg-[#f4f6f7] text-[#1e3a5f]">
-        {children}
+        <DatiAziendaliProvider datiAziendali={datiAziendali}>
+          {children}
+        </DatiAziendaliProvider>
         {process.env.NODE_ENV === "production" && <Analytics />}
         <script
           dangerouslySetInnerHTML={{
