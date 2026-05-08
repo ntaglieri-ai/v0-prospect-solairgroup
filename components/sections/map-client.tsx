@@ -12,19 +12,14 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
   const mapInstanceRef = useRef<any>(null)
   const markersRef = useRef<any[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
+  const [mapReady, setMapReady] = useState(false)
 
+  // Initialize map once on mount
   useEffect(() => {
-    if (typeof window === "undefined" || !sedi || sedi.length === 0) return
+    if (typeof window === "undefined" || mapInstanceRef.current) return
 
     import("leaflet").then((L) => {
-      if (!mapRef.current) return
-      
-      // Clean up existing map if reinitializing
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove()
-        mapInstanceRef.current = null
-        markersRef.current = []
-      }
+      if (!mapRef.current || mapInstanceRef.current) return
 
       delete (L.Icon.Default.prototype as any)._getIconUrl
       L.Icon.Default.mergeOptions({
@@ -51,6 +46,33 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
           maxZoom: 19,
         }
       ).addTo(map)
+
+      mapInstanceRef.current = map
+      setMapReady(true)
+    })
+
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove()
+        mapInstanceRef.current = null
+        markersRef.current = []
+      }
+    }
+  }, [])
+
+  // Add markers when map is ready and sedi data is available
+  useEffect(() => {
+    if (!mapReady || !mapInstanceRef.current || !sedi || sedi.length === 0) return
+
+    import("leaflet").then((L) => {
+      const map = mapInstanceRef.current
+      if (!map) return
+
+      // Clear existing markers
+      markersRef.current.forEach(({ marker }) => {
+        map.removeLayer(marker)
+      })
+      markersRef.current = []
 
       const createIcon = (active: boolean) =>
         L.divIcon({
@@ -86,23 +108,13 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         markersRef.current.push({ id: sede._id, marker })
       })
 
-      // Fit map to show all markers with padding - zoom level 6 to see all Italy
+      // Fit map to show all markers with padding
       if (validSedi.length > 0) {
         const bounds = L.latLngBounds(validSedi.map(s => [s.lat, s.lng]))
         map.fitBounds(bounds, { padding: [60, 60], maxZoom: 6 })
       }
-
-      mapInstanceRef.current = map
     })
-
-    return () => {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove()
-        mapInstanceRef.current = null
-        markersRef.current = []
-      }
-    }
-  }, [sedi])
+  }, [mapReady, sedi])
 
   useEffect(() => {
     if (!mapInstanceRef.current || activeId === null) return

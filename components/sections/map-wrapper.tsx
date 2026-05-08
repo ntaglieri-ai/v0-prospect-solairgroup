@@ -45,26 +45,17 @@ const fallbackSedi: Sede[] = [
 export async function MapSection() {
   let sedi: Sede[] = []
   
-  console.log("[v0] Starting Sanity fetch for sedi...")
-  console.log("[v0] Query:", sediQuery)
-  console.log("[v0] SANITY_API_READ_TOKEN exists:", !!process.env.SANITY_API_READ_TOKEN)
-  console.log("[v0] NEXT_PUBLIC_SANITY_PROJECT_ID:", process.env.NEXT_PUBLIC_SANITY_PROJECT_ID)
-  console.log("[v0] NEXT_PUBLIC_SANITY_DATASET:", process.env.NEXT_PUBLIC_SANITY_DATASET)
-  
   try {
     sedi = await sanityFetch<Sede[]>({
       query: sediQuery,
       tags: ["sede"],
     })
-    console.log("[v0] Sanity fetch result:", JSON.stringify(sedi, null, 2))
-    console.log("[v0] Number of sedi returned:", sedi?.length ?? 0)
   } catch (error) {
-    console.error("[v0] Error fetching sedi from Sanity:", error)
+    console.error("Error fetching sedi from Sanity:", error)
   }
   
   // Use fallback if no data from Sanity
   const data = sedi && sedi.length > 0 ? sedi : fallbackSedi
-  console.log("[v0] Using fallback:", sedi?.length === 0 || !sedi)
   
   return <MapSectionClient sedi={data} />
 }
