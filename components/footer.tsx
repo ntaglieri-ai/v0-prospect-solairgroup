@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useDatiAziendali } from "@/lib/context/dati-aziendali-context"
 
 const navLinks = [
   { href: "#chi-siamo", label: "Impianti" },
@@ -12,6 +13,8 @@ const navLinks = [
 ]
 
 export function Footer() {
+  const datiAziendali = useDatiAziendali()
+  
   return (
     <footer className="bg-[#0F1117] text-white">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16">
@@ -48,7 +51,7 @@ export function Footer() {
         <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-xs text-white/30" style={{ fontFamily: "var(--font-dm-sans)" }}>
-              © 2024 Solair Group. All rights reserved.
+              {datiAziendali?.copyright || "© 2024 Solair Group. All rights reserved."}
             </p>
             <div className="flex items-center gap-6">
               <Link href="/privacy" className="text-xs text-white/30 hover:text-white/60 transition-colors" style={{ fontFamily: "var(--font-dm-sans)" }}>

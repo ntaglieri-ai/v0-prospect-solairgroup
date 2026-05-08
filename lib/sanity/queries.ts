@@ -13,6 +13,33 @@ export const sediQuery = groq`
   }
 `
 
+// Dati Aziendali query
+export const datiAziendaliQuery = groq`
+  *[_type == "datiAziendali"][0] {
+    whatsapp,
+    telefono,
+    email,
+    emailPec,
+    facebook,
+    instagram,
+    linkedin,
+    youtube,
+    impiantiInstallati,
+    kWInstallati,
+    clientiSoddisfatti,
+    anniEsperienza,
+    recensioniGoogle,
+    mediaRecensioni,
+    ragioneSociale,
+    partitaIva,
+    codiceFiscale,
+    rea,
+    capitaleSociale,
+    sedeLegale,
+    copyright
+  }
+`
+
 // Types
 export interface Sede {
   _id: string
@@ -22,4 +49,28 @@ export interface Sede {
   telefono: string
   lat: number
   lng: number
+}
+
+export interface DatiAziendali {
+  whatsapp?: string
+  telefono?: string
+  email?: string
+  emailPec?: string
+  facebook?: string
+  instagram?: string
+  linkedin?: string
+  youtube?: string
+  impiantiInstallati?: number
+  kWInstallati?: number
+  clientiSoddisfatti?: number
+  anniEsperienza?: number
+  recensioniGoogle?: number
+  mediaRecensioni?: number
+  ragioneSociale?: string
+  partitaIva?: string
+  codiceFiscale?: string
+  rea?: string
+  capitaleSociale?: string
+  sedeLegale?: string
+  copyright?: string
 }

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Menu, X } from "lucide-react"
+import { useDatiAziendali } from "@/lib/context/dati-aziendali-context"
 
 const navLinks = [
   { href: "#chi-siamo", label: "Impianti" },
@@ -17,6 +18,7 @@ const navLinks = [
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const datiAziendali = useDatiAziendali()
 
   useEffect(() => {
     const handleScroll = () => {
