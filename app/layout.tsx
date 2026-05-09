@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "it_IT",
     url: "https://solairgroup.it",
-    images: ['/og-image.jpeg'],
+    images: ['/og-image_resized.jpeg'],
   },
   alternates: {
     canonical: "https://solairgroup.it",
