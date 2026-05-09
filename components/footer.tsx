@@ -19,14 +19,24 @@ export function Footer() {
   const datiAziendali = useDatiAziendali()
   
   const telefono = datiAziendali?.telefono || "+39 095 290 0278"
-  const whatsapp = datiAziendali?.whatsapp || "+39 095 290 0278"
+  const whatsappRaw = datiAziendali?.whatsapp || "+39 095 290 0278"
   const email = datiAziendali?.email || "info@solairgroup.it"
   const facebook = datiAziendali?.facebook
   const instagram = datiAziendali?.instagram
   const linkedin = datiAziendali?.linkedin
 
-  // Format WhatsApp link (remove + and spaces)
-  const whatsappLink = `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`
+  // Extract phone number from WhatsApp field (handles both URL and plain number)
+  const whatsappNumber = whatsappRaw.includes("wa.me/") 
+    ? whatsappRaw.replace(/.*wa\.me\//, "").replace(/[^0-9]/g, "")
+    : whatsappRaw.replace(/[^0-9]/g, "")
+  
+  // Format display number with +39 prefix
+  const whatsappDisplay = whatsappNumber.startsWith("39") 
+    ? `+${whatsappNumber.slice(0, 2)} ${whatsappNumber.slice(2, 5)} ${whatsappNumber.slice(5, 8)} ${whatsappNumber.slice(8)}`
+    : `+39 ${whatsappNumber}`
+  
+  // WhatsApp link
+  const whatsappLink = `https://wa.me/${whatsappNumber}`
   
   return (
     <footer className="relative bg-[#1e5a5a] text-white">
@@ -90,7 +100,7 @@ export function Footer() {
               style={{ fontFamily: "var(--font-dm-sans)" }}
             >
               <MessageCircle size={18} className="text-white/50" />
-              +39 095 290 0278
+              {whatsappDisplay}
             </a>
             <a 
               href={`mailto:${email}`}
@@ -234,7 +244,7 @@ export function Footer() {
                   style={{ fontFamily: "var(--font-dm-sans)" }}
                 >
                   <MessageCircle size={18} className="text-white/50" />
-                  +39 095 290 0278
+                  {whatsappDisplay}
                 </a>
                 <a 
                   href={`mailto:${email}`}
@@ -298,11 +308,14 @@ export function Footer() {
         <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-xs text-white/40 text-center sm:text-left" style={{ fontFamily: "var(--font-dm-sans)" }}>
-              © 2025 Solair Group S.r.l. — P.IVA 06056640870. Tutti i diritti riservati.
+              © {new Date().getFullYear()} Solair Group S.r.l. — P.IVA 06056640870. Tutti i diritti riservati.
             </p>
             <div className="flex items-center gap-6">
               <Link href="/faq" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
                 FAQ
+              </Link>
+              <Link href="/cookies" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
+                Cookies
               </Link>
               <Link href="/privacy" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
                 Privacy
@@ -317,7 +330,7 @@ export function Footer() {
                 className="hidden sm:inline text-xs text-white/40 hover:text-white/70 transition-colors duration-200" 
                 style={{ fontFamily: "var(--font-dm-sans)" }}
               >
-                Gestione Contenuti
+                Area Riservata
               </a>
             </div>
           </div>
