@@ -90,7 +90,7 @@ export function Footer() {
               style={{ fontFamily: "var(--font-dm-sans)" }}
             >
               <MessageCircle size={18} className="text-white/50" />
-              +39 095 290 0278
+              {whatsapp}
             </a>
             <a 
               href={`mailto:${email}`}
@@ -234,7 +234,7 @@ export function Footer() {
                   style={{ fontFamily: "var(--font-dm-sans)" }}
                 >
                   <MessageCircle size={18} className="text-white/50" />
-                  +39 095 290 0278
+                  {whatsapp}
                 </a>
                 <a 
                   href={`mailto:${email}`}
