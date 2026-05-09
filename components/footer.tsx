@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useDatiAziendali } from "@/lib/context/dati-aziendali-context"
-import { Phone, Mail } from "lucide-react"
+import { Phone, Mail, MessageCircle } from "lucide-react"
 
 const navLinks = [
   { href: "/#chi-siamo", label: "Impianti" },
@@ -19,14 +19,24 @@ export function Footer() {
   const datiAziendali = useDatiAziendali()
   
   const telefono = datiAziendali?.telefono || "+39 095 290 0278"
-  const whatsapp = datiAziendali?.whatsapp || "+39 095 290 0278"
+  const whatsappRaw = datiAziendali?.whatsapp || "+39 095 290 0278"
   const email = datiAziendali?.email || "info@solairgroup.it"
   const facebook = datiAziendali?.facebook
   const instagram = datiAziendali?.instagram
   const linkedin = datiAziendali?.linkedin
 
-  // Format WhatsApp link (remove + and spaces)
-  const whatsappLink = `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`
+  // Extract phone number from WhatsApp field (handles both URL and plain number)
+  const whatsappNumber = whatsappRaw.includes("wa.me/") 
+    ? whatsappRaw.replace(/.*wa\.me\//, "").replace(/[^0-9]/g, "")
+    : whatsappRaw.replace(/[^0-9]/g, "")
+  
+  // Format display number with +39 prefix
+  const whatsappDisplay = whatsappNumber.startsWith("39") 
+    ? `+${whatsappNumber.slice(0, 2)} ${whatsappNumber.slice(2, 5)} ${whatsappNumber.slice(5, 8)} ${whatsappNumber.slice(8)}`
+    : `+39 ${whatsappNumber}`
+  
+  // WhatsApp link
+  const whatsappLink = `https://wa.me/${whatsappNumber}`
   
   return (
     <footer className="relative bg-[#1e5a5a] text-white">
@@ -86,10 +96,11 @@ export function Footer() {
               href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-white/70 hover:text-white transition-colors duration-200"
+              className="flex items-center justify-center gap-3 text-sm text-white/70 hover:text-white transition-colors duration-200"
               style={{ fontFamily: "var(--font-dm-sans)" }}
             >
-              {whatsapp}
+              <MessageCircle size={18} className="text-white/50" />
+              {whatsappDisplay}
             </a>
             <a 
               href={`mailto:${email}`}
@@ -229,10 +240,11 @@ export function Footer() {
                   href={whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-end text-sm text-white/70 hover:text-white transition-colors duration-200"
+                  className="flex items-center justify-end gap-3 text-sm text-white/70 hover:text-white transition-colors duration-200"
                   style={{ fontFamily: "var(--font-dm-sans)" }}
                 >
-                  {whatsapp}
+                  <MessageCircle size={18} className="text-white/50" />
+                  {whatsappDisplay}
                 </a>
                 <a 
                   href={`mailto:${email}`}
