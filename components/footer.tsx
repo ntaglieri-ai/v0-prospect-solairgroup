@@ -317,7 +317,7 @@ export function Footer() {
                 className="hidden sm:inline text-xs text-white/40 hover:text-white/70 transition-colors duration-200" 
                 style={{ fontFamily: "var(--font-dm-sans)" }}
               >
-                Gestione Contenuti
+                Area Riservata
               </a>
             </div>
           </div>
