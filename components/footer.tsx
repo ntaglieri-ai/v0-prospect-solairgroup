@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useDatiAziendali } from "@/lib/context/dati-aziendali-context"
-import { Phone, Mail, MessageCircle } from "lucide-react"
+import { Phone, Mail } from "lucide-react"
 
 const navLinks = [
   { href: "/#chi-siamo", label: "Impianti" },
@@ -86,10 +86,9 @@ export function Footer() {
               href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 text-sm text-white/70 hover:text-white transition-colors duration-200"
+              className="text-sm text-white/70 hover:text-white transition-colors duration-200"
               style={{ fontFamily: "var(--font-dm-sans)" }}
             >
-              <MessageCircle size={18} className="text-white/50" />
               {whatsapp}
             </a>
             <a 
@@ -230,10 +229,9 @@ export function Footer() {
                   href={whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-end gap-3 text-sm text-white/70 hover:text-white transition-colors duration-200"
+                  className="flex items-center justify-end text-sm text-white/70 hover:text-white transition-colors duration-200"
                   style={{ fontFamily: "var(--font-dm-sans)" }}
                 >
-                  <MessageCircle size={18} className="text-white/50" />
                   {whatsapp}
                 </a>
                 <a 
