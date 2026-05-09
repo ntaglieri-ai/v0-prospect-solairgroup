@@ -25,12 +25,17 @@ export const metadata: Metadata = {
   description: "Solair Group installa impianti fotovoltaici su misura per privati e aziende in tutta Italia. Chiavi in mano, incentivi fiscali, monitoraggio remoto e garanzia totale. Richiedi un preventivo gratuito.",
   keywords: "impianto fotovoltaico, pannelli solari, incentivi fotovoltaico, comunita energetica, detrazione fiscale solare, energia rinnovabile Italia",
   robots: "index, follow",
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon-32.png',
+  },
   openGraph: {
     title: "Solair Group | Impianti Fotovoltaici Chiavi in Mano",
     description: "Solair Group installa impianti fotovoltaici su misura per privati e aziende in tutta Italia. Chiavi in mano, incentivi fiscali, monitoraggio remoto e garanzia totale.",
     type: "website",
     locale: "it_IT",
     url: "https://solairgroup.it",
+    images: ['/solair-icon-512.png'],
   },
   alternates: {
     canonical: "https://solairgroup.it",
