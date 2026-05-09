@@ -900,7 +900,7 @@ export default function ConfiguratorePage() {
               <div style={{ fontSize: 12, fontWeight: 700, color: "#1e3a5f", marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.05em" }}>Dichiarazioni obbligatorie</div>
               <label style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 10, cursor: "pointer" }}>
                 <input type="checkbox" checked={cb1} onChange={e => setCb1(e.target.checked)} style={{ marginTop: 2, flexShrink: 0, width: 16, height: 16, accentColor: "#1e3a5f" }} />
-                <span style={{ fontSize: 12, color: "#333", lineHeight: 1.5 }}>Dichiaro di aver letto e accettato le condizioni generali di vendita e i termini e condizioni di Solair Group.</span>
+                <span style={{ fontSize: 12, color: "#333", lineHeight: 1.5 }}>Dichiaro di aver letto e accettato le <a href="/condizioni-generali-solair.pdf" target="_blank" rel="noopener noreferrer" style={{ color: "#1e3a5f", textDecoration: "underline" }}>condizioni generali di vendita e i termini e condizioni</a> di Solair Group.</span>
               </label>
               <label style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 10, cursor: "pointer" }}>
                 <input type="checkbox" checked={cb2} onChange={e => setCb2(e.target.checked)} style={{ marginTop: 2, flexShrink: 0, width: 16, height: 16, accentColor: "#1e3a5f" }} />
