@@ -314,6 +314,9 @@ export function Footer() {
               <Link href="/faq" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
                 FAQ
               </Link>
+              <Link href="/cookies" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
+                Cookies
+              </Link>
               <Link href="/privacy" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
                 Privacy
               </Link>
