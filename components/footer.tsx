@@ -298,7 +298,7 @@ export function Footer() {
         <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-xs text-white/40 text-center sm:text-left" style={{ fontFamily: "var(--font-dm-sans)" }}>
-              © 2025 Solair Group S.r.l. — P.IVA 06056640870. Tutti i diritti riservati.
+              © {new Date().getFullYear()} Solair Group S.r.l. — P.IVA 06056640870. Tutti i diritti riservati.
             </p>
             <div className="flex items-center gap-6">
               <Link href="/faq" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
