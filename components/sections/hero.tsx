@@ -70,7 +70,7 @@ export function HeroSection() {
 
           {/* Subtitle - DM Sans */}
           <p className="text-base font-light text-white/95 max-w-xl mx-auto mb-10" style={{ fontFamily: "var(--font-dm-sans)" }}>
-            Indipendenza energetica per ogni abitazione
+            Soluzioni su misura per la tua casa o azienda: indipendenza energetica, sostenibilità e incentivi dedicati
           </p>
 
           {/* CTA Buttons */}
