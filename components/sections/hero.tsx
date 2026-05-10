@@ -65,12 +65,12 @@ export function HeroSection() {
 
           {/* H1 Title - Cormorant Garamond */}
           <h1 className="font-heading text-white mb-6">
-            Indipendenza energetica per ogni abitazione
+            Impianti fotovoltaici chiavi in mano per privati e aziende in tutta Italia
           </h1>
 
           {/* Subtitle - DM Sans */}
           <p className="text-base font-light text-white/95 max-w-xl mx-auto mb-10" style={{ fontFamily: "var(--font-dm-sans)" }}>
-            Impianti fotovoltaici chiavi in mano per privati e aziende in tutta Italia
+            Indipendenza energetica per ogni abitazione
           </p>
 
           {/* CTA Buttons */}
