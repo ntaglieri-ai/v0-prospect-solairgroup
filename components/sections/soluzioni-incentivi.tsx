@@ -1,5 +1,7 @@
 "use client";
 
+import { useDatiAziendali } from "@/lib/context/dati-aziendali-context";
+
 const pacchetti = [
   {
     id: "smart",
@@ -100,8 +102,6 @@ const C = {
   accentHover: "#226b57", // accento hover
 };
 
-const WHATSAPP_URL =
-  "https://wa.me/393497988101?text=Ciao%2C%20vorrei%20informazioni%20sui%20pannelli%20solari%20Solair";
 const CONFIGURATORE_URL = "/configuratore";
 
 // ── sub-components ────────────────────────────────────────
@@ -142,6 +142,15 @@ function CheckIcon({ color = C.textMid }: { color?: string }) {
 
 // ── main component ────────────────────────────────────────
 export function SoluzioniIncentiviSection() {
+  const { datiAziendali } = useDatiAziendali();
+  
+  // Extract phone number from WhatsApp field (handles both URL and plain number)
+  const whatsappRaw = datiAziendali?.whatsapp || "+39 349 798 8101";
+  const whatsappNumber = whatsappRaw.includes("wa.me/") 
+    ? whatsappRaw.replace(/.*wa\.me\//, "").replace(/[^0-9]/g, "")
+    : whatsappRaw.replace(/[^0-9]/g, "");
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Ciao%2C%20vorrei%20informazioni%20sui%20pannelli%20solari%20Solair`;
+
   return (
     <section
       id="soluzioni"
@@ -494,7 +503,7 @@ export function SoluzioniIncentiviSection() {
           </a>
 
           <a
-            href={WHATSAPP_URL}
+            href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
             style={{
