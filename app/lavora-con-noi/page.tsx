@@ -25,8 +25,8 @@ const lavoraConNoiQuery = `*[_type == "lavoraConNoi"][0]{
   }
 }`
 
-// Query for datiAziendali to get email
-const datiAziendaliQuery = `*[_type == "datiAziendali"][0]{ email }`
+// Query for datiAziendali to get email and whatsapp
+const datiAziendaliQuery = `*[_type == "datiAziendali"][0]{ email, whatsapp }`
 
 export const metadata = {
   title: "Lavora con Noi | Solair Group",
@@ -80,6 +80,7 @@ const portableTextComponents = {
 export default async function LavoraConNoiPage() {
   let data: LavoraConNoiData | null = null
   let email: string = "info@solairgroup.it"
+  let whatsappUrl: string = "https://wa.me/390952900278"
   
   try {
     data = await sanityFetch<LavoraConNoiData>({
@@ -87,12 +88,20 @@ export default async function LavoraConNoiPage() {
       tags: ["lavoraConNoi"],
     })
     
-    const datiAziendali = await sanityFetch<{ email: string }>({
+    const datiAziendali = await sanityFetch<{ email: string; whatsapp: string }>({
       query: datiAziendaliQuery,
       tags: ["datiAziendali"],
     })
     if (datiAziendali?.email) {
       email = datiAziendali.email
+    }
+    if (datiAziendali?.whatsapp) {
+      // Extract phone number from WhatsApp field (handles both URL and plain number)
+      const whatsappRaw = datiAziendali.whatsapp
+      const whatsappNumber = whatsappRaw.includes("wa.me/") 
+        ? whatsappRaw.replace(/.*wa\.me\//, "").replace(/[^0-9]/g, "")
+        : whatsappRaw.replace(/[^0-9]/g, "")
+      whatsappUrl = `https://wa.me/${whatsappNumber}?text=Ciao%2C%20vorrei%20inviare%20la%20mia%20candidatura%20a%20Solair%20Group`
     }
   } catch (error) {
     console.error("Error fetching Lavora con Noi data:", error)
@@ -176,19 +185,15 @@ export default async function LavoraConNoiPage() {
           </div>
         </section>
 
-        {/* CTA Section */}
+        {/* CTA Button */}
         <section className="pb-24 px-6 md:px-12 lg:px-20">
-          <div className="max-w-3xl mx-auto text-center bg-[#1e3a5f] p-12">
-            <h3 className="font-heading text-white mb-4" style={{ fontSize: "1.5rem" }}>
-              Perche lavorare con Solair Group?
-            </h3>
-            <p className="body-text text-white/80 mb-8">
-              Unisciti a un team dinamico impegnato nella transizione energetica. 
-              Offriamo opportunita di crescita, formazione continua e un ambiente di lavoro stimolante.
-            </p>
+          <div className="max-w-3xl mx-auto text-center">
             <a 
-              href={`mailto:${email}?subject=Candidatura Spontanea`}
-              className="btn-outline-white"
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-10 py-4 bg-[#1e3a5f] text-white text-xs uppercase tracking-widest hover:bg-[#2e8b72] transition-colors duration-300"
+              style={{ fontFamily: "var(--font-dm-sans)" }}
             >
               Invia Candidatura
             </a>
