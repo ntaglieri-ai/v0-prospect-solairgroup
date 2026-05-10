@@ -80,7 +80,7 @@ const portableTextComponents = {
 export default async function LavoraConNoiPage() {
   let data: LavoraConNoiData | null = null
   let email: string = "info@solairgroup.it"
-  let whatsappUrl: string = "https://wa.me/390952900278"
+  let whatsappNumber: string = "390952900278"
   
   try {
     data = await sanityFetch<LavoraConNoiData>({
@@ -98,14 +98,20 @@ export default async function LavoraConNoiPage() {
     if (datiAziendali?.whatsapp) {
       // Extract phone number from WhatsApp field (handles both URL and plain number)
       const whatsappRaw = datiAziendali.whatsapp
-      const whatsappNumber = whatsappRaw.includes("wa.me/") 
+      whatsappNumber = whatsappRaw.includes("wa.me/") 
         ? whatsappRaw.replace(/.*wa\.me\//, "").replace(/[^0-9]/g, "")
         : whatsappRaw.replace(/[^0-9]/g, "")
-      whatsappUrl = `https://wa.me/${whatsappNumber}?text=Ciao%2C%20vorrei%20inviare%20la%20mia%20candidatura%20a%20Solair%20Group`
     }
   } catch (error) {
     console.error("Error fetching Lavora con Noi data:", error)
   }
+  
+  // Generate WhatsApp URL for spontaneous application
+  const whatsappUrlSpontanea = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Ciao, vorrei inviare la mia candidatura spontanea a Solair Group")}`
+  
+  // Generate WhatsApp URL for specific position
+  const getWhatsappUrlPosizione = (titolo: string) => 
+    `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Ciao, vorrei candidarmi per la posizione: ${titolo}`)}`
 
   const posizioni = data?.posizioni || []
   const hasPositions = posizioni.length > 0
@@ -152,7 +158,9 @@ export default async function LavoraConNoiPage() {
                       )}
                       <div className="mt-6 pt-6 border-t border-[#d0d6da]">
                         <a 
-                          href={`mailto:${email}?subject=Candidatura: ${posizione.titolo}`}
+                          href={getWhatsappUrlPosizione(posizione.titolo)}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 text-[#2e8b72] font-medium hover:text-[#1e3a5f] transition-colors"
                           style={{ fontFamily: "var(--font-dm-sans)", fontSize: "14px", letterSpacing: "0.05em" }}
                         >
@@ -189,13 +197,13 @@ export default async function LavoraConNoiPage() {
         <section className="pb-24 px-6 md:px-12 lg:px-20">
           <div className="max-w-3xl mx-auto text-center">
             <a 
-              href={whatsappUrl}
+              href={whatsappUrlSpontanea}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-8 py-3.5 bg-[#1e3a5f] text-white text-xs uppercase tracking-widest hover:bg-[#2e8b72] transition-colors duration-300"
               style={{ fontFamily: "var(--font-dm-sans)" }}
             >
-              Invia Candidatura
+              Invia candidatura spontanea
             </a>
           </div>
         </section>
