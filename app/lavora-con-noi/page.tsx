@@ -192,7 +192,7 @@ export default async function LavoraConNoiPage() {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-10 py-4 bg-[#1e3a5f] text-white text-xs uppercase tracking-widest hover:bg-[#2e8b72] transition-colors duration-300"
+              className="inline-flex items-center justify-center px-8 py-3.5 bg-[#1e3a5f] text-white text-xs uppercase tracking-widest hover:bg-[#2e8b72] transition-colors duration-300"
               style={{ fontFamily: "var(--font-dm-sans)" }}
             >
               Invia Candidatura
