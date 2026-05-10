@@ -79,13 +79,13 @@ export function HeroSection() {
               href="/configuratore"
               className="btn-outline-white w-full sm:w-64 text-center"
             >
-              {homepage?.heroCtaPrimario || "Configura e Ordina"}
+              {homepage?.heroCtaPrimario || "Calcola il tuo risparmio"}
             </a>
             <button
               onClick={() => setIsContactOpen(true)}
               className="btn-outline-white w-full sm:w-64"
             >
-              {homepage?.heroCtaSecondario || "Contatta Solair"}
+              {homepage?.heroCtaSecondario || "Parla con un consulente"}
             </button>
           </div>
         </div>
