@@ -63,14 +63,14 @@ export function HeroSection() {
             Energia Rinnovabile · Italia
           </p>
 
-          {/* H1 Title - Cormorant Garamond */}
-          <h1 className="font-heading text-white mb-6">
-            Indipendenza energetica per ogni abitazione
+          {/* H1 Title - Barlow Condensed */}
+          <h1 className="text-white mb-6" style={{ fontFamily: "var(--font-barlow-condensed)", fontWeight: 800, letterSpacing: "-0.02em", fontSize: "clamp(2.5rem, 5vw, 4rem)", lineHeight: 1.1 }}>
+            Impianti fotovoltaici chiavi in mano per privati e aziende in tutta Italia
           </h1>
 
           {/* Subtitle - DM Sans */}
           <p className="text-base font-light text-white/95 max-w-xl mx-auto mb-10" style={{ fontFamily: "var(--font-dm-sans)" }}>
-            Impianti fotovoltaici chiavi in mano per privati e aziende in tutta Italia
+            Soluzioni su misura per la tua casa o azienda: indipendenza energetica, sostenibilità e incentivi dedicati
           </p>
 
           {/* CTA Buttons */}
