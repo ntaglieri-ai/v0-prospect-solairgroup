@@ -64,12 +64,12 @@ export function HeroSection() {
           </p>
 
           {/* H1 Title - Barlow Condensed */}
-          <h1 className="text-white mb-6" style={{ fontFamily: "var(--font-barlow-condensed)", fontWeight: 800, letterSpacing: "-0.02em", fontSize: "clamp(2.5rem, 5vw, 4rem)", lineHeight: 1.1 }}>
+          <h1 className="text-white mb-6" style={{ fontFamily: "var(--font-barlow-condensed)", fontWeight: 800, letterSpacing: "-0.02em", fontSize: "clamp(2.5rem, 5vw, 4rem)", lineHeight: 1.1, textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
             Impianti fotovoltaici chiavi in mano per privati e aziende in tutta Italia
           </h1>
 
           {/* Subtitle - DM Sans */}
-          <p className="text-base font-light text-white/95 max-w-xl mx-auto mb-10" style={{ fontFamily: "var(--font-dm-sans)" }}>
+          <p className="text-base font-light text-white/95 max-w-xl mx-auto mb-10" style={{ fontFamily: "var(--font-dm-sans)", textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
             Soluzioni su misura per la tua casa o azienda: indipendenza energetica, sostenibilità e incentivi dedicati
           </p>
 
@@ -79,13 +79,13 @@ export function HeroSection() {
               href="/configuratore"
               className="btn-outline-white w-full sm:w-64 text-center"
             >
-              {homepage?.heroCtaPrimario || "Configura e Ordina"}
+              {homepage?.heroCtaPrimario || "Calcola il tuo risparmio"}
             </a>
             <button
               onClick={() => setIsContactOpen(true)}
               className="btn-outline-white w-full sm:w-64"
             >
-              {homepage?.heroCtaSecondario || "Contatta Solair"}
+              {homepage?.heroCtaSecondario || "Parla con un consulente"}
             </button>
           </div>
         </div>
