@@ -2106,5 +2106,104 @@ function mostraConferma() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
+
+<footer style="
+  background: #1e5c4e;
+  color: rgba(255,255,255,0.75);
+  font-family: 'Outfit', sans-serif;
+  margin-top: 64px;
+">
+  <!-- Main footer -->
+  <div style="
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 56px 32px 40px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 48px;
+  ">
+    <!-- Col 1: Logo + descrizione -->
+    <div>
+      <img src="https://solairgroup.it/logo-solair.svg" alt="Solair Group"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+           style="height: 48px; margin-bottom: 20px; filter: brightness(0) invert(1);">
+      <div style="display:none; font-size:22px; font-weight:700; color:#fff; margin-bottom:20px; letter-spacing:1px;">SOLAIR GROUP</div>
+      <p style="font-size:14px; line-height:1.7; color:rgba(255,255,255,0.65); margin:0 0 16px;">
+        Solair Group opera in tutta Italia con sedi a Catania, Giarre (CT), Treviso (TV) e Torino (TO)
+      </p>
+      <p style="font-size:13px; color:rgba(255,255,255,0.4); margin:0;">
+        Solair Group S.r.l. — P.IVA 06056640870
+      </p>
+    </div>
+
+    <!-- Col 2: Navigazione -->
+    <div>
+      <p style="font-size:11px; font-weight:700; letter-spacing:2px; color:rgba(255,255,255,0.5); text-transform:uppercase; margin:0 0 20px;">Navigazione</p>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <a href="https://solairgroup.it/#impianti" style="color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px;">Impianti</a>
+        <a href="https://solairgroup.it/#servizi" style="color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px;">Servizi</a>
+        <a href="https://solairgroup.it/#recensioni" style="color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px;">Recensioni</a>
+        <a href="https://solairgroup.it/soluzioni" style="color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px;">Soluzioni</a>
+        <a href="https://solairgroup.it/cer" style="color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px;">CER</a>
+        <a href="https://solairgroup.it/faq" style="color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px;">FAQ</a>
+      </div>
+    </div>
+
+    <!-- Col 3: Contatti -->
+    <div>
+      <p style="font-size:11px; font-weight:700; letter-spacing:2px; color:rgba(255,255,255,0.5); text-transform:uppercase; margin:0 0 20px;">Contatti</p>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <a href="tel:+390952900278" style="color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px; display:flex; align-items:center; gap:10px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.47 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +39 095 290 0278
+        </a>
+        <a href="https://wa.me/393497988101" target="_blank" style="color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px; display:flex; align-items:center; gap:10px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          +39 349 798 8101
+        </a>
+        <a href="mailto:info@solairgroup.it" style="color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px; display:flex; align-items:center; gap:10px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          info@solairgroup.it
+        </a>
+        <!-- Social -->
+        <div style="display:flex; gap:16px; margin-top:8px;">
+          <a href="https://www.facebook.com/solairgroup" target="_blank" style="color:rgba(255,255,255,0.6);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/solairgroup" target="_blank" style="color:rgba(255,255,255,0.6);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/solairgroup" target="_blank" style="color:rgba(255,255,255,0.6);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div style="border-top: 1px solid rgba(255,255,255,0.1);">
+    <div style="
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    ">
+      <span style="font-size:13px; color:rgba(255,255,255,0.4);">
+        © 2026 Solair Group S.r.l. — P.IVA 06056640870. Tutti i diritti riservati.
+      </span>
+      <div style="display:flex; gap:24px;">
+        <a href="https://solairgroup.it/faq" style="font-size:13px; color:rgba(255,255,255,0.4); text-decoration:none;">FAQ</a>
+        <a href="https://solairgroup.it/cookies" style="font-size:13px; color:rgba(255,255,255,0.4); text-decoration:none;">Cookies</a>
+        <a href="https://solairgroup.it/privacy" style="font-size:13px; color:rgba(255,255,255,0.4); text-decoration:none;">Privacy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
