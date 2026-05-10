@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { DM_Sans, Outfit } from "next/font/google"
+import { DM_Sans, Outfit, Barlow_Condensed } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { sanityFetch } from "@/lib/sanity"
 import { datiAziendaliQuery, homepageQuery, type DatiAziendali, type Homepage } from "@/lib/sanity/queries"
@@ -17,6 +17,13 @@ const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-outfit",
   weight: ["200", "300", "400"],
+  display: "swap",
+})
+
+const barlowCondensed = Barlow_Condensed({
+  subsets: ["latin"],
+  variable: "--font-barlow-condensed",
+  weight: ["800"],
   display: "swap",
 })
 
@@ -67,7 +74,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="it" className={`${dmSans.variable} ${outfit.variable}`}>
+    <html lang="it" className={`${dmSans.variable} ${outfit.variable} ${barlowCondensed.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
