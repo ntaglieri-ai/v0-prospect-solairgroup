@@ -112,8 +112,9 @@
 
 .btn-outline-white {
   @apply inline-flex items-center justify-center;
-  @apply border border-white bg-transparent text-white;
-  @apply px-10 py-3.5;
+  @apply border-2 border-white text-white;
+  @apply px-10 py-[18px];
+  background: rgba(255,255,255,0.12);
   font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
   font-size: 12px;
   text-transform: uppercase;
