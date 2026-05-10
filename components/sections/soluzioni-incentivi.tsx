@@ -142,10 +142,10 @@ function CheckIcon({ color = C.textMid }: { color?: string }) {
 
 // ── main component ────────────────────────────────────────
 export function SoluzioniIncentiviSection() {
-  const { datiAziendali } = useDatiAziendali();
+  const datiAziendali = useDatiAziendali();
   
   // Extract phone number from WhatsApp field (handles both URL and plain number)
-  const whatsappRaw = datiAziendali?.whatsapp || "+39 349 798 8101";
+  const whatsappRaw = datiAziendali?.whatsapp || "+39 095 290 0278";
   const whatsappNumber = whatsappRaw.includes("wa.me/") 
     ? whatsappRaw.replace(/.*wa\.me\//, "").replace(/[^0-9]/g, "")
     : whatsappRaw.replace(/[^0-9]/g, "");
