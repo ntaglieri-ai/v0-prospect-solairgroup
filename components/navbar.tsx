@@ -14,6 +14,7 @@ const navLinks = [
   { href: "/#soluzioni", label: "Soluzioni" },
   { href: "/#cer", label: "CER" },
   { href: "/#contatti", label: "Contatti" },
+  { href: "/lavora-con-noi", label: "Lavora con noi" },
 ]
 
 interface NavbarProps {
