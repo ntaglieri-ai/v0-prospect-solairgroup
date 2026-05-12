@@ -1871,22 +1871,32 @@ function goToRiepilogo() {
   }
 
   const LINEE_LABEL = { smart: 'Smart One', power: 'Power Plus', premium: 'Premium Top' };
-  document.getElementById('r_linea').textContent = LINEE_LABEL[state.linea] || '–';
-  document.getElementById('r_potenza').textContent = state.kwp + ' kWp';
-  document.getElementById('r_accumulo').textContent = state.kwh ? state.kwh + ' kWh' : 'Non incluso';
-  document.getElementById('r_pannelli').textContent = state.pannello || '–';
-  document.getElementById('r_tetto').textContent = ZAVORRE_LABEL[state.tetto] || '–';
+  const setTextContent = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+  setTextContent('r_linea', LINEE_LABEL[state.linea] || '–');
+  setTextContent('r_potenza', state.kwp + ' kWp');
+  setTextContent('r_accumulo', state.kwh ? state.kwh + ' kWh' : 'Non incluso');
+  setTextContent('r_pannelli', state.pannello || '–');
+  setTextContent('r_tetto', ZAVORRE_LABEL[state.tetto] || '–');
   if (state.extraZavorre > 0) {
-    document.getElementById('r_zavorra').textContent = '+ € ' + state.extraZavorre.toLocaleString('it-IT');
-    document.getElementById('r_zavorra_row').style.display = 'flex';
+    setTextContent('r_zavorra', '+ € ' + state.extraZavorre.toLocaleString('it-IT'));
+    const zavorraRow = document.getElementById('r_zavorra_row');
+    if (zavorraRow) zavorraRow.style.display = 'flex';
   }
-  document.getElementById('r_prezzo').textContent = '€ ' + state.prezzoTotale.toLocaleString('it-IT');
-  document.getElementById('r_nome').textContent = (document.getElementById('f_nome').value + ' ' + document.getElementById('f_cognome').value).trim() || '–';
-  document.getElementById('r_email').textContent = document.getElementById('f_email').value || '–';
-  document.getElementById('r_tel').textContent = document.getElementById('f_telefono').value || '–';
-  document.getElementById('r_ind').textContent = document.getElementById('f_indirizzo').value || '–';
-  document.getElementById('r_citta').textContent = (document.getElementById('f_citta').value + ' (' + document.getElementById('f_provincia').value.toUpperCase() + ')') || '–';
-  document.getElementById('r_cf').textContent = document.getElementById('f_cf').value.toUpperCase() || '–';
+  setTextContent('r_prezzo', '€ ' + state.prezzoTotale.toLocaleString('it-IT'));
+  const fNome = document.getElementById('f_nome');
+  const fCognome = document.getElementById('f_cognome');
+  const fEmail = document.getElementById('f_email');
+  const fTelefono = document.getElementById('f_telefono');
+  const fIndirizzo = document.getElementById('f_indirizzo');
+  const fCitta = document.getElementById('f_citta');
+  const fProvincia = document.getElementById('f_provincia');
+  const fCf = document.getElementById('f_cf');
+  setTextContent('r_nome', ((fNome?.value || '') + ' ' + (fCognome?.value || '')).trim() || '–');
+  setTextContent('r_email', fEmail?.value || '–');
+  setTextContent('r_tel', fTelefono?.value || '–');
+  setTextContent('r_ind', fIndirizzo?.value || '–');
+  setTextContent('r_citta', ((fCitta?.value || '') + ' (' + (fProvincia?.value || '').toUpperCase() + ')') || '–');
+  setTextContent('r_cf', (fCf?.value || '').toUpperCase() || '–');
   goTo(5);
 }
 
