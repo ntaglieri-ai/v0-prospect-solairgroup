@@ -491,7 +491,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
   <div class="container">
     <button class="btn-back" onclick="tornaIntro()">← Ricomincia</button>
 
-    <!-- ──�� STEP 1: POTENZA ─── -->
+    <!-- ════════ STEP 1: POTENZA ════════ -->
     <div class="section active" id="s0">
       <div class="section-title">Potenza dell'impianto</div>
       <div class="section-sub">Seleziona la potenza in kilowatt-picco (kWp)</div>
@@ -1054,7 +1054,7 @@ function avantiDaTetto() {
 
 // ════════════════════════════════════════
 // STEP 3 — ACCUMULO
-// ══════════════════��═════════════════════
+// ════════════════════════════════════════
 
 function scelgiAccumulo(haAcc) {
   state.accumulo = haAcc;
@@ -1095,7 +1095,7 @@ function scelgiTetto(tipo) {
   aggiornaTotale();
 }
 
-// ══��═════════════════════════════════════
+// ════════════════════════════════════════
 // STEP 4 — PREZZO
 // ════════════════════════════════════════
 
@@ -1238,7 +1238,7 @@ function scelgiKwh(kwh, prezzo) {
   document.getElementById('btn-s4').disabled = !prezzo;
 }
 
-// ═��══════════════════════════════════════
+// ════════════════════════════════════════
 // STEP 5 — ACCESSORI
 // ════════════════════════════════════════
 
@@ -1330,7 +1330,7 @@ function toggleAccessorio(key, disabled) {
 
 // ════════════════════════════════════════
 // STEP 6 — RIEPILOGO
-// ═════════════════════��══════════════════
+// ════════════════════════════════════════
 
 function renderRiepilogo() {
   document.getElementById('ril_kwp').textContent = (state.kwp || '-') + ' kWp';
@@ -1455,7 +1455,7 @@ function chiudiPopup() {
   aggiornaConsensi();
 }
 
-// ═════════════��══════════════════════════
+// ════════════════════════════════════════
 // CONSENSI + INVIO
 // ════════════════════════════════════════
 
@@ -1726,7 +1726,7 @@ function procediDaSuggerimento() {
   goTo(5); // vai diretto agli accessori
 }
 
-// ═════════════��══════════════════════════
+// ════════════════════════════════════════
 // INTRO / RESET
 // ════════════════════════════════════════
 
