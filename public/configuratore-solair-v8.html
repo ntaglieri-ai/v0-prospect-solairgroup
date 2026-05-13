@@ -34,8 +34,10 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 .step-num{width:20px;height:20px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
 .step-tab.active .step-num{background:var(--navy);color:#fff;border-color:var(--navy)}
 .step-tab.completed .step-num{background:var(--teal-light);color:var(--teal);border-color:var(--teal-border)}
-
-/* CONTAINER */
+  .step-tab.skipped{color:#c0392b;pointer-events:none;opacity:.7}
+  .step-tab.skipped .step-num{background:#fadbd8;color:#c0392b;border-color:#e74c3c}
+  
+  /* CONTAINER */
 .container{max-width:720px;margin:0 auto;padding:32px 20px 80px}
 
 /* SECTIONS */
@@ -335,7 +337,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 
 <!-- ═══════════════════════════════════════
      SUGGERIMENTO PAGE
-═════════����═════════════════════════════ -->
+═════════�����═════════════════════════════ -->
 <div id="suggerimentoPage" style="display:none">
   <div class="sg-page">
     <button class="btn-back" onclick="tornaIntro()">← Torna indietro</button>
@@ -741,7 +743,7 @@ const RATE_OPTIONS = [24, 36, 48, 60, 72, 84];
 
 // ════════════════════════════════════════
 // STATE
-// ══════════���═════════════════════════════
+// ══════���═══���═════════════════════════════
 
 let pannelliList = []; // da Sanity
 
@@ -789,7 +791,14 @@ function goTo(step) {
   // Update tabs (tabs 0-5 map to steps 0-5, step 6 = riepilogo)
   for (let i = 0; i <= 5; i++) {
     const tab = document.getElementById('tab' + i);
-    tab.classList.remove('active', 'completed', 'disabled');
+    tab.classList.remove('active', 'completed', 'disabled', 'skipped');
+    
+    // Tab 2 = Accumulo: se potenza <= 5 kWp, mostra come "skipped" (rosso)
+    if (i === 2 && state.kwp && state.kwp <= 5) {
+      tab.classList.add('skipped');
+      continue;
+    }
+    
     const tabStep = i <= 2 ? i : i + 1; // tabs 3,4,5 map to steps 4,5,6 (skipping prezzo internal step)
     if (i < step && i <= 2) tab.classList.add('completed');
     else if (i === step && i <= 2) tab.classList.add('active');
@@ -938,7 +947,7 @@ function indietroDaTetto() {
 
 // ════════════════════════════════════════
 // STEP 3 — ACCUMULO
-// ════════════════════════════════════════
+// ══════════════════��═════════════════════
 
 function scelgiAccumulo(haAcc) {
   state.accumulo = haAcc;
@@ -1319,7 +1328,7 @@ function chiudiPopup() {
   aggiornaConsensi();
 }
 
-// ════════════════════════════════════════
+// ═════════════��══════════════════════════
 // CONSENSI + INVIO
 // ════════════════════════════════════════
 
