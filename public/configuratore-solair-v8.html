@@ -335,7 +335,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 
 <!-- ═══════════════════════════════════════
      SUGGERIMENTO PAGE
-═════════���═════════════════════════════ -->
+═════════����═════════════════════════════ -->
 <div id="suggerimentoPage" style="display:none">
   <div class="sg-page">
     <button class="btn-back" onclick="tornaIntro()">← Torna indietro</button>
@@ -446,7 +446,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
       </div>
       <div class="nav-footer">
         <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="goTo(0)">← Indietro</button>
-        <button class="btn-primary navy" id="btn-s1" onclick="goTo(2)" disabled>Avanti → Accumulo</button>
+        <button class="btn-primary navy" id="btn-s1" onclick="avantiDaPannelli()" disabled>Avanti → Accumulo</button>
       </div>
     </div>
 
@@ -489,8 +489,8 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
         </div>
       </div>
       <div class="nav-footer">
-        <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="goTo(2)">← Indietro</button>
-        <button class="btn-primary navy" id="btn-s3" onclick="goTo(4)" disabled>Avanti → Accessori</button>
+<button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="indietroDaTetto()">← Indietro</button>
+    <button class="btn-primary navy" id="btn-s3" onclick="goTo(4)" disabled>Avanti → Accessori</button>
       </div>
     </div>
 
@@ -741,7 +741,7 @@ const RATE_OPTIONS = [24, 36, 48, 60, 72, 84];
 
 // ════════════════════════════════════════
 // STATE
-// ════════════════════════════════════════
+// ══════════���═════════════════════════════
 
 let pannelliList = []; // da Sanity
 
@@ -889,7 +889,10 @@ function renderPannelliCards() {
       state.pannello = p;
       ricalcolaPannello();
       renderPannelliCards();
-      document.getElementById('btn-s1').disabled = false;
+      const btnS1 = document.getElementById('btn-s1');
+      btnS1.disabled = false;
+      // Aggiorna testo bottone in base alla potenza
+      btnS1.textContent = state.kwp <= 5 ? 'Avanti → Tipo tetto' : 'Avanti → Accumulo';
     };
     container.appendChild(card);
   });
@@ -905,6 +908,32 @@ function ricalcolaPannello() {
   document.getElementById('pc_num').textContent = n;
   document.getElementById('pc_mq').textContent = mq;
   document.getElementById('pannello_calcolo').style.display = 'grid';
+}
+
+// ════════════════════════════════════════
+// NAVIGAZIONE CONDIZIONALE
+// ════════════════════════════════════════
+
+function avantiDaPannelli() {
+  // Per potenze 3-4-5 kWp, l'accumulo non è previsto: vai diretto a Tetto
+  if (state.kwp <= 5) {
+    state.accumulo = false;
+    state.linea = null;
+    state.kwh = null;
+    state.prezzoBase = 0;
+    goTo(3); // vai a Tetto
+  } else {
+    goTo(2); // vai a Accumulo
+  }
+}
+
+function indietroDaTetto() {
+  // Se potenza <= 5 kWp, torna a Pannelli (salta Accumulo)
+  if (state.kwp <= 5) {
+    goTo(1);
+  } else {
+    goTo(2);
+  }
 }
 
 // ════════════════════════════════════════
@@ -930,7 +959,7 @@ function scelgiTetto(tipo) {
   aggiornaTotale();
 }
 
-// ════════════════════════════════════════
+// ══��═════════════════════════════════════
 // STEP 4 — PREZZO
 // ════════════════════════════════════════
 
