@@ -339,7 +339,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 <body>
 
 <!-- BACK TO HOME -->
-<a href="/" class="back-home">
+<a href="/" class="back-home" onclick="resetAndGoHome(event)">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/>
   </svg>
@@ -1745,12 +1745,23 @@ function avviaSuggerimento() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function tornaIntro() {
-  // Reset state
+function resetState() {
+  // Reset completo di tutti gli stati
   Object.assign(state, { kwp:null, pannello:null, numPannelli:null, mqTotali:null, accumulo:null, linea:null, kwh:null, prezzoBase:0, tetto:null, extraZavorre:0, wallbox:false, ottimizzatori:false, tigoCloud:false, prezzoAccessori:0, prezzoTotale:0 });
   Object.assign(pagState, { modalita:null, anticipo:0, nRate:60, rata:0, taeg:0 });
   Object.assign(sgAnswers, {0:null,1:null,2:null,3:null});
   Object.assign(sgState, {linea:null,kwp:null,kwh:null,prezzo:null});
+}
+
+function resetAndGoHome(e) {
+  e.preventDefault();
+  resetState();
+  window.location.href = '/';
+}
+
+function tornaIntro() {
+  // Reset state
+  resetState();
 
   document.getElementById('suggerimentoPage').style.display = 'none';
   document.getElementById('configuratorePage').style.display = 'none';
