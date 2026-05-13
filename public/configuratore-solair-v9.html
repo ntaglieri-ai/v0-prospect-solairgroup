@@ -1056,8 +1056,8 @@ function avantiDaTetto() {
 function scelgiAccumulo(haAcc) {
   state.accumulo = haAcc;
   state.linea = null; state.kwh = null;
-  // Senza accumulo: usa PREZZI_NO_ACC, con accumulo: prezzo verra impostato nella selezione linea/kWh
-  state.prezzoBase = haAcc ? 0 : (PREZZI_NO_ACC[state.kwp] || 0);
+  // Mantiene il prezzo stimato (PREZZI_NO_ACC), si aggiorna solo dopo selezione accumulo
+  // Non azzeriamo prezzoBase qui - verra aggiornato quando l'utente seleziona linea/kWh
   document.getElementById('btn_no_acc').classList.toggle('selected', !haAcc);
   document.getElementById('btn_si_acc').classList.toggle('selected', haAcc);
   document.getElementById('btn-s2').disabled = false;
@@ -1768,7 +1768,7 @@ function tornaIntro() {
 
 // ════════════════════════════════════════
 // INIT
-// ════════════════════════════���═══════════
+// ════════════════════���═══════���═══════════
 
 renderKwpButtons();
 loadPannelliSanity();
