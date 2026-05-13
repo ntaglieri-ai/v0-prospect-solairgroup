@@ -156,7 +156,7 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       />
 
-      <section className="bg-[#f4f6f7] mt-[50px] mb-0 md:mb-[25px] relative z-[1]">
+      <section className="bg-[#1e3a5f] mt-[50px] mb-0 md:mb-[25px] relative z-[1]">
         <div className="grid lg:grid-cols-[55%_45%] min-h-[500px]">
           {/* Leaflet Map */}
           <div 
@@ -165,15 +165,15 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
           />
 
           {/* Sidebar */}
-          <div className="flex flex-col justify-center px-8 lg:px-10 py-12 border-l border-[#d0d6da]">
-            <p className="overline text-[#8a9aaa] mb-3">Sedi</p>
-            <h2 className="font-heading text-[#1e3a5f] mb-10" style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", lineHeight: 1.2 }}>
+          <div className="flex flex-col justify-center px-8 lg:px-10 py-12 border-l border-white/10">
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#2e8b72] mb-3">Sedi</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-10">
               Le nostre sedi<br />in Italia
             </h2>
 
             {Object.entries(grouped).map(([regione, items]) => (
               <div key={regione} className="mb-8">
-                <p className="text-[10px] tracking-[0.14em] uppercase text-[#8a9aaa] mb-4 pt-4 border-t border-[#d0d6da]">
+                <p className="text-[10px] tracking-[0.14em] uppercase text-gray-300 mb-4 pt-4 border-t border-white/20">
                   {regione}
                 </p>
 
@@ -181,18 +181,20 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
                   <div
                     key={sede._id}
                     onClick={() => setActiveId(sede._id)}
-                    className={`cursor-pointer mb-5 pl-3 border-l-2 transition-colors ${
-                      activeId === sede._id ? "border-[#2e8b72]" : "border-transparent"
+                    className={`cursor-pointer mb-5 pl-3 border-l-2 transition-colors bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-4 hover:bg-white/20 ${
+                      activeId === sede._id ? "border-l-[#2e8b72]" : "border-l-transparent"
                     }`}
                   >
-                    <p className={`text-xl mb-1 transition-all ${
-                      activeId === sede._id ? "font-medium text-[#1e3a5f]" : "font-normal text-[#4a6080]"
-                    }`}>
+                    <p className={`text-lg mb-1 font-bold text-white transition-all`}>
                       {sede.citta}
                     </p>
-                    <p className="text-[13px] text-[#8a9aaa] mb-0.5">{sede.referente}</p>
-                    <p className="text-[13px] text-[#8a9aaa] mb-0.5">{sede.telefono}</p>
-                    {sede.email && <p className="text-[13px] text-[#8a9aaa]">{sede.email}</p>}
+                    <p className="text-sm text-gray-300 mb-0.5">{sede.referente}</p>
+                    <p className="text-sm text-gray-300 mb-0.5 flex items-center gap-2">
+                      <span className="text-[#2e8b72]">Tel:</span> {sede.telefono}
+                    </p>
+                    {sede.email && <p className="text-sm text-gray-300 flex items-center gap-2">
+                      <span className="text-[#2e8b72]">Email:</span> {sede.email}
+                    </p>}
                   </div>
                 ))}
               </div>

@@ -38,16 +38,16 @@ export function SolairCERClient({ cer }: SolairCERClientProps) {
 
       {/* Desktop: Grid layout */}
       <div className="hidden md:grid lg:grid-cols-[45%_55%] min-h-screen">
-        {/* Text - centered vertically */}
-        <div className="flex items-center justify-center bg-[#f4f6f7] px-8 lg:px-20 py-20 lg:py-0">
+        {/* Text - centered vertically - gradient background */}
+        <div className="flex items-center justify-center bg-gradient-to-br from-[#1e3a5f] to-[#2e8b72] px-8 lg:px-20 py-20 lg:py-0">
           <div className="max-w-lg">
-            <p className="overline text-[#8a9aaa] mb-5">
+            <p className="text-sm font-semibold uppercase tracking-widest text-white/80 mb-5">
               Solair CER
             </p>
-            <h3 className="font-heading text-[#1e3a5f] mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
+            <h3 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-6">
               {titolo}
             </h3>
-            <p className="body-text text-[#4a6080] mb-10">
+            <p className="text-white/90 leading-relaxed text-base mb-10">
               {descrizione}
             </p>
             
@@ -56,25 +56,25 @@ export function SolairCERClient({ cer }: SolairCERClientProps) {
               {cerBenefits.map((benefit, idx) => (
                 <div 
                   key={idx} 
-                  className="flex items-center gap-4 py-4 border-b border-[#d0d6da] last:border-0"
+                  className="flex items-center gap-4 py-4 border-b border-white/20 last:border-0"
                 >
-                  <span className="text-[#8a9aaa]">—</span>
-                  <span className="text-sm text-[#1e3a5f] font-light">{benefit}</span>
+                  <span className="text-white/60">—</span>
+                  <span className="text-sm text-white font-light">{benefit}</span>
                 </div>
               ))}
             </div>
             
             {/* Stat */}
-            <div className="mb-10 pt-6 border-t border-[#d0d6da]">
-              <p className="font-heading text-[3rem] text-[#1e3a5f]">{incentivo}+</p>
-              <p className="overline text-[#8a9aaa] mt-1">
+            <div className="mb-10 pt-6 border-t border-white/20">
+              <p className="font-heading text-[3rem] text-white">{incentivo}+</p>
+              <p className="text-sm font-semibold uppercase tracking-widest text-white/80 mt-1">
                 CER attive in Italia
               </p>
             </div>
 
             <a 
               href={ctaLink} 
-              className="btn-outline text-[#1e3a5f]"
+              className="inline-block border-2 border-white text-white font-bold px-8 py-4 rounded-lg hover:bg-white/10 transition-all duration-300"
             >
               {ctaTesto}
             </a>

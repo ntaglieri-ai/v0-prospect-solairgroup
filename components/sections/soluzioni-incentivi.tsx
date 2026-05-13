@@ -119,7 +119,7 @@ function Separator() {
   );
 }
 
-function CheckIcon({ color = C.textMid }: { color?: string }) {
+function CheckIcon({ color = "#2e8b72" }: { color?: string }) {
   return (
     <svg
       width="14"
@@ -154,8 +154,8 @@ export function SoluzioniIncentiviSection() {
   return (
     <section
       id="soluzioni"
+      className="bg-white"
       style={{
-        background: C.bg,
         fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
         color: C.text,
       }}
@@ -163,36 +163,17 @@ export function SoluzioniIncentiviSection() {
       {/* ── HEADER ── */}
       <div style={{ textAlign: "center", padding: "24px 24px 72px" }}>
         <p
-          style={{
-            fontSize: "11px",
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-            color: C.textMuted,
-            marginBottom: "16px",
-          }}
+          className="text-sm font-semibold uppercase tracking-widest text-[#2e8b72] mb-4"
         >
           Soluzioni
         </p>
         <h2
-          style={{
-            fontSize: "clamp(38px, 5vw, 62px)",
-            fontWeight: 300,
-            lineHeight: 1.1,
-            marginBottom: "20px",
-            letterSpacing: "-0.02em",
-            color: C.text,
-          }}
+          className="text-3xl md:text-4xl font-extrabold text-[#1e3a5f] tracking-tight mb-5"
         >
           I nostri pacchetti
         </h2>
         <p
-          style={{
-            fontSize: "15px",
-            color: C.textMid,
-            maxWidth: "460px",
-            margin: "0 auto",
-            lineHeight: 1.7,
-          }}
+          className="text-gray-700 leading-relaxed text-base max-w-[460px] mx-auto"
         >
           Tre linee di impianto fotovoltaico con accumulo, chiavi in mano.
           Tutte includono progettazione, installazione e pratiche GSE.
@@ -214,31 +195,18 @@ export function SoluzioniIncentiviSection() {
         {pacchetti.map((p) => (
           <div
             key={p.id}
+            className={`rounded-2xl shadow-md hover:-translate-y-2 hover:shadow-xl transition-all duration-300 ${p.highlight ? 'bg-[#1e3a5f] text-white ring-2 ring-[#2e8b72]' : 'bg-white border border-gray-200'}`}
             style={{
-              background: p.bgColor,
               padding: "40px 32px 36px",
               position: "relative",
-              borderTop: `3px solid ${p.accentColor}`,
+              borderTop: p.highlight ? 'none' : `3px solid ${p.accentColor}`,
               display: "flex",
               flexDirection: "column",
             }}
           >
             {p.badge && (
               <span
-                style={{
-                  position: "absolute",
-                  top: "20px",
-                  right: "20px",
-                  fontSize: "10px",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  fontWeight: 600,
-                  color: "#B91C1C",
-                  border: "none",
-                  padding: "4px 10px",
-                  borderRadius: "3px",
-                  background: "#FEE2E2",
-                }}
+                className="absolute top-5 right-5 bg-[#DC2626] text-white font-bold text-sm px-3 py-1 rounded-full uppercase tracking-wide"
               >
                 {p.badge}
               </span>
@@ -260,10 +228,10 @@ export function SoluzioniIncentiviSection() {
             <h3
               style={{
                 fontSize: "26px",
-                fontWeight: 400,
+                fontWeight: 600,
                 marginBottom: "14px",
                 letterSpacing: "-0.01em",
-                color: p.accentColor,
+                color: p.highlight ? "#ffffff" : p.accentColor,
               }}
             >
               {p.linea}
@@ -272,7 +240,7 @@ export function SoluzioniIncentiviSection() {
             <p
               style={{
                 fontSize: "13px",
-                color: "#334155",
+                color: p.highlight ? "rgba(255,255,255,0.85)" : "#334155",
                 lineHeight: 1.65,
                 marginBottom: "28px",
                 minHeight: "58px",
@@ -292,12 +260,12 @@ export function SoluzioniIncentiviSection() {
                     alignItems: "flex-start",
                     gap: "10px",
                     fontSize: "13px",
-                    color: "#1e293b",
+                    color: p.highlight ? "rgba(255,255,255,0.9)" : "#1e293b",
                     marginBottom: "9px",
                     lineHeight: 1.4,
                   }}
                 >
-                  <CheckIcon color={p.accentColor} />
+                  <CheckIcon color={p.highlight ? "#ffffff" : "#2e8b72"} />
                   {f}
                 </li>
               ))}
@@ -331,12 +299,13 @@ export function SoluzioniIncentiviSection() {
       </div>
 
       {/* ── INCENTIVI ── */}
+      <div className="bg-gray-50 py-16">
       <div
         id="incentivi"
         style={{
           maxWidth: "1120px",
           margin: "0 auto",
-          padding: "72px 24px",
+          padding: "0 24px",
           display: "grid",
           gridTemplateColumns: "1fr 2fr",
           gap: "80px",
@@ -347,36 +316,19 @@ export function SoluzioniIncentiviSection() {
         {/* left */}
         <div>
           <p
-            style={{
-              fontSize: "11px",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              color: C.textMuted,
-              marginBottom: "16px",
-            }}
+            className="text-sm font-semibold uppercase tracking-widest text-[#2e8b72] mb-4"
           >
             Incentivi
           </p>
           <h3
-            style={{
-              fontSize: "clamp(26px, 3vw, 38px)",
-              fontWeight: 300,
-              lineHeight: 1.2,
-              letterSpacing: "-0.02em",
-              color: C.text,
-            }}
+            className="text-3xl md:text-4xl font-extrabold text-[#1e3a5f] tracking-tight"
           >
             Riduci il costo
             <br />
             del tuo impianto
           </h3>
           <p
-            style={{
-              fontSize: "13px",
-              color: C.textMid,
-              marginTop: "16px",
-              lineHeight: 1.7,
-            }}
+            className="text-gray-700 leading-relaxed text-base mt-4"
           >
             Gli incentivi statali possono coprire una parte significativa
             dell&apos;investimento. I nostri consulenti ti guidano nell&apos;accesso
@@ -439,6 +391,7 @@ export function SoluzioniIncentiviSection() {
           ))}
         </div>
       </div>
+      </div>
 
       {/* ── SEPARATOR ── */}
       <Separator />
@@ -446,88 +399,34 @@ export function SoluzioniIncentiviSection() {
       {/* ── CTA ── */}
       <div
         id="contatti"
-        style={{
-          background: C.bgCta,
-          padding: "64px 24px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "32px",
-        }}
+        className="bg-gradient-to-r from-[#1e3a5f] to-[#2e8b72] py-20 px-6"
       >
-        <p
-          style={{
-            fontSize: "14px",
-            color: C.textMid,
-            textAlign: "center",
-            maxWidth: "440px",
-            lineHeight: 1.75,
-            margin: 0,
-          }}
-        >
-          Non sai quale linea fa per te? Usa il configuratore per trovare
-          la soluzione giusta, oppure parla direttamente con un nostro consulente.
-        </p>
+        <div className="max-w-3xl mx-auto text-center">
+          <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-6">
+            Pronto a risparmiare energia?
+          </h3>
+          <p className="text-white/90 text-base leading-relaxed max-w-xl mx-auto mb-10">
+            Non sai quale linea fa per te? Usa il configuratore per trovare
+            la soluzione giusta, oppure parla direttamente con un nostro consulente.
+          </p>
 
-        <div
-          style={{
-            display: "flex",
-            gap: "16px",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          <a
-            href={CONFIGURATORE_URL}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "256px",
-              padding: "15px 36px",
-              background: C.btn,
-              color: "#FFFFFF",
-              fontSize: "11px",
-              fontWeight: 500,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              borderRadius: "0",
-              border: `1px solid ${C.btn}`,
-              transition: "opacity 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-          >
-            Configura e Ordina
-          </a>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <a
+              href={CONFIGURATORE_URL}
+              className="inline-flex items-center justify-center w-64 px-8 py-4 bg-white text-[#1e3a5f] font-bold rounded-lg hover:scale-105 active:scale-95 transition-all duration-200"
+            >
+              Configura e Ordina
+            </a>
 
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "256px",
-              padding: "15px 36px",
-              background: C.btn,
-              color: "#FFFFFF",
-              fontSize: "11px",
-              fontWeight: 500,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              border: `1px solid ${C.btn}`,
-              borderRadius: "0",
-              transition: "opacity 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-          >
-            Contatta Solair
-          </a>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center w-64 px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 hover:scale-105 active:scale-95 transition-all duration-200"
+            >
+              Contatta Solair
+            </a>
+          </div>
         </div>
       </div>
 
