@@ -39,12 +39,12 @@ export function Footer() {
   const whatsappLink = `https://wa.me/${whatsappNumber}`
   
   return (
-    <footer className="relative bg-[#1e5a5a] text-white">
+    <footer className="relative bg-gradient-to-b from-[#1e3a5f] to-[#0f2240] text-white border-t border-white/10">
       {/* Top gradient border */}
       <div 
         className="absolute top-0 left-0 right-0 h-1"
         style={{ 
-          background: "linear-gradient(90deg, #2e8b72 0%, #1e5a5a 50%, #e07a3a 100%)" 
+          background: "linear-gradient(90deg, #2e8b72 0%, #1e3a5f 50%, #e07a3a 100%)" 
         }}
       />
       
@@ -71,7 +71,7 @@ export function Footer() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-white/60 hover:text-white transition-colors duration-200"
+                className="text-sm text-gray-300 hover:text-white transition-colors duration-200"
                 style={{ fontFamily: "var(--font-dm-sans)" }}
               >
                 {link.label}
@@ -216,7 +216,7 @@ export function Footer() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-sm text-white/60 hover:text-white transition-colors duration-200"
+                    className="text-sm text-gray-300 hover:text-white transition-colors duration-200"
                     style={{ fontFamily: "var(--font-dm-sans)" }}
                   >
                     {link.label}

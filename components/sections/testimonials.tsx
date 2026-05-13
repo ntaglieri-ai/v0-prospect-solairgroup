@@ -44,12 +44,12 @@ export function TestimonialsSection() {
   const prev = () => setCurrentIndex((prev) => Math.max(prev - 1, 0))
 
   return (
-    <section id="recensioni" className="relative min-h-[60vh] py-[100px] bg-[#f4f6f7] flex items-center mb-0">
+    <section id="recensioni" className="relative min-h-[60vh] py-[100px] bg-gray-50 flex items-center mb-0">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
         {/* Header */}
         <div className="text-center mb-16">
-          <p className="overline text-[#8a9aaa] mb-4">Testimonianze</p>
-          <h2 className="font-heading text-[#1e3a5f] mb-8">
+          <p className="text-sm font-semibold uppercase tracking-widest text-[#2e8b72] mb-4">Testimonianze</p>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#1e3a5f] tracking-tight mb-8">
             Cosa dicono i nostri clienti
           </h2>
           
@@ -78,16 +78,18 @@ export function TestimonialsSection() {
                   key={index}
                   className={`flex-shrink-0 ${isMobile ? "w-full" : "w-[calc(33.333%-1rem)]"}`}
                 >
-                  <div className="bg-white border border-[#d0d6da] p-10 h-full">
+                  <div className="bg-white rounded-2xl shadow-md hover:-translate-y-2 hover:shadow-xl transition-all duration-300 p-10 h-full">
+                    {/* Quote icon */}
+                    <span className="text-6xl text-[#2e8b72] font-serif leading-none block mb-4">&ldquo;</span>
                     <div className="flex gap-0.5 mb-6">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-[#2e8b72] text-[#2e8b72]" />
+                        <Star key={i} className="h-5 w-5 fill-amber-400 text-amber-400" />
                       ))}
                     </div>
-                    <p className="text-[#1e3a5f] text-sm leading-relaxed mb-8 font-light">
-                      &quot;{testimonial.text}&quot;
+                    <p className="text-gray-800 leading-relaxed text-base mb-8 font-light">
+                      {testimonial.text}
                     </p>
-                    <p className="overline text-[#8a9aaa]">
+                    <p className="font-semibold text-[#1e3a5f]">
                       {testimonial.name}
                     </p>
                   </div>

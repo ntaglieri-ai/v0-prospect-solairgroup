@@ -35,41 +35,25 @@ export function HeroSection() {
             type="video/mp4"
           />
         </video>
-        {/* Gradient overlay that fades to background */}
-        <div 
-          className="absolute inset-0" 
-          style={{
-            background: "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.60) 60%, rgba(244,246,247,1) 100%)"
-          }}
-        />
+        {/* Gradient overlay - cinematographic */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/50" />
       </div>
 
-      {/* Content - centered vertically with breathing room */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center px-6">
-        <div className="text-center max-w-4xl">
-          {/* Logo */}
-          <div className="hidden md:block relative md:w-[360px] md:h-30 mx-auto mb-0">
-            <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp_Image_2026-05-05_at_18.34.28-removebg-preview-1BVOsiAd1yhDgv9eOJpKcg5rntHuff.png"
-              alt="Solair Group"
-              fill
-              className="object-contain brightness-0 invert"
-              priority
-            />
-          </div>
-
+      {/* Content - centered vertically with generous top padding */}
+      <div className="relative z-10 h-full flex flex-col items-center justify-center px-6 pt-32 md:pt-40 pb-20">
+        <div className="text-center max-w-5xl">
           {/* Overline - DM Sans */}
-          <p className="overline text-white/90 mb-6 mt-0">
+          <p className="overline text-white/90 mb-6 mt-8">
             Energia Rinnovabile · Italia
           </p>
 
-          {/* H1 Title - Barlow Condensed */}
-          <h1 className="text-white mb-6" style={{ fontFamily: "var(--font-barlow-condensed)", fontWeight: 800, letterSpacing: "-0.02em", fontSize: "clamp(2.5rem, 5vw, 4rem)", lineHeight: 1.1, textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
+          {/* H1 Title - Barlow Condensed - Premium */}
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-normal text-white mb-10" style={{ fontFamily: "var(--font-barlow-condensed)", textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
             Impianti fotovoltaici chiavi in mano per privati e aziende in tutta Italia
           </h1>
 
           {/* Subtitle - DM Sans */}
-          <p className="text-base font-light text-white/95 max-w-xl mx-auto mb-10" style={{ fontFamily: "var(--font-dm-sans)", textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
+          <p className="text-base font-medium text-white/90 max-w-xl mx-auto mb-10" style={{ fontFamily: "var(--font-dm-sans)", textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
             Soluzioni su misura per la tua casa o azienda: indipendenza energetica, sostenibilità e incentivi dedicati
           </p>
 
@@ -77,13 +61,13 @@ export function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/configuratore"
-              className="btn-outline-white w-full sm:w-64 text-center"
+              className="w-full sm:w-64 text-center bg-[#2e8b72] text-white font-bold px-8 py-4 rounded-lg shadow-lg hover:brightness-110 transition-all duration-300"
             >
               {homepage?.heroCtaPrimario || "Calcola il tuo risparmio"}
             </a>
             <button
               onClick={() => setIsContactOpen(true)}
-              className="btn-outline-white w-full sm:w-64"
+              className="w-full sm:w-64 border-2 border-white text-white font-bold px-8 py-4 rounded-lg hover:bg-white/10 transition-all duration-300"
             >
               {homepage?.heroCtaSecondario || "Parla con un consulente"}
             </button>

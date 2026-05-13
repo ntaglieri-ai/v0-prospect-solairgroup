@@ -104,7 +104,7 @@ export function WhyChooseUsSection() {
                     <h3 className="font-heading text-[#1e3a5f] mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
                       {service.title}
                     </h3>
-                    <p className="body-text text-[#4a6080]">
+                    <p className="body-text text-gray-800">
                       {service.description}
                     </p>
                   </div>
