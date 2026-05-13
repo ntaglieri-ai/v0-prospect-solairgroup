@@ -10,7 +10,7 @@ export function HeroSection() {
   const homepage = useHomepage()
 
   return (
-    <section id="home" className="relative h-screen overflow-hidden mb-0 md:mb-[80px]">
+    <section id="home" className="relative min-h-[85vh] md:min-h-screen overflow-hidden mb-0 md:mb-[80px]">
       {/* Video Background with poster fallback for LCP */}
       <div className="absolute inset-0 w-full h-full">
         {/* Poster image shown immediately while video loads */}
@@ -40,7 +40,7 @@ export function HeroSection() {
       </div>
 
       {/* Content - centered vertically with generous top padding */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 sm:px-6 pt-24 sm:pt-32 md:pt-40 pb-16 sm:pb-20">
+      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 sm:px-6 pt-16 sm:pt-24 md:pt-32 lg:pt-40 pb-16 sm:pb-24 md:pb-32">
         <div className="text-center max-w-5xl w-full">
           {/* Overline - DM Sans */}
           <p className="overline text-white/90 mb-4 sm:mb-6 mt-4 sm:mt-8 text-[10px] sm:text-[11px]">
