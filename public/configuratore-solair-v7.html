@@ -1420,7 +1420,6 @@ function checkStep1() {
 function renderLinee() {
   const grid = document.getElementById('linee_grid');
   grid.innerHTML = '';
-  console.log('[v0] renderLinee - state:', { kwp: state.kwp, kwh: state.kwh, linea: state.linea });
 
   const LINEE_INFO = {
     smart: {
@@ -1484,26 +1483,21 @@ function renderLinee() {
 }
 
 function getPrezzo(linea, kwp, kwh) {
-  console.log('[v0] getPrezzo called:', { linea, kwp, kwh });
-  if (!kwp) { console.log('[v0] getPrezzo: no kwp'); return null; }
+  if (!kwp) return null;
   const kwhKey = kwh === 0 ? 0 : kwh;
   const lineaPrezzi = PREZZI[linea];
-  if (!lineaPrezzi) { console.log('[v0] getPrezzo: no lineaPrezzi for', linea); return null; }
+  if (!lineaPrezzi) return null;
   const kwpData = lineaPrezzi[kwp];
-  if (!kwpData) { console.log('[v0] getPrezzo: no kwpData for kwp', kwp, 'in linea', linea); return null; }
+  if (!kwpData) return null;
   if (kwhKey === 0) {
     // senza accumulo: solo smart ha prezzi senza batteria
-    if (linea === 'smart') { console.log('[v0] getPrezzo: smart senza batteria:', kwpData[0]); return kwpData[0] || null; }
-    console.log('[v0] getPrezzo: power/premium require battery');
+    if (linea === 'smart') return kwpData[0] || null;
     return null; // power e premium richiedono batteria
   }
-  const result = kwpData[kwhKey] || null;
-  console.log('[v0] getPrezzo: result for kwhKey', kwhKey, '=', result);
-  return result;
+  return kwpData[kwhKey] || null;
 }
 
 function scegliLinea(linea, prezzo) {
-  console.log('[v0] scegliLinea called:', { linea, prezzo, currentLinea: state.linea });
   if (state.linea === linea) {
     state.linea = null;
     state.prezzoBase = 0;
@@ -1511,7 +1505,6 @@ function scegliLinea(linea, prezzo) {
     state.linea = linea;
     state.prezzoBase = prezzo;
   }
-  console.log('[v0] scegliLinea after:', { linea: state.linea, prezzoBase: state.prezzoBase });
   renderLinee();
   document.getElementById('btn-s2').disabled = !state.linea;
   aggiornaPrezzoCascata();
