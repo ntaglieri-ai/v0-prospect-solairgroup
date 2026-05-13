@@ -244,9 +244,9 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); min-height: 100
 /* STEP SELECTOR (kWp / kWh) */
 .step-selector { margin-bottom: 28px; }
 .step-selector-label { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
-.step-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+.step-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
 .step-btn {
-  padding: 10px 14px; border: 2px solid var(--border);
+  padding: 10px 18px; border: 2px solid var(--border);
   border-radius: 10px; background: var(--surface);
   font-size: 14px; font-weight: 700; color: var(--mid);
   cursor: pointer; transition: all 0.2s; font-family: 'Outfit', sans-serif;
@@ -828,7 +828,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 <!-- STEP 2: ACCUMULO -->
 <div class="section" id="s1">
   <h2 class="section-title">Accumulo</h2>
-  <p class="section-sub">Vuoi aggiungere una batteria? Seleziona la capacità o procedi senza accumulo.</p>
+  <p class="section-sub">Scegli la taglia della batteria. Ogni taglia corrisponde a una linea specifica. Senza batteria è disponibile solo la linea Smart One.</p>
 
   <div class="step-selector">
     <div class="step-selector-label">Capacità batteria (kWh)</div>
@@ -844,8 +844,8 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 
 <!-- STEP 3: LINEA -->
 <div class="section" id="s2">
-  <h2 class="section-title">Scegli la linea</h2>
-  <p class="section-sub" id="s2_sub">Scegli la linea commerciale. I prezzi sono calcolati in base alla configurazione scelta.</p>
+  <h2 class="section-title">La tua linea</h2>
+  <p class="section-sub" id="s2_sub">La linea è determinata automaticamente dalla batteria che hai scelto.</p>
 
   <div class="linee-grid" id="linee_grid">
     <!-- Renderizzato via JS con prezzi -->
@@ -1383,32 +1383,71 @@ function renderKwpButtons() {
 }
 
 // ─── STEP 2: Accumulo ───
-function renderAccumuloButtons() {
-  // Mostra tutte le opzioni kWh possibili (unione di tutte le linee)
-  const allKwh = new Set();
-  Object.values(KWH_OPTIONS).forEach(arr => arr.forEach(v => allKwh.add(v)));
-  const kwhOpts = Array.from(allKwh).sort((a, b) => a - b);
+// Mappa kWh → linea e modello batteria
+const KWH_LINEA_MAP = {
+  0:    { linea: 'smart',   modello: 'Solo FV' },
+  10:   { linea: 'smart',   modello: 'V-TAC LiFePo — 6.000 cicli' },
+  16:   { linea: 'smart',   modello: 'V-TAC LiFePo — 7.000 cicli' },
+  20:   { linea: 'smart',   modello: 'V-TAC LiFePo — 6.000 cicli' },
+  32:   { linea: 'smart',   modello: 'V-TAC LiFePo — 7.000 cicli' },
+  10.6: { linea: 'power',   modello: 'Sineng RHP — Alta tensione' },
+  15.9: { linea: 'power',   modello: 'Sineng RHP — Alta tensione' },
+  21.2: { linea: 'power',   modello: 'Sineng RHP — Alta tensione' },
+  12.9: { linea: 'premium', modello: 'BYD Battery-Box HVE' },
+  17.2: { linea: 'premium', modello: 'BYD Battery-Box HVE' },
+  21.4: { linea: 'premium', modello: 'BYD Battery-Box HVE' },
+};
 
+function renderAccumuloButtons() {
   const container = document.getElementById('kwh_buttons');
   container.innerHTML = '';
 
-  // Bottone "Senza batteria"
+  // Senza batteria — disponibile solo se kWp esiste in Smart FV (3-10)
+  const hasFV = state.kwp && PREZZI.smart[state.kwp] && PREZZI.smart[state.kwp][0];
   const btnNo = document.createElement('button');
-  btnNo.className = 'step-btn' + (state.kwh === 0 ? ' selected' : '');
-  btnNo.textContent = 'Senza batteria';
-  btnNo.onclick = () => { state.kwh = 0; renderAccumuloButtons(); checkStep1(); };
+  btnNo.className = 'step-btn' + (state.kwh === 0 ? ' selected' : '') + (!hasFV ? ' disabled' : '');
+  btnNo.innerHTML = 'Senza batteria<br><small style="font-size:10px;font-weight:400;color:var(--muted)">Solo Smart — Solo FV</small>';
+  btnNo.style.lineHeight = '1.4';
+  if (hasFV) {
+    btnNo.onclick = () => { state.kwh = 0; state.linea = 'smart'; renderAccumuloButtons(); checkStep1(); };
+  }
   container.appendChild(btnNo);
 
-  kwhOpts.filter(v => v > 0).forEach(kh => {
-    const btn = document.createElement('button');
-    btn.className = 'step-btn' + (state.kwh === kh ? ' selected' : '');
-    btn.textContent = kh + ' kWh';
-    btn.onclick = () => {
-      state.kwh = state.kwh === kh ? null : kh;
-      renderAccumuloButtons();
-      checkStep1();
-    };
-    container.appendChild(btn);
+  // Tutte le taglie con accumulo, raggruppate per linea
+  const gruppi = [
+    { label: 'Smart One (Solis + V-TAC)', opzioni: [10, 16, 20, 32] },
+    { label: 'Power Plus (Sineng)', opzioni: [10.6, 15.9, 21.2] },
+    { label: 'Premium Top (BYD)', opzioni: [12.9, 17.2, 21.4] },
+  ];
+
+  gruppi.forEach(g => {
+    // Mostra gruppo solo se kWp >= 6
+    if (!state.kwp || state.kwp < 6) {
+      // per kWp < 6 non ci sono taglie con accumulo
+      return;
+    }
+    const sep = document.createElement('div');
+    sep.style.cssText = 'width:100%;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:12px;margin-bottom:4px;';
+    sep.textContent = g.label;
+    container.appendChild(sep);
+
+    g.opzioni.forEach(kh => {
+      const info = KWH_LINEA_MAP[kh];
+      const prezzo = getPrezzo(info.linea, state.kwp, kh);
+      const btn = document.createElement('button');
+      btn.className = 'step-btn' + (state.kwh === kh ? ' selected' : '') + (!prezzo ? ' disabled' : '');
+      btn.innerHTML = `${kh} kWh<br><small style="font-size:10px;font-weight:400;color:var(--muted)">${info.modello}</small>`;
+      btn.style.lineHeight = '1.4';
+      if (prezzo) {
+        btn.onclick = () => {
+          state.kwh = state.kwh === kh ? null : kh;
+          state.linea = state.kwh !== null ? info.linea : null;
+          renderAccumuloButtons();
+          checkStep1();
+        };
+      }
+      container.appendChild(btn);
+    });
   });
 }
 
@@ -1416,7 +1455,7 @@ function checkStep1() {
   document.getElementById('btn-s1').disabled = state.kwh === null;
 }
 
-// ─── STEP 3: Linea con prezzi ───
+// ─── STEP 3: Linea dedotta dalla batteria ───
 function renderLinee() {
   const grid = document.getElementById('linee_grid');
   grid.innerHTML = '';
@@ -1424,62 +1463,83 @@ function renderLinee() {
   const LINEE_INFO = {
     smart: {
       nome: 'Smart One', linea: 'Linea Base', brand: 'Solis + V-TAC LiFePo',
-      features: ['Inverter Solis monofase', 'Batteria V-TAC LiFePo bassa tensione', '10 anni di garanzia', 'Monitoraggio remoto incluso', 'Ingresso Solair CER'],
-      tags: ['IP20', '10 anni'],
+      features: [
+        'Inverter Solis S6-EH1P monofase',
+        state.kwh === 0 ? 'Solo fotovoltaico — senza accumulo' : `Batteria V-TAC LiFePo ${state.kwh} kWh — bassa tensione`,
+        state.kwh === 16 || state.kwh === 32 ? '7.000 cicli garantiti' : state.kwh > 0 ? '6.000 cicli garantiti' : '',
+        '10 anni di garanzia',
+        'Monitoraggio remoto incluso',
+        'Ingresso Solair CER',
+      ].filter(Boolean),
+      tags: ['IP20', '10 anni', 'Bassa tensione'],
       epsTag: { text: 'EPS escluso', color: '#ef4444' },
-      consigliata: false,
     },
     power: {
-      nome: 'Power Plus', linea: 'Linea Intermedia', brand: 'Sineng + Sineng HV',
-      features: ['Inverter Sineng ibrido', 'Batteria alta tensione', '12 anni di garanzia', 'EPS anti-blackout incluso', 'Ingresso CER Solair'],
-      tags: ['IP65', '12 anni'],
+      nome: 'Power Plus', linea: 'Linea Intermedia', brand: 'Sineng SN + RHP',
+      features: [
+        'Inverter Sineng SN ibrido monofase',
+        `Batteria Sineng RHP ${state.kwh} kWh — alta tensione`,
+        '6.000 cicli garantiti',
+        '12 anni di garanzia',
+        'EPS anti-blackout incluso',
+        'Ingresso Solair CER',
+      ],
+      tags: ['IP65', '12 anni', 'Alta tensione'],
       epsTag: { text: 'EPS incluso', color: null },
-      consigliata: true,
     },
     premium: {
-      nome: 'Premium Top', linea: 'Linea Premium', brand: 'BYD Power-Box HVE',
-      features: ['Inverter BYD ibrido', 'BYD Battery-Box HVE', '15 anni di garanzia', '80% capacità al 10° anno', 'EPS anti-blackout incluso', 'Ingresso CER Solair'],
-      tags: ['IP65', '15 anni'],
+      nome: 'Premium Top', linea: 'Linea Premium', brand: 'BYD Power-Box + HVE',
+      features: [
+        'Inverter BYD Power-Box ibrido monofase',
+        `Batteria BYD Battery-Box HVE ${state.kwh} kWh — alta tensione`,
+        '15 anni di garanzia',
+        '80% capacità nominale garantita al 10° anno',
+        'EPS anti-blackout incluso',
+        'Ingresso Solair CER',
+      ],
+      tags: ['IP65', '15 anni', 'Alta tensione'],
       epsTag: { text: 'EPS incluso', color: null },
-      consigliata: false,
     },
   };
 
-  ['smart', 'power', 'premium'].forEach(linea => {
-    const info = LINEE_INFO[linea];
-    const prezzo = getPrezzo(linea, state.kwp, state.kwh);
+  // Mostra SOLO la linea dedotta dalla batteria scelta
+  const lineaDedotta = state.linea;
+  if (!lineaDedotta) return;
 
-    const card = document.createElement('div');
-    card.className = 'linea-card' + (info.consigliata ? ' consigliata' : '') + (state.linea === linea ? ' selected' : '');
-    card.id = 'card_' + linea;
+  const info = LINEE_INFO[lineaDedotta];
+  const prezzo = getPrezzo(lineaDedotta, state.kwp, state.kwh);
 
-    let prezzoHtml = '';
-    if (prezzo !== null) {
-      prezzoHtml = `<div class="lc-prezzo">€ ${prezzo.toLocaleString('it-IT')}</div><div class="lc-prezzo-extra">IVA inclusa · chiavi in mano</div>`;
-    } else {
-      prezzoHtml = `<div class="lc-price-placeholder">Non disponibile per questa configurazione</div>`;
-    }
+  // Info box: la linea è stata dedotta automaticamente
+  const infoEl = document.createElement('div');
+  infoEl.className = 'info-box';
+  infoEl.style.marginBottom = '20px';
+  infoEl.innerHTML = `✅ In base alla batteria scelta (${state.kwh > 0 ? state.kwh + ' kWh' : 'Solo FV'}), il tuo impianto è nella linea <strong>${info.nome}</strong>.`;
+  grid.appendChild(infoEl);
 
-    card.innerHTML = `
-      ${info.consigliata ? '<div class="badge-consigliata">Più scelto</div>' : ''}
-      <div class="lc-linea">${info.linea}</div>
-      <div class="lc-nome">${info.nome}</div>
-      <div class="lc-brand">${info.brand}</div>
-      ${prezzoHtml}
-      <ul class="lc-features">${info.features.map(f => `<li>${f}</li>`).join('')}</ul>
-      <div class="lc-tags">
-        ${info.tags.map(t => `<span class="lc-tag">${t}</span>`).join('')}
-        <span class="lc-tag${info.epsTag.color ? '' : ' highlight'}" ${info.epsTag.color ? `style="color:${info.epsTag.color};background:rgba(239,68,68,0.1)"` : ''}>${info.epsTag.text}</span>
-      </div>`;
+  const card = document.createElement('div');
+  card.className = 'linea-card selected';
+  card.style.cursor = 'default';
 
-    if (prezzo !== null) {
-      card.onclick = () => scegliLinea(linea, prezzo);
-    } else {
-      card.style.opacity = '0.5';
-      card.style.cursor = 'not-allowed';
-    }
-    grid.appendChild(card);
-  });
+  card.innerHTML = `
+    <div class="lc-linea">${info.linea}</div>
+    <div class="lc-nome">${info.nome}</div>
+    <div class="lc-brand">${info.brand}</div>
+    <div class="lc-prezzo">€ ${prezzo ? prezzo.toLocaleString('it-IT') : '–'}</div>
+    <div class="lc-prezzo-extra">IVA inclusa · chiavi in mano</div>
+    <ul class="lc-features">${info.features.map(f => `<li>${f}</li>`).join('')}</ul>
+    <div class="lc-tags">
+      ${info.tags.map(t => `<span class="lc-tag">${t}</span>`).join('')}
+      <span class="lc-tag${info.epsTag.color ? '' : ' highlight'}" ${info.epsTag.color ? `style="color:${info.epsTag.color};background:rgba(239,68,68,0.1)"` : ''}>${info.epsTag.text}</span>
+    </div>`;
+
+  grid.appendChild(card);
+
+  // Imposta prezzo e abilita avanti
+  if (prezzo) {
+    state.prezzoBase = prezzo;
+    document.getElementById('btn-s2').disabled = false;
+    aggiornaPrezzoCascata();
+  }
 }
 
 function getPrezzo(linea, kwp, kwh) {
@@ -1498,15 +1558,10 @@ function getPrezzo(linea, kwp, kwh) {
 }
 
 function scegliLinea(linea, prezzo) {
-  if (state.linea === linea) {
-    state.linea = null;
-    state.prezzoBase = 0;
-  } else {
-    state.linea = linea;
-    state.prezzoBase = prezzo;
-  }
-  renderLinee();
-  document.getElementById('btn-s2').disabled = !state.linea;
+  // La linea è dedotta automaticamente dalla batteria — questa funzione non viene più chiamata
+  state.linea = linea;
+  state.prezzoBase = prezzo;
+  document.getElementById('btn-s2').disabled = false;
   aggiornaPrezzoCascata();
 }
 
