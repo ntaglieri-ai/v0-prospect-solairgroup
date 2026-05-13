@@ -474,7 +474,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
       </div>
     </div>
 
-    <!-- ─── STEP TETTO ─── -->
+    <!-- ���── STEP TETTO ─── -->
     <div class="section" id="s3">
       <div class="section-title">Tipo di tetto</div>
       <div class="section-sub">Serve per stabilire se sono necessarie le zavorre di ancoraggio</div>
@@ -492,7 +492,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
       </div>
       <div class="nav-footer">
 <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="indietroDaTetto()">← Indietro</button>
-    <button class="btn-primary navy" id="btn-s3" onclick="goTo(4)" disabled>Avanti → Accessori</button>
+    <button class="btn-primary navy" id="btn-s3" onclick="avantiDaTetto()" disabled>Avanti → Accessori</button>
       </div>
     </div>
 
@@ -945,6 +945,15 @@ function indietroDaTetto() {
   }
 }
 
+function avantiDaTetto() {
+  // Se non c'e accumulo (kwp <= 5), salta Prezzo e vai diretto ad Accessori
+  if (state.kwp <= 5 && !state.accumulo) {
+    goTo(5); // Accessori
+  } else {
+    goTo(4); // Prezzo (selezione linea/kWh)
+  }
+}
+
 // ════════════════════════════════════════
 // STEP 3 — ACCUMULO
 // ══════════════════��═════════════════════
@@ -964,7 +973,15 @@ function scelgiTetto(tipo) {
   state.extraZavorre = tipo === 'piano' ? (state.kwp || 0) * 100 : 0;
   document.getElementById('btn_tetto_piano').classList.toggle('selected', tipo === 'piano');
   document.getElementById('btn_tetto_falde').classList.toggle('selected', tipo === 'falde');
-  document.getElementById('btn-s4').disabled = false;
+  document.getElementById('btn-s3').disabled = false;
+  
+  // Se non c'e accumulo (kwp <= 5), calcola prezzo base da PREZZI_SOLO_FV
+  if (state.kwp <= 5 && !state.accumulo) {
+    state.prezzoBase = PREZZI_SOLO_FV[state.kwp] || 0;
+    state.linea = null;
+    state.kwh = null;
+  }
+  
   aggiornaTotale();
 }
 
