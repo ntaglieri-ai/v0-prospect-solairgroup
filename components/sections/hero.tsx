@@ -39,16 +39,16 @@ export function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/50" />
       </div>
 
-      {/* Content - centered vertically with more breathing room */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center px-6 py-20">
+      {/* Content - centered vertically with generous top padding */}
+      <div className="relative z-10 h-full flex flex-col items-center justify-center px-6 pt-32 md:pt-40 pb-20">
         <div className="text-center max-w-5xl">
           {/* Overline - DM Sans */}
-          <p className="overline text-white/90 mb-6 mt-0">
+          <p className="overline text-white/90 mb-6 mt-8">
             Energia Rinnovabile · Italia
           </p>
 
-          {/* H1 Title - Barlow Condensed - Cinematographic */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-loose tracking-tight text-white mb-10" style={{ fontFamily: "var(--font-barlow-condensed)", textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
+          {/* H1 Title - Barlow Condensed - Premium */}
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-normal text-white mb-10" style={{ fontFamily: "var(--font-barlow-condensed)", textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
             Impianti fotovoltaici chiavi in mano per privati e aziende in tutta Italia
           </h1>
 

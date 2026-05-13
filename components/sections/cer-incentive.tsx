@@ -46,7 +46,7 @@ export function CERIncentiveSection() {
             <br />
             <span className="font-normal">guadagni</span>
           </h2>
-          <p className="text-base text-[#4a6080] max-w-xl mx-auto font-light">
+          <p className="text-base text-gray-800 max-w-xl mx-auto font-light">
             Scopri come ottenere il massimo dal tuo impianto con le comunita energetiche
           </p>
         </motion.div>

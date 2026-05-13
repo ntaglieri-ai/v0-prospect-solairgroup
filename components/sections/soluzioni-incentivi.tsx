@@ -173,7 +173,7 @@ export function SoluzioniIncentiviSection() {
           I nostri pacchetti
         </h2>
         <p
-          className="text-gray-700 leading-relaxed text-base max-w-[460px] mx-auto"
+          className="text-gray-800 leading-relaxed text-base max-w-[460px] mx-auto"
         >
           Tre linee di impianto fotovoltaico con accumulo, chiavi in mano.
           Tutte includono progettazione, installazione e pratiche GSE.
@@ -328,7 +328,7 @@ export function SoluzioniIncentiviSection() {
             del tuo impianto
           </h3>
           <p
-            className="text-gray-700 leading-relaxed text-base mt-4"
+            className="text-gray-800 leading-relaxed text-base mt-4"
           >
             Gli incentivi statali possono coprire una parte significativa
             dell&apos;investimento. I nostri consulenti ti guidano nell&apos;accesso
