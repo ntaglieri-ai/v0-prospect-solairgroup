@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configuratore Impianto Fotovoltaico – Solair Group</title>
+<meta name="description" content="Configura il tuo impianto fotovoltaico con accumulo chiavi in mano. Scegli tra Smart One, Power Plus e Premium Top. Prezzi reali, finanziamento incluso. Solair Group installa in tutta Italia.">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1e3a5f;--navy-dark:#152d4a;--navy-light:rgba(30,58,95,0.08);--navy-border:rgba(30,58,95,0.25);
+  --teal:#2e8b72;--teal-dark:#226b57;--teal-light:rgba(46,139,114,0.1);--teal-border:rgba(46,139,114,0.3);
+  --bg:#f4f6f7;--bg2:#eaecee;--surface:#fff;--surface2:#eef1f4;--surface3:#e4e8ec;
+  --text:#1e3a5f;--mid:#4a6080;--muted:#8a9aaa;--border:#d0d6da;
+  --radius:14px;--green:#22c55e;--orange:#f59e0b;--red:#DC2626;
+}
+body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color:var(--text)}
+
+/* HERO */
+.hero{padding:40px 24px 48px;text-align:center;border-bottom:1px solid var(--border);background:var(--bg)}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--navy-light);border:1px solid var(--navy-border);color:var(--navy);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:16px}
+.hero h1{font-size:clamp(22px,4vw,36px);font-weight:800;margin-bottom:8px;color:var(--text)}
+.hero h1 span{color:var(--teal)}
+.hero p{color:var(--mid);font-size:14px}
+
+/* PROGRESS */
+.progress-bar{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.progress-steps{display:flex;max-width:720px;margin:0 auto;overflow-x:auto}
+.step-tab{flex:1;padding:14px 8px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:6px;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;min-width:80px}
+.step-tab.active{color:var(--navy);border-bottom-color:var(--navy)}
+.step-tab.completed{color:var(--teal)}
+.step-tab.disabled{pointer-events:none;opacity:.5;cursor:default}
+.step-num{width:20px;height:20px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.step-tab.active .step-num{background:var(--navy);color:#fff;border-color:var(--navy)}
+.step-tab.completed .step-num{background:var(--teal-light);color:var(--teal);border-color:var(--teal-border)}
+
+/* CONTAINER */
+.container{max-width:720px;margin:0 auto;padding:32px 20px 80px}
+
+/* SECTIONS */
+.section{display:none;animation:fadeIn .3s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.section-title{font-size:22px;font-weight:700;margin-bottom:4px;color:var(--text)}
+.section-sub{color:var(--mid);font-size:13px;margin-bottom:24px}
+
+/* CARD GRID */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:24px}
+
+/* KWP BUTTON */
+.kwp-btn{padding:14px 10px;border:2px solid var(--border);border-radius:var(--radius);background:var(--surface);cursor:pointer;transition:all .2s;text-align:center;font-family:'Outfit',sans-serif}
+.kwp-btn:hover{border-color:var(--navy-border);background:var(--navy-light)}
+.kwp-btn.selected{border-color:var(--navy);background:var(--navy-light)}
+.kwp-btn .kwp-val{font-size:20px;font-weight:800;color:var(--navy)}
+.kwp-btn .kwp-sub{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* PANNELLO CARD */
+.pannello-card{border:2px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:18px;cursor:pointer;transition:all .2s;position:relative}
+.pannello-card:hover{border-color:var(--navy-border);box-shadow:0 2px 12px rgba(30,58,95,.08)}
+.pannello-card.selected{border-color:var(--navy);background:var(--navy-light)}
+.pannello-card .p-nome{font-size:15px;font-weight:700;margin-bottom:6px}
+.pannello-card .p-potenza{font-size:13px;color:var(--teal);font-weight:600}
+.pannello-card .p-info{font-size:12px;color:var(--muted);margin-top:4px}
+.pannello-card.selected::after{content:'✓';position:absolute;top:12px;right:14px;width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.pannello-calcolo{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pannello-calcolo-item .pci-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.pannello-calcolo-item .pci-val{font-size:20px;font-weight:700;color:var(--navy)}
+.pannello-calcolo-item .pci-unit{font-size:12px;color:var(--mid);margin-left:2px}
+
+/* ACCUMULO TOGGLE */
+.acc-toggle{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.acc-toggle-btn{padding:20px;border:2px solid var(--border);border-radius:var(--radius);background:var(--surface);cursor:pointer;text-align:center;transition:all .2s;font-family:'Outfit',sans-serif}
+.acc-toggle-btn:hover{border-color:var(--navy-border)}
+.acc-toggle-btn.selected{border-color:var(--teal);background:var(--teal-light)}
+.acc-toggle-btn .atb-icon{font-size:32px;margin-bottom:8px}
+.acc-toggle-btn .atb-label{font-size:15px;font-weight:700;color:var(--text)}
+.acc-toggle-btn .atb-sub{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* PREZZO SENZA ACCUMULO */
+.prezzo-box{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);color:#fff;border-radius:var(--radius);padding:28px;margin-bottom:24px;text-align:center}
+.prezzo-box .pb-label{font-size:13px;opacity:.7;margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em}
+.prezzo-box .pb-val{font-size:42px;font-weight:800;letter-spacing:-1px}
+.prezzo-box .pb-iva{font-size:12px;opacity:.6;margin-top:4px}
+
+/* LINEE ACCUMULO */
+.linee-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.linea-card{border:2px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:20px;cursor:pointer;transition:all .2s;position:relative}
+.linea-card:hover{border-color:var(--teal-border);box-shadow:0 4px 16px rgba(46,139,114,.1)}
+.linea-card.selected{border-color:var(--teal);background:var(--teal-light)}
+.linea-card .lc-badge{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+.badge-smart{background:rgba(30,58,95,.1);color:var(--navy)}
+.badge-power{background:rgba(245,158,11,.15);color:#b45309}
+.badge-premium{background:rgba(220,38,38,.1);color:var(--red)}
+.linea-card .lc-nome{font-size:17px;font-weight:800;margin-bottom:4px}
+.linea-card .lc-inverter{font-size:12px;color:var(--muted);margin-bottom:10px}
+.linea-card .lc-specs{display:flex;flex-direction:column;gap:4px}
+.linea-card .lc-spec{font-size:12px;color:var(--mid);display:flex;gap:6px}
+.linea-card .lc-spec::before{content:'✓';color:var(--teal);font-weight:700;flex-shrink:0}
+.linea-card.selected::after{content:'✓';position:absolute;top:14px;right:14px;width:22px;height:22px;border-radius:50%;background:var(--teal);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:700}
+
+/* KWH BUTTONS */
+.kwh-grid{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+.kwh-btn{padding:10px 20px;border:2px solid var(--border);border-radius:10px;background:var(--surface);cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;transition:all .2s;color:var(--text)}
+.kwh-btn:hover{border-color:var(--teal-border)}
+.kwh-btn.selected{border-color:var(--teal);background:var(--teal-light);color:var(--teal)}
+
+/* PREZZO LINEA */
+.linea-prezzo-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:24px}
+.lpb-row{display:flex;justify-content:space-between;align-items:center}
+.lpb-label{font-size:13px;color:var(--mid)}
+.lpb-val{font-size:15px;font-weight:700;color:var(--navy)}
+.lpb-total{border-top:1px solid var(--border);margin-top:12px;padding-top:12px}
+.lpb-total .lpb-label{font-size:15px;font-weight:700;color:var(--text)}
+.lpb-total .lpb-val{font-size:22px;font-weight:800;color:var(--teal)}
+
+/* ACCESSORI */
+.acc-list{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.acc-card{display:flex;align-items:center;gap:16px;padding:16px 18px;border:2px solid var(--border);border-radius:var(--radius);background:var(--surface);cursor:pointer;transition:all .2s;position:relative}
+.acc-card:hover:not(.disabled-card){border-color:var(--navy-border)}
+.acc-card.selected{border-color:var(--navy);background:var(--navy-light)}
+.acc-card.disabled-card{opacity:.45;cursor:not-allowed}
+.acc-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;font-size:13px;font-weight:700;color:transparent}
+.acc-card.selected .acc-check{border-color:var(--navy);background:var(--navy);color:#fff}
+.acc-info{flex:1}
+.acc-nome{font-size:14px;font-weight:700}
+.acc-desc{font-size:12px;color:var(--muted);margin-top:2px}
+.acc-prezzo{font-size:15px;font-weight:700;color:var(--teal);white-space:nowrap}
+
+/* TOTALE FISSO */
+.totale-fisso{position:fixed;bottom:0;left:0;right:0;background:var(--navy);color:#fff;padding:12px 20px;z-index:200;display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap}
+.tf-label{font-size:13px;opacity:.7}
+.tf-val{font-size:20px;font-weight:800;letter-spacing:-0.5px}
+.tf-iva{font-size:11px;opacity:.5;margin-left:4px}
+
+/* FORM */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:12px;font-weight:600;color:var(--mid);text-transform:uppercase;letter-spacing:.06em}
+.form-group input,.form-group select,.form-group textarea{padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Outfit',sans-serif;font-size:14px;background:var(--surface);color:var(--text);transition:border .2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--navy)}
+.form-group textarea{resize:vertical;min-height:70px}
+
+/* RIEPILOGO STEP 6 */
+.riepilogo-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px}
+.rb-title{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.rb-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
+.rb-row:last-child{border-bottom:none}
+.rb-key{font-size:13px;color:var(--mid)}
+.rb-val{font-size:13px;font-weight:600;color:var(--text);text-align:right}
+.rb-totale{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);color:#fff;border-radius:var(--radius);padding:20px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center}
+.rb-totale .rbt-label{font-size:14px;opacity:.75}
+.rb-totale .rbt-val{font-size:28px;font-weight:800}
+
+/* CONSENSI */
+.consensi{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.consenso-row{display:flex;align-items:flex-start;gap:12px}
+.consenso-row input[type=checkbox]{width:18px;height:18px;margin-top:1px;accent-color:var(--navy);cursor:pointer;flex-shrink:0}
+.consenso-row label{font-size:13px;color:var(--mid);line-height:1.5;cursor:pointer}
+.consenso-row label a{color:var(--navy);text-decoration:underline}
+
+/* PAGAMENTO */
+.pag-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.pag-card{border:2px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:18px;cursor:pointer;transition:all .2s;text-align:center;font-family:'Outfit',sans-serif}
+.pag-card:hover{border-color:var(--navy-border)}
+.pag-card.selected{border-color:var(--teal);background:var(--teal-light)}
+.pag-icon{font-size:28px;margin-bottom:8px}
+.pag-label{font-size:14px;font-weight:700}
+.pag-sub{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* POPUP FINANZIAMENTO */
+.popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:flex-end;justify-content:center}
+.popup-overlay.active{display:flex}
+.popup-box{background:var(--surface);border-radius:var(--radius) var(--radius) 0 0;padding:28px 24px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto}
+.popup-title{font-size:18px;font-weight:800;margin-bottom:4px}
+.popup-sub{font-size:13px;color:var(--mid);margin-bottom:20px}
+.popup-range{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.popup-range label{font-size:12px;font-weight:600;color:var(--mid);text-transform:uppercase;letter-spacing:.06em}
+.popup-range input[type=range]{width:100%;accent-color:var(--navy)}
+.popup-range-val{font-size:18px;font-weight:700;color:var(--navy)}
+.popup-rate{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.popup-rate-btn{padding:8px 16px;border:2px solid var(--border);border-radius:8px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;background:var(--surface);color:var(--text);transition:all .2s}
+.popup-rate-btn.selected{border-color:var(--navy);background:var(--navy-light)}
+.popup-rata-box{background:var(--surface2);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.prb-label{font-size:12px;color:var(--muted)}
+.prb-val{font-size:20px;font-weight:800;color:var(--navy)}
+.popup-cond{font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.5}
+
+/* BUTTONS */
+.btn-primary{display:flex;align-items:center;justify-content:center;gap:8px;padding:15px 28px;border-radius:12px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;border:none;width:100%;margin-bottom:10px}
+.btn-primary.navy{background:var(--navy);color:#fff}
+.btn-primary.navy:hover:not(:disabled){background:var(--navy-dark)}
+.btn-primary.teal{background:var(--teal);color:#fff}
+.btn-primary.teal:hover:not(:disabled){background:var(--teal-dark)}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed}
+.btn-back{background:none;border:none;color:var(--mid);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;padding:8px 0;display:flex;align-items:center;gap:6px;margin-bottom:24px}
+.btn-back:hover{color:var(--navy)}
+
+/* NAV FOOTER */
+.nav-footer{display:flex;gap:12px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+.nav-footer .btn-primary{margin-bottom:0}
+
+/* INFO BOX */
+.info-box{background:var(--teal-light);border:1px solid var(--teal-border);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--teal-dark);margin-bottom:16px;line-height:1.5}
+
+/* CONFIRM */
+.confirm-box{background:var(--surface);border-radius:var(--radius);padding:36px 28px;text-align:center;border:1px solid var(--border)}
+.confirm-icon{font-size:52px;margin-bottom:16px}
+.confirm-title{font-size:22px;font-weight:800;margin-bottom:8px}
+.confirm-sub{font-size:14px;color:var(--mid);margin-bottom:24px}
+.confirm-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;text-align:left}
+.confirm-step{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--mid);background:var(--surface2);padding:12px 16px;border-radius:10px}
+
+/* SPINNER */
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* LOADING PANEL */
+.loading-panel{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px}
+.loading-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--navy);margin:0 3px;animation:ldot 1.2s ease-in-out infinite}
+.loading-dot:nth-child(2){animation-delay:.2s}
+.loading-dot:nth-child(3){animation-delay:.4s}
+@keyframes ldot{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+
+/* INTRO PAGE */
+.intro-page{min-height:calc(100vh - 120px);display:flex;align-items:center;justify-content:center}
+.intro-card{background:var(--surface);border-radius:20px;border:1px solid var(--border);padding:40px 32px;max-width:560px;width:100%;text-align:center}
+.intro-card h2{font-size:26px;font-weight:800;margin-bottom:8px}
+.intro-card p{font-size:14px;color:var(--mid);line-height:1.6;margin-bottom:28px}
+.intro-opts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px}
+.intro-opt{border:2px solid var(--border);border-radius:var(--radius);padding:22px 18px;cursor:pointer;transition:all .2s;text-align:center;background:var(--surface);font-family:'Outfit',sans-serif}
+.intro-opt:hover{border-color:var(--navy-border);box-shadow:0 4px 16px rgba(30,58,95,.08)}
+.intro-opt .io-icon{font-size:36px;margin-bottom:10px}
+.intro-opt .io-label{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+.intro-opt .io-sub{font-size:12px;color:var(--muted)}
+
+/* SUGGERIMENTO */
+.sg-page{max-width:560px;margin:0 auto;padding:32px 20px 80px}
+.sg-progress{display:flex;gap:8px;margin-bottom:28px}
+.sg-step{height:4px;flex:1;border-radius:2px;background:var(--border);transition:background .3s}
+.sg-step.done{background:var(--teal)}
+.sg-step.active{background:var(--navy)}
+.sg-question{display:none;animation:fadeIn .3s ease}
+.sg-question.active{display:block}
+.sg-q-title{font-size:18px;font-weight:700;margin-bottom:16px}
+.sg-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.sg-opt{border:2px solid var(--border);border-radius:var(--radius);padding:14px;cursor:pointer;text-align:center;transition:all .2s;font-family:'Outfit',sans-serif;background:var(--surface)}
+.sg-opt:hover{border-color:var(--navy-border)}
+.sg-opt.selected{border-color:var(--navy);background:var(--navy-light)}
+.sg-opt .so-icon{font-size:24px;margin-bottom:6px}
+.sg-opt .so-label{font-size:13px;font-weight:600}
+.sg-risultato{display:none;animation:fadeIn .3s ease}
+.sg-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--teal) 100%);color:#fff;border-radius:var(--radius);padding:24px;margin-bottom:20px;text-align:center}
+.sg-hero .sh-badge{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.75;margin-bottom:8px}
+.sg-hero .sh-nome{font-size:26px;font-weight:800;margin-bottom:8px}
+.sg-hero .sh-why{font-size:13px;opacity:.85;line-height:1.5;max-width:400px;margin:0 auto}
+.sg-features{list-style:none;display:flex;flex-direction:column;gap:8px;margin:16px 0 20px}
+.sg-feature{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--mid);background:var(--surface);padding:10px 14px;border-radius:10px}
+.sg-feature::before{content:'✓';color:var(--teal);font-weight:700;flex-shrink:0}
+.sg-taglie-title{font-size:14px;font-weight:700;margin-bottom:12px;color:var(--text)}
+.sg-taglia-card{border:2px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:16px;cursor:pointer;transition:all .2s;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sg-taglia-card:hover{border-color:var(--teal-border)}
+.sg-taglia-card.selected{border-color:var(--teal);background:var(--teal-light)}
+.sg-taglia-card .stc-info{font-size:15px;font-weight:700}
+.sg-taglia-card .stc-sub{font-size:12px;color:var(--muted);margin-top:3px}
+.sg-taglia-card .stc-price{font-size:18px;font-weight:800;color:var(--navy)}
+.sg-kwh-opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.sg-kwh-btn{padding:8px 16px;border:2px solid var(--border);border-radius:8px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;background:var(--surface);color:var(--text);transition:all .2s}
+.sg-kwh-btn.selected{border-color:var(--teal);background:var(--teal-light);color:var(--teal)}
+
+/* UTILE */
+.divider{border:none;border-top:1px solid var(--border);margin:20px 0}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(46,139,114,.1);color:var(--teal);margin-left:6px}
+
+@media(max-width:480px){
+  .form-grid{grid-template-columns:1fr}
+  .form-group.full{grid-column:1}
+  .intro-opts,.acc-toggle,.pag-grid{grid-template-columns:1fr}
+  .linee-grid{grid-template-columns:1fr}
+  .totale-fisso{font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚡ Configuratore ufficiale</div>
+  <h1>Configura il tuo <span>impianto fotovoltaico</span></h1>
+  <p>Prezzi chiari, tre linee disponibili, finanziamento Deutsche Bank incluso</p>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar" style="display:none">
+  <div class="progress-steps">
+    <button class="step-tab active" id="tab0" onclick="goTo(0)"><span class="step-num">1</span>Potenza</button>
+    <button class="step-tab disabled" id="tab1" onclick="goTo(1)"><span class="step-num">2</span>Pannelli</button>
+    <button class="step-tab disabled" id="tab2" onclick="goTo(2)"><span class="step-num">3</span>Accumulo</button>
+    <button class="step-tab disabled" id="tab3" onclick="goTo(3)"><span class="step-num">4</span>Prezzo</button>
+    <button class="step-tab disabled" id="tab4" onclick="goTo(4)"><span class="step-num">5</span>Accessori</button>
+    <button class="step-tab disabled" id="tab5" onclick="goTo(5)"><span class="step-num">6</span>Invio</button>
+  </div>
+</div>
+
+<!-- TOTALE FISSO -->
+<div class="totale-fisso" id="totaleFisso" style="display:none">
+  <span class="tf-label">Totale stimato</span>
+  <span><span class="tf-val" id="tf_val">€ 0</span><span class="tf-iva"> IVA 10% incl.</span></span>
+</div>
+
+<!-- ═══════════════════════════════════════
+     INTRO PAGE
+═══════════════════════════════════════ -->
+<div id="introPage">
+  <div class="container" style="padding-top:48px">
+    <div class="intro-card">
+      <h2>Come vuoi procedere?</h2>
+      <p>Puoi configurare l'impianto manualmente oppure rispondere a poche domande e lasciare che Solair ti suggerisca la soluzione giusta.</p>
+      <div class="intro-opts">
+        <div class="intro-opt" onclick="avviaConfigurazione()">
+          <div class="io-icon">⚙️</div>
+          <div class="io-label">Configurazione manuale</div>
+          <div class="io-sub">Scegli kWp, pannelli e linea passo dopo passo</div>
+        </div>
+        <div class="intro-opt" onclick="avviaSuggerimento()">
+          <div class="io-icon">🧭</div>
+          <div class="io-label">Suggerimento Solair</div>
+          <div class="io-sub">Rispondi a 4 domande e ti consigliamo noi</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SUGGERIMENTO PAGE
+═══════════════════════════════════════ -->
+<div id="suggerimentoPage" style="display:none">
+  <div class="sg-page">
+    <button class="btn-back" onclick="tornaIntro()">← Torna indietro</button>
+    <div class="sg-progress">
+      <div class="sg-step active" id="sgpbar0"></div>
+      <div class="sg-step" id="sgpbar1"></div>
+      <div class="sg-step" id="sgpbar2"></div>
+      <div class="sg-step" id="sgpbar3"></div>
+    </div>
+
+    <!-- Q0 -->
+    <div class="sg-question active" id="sgQ0">
+      <div class="sg-q-title">Che tipo di immobile hai?</div>
+      <div class="sg-opts">
+        <div class="sg-opt" onclick="sgScegli(0,'villetta',this)"><div class="so-icon">🏡</div><div class="so-label">Villetta unifamiliare</div></div>
+        <div class="sg-opt" onclick="sgScegli(0,'bifamiliare',this)"><div class="so-icon">🏘️</div><div class="so-label">Bifamiliare / semi-indipendente</div></div>
+        <div class="sg-opt" onclick="sgScegli(0,'azienda',this)"><div class="so-icon">🏭</div><div class="so-label">Azienda / capannone</div></div>
+        <div class="sg-opt" onclick="sgScegli(0,'altro',this)"><div class="so-icon">🏢</div><div class="so-label">Altro</div></div>
+      </div>
+      <button class="btn-primary navy" id="sgBtn0" onclick="sgAvanti(1)" disabled>Avanti →</button>
+    </div>
+
+    <!-- Q1 -->
+    <div class="sg-question" id="sgQ1">
+      <div class="sg-q-title">Qual è il tuo obiettivo principale?</div>
+      <div class="sg-opts">
+        <div class="sg-opt" onclick="sgScegli(1,'risparmio',this)"><div class="so-icon">💰</div><div class="so-label">Ridurre la bolletta</div></div>
+        <div class="sg-opt" onclick="sgScegli(1,'autoconsumo',this)"><div class="so-icon">🔄</div><div class="so-label">Massimizzare l'autoconsumo</div></div>
+        <div class="sg-opt" onclick="sgScegli(1,'blackout',this)"><div class="so-icon">🔋</div><div class="so-label">Protezione dai blackout</div></div>
+        <div class="sg-opt" onclick="sgScegli(1,'investimento',this)"><div class="so-icon">📈</div><div class="so-label">Investimento a lungo termine</div></div>
+      </div>
+      <button class="btn-primary navy" id="sgBtn1" onclick="sgAvanti(2)" disabled>Avanti →</button>
+    </div>
+
+    <!-- Q2 -->
+    <div class="sg-question" id="sgQ2">
+      <div class="sg-q-title">Quanto è importante la garanzia per te?</div>
+      <div class="sg-opts">
+        <div class="sg-opt" onclick="sgScegli(2,'standard',this)"><div class="so-icon">📋</div><div class="so-label">Standard (10 anni)</div></div>
+        <div class="sg-opt" onclick="sgScegli(2,'estesa',this)"><div class="so-icon">🛡️</div><div class="so-label">Estesa (12 anni)</div></div>
+        <div class="sg-opt" onclick="sgScegli(2,'massima',this)"><div class="so-icon">⭐</div><div class="so-label">Massima (15 anni)</div></div>
+      </div>
+      <button class="btn-primary navy" id="sgBtn2" onclick="sgAvanti(3)" disabled>Avanti →</button>
+    </div>
+
+    <!-- Q3 -->
+    <div class="sg-question" id="sgQ3">
+      <div class="sg-q-title">Qual è la tua disponibilità di budget?</div>
+      <div class="sg-opts">
+        <div class="sg-opt" onclick="sgScegli(3,'contenuto',this)"><div class="so-icon">🟢</div><div class="so-label">Contenuto (fino a €10.000)</div></div>
+        <div class="sg-opt" onclick="sgScegli(3,'medio',this)"><div class="so-icon">🟡</div><div class="so-label">Medio (€10.000–€15.000)</div></div>
+        <div class="sg-opt" onclick="sgScegli(3,'alto',this)"><div class="so-icon">🔴</div><div class="so-label">Alto (oltre €15.000)</div></div>
+      </div>
+      <button class="btn-primary navy" id="sgBtn3" onclick="calcolaSuggerimento()" disabled>Calcola il mio impianto →</button>
+    </div>
+
+    <!-- RISULTATO SUGGERIMENTO -->
+    <div class="sg-risultato" id="sgRisultato">
+      <div class="sg-hero">
+        <div class="sh-badge">💡 La nostra raccomandazione</div>
+        <div class="sh-nome" id="sg_nome_linea"></div>
+        <div class="sh-why" id="sg_motivazione"></div>
+      </div>
+      <ul class="sg-features" id="sg_features"></ul>
+
+      <div class="sg-taglie-title">Scegli la taglia dell'impianto:</div>
+      <div id="sg_taglie_list"></div>
+
+      <button class="btn-primary teal" id="sg_btn_procedi" onclick="procediDaSuggerimento()" disabled>Procedi con questa configurazione →</button>
+      <button class="btn-back" style="justify-content:center;margin-top:8px" onclick="avviaConfigurazione()">Configura manualmente invece</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CONFIGURATORE PAGE
+═══════════════════════════════════════ -->
+<div id="configuratorePage" style="display:none">
+  <div class="container">
+    <button class="btn-back" onclick="tornaIntro()">← Ricomincia</button>
+
+    <!-- ─── STEP 1: POTENZA ─── -->
+    <div class="section active" id="s0">
+      <div class="section-title">Potenza dell'impianto</div>
+      <div class="section-sub">Seleziona la potenza in kilowatt-picco (kWp)</div>
+      <div class="card-grid" id="kwp_buttons"></div>
+      <div class="nav-footer">
+        <button class="btn-primary navy" id="btn-s0" onclick="goTo(1)" disabled>Avanti → Scegli pannelli</button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 2: PANNELLI ─── -->
+    <div class="section" id="s1">
+      <div class="section-title">Modello pannelli</div>
+      <div class="section-sub">Scegli il pannello: calcoliamo automaticamente il numero e la superficie</div>
+      <div id="pannelli_container">
+        <div class="loading-panel"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span><br><br>Caricamento modelli...</div>
+      </div>
+      <div class="pannello-calcolo" id="pannello_calcolo" style="display:none">
+        <div class="pannello-calcolo-item">
+          <div class="pci-label">Numero pannelli</div>
+          <div class="pci-val"><span id="pc_num">-</span><span class="pci-unit">pz</span></div>
+        </div>
+        <div class="pannello-calcolo-item">
+          <div class="pci-label">Superficie totale</div>
+          <div class="pci-val"><span id="pc_mq">-</span><span class="pci-unit">m²</span></div>
+        </div>
+      </div>
+      <div class="nav-footer">
+        <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="goTo(0)">← Indietro</button>
+        <button class="btn-primary navy" id="btn-s1" onclick="goTo(2)" disabled>Avanti → Accumulo</button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 3: ACCUMULO ─── -->
+    <div class="section" id="s2">
+      <div class="section-title">Sistema di accumulo</div>
+      <div class="section-sub">Vuoi aggiungere una batteria al tuo impianto?</div>
+      <div class="acc-toggle">
+        <div class="acc-toggle-btn" id="btn_no_acc" onclick="scelgiAccumulo(false)">
+          <div class="atb-icon">☀️</div>
+          <div class="atb-label">Solo fotovoltaico</div>
+          <div class="atb-sub">Senza batteria di accumulo</div>
+        </div>
+        <div class="acc-toggle-btn" id="btn_si_acc" onclick="scelgiAccumulo(true)">
+          <div class="atb-icon">🔋</div>
+          <div class="atb-label">Con accumulo</div>
+          <div class="atb-sub">Massimizza l'autoconsumo</div>
+        </div>
+      </div>
+      <div class="nav-footer">
+        <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="goTo(1)">← Indietro</button>
+        <button class="btn-primary navy" id="btn-s2" onclick="goTo(3)" disabled>Avanti →</button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 4: PREZZO ─── -->
+    <div class="section" id="s3">
+      <div class="section-title" id="s3_title">Prezzo impianto</div>
+      <div class="section-sub" id="s3_sub"></div>
+      <div id="s3_content"></div>
+      <div class="nav-footer">
+        <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="goTo(2)">← Indietro</button>
+        <button class="btn-primary navy" id="btn-s3" onclick="goTo(4)" disabled>Avanti → Accessori</button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 5: ACCESSORI ─── -->
+    <div class="section" id="s4">
+      <div class="section-title">Accessori opzionali</div>
+      <div class="section-sub">Seleziona gli eventuali accessori. Tutti i prezzi includono IVA 10%.</div>
+      <div class="acc-list" id="accessori_list"></div>
+      <div class="nav-footer">
+        <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="goTo(3)">← Indietro</button>
+        <button class="btn-primary teal" onclick="goTo(5)">Avanti → Riepilogo e invio</button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 6: RIEPILOGO + FORM ─── -->
+    <div class="section" id="s5">
+      <div class="section-title">Riepilogo e invio</div>
+      <div class="section-sub">Controlla la tua configurazione e inserisci i dati per ricevere l'offerta firmabile digitalmente.</div>
+
+      <!-- Riepilogo tecnico -->
+      <div class="riepilogo-box">
+        <div class="rb-title">📋 La tua configurazione</div>
+        <div class="rb-row"><span class="rb-key">Potenza</span><span class="rb-val" id="ril_kwp">-</span></div>
+        <div class="rb-row"><span class="rb-key">Pannelli</span><span class="rb-val" id="ril_pannello">-</span></div>
+        <div class="rb-row"><span class="rb-key">Numero pannelli</span><span class="rb-val" id="ril_num_pannelli">-</span></div>
+        <div class="rb-row"><span class="rb-key">Superficie</span><span class="rb-val" id="ril_mq">-</span></div>
+        <div class="rb-row"><span class="rb-key">Accumulo</span><span class="rb-val" id="ril_acc">-</span></div>
+        <div class="rb-row" id="ril_linea_row" style="display:none"><span class="rb-key">Linea</span><span class="rb-val" id="ril_linea">-</span></div>
+        <div class="rb-row"><span class="rb-key">Accessori</span><span class="rb-val" id="ril_acc_list">Nessuno</span></div>
+      </div>
+
+      <!-- Totale -->
+      <div class="rb-totale">
+        <span class="rbt-label">Totale IVA 10% incl.</span>
+        <span class="rbt-val" id="ril_totale">€ -</span>
+      </div>
+
+      <!-- Modalità di pagamento -->
+      <div class="section-title" style="font-size:17px;margin-bottom:8px">Modalità di pagamento</div>
+      <div class="pag-grid">
+        <div class="pag-card" id="pag_bonifico" onclick="scelgiPagamento('bonifico')">
+          <div class="pag-icon">🏦</div>
+          <div class="pag-label">Bonifico bancario</div>
+          <div class="pag-sub">Pagamento in unica soluzione</div>
+        </div>
+        <div class="pag-card" id="pag_finanziamento" onclick="scelgiPagamento('finanziamento')">
+          <div class="pag-icon">📊</div>
+          <div class="pag-label">Finanziamento</div>
+          <div class="pag-sub">Rate mensili Deutsche Bank</div>
+        </div>
+      </div>
+      <div id="riepilogo_pagamento" style="display:none;margin-bottom:16px">
+        <div class="info-box" id="riepilogo_pag_box"></div>
+      </div>
+
+      <hr class="divider">
+
+      <!-- Dati personali -->
+      <div class="section-title" style="font-size:17px;margin-bottom:16px">I tuoi dati</div>
+      <div class="form-grid">
+        <div class="form-group"><label>Nome *</label><input type="text" id="f_nome" placeholder="Mario" oninput="aggiornaConsensi()"></div>
+        <div class="form-group"><label>Cognome *</label><input type="text" id="f_cognome" placeholder="Rossi" oninput="aggiornaConsensi()"></div>
+        <div class="form-group"><label>Email *</label><input type="email" id="f_email" placeholder="mario@email.com" oninput="aggiornaConsensi()"></div>
+        <div class="form-group"><label>Telefono *</label><input type="tel" id="f_telefono" placeholder="+39 320 123 4567" oninput="aggiornaConsensi()"></div>
+        <div class="form-group"><label>Sede Solair di riferimento *</label>
+          <select id="f_sede" onchange="aggiornaConsensi()">
+            <option value="">Seleziona sede...</option>
+            <option value="Catania">Catania</option>
+            <option value="Giarre">Giarre (CT)</option>
+            <option value="Treviso">Treviso (TV)</option>
+            <option value="Torino">Torino (TO)</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Tipo immobile</label>
+          <select id="f_tipo">
+            <option value="">-</option>
+            <option value="Villetta unifamiliare">Villetta unifamiliare</option>
+            <option value="Bifamiliare">Bifamiliare</option>
+            <option value="Condominio">Condominio</option>
+            <option value="Azienda/Capannone">Azienda/Capannone</option>
+            <option value="Altro">Altro</option>
+          </select>
+        </div>
+        <div class="form-group full"><label>Note aggiuntive</label><textarea id="f_note" placeholder="Eventuali informazioni utili..."></textarea></div>
+      </div>
+
+      <!-- Consensi -->
+      <div class="consensi">
+        <div class="consenso-row"><input type="checkbox" id="cb1" onchange="aggiornaConsensi()"><label for="cb1">Ho letto e accetto l'<a href="https://solairgroup.it/privacy" target="_blank">Informativa Privacy</a> *</label></div>
+        <div class="consenso-row"><input type="checkbox" id="cb2" onchange="aggiornaConsensi()"><label for="cb2">Acconsento al trattamento dei miei dati per finalità commerciali *</label></div>
+        <div class="consenso-row"><input type="checkbox" id="cb3" onchange="aggiornaConsensi()"><label for="cb3">Dichiaro che i dati inseriti sono corretti e veritieri *</label></div>
+        <div class="consenso-row"><input type="checkbox" id="cb4" onchange="aggiornaConsensi()"><label for="cb4">Acconsento alla firma digitale del preventivo via email *</label></div>
+      </div>
+
+      <button class="btn-primary teal" id="btn-firma" onclick="inviaRichiesta()" disabled>✍️ Invia richiesta e firma digitale</button>
+      <button class="btn-back" style="justify-content:center" onclick="goTo(4)">← Torna agli accessori</button>
+    </div>
+
+  </div><!-- /container -->
+</div><!-- /configuratorePage -->
+
+<!-- POPUP FINANZIAMENTO -->
+<div class="popup-overlay" id="popupFinanziamento">
+  <div class="popup-box">
+    <div class="popup-title">💳 Configura il finanziamento</div>
+    <div class="popup-sub">Finanziamento Deutsche Bank Easy — IVA inclusa</div>
+    <div class="popup-range">
+      <label>Anticipo: <span class="popup-range-val" id="popup_anticipo_val">€ 0</span></label>
+      <input type="range" id="popup_anticipo" min="0" max="100" step="5" value="0" oninput="aggiornaAnticipo()">
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:16px">Numero di rate mensili:</div>
+    <div class="popup-rate" id="popup_rate_buttons"></div>
+    <div class="popup-rata-box">
+      <span class="prb-label">Rata mensile stimata</span>
+      <span class="prb-val" id="popup_rata_val">€ -</span>
+    </div>
+    <div class="popup-cond">TAN fisso <span id="popup_tan_val">6,99</span>% · TAEG indicativo <span id="popup_taeg_val">-</span>% · Importo finanziato: <span id="popup_importo_val">-</span> · Importo totale dovuto: <span id="popup_totale_dovuto">-</span></div>
+    <button class="btn-primary teal" onclick="confermaFinanziamento()">Conferma finanziamento</button>
+    <button class="btn-back" style="justify-content:center" onclick="chiudiPopup()">Annulla</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+<footer style="background:#1e5c4e;color:rgba(255,255,255,.75);font-family:'Outfit',sans-serif;margin-top:64px">
+  <div style="max-width:1200px;margin:0 auto;padding:56px 32px 40px;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px">
+    <div>
+      <img src="https://solairgroup.it/logo-solair.svg" alt="Solair Group" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" style="height:48px;margin-bottom:20px;filter:brightness(0) invert(1)">
+      <div style="display:none;font-size:22px;font-weight:700;color:#fff;margin-bottom:20px;letter-spacing:1px">SOLAIR GROUP</div>
+      <p style="font-size:14px;line-height:1.7;color:rgba(255,255,255,.65);margin:0 0 16px">Solair Group opera in tutta Italia con sedi a Catania, Giarre (CT), Treviso (TV) e Torino (TO)</p>
+      <p style="font-size:13px;color:rgba(255,255,255,.4)">Solair Group S.r.l. — P.IVA 06056640870</p>
+    </div>
+    <div>
+      <p style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.5);text-transform:uppercase;margin:0 0 20px">Navigazione</p>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <a href="https://solairgroup.it/#impianti" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:14px">Impianti</a>
+        <a href="https://solairgroup.it/#servizi" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:14px">Servizi</a>
+        <a href="https://solairgroup.it/soluzioni" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:14px">Soluzioni</a>
+        <a href="https://solairgroup.it/cer" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:14px">CER</a>
+        <a href="https://solairgroup.it/faq" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:14px">FAQ</a>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.5);text-transform:uppercase;margin:0 0 20px">Contatti</p>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <a href="tel:+390952900278" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:10px">📞 +39 095 290 0278</a>
+        <a href="https://wa.me/393497988101" target="_blank" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:10px">💬 WhatsApp</a>
+        <a href="mailto:info@solairgroup.it" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:10px">✉️ info@solairgroup.it</a>
+      </div>
+    </div>
+  </div>
+  <div style="border-top:1px solid rgba(255,255,255,.1)">
+    <div style="max-width:1200px;margin:0 auto;padding:18px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <span style="font-size:13px;color:rgba(255,255,255,.4)">© 2026 Solair Group S.r.l. — P.IVA 06056640870. Tutti i diritti riservati.</span>
+      <div style="display:flex;gap:24px">
+        <a href="https://solairgroup.it/privacy" style="font-size:13px;color:rgba(255,255,255,.4);text-decoration:none">Privacy</a>
+        <a href="https://solairgroup.it/cookies" style="font-size:13px;color:rgba(255,255,255,.4);text-decoration:none">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+'use strict';
+
+// ════════════════════════════════════════
+// COSTANTI
+// ════════════════════════════════════════
+
+const MAKE_WEBHOOK_URL = 'https://hook.eu1.make.com/2clnfl0s9958wkei5uq8vp26wbmyfqf6';
+const SANITY_PROJECT = '88az0w6y';
+const SANITY_DATASET = 'production';
+const TAN_RATE = 6.99;
+
+// Prezzi senza accumulo (IVA 10% inclusa)
+const PREZZI_NO_ACC = {
+  3: 5290, 4: 6000, 5: 6590, 6: 7290, 7: 7890, 8: 8490, 9: 8990, 10: 9790
+};
+
+// Prezzi CON accumulo per linea → kWp → kWh
+const PREZZI_ACC = {
+  smart: {
+    // kWh: 10, 16, 20, 32
+    6: { 10: 8800, 16: 9400, 20: 10700, 32: 11900 },
+    7: { 10: 9300, 16: 10000, 20: 11200, 32: 12400 },
+    8: { 10: 10300, 16: 10900, 20: 12200, 32: 13400 },
+    9: { 10: 11100, 16: 11800, 20: 13000, 32: 14300 },
+  },
+  power: {
+    // kWh: 10.6, 15.9, 21.2
+    6: { 10.6: 9800, 15.9: 10800, 21.2: 11800 },
+    7: { 10.6: 10300, 15.9: 11300, 21.2: 12300 },
+    8: { 10.6: 11300, 15.9: 12300, 21.2: 13300 },
+    9: { 10.6: 12300, 15.9: 13300, 21.2: 14300 },
+  },
+  premium: {
+    // kWh: 12.9, 17.2, 21.4
+    6: { 12.9: 12700, 17.2: 14300, 21.4: 15200 },
+    7: { 12.9: 13200, 17.2: 14800, 21.4: 15700 },
+    8: { 12.9: 13800, 17.2: 15400, 21.4: 16300 },
+    9: { 12.9: 14600, 17.2: 16200, 21.4: 17200 },
+  },
+};
+
+const KWH_OPTIONS = {
+  smart:   [5, 10, 16, 20, 32],
+  power:   [10.6, 15.9, 21.2],
+  premium: [12.9, 17.2, 21.4],
+};
+
+const LINEE_INFO = {
+  smart: {
+    nome: 'Smart One', badge: 'Entry', badgeClass: 'badge-smart',
+    inverter: 'Inverter Solis', garanzia: '10 anni', ip: 'IP20', peps: 'Escluso',
+    specs: ['Inverter Solis monofase', '10 anni di garanzia impianto', 'Batteria V-TAC LiFePo', 'Monitoraggio remoto incluso']
+  },
+  power: {
+    nome: 'Power Plus', badge: 'Più scelto', badgeClass: 'badge-power',
+    inverter: 'Inverter Sineng', garanzia: '12 anni', ip: 'IP65', peps: 'Incluso',
+    specs: ['Inverter Sineng ibrido monofase', '12 anni di garanzia impianto', 'Batteria Sineng alta tensione IP65', 'EPS anti-blackout incluso']
+  },
+  premium: {
+    nome: 'Premium Top', badge: 'Top gamma', badgeClass: 'badge-premium',
+    inverter: 'Inverter BYD', garanzia: '15 anni', ip: 'IP65', peps: 'Incluso',
+    specs: ['Inverter BYD ibrido monofase', '15 anni di garanzia impianto', 'BYD Battery-Box HVE IP65', 'EPS anti-blackout + 80% capacità garantita a 10 anni']
+  },
+};
+
+// Prezzo 5kWh = -1000 dalla versione 10kWh (solo smart)
+const SMART_5KWH_DISCOUNT = 1000;
+
+// Deutsche Bank easy loan table (mesi → tasso approssimato per calcolo rata)
+// Usiamo formula rata = P * [i(1+i)^n / ((1+i)^n - 1)] con TAN annuo fisso
+const RATE_OPTIONS = [24, 36, 48, 60, 72, 84];
+
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+
+let pannelliList = []; // da Sanity
+
+const state = {
+  kwp: null,
+  pannello: null,       // oggetto {nome, potenza_wp, larghezza_mm, altezza_mm}
+  numPannelli: null,
+  mqTotali: null,
+  accumulo: null,       // false | true
+  linea: null,          // 'smart'|'power'|'premium'
+  kwh: null,            // numero kWh selezionati
+  prezzoBase: 0,
+  // accessori
+  zavorre: false,
+  zavorreVela: false,
+  wallbox: false,
+  ottimizzatori: false,
+  tigoCloud: false,
+  prezzoAccessori: 0,
+  prezzoTotale: 0,
+};
+
+const pagState = {
+  modalita: null, // 'bonifico'|'finanziamento'
+  anticipo: 0,
+  nRate: 60,
+  rata: 0,
+  taeg: 0,
+};
+
+let currentStep = 0;
+
+// ════════════════════════════════════════
+// NAVIGAZIONE
+// ════════════════════════════════════════
+
+function goTo(step) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('s' + step).classList.add('active');
+  currentStep = step;
+
+  // Update tabs
+  for (let i = 0; i <= 5; i++) {
+    const tab = document.getElementById('tab' + i);
+    tab.classList.remove('active', 'completed', 'disabled');
+    if (i < step) tab.classList.add('completed');
+    else if (i === step) tab.classList.add('active');
+    else tab.classList.add('disabled');
+  }
+
+  // Mostra totale fisso da step 3 in poi
+  const tf = document.getElementById('totaleFisso');
+  tf.style.display = step >= 3 ? 'flex' : 'none';
+
+  if (step === 3) renderStepPrezzo();
+  if (step === 4) renderAccessori();
+  if (step === 5) renderRiepilogo();
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ════════════════════════════════════════
+// STEP 1 — KWP
+// ════════════════════════════════════════
+
+function renderKwpButtons() {
+  const container = document.getElementById('kwp_buttons');
+  container.innerHTML = '';
+  [3,4,5,6,7,8,9,10].forEach(kwp => {
+    const btn = document.createElement('div');
+    btn.className = 'kwp-btn' + (state.kwp === kwp ? ' selected' : '');
+    btn.innerHTML = `<div class="kwp-val">${kwp}</div><div class="kwp-sub">kWp</div>`;
+    btn.onclick = () => {
+      state.kwp = kwp;
+      // reset steps avanzati
+      state.pannello = null; state.numPannelli = null; state.mqTotali = null;
+      state.kwh = null; state.linea = null; state.prezzoBase = 0;
+      aggiornaTotale();
+      renderKwpButtons();
+      renderPannelliCards(); // ricalcola immediato se pannello già scelto
+      document.getElementById('btn-s0').disabled = false;
+      // Aggiorna calcolo se pannello era già scelto
+      if (state.pannello) ricalcolaPannello();
+      // Aggiorna prezzi accessori
+      aggiornaPrezziAccessori();
+    };
+    container.appendChild(btn);
+  });
+}
+
+// ════════════════════════════════════════
+// STEP 2 — PANNELLI (da Sanity)
+// ════════════════════════════════════════
+
+async function loadPannelliSanity() {
+  try {
+    const query = encodeURIComponent(`*[_type=="pannello" && attivo==true]{nome, potenza_wp, larghezza_mm, altezza_mm}`);
+    const url = `https://${SANITY_PROJECT}.api.sanity.io/v2021-06-07/data/query/${SANITY_DATASET}?query=${query}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Sanity error');
+    const data = await res.json();
+    if (data.result && data.result.length > 0) {
+      pannelliList = data.result;
+    } else {
+      pannelliList = fallbackPannelli();
+    }
+  } catch (e) {
+    console.warn('[Configuratore] Fallback pannelli:', e.message);
+    pannelliList = fallbackPannelli();
+  }
+  renderPannelliCards();
+}
+
+function fallbackPannelli() {
+  return [
+    { nome: 'Pannello Standard 400W', potenza_wp: 400, larghezza_mm: 1722, altezza_mm: 1134 },
+    { nome: 'Pannello High Power 450W', potenza_wp: 450, larghezza_mm: 2094, altezza_mm: 1038 },
+    { nome: 'Pannello Premium 550W', potenza_wp: 550, larghezza_mm: 2279, altezza_mm: 1134 },
+  ];
+}
+
+function renderPannelliCards() {
+  const container = document.getElementById('pannelli_container');
+  if (!pannelliList.length) {
+    container.innerHTML = '<div class="loading-panel">Nessun modello disponibile</div>';
+    return;
+  }
+  container.innerHTML = '';
+  pannelliList.forEach(p => {
+    const isSelected = state.pannello && state.pannello.nome === p.nome;
+    const card = document.createElement('div');
+    card.className = 'pannello-card' + (isSelected ? ' selected' : '');
+    card.innerHTML = `
+      <div class="p-nome">${p.nome}</div>
+      <div class="p-potenza">${p.potenza_wp} Wp</div>
+      <div class="p-info">${p.larghezza_mm} × ${p.altezza_mm} mm</div>`;
+    card.onclick = () => {
+      state.pannello = p;
+      ricalcolaPannello();
+      renderPannelliCards();
+      document.getElementById('btn-s1').disabled = false;
+    };
+    container.appendChild(card);
+  });
+  if (state.pannello) ricalcolaPannello();
+}
+
+function ricalcolaPannello() {
+  if (!state.pannello || !state.kwp) return;
+  const n = Math.ceil(state.kwp * 1000 / state.pannello.potenza_wp);
+  const mq = (n * (state.pannello.larghezza_mm / 1000) * (state.pannello.altezza_mm / 1000)).toFixed(1);
+  state.numPannelli = n;
+  state.mqTotali = parseFloat(mq);
+  document.getElementById('pc_num').textContent = n;
+  document.getElementById('pc_mq').textContent = mq;
+  document.getElementById('pannello_calcolo').style.display = 'grid';
+}
+
+// ════════════════════════════════════════
+// STEP 3 — ACCUMULO
+// ════════════════════════════════════════
+
+function scelgiAccumulo(haAcc) {
+  state.accumulo = haAcc;
+  state.linea = null; state.kwh = null; state.prezzoBase = 0;
+  document.getElementById('btn_no_acc').classList.toggle('selected', !haAcc);
+  document.getElementById('btn_si_acc').classList.toggle('selected', haAcc);
+  document.getElementById('btn-s2').disabled = false;
+  document.getElementById('btn-s2').textContent = haAcc ? 'Avanti → Scegli linea e kWh' : 'Avanti → Visualizza prezzo';
+  aggiornaTotale();
+}
+
+// ════════════════════════════════════════
+// STEP 4 — PREZZO
+// ════════════════════════════════════════
+
+function renderStepPrezzo() {
+  const content = document.getElementById('s3_content');
+  const title = document.getElementById('s3_title');
+  const sub = document.getElementById('s3_sub');
+
+  if (!state.accumulo) {
+    // Prezzo fisso senza accumulo
+    title.textContent = 'Prezzo impianto';
+    sub.textContent = 'Prezzo chiavi in mano IVA 10% inclusa — nessun costo nascosto';
+    const p = PREZZI_NO_ACC[state.kwp] || 0;
+    state.prezzoBase = p;
+    aggiornaTotale();
+    content.innerHTML = `
+      <div class="prezzo-box">
+        <div class="pb-label">Impianto ${state.kwp} kWp senza accumulo</div>
+        <div class="pb-val">€ ${p.toLocaleString('it-IT')}</div>
+        <div class="pb-iva">IVA 10% inclusa · chiavi in mano</div>
+      </div>
+      <div class="info-box">✅ Prezzo definitivo, nessuna sorpresa. Comprende fornitura, installazione, pratiche GSE e collaudo.</div>`;
+    document.getElementById('btn-s3').disabled = false;
+
+  } else {
+    // Scelta linea + kWh
+    title.textContent = 'Scegli la tua linea';
+    sub.textContent = 'Seleziona la linea e la capacità di accumulo desiderata';
+
+    // Filtra kWp disponibili per accumulo (6–9)
+    const kwpAvail = state.kwp >= 6 && state.kwp <= 9;
+
+    if (!kwpAvail) {
+      content.innerHTML = `<div class="info-box" style="border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.08);color:#b91c1c">
+        ⚠️ I pacchetti con accumulo sono disponibili per impianti da 6 a 9 kWp. 
+        Torna al passo 1 e seleziona una potenza tra 6 e 9 kWp, oppure scegli l'opzione senza accumulo.
+      </div>`;
+      document.getElementById('btn-s3').disabled = true;
+      return;
+    }
+
+    let html = '<div class="linee-grid">';
+    Object.entries(LINEE_INFO).forEach(([key, info]) => {
+      const sel = state.linea === key ? ' selected' : '';
+      html += `<div class="linea-card${sel}" id="lcard_${key}" onclick="scelgiLinea('${key}')">
+        <span class="lc-badge ${info.badgeClass}">${info.badge}</span>
+        <div class="lc-nome">${info.nome}</div>
+        <div class="lc-inverter">${info.inverter} · Gar. ${info.garanzia} · ${info.ip}</div>
+        <div class="lc-specs">${info.specs.map(s => `<div class="lc-spec">${s}</div>`).join('')}</div>
+      </div>`;
+    });
+    html += '</div>';
+
+    // kWh selector (appare dopo linea scelta)
+    html += `<div id="kwh_selector" style="display:${state.linea ? 'block' : 'none'}">
+      <div style="font-size:14px;font-weight:700;margin-bottom:12px">Capacità batteria:</div>
+      <div class="kwh-grid" id="kwh_buttons"></div>
+    </div>`;
+
+    // Prezzo linea selezionata
+    html += `<div id="linea_prezzo_wrap" style="display:${state.prezzoBase ? 'block' : 'none'}">
+      <div class="linea-prezzo-box">
+        <div class="lpb-row"><span class="lpb-label">Impianto ${state.kwp} kWp + accumulo</span><span class="lpb-val" id="lpb_desc">-</span></div>
+        <div class="lpb-total lpb-row"><span class="lpb-label">Totale IVA 10% inclusa</span><span class="lpb-val" id="lpb_totale">-</span></div>
+      </div>
+    </div>`;
+
+    content.innerHTML = html;
+
+    if (state.linea) {
+      renderKwhButtons();
+      if (state.prezzoBase) {
+        document.getElementById('lpb_desc').textContent = `${LINEE_INFO[state.linea].nome} · ${state.kwh} kWh`;
+        document.getElementById('lpb_totale').textContent = '€ ' + state.prezzoBase.toLocaleString('it-IT');
+        document.getElementById('linea_prezzo_wrap').style.display = 'block';
+      }
+      // Riseleziona card
+      document.querySelectorAll('.linea-card').forEach(c => c.classList.remove('selected'));
+      const lc = document.getElementById('lcard_' + state.linea);
+      if (lc) lc.classList.add('selected');
+    }
+  }
+}
+
+function scelgiLinea(linea) {
+  state.linea = linea;
+  state.kwh = null;
+  state.prezzoBase = 0;
+  document.querySelectorAll('.linea-card').forEach(c => c.classList.remove('selected'));
+  const lc = document.getElementById('lcard_' + linea);
+  if (lc) lc.classList.add('selected');
+  document.getElementById('kwh_selector').style.display = 'block';
+  document.getElementById('linea_prezzo_wrap').style.display = 'none';
+  renderKwhButtons();
+  document.getElementById('btn-s3').disabled = true;
+  aggiornaTotale();
+}
+
+function renderKwhButtons() {
+  const container = document.getElementById('kwh_buttons');
+  if (!container) return;
+  const opts = KWH_OPTIONS[state.linea] || [];
+  container.innerHTML = '';
+  opts.forEach(kwh => {
+    const btn = document.createElement('button');
+    const isSelected = state.kwh == kwh;
+    btn.className = 'kwh-btn' + (isSelected ? ' selected' : '');
+
+    // Prezzo effettivo
+    let prezzo = null;
+    if (kwh === 5 && state.linea === 'smart') {
+      // 5kWh = 10kWh - 1000
+      prezzo = (PREZZI_ACC.smart[state.kwp] && PREZZI_ACC.smart[state.kwp][10])
+        ? PREZZI_ACC.smart[state.kwp][10] - SMART_5KWH_DISCOUNT : null;
+    } else {
+      prezzo = PREZZI_ACC[state.linea] && PREZZI_ACC[state.linea][state.kwp]
+        ? PREZZI_ACC[state.linea][state.kwp][kwh] : null;
+    }
+
+    const prezzoStr = prezzo ? ' · € ' + prezzo.toLocaleString('it-IT') : '';
+    btn.textContent = kwh + ' kWh' + prezzoStr;
+    btn.onclick = () => scelgiKwh(kwh, prezzo);
+    container.appendChild(btn);
+  });
+}
+
+function scelgiKwh(kwh, prezzo) {
+  state.kwh = kwh;
+  state.prezzoBase = prezzo || 0;
+  aggiornaTotale();
+  // Aggiorna UI kwh buttons
+  renderKwhButtons();
+  // Mostra prezzo linea
+  const wrap = document.getElementById('linea_prezzo_wrap');
+  const lpbDesc = document.getElementById('lpb_desc');
+  const lpbTot = document.getElementById('lpb_totale');
+  if (wrap && lpbDesc && lpbTot) {
+    lpbDesc.textContent = `${LINEE_INFO[state.linea].nome} · ${kwh} kWh`;
+    lpbTot.textContent = prezzo ? '€ ' + prezzo.toLocaleString('it-IT') : '—';
+    wrap.style.display = 'block';
+  }
+  document.getElementById('btn-s3').disabled = !prezzo;
+}
+
+// ════════════════════════════════════════
+// STEP 5 — ACCESSORI
+// ════════════════════════════════════════
+
+// prezzi IVA 10% inclusa
+function prezzoZavorre() { return (state.kwp || 0) * 100; }
+function prezzoZavorreVela() { return (state.kwp || 0) * 150; }
+function prezzoOttimizzatori() { return (state.kwp || 0) * 150; }
+function prezzoWallbox() {
+  const altriSelezionati = state.zavorre || state.zavorreVela || state.ottimizzatori || state.tigoCloud;
+  return altriSelezionati ? 1000 : 1500;
+}
+function prezzoTigoCloud() { return 600; }
+
+function aggiornaPrezziAccessori() {
+  let tot = 0;
+  if (state.zavorre)      tot += prezzoZavorre();
+  if (state.zavorreVela)  tot += prezzoZavorreVela();
+  if (state.wallbox)      tot += prezzoWallbox();
+  if (state.ottimizzatori) tot += prezzoOttimizzatori();
+  if (state.tigoCloud)    tot += prezzoTigoCloud();
+  state.prezzoAccessori = tot;
+  aggiornaTotale();
+}
+
+function aggiornaTotale() {
+  state.prezzoTotale = state.prezzoBase + state.prezzoAccessori;
+  const tfEl = document.getElementById('tf_val');
+  if (tfEl) tfEl.textContent = '€ ' + state.prezzoTotale.toLocaleString('it-IT');
+}
+
+function renderAccessori() {
+  const container = document.getElementById('accessori_list');
+
+  // Regola wallbox: se altri acc selezionati, scende a 1000
+  const wbPrezzo = prezzoWallbox();
+  const wbDesc = wbPrezzo === 1000
+    ? '€ 1.000 (sconto combo applicato)'
+    : '€ 1.500 (€ 1.000 se in combo con altri accessori)';
+
+  const tigoDisabled = !state.ottimizzatori;
+
+  const items = [
+    {
+      key: 'zavorre',
+      nome: 'Zavorre',
+      desc: `Struttura di zavorra per tetti piani — ${state.kwp || '-'} kWp`,
+      prezzo: '€ ' + prezzoZavorre().toLocaleString('it-IT'),
+      disabled: false,
+    },
+    {
+      key: 'zavorreVela',
+      nome: 'Zavorre a vela',
+      desc: `Zavorre a vela per maggiore efficienza aerodinamica — ${state.kwp || '-'} kWp`,
+      prezzo: '€ ' + prezzoZavorreVela().toLocaleString('it-IT'),
+      disabled: false,
+    },
+    {
+      key: 'wallbox',
+      nome: 'Wall Box (SolaxPower / Sungrow)',
+      desc: wbDesc,
+      prezzo: '€ ' + wbPrezzo.toLocaleString('it-IT'),
+      disabled: false,
+    },
+    {
+      key: 'ottimizzatori',
+      nome: 'Ottimizzatori Tigo',
+      desc: `Ottimizzatori di pannello — ${state.kwp || '-'} kWp`,
+      prezzo: '€ ' + prezzoOttimizzatori().toLocaleString('it-IT'),
+      disabled: false,
+    },
+    {
+      key: 'tigoCloud',
+      nome: 'Tigo Cloud Connect',
+      desc: tigoDisabled ? 'Richiede Ottimizzatori Tigo' : 'Gateway di monitoraggio cloud Tigo — prezzo fisso',
+      prezzo: '€ 600',
+      disabled: tigoDisabled,
+    },
+  ];
+
+  container.innerHTML = items.map(item => {
+    const sel = state[item.key] && !item.disabled;
+    return `<div class="acc-card${sel ? ' selected' : ''}${item.disabled ? ' disabled-card' : ''}" id="acc_${item.key}" onclick="toggleAccessorio('${item.key}', ${item.disabled})">
+      <div class="acc-check" id="check_${item.key}">${sel ? '✓' : ''}</div>
+      <div class="acc-info">
+        <div class="acc-nome">${item.nome}</div>
+        <div class="acc-desc">${item.desc}</div>
+      </div>
+      <div class="acc-prezzo">${item.prezzo}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleAccessorio(key, disabled) {
+  if (disabled) return;
+
+  // Speciale: se deseleziono ottimizzatori, deseleziono anche tigoCloud
+  if (key === 'ottimizzatori' && state.ottimizzatori) {
+    state.ottimizzatori = false;
+    state.tigoCloud = false;
+  } else {
+    state[key] = !state[key];
+  }
+
+  aggiornaPrezziAccessori();
+  renderAccessori(); // ri-render per aggiornare prezzi wallbox e stato tigoCloud
+}
+
+// ════════════════════════════════════════
+// STEP 6 — RIEPILOGO
+// ════════════════════════════════════════
+
+function renderRiepilogo() {
+  document.getElementById('ril_kwp').textContent = (state.kwp || '-') + ' kWp';
+  document.getElementById('ril_pannello').textContent = state.pannello ? state.pannello.nome + ' (' + state.pannello.potenza_wp + ' Wp)' : '-';
+  document.getElementById('ril_num_pannelli').textContent = state.numPannelli ? state.numPannelli + ' pz' : '-';
+  document.getElementById('ril_mq').textContent = state.mqTotali ? state.mqTotali + ' m²' : '-';
+  document.getElementById('ril_acc').textContent = state.accumulo
+    ? (state.linea ? `Sì — ${LINEE_INFO[state.linea].nome} · ${state.kwh} kWh` : 'Sì')
+    : 'No';
+
+  const linRow = document.getElementById('ril_linea_row');
+  if (state.accumulo && state.linea) {
+    linRow.style.display = 'flex';
+    document.getElementById('ril_linea').textContent = LINEE_INFO[state.linea].nome + ' · ' + state.kwh + ' kWh';
+  } else {
+    linRow.style.display = 'none';
+  }
+
+  const accSel = [];
+  if (state.zavorre) accSel.push('Zavorre');
+  if (state.zavorreVela) accSel.push('Zavorre a vela');
+  if (state.wallbox) accSel.push('Wall Box');
+  if (state.ottimizzatori) accSel.push('Ottimizzatori Tigo');
+  if (state.tigoCloud) accSel.push('Tigo Cloud Connect');
+  document.getElementById('ril_acc_list').textContent = accSel.length ? accSel.join(', ') : 'Nessuno';
+  document.getElementById('ril_totale').textContent = '€ ' + state.prezzoTotale.toLocaleString('it-IT');
+
+  aggiornaConsensi();
+}
+
+// ════════════════════════════════════════
+// PAGAMENTO
+// ════════════════════════════════════════
+
+function scelgiPagamento(modalita) {
+  pagState.modalita = modalita;
+  document.getElementById('pag_bonifico').classList.toggle('selected', modalita === 'bonifico');
+  document.getElementById('pag_finanziamento').classList.toggle('selected', modalita === 'finanziamento');
+
+  if (modalita === 'finanziamento') {
+    apriPopupFinanziamento();
+  } else {
+    document.getElementById('riepilogo_pagamento').style.display = 'none';
+    pagState.rata = 0; pagState.anticipo = 0; pagState.taeg = 0;
+    aggiornaConsensi();
+  }
+}
+
+function apriPopupFinanziamento() {
+  // Imposta range anticipo
+  const maxAnticipo = Math.floor(state.prezzoTotale * 0.5 / 100) * 100;
+  const rangeEl = document.getElementById('popup_anticipo');
+  rangeEl.max = maxAnticipo;
+  rangeEl.value = pagState.anticipo || 0;
+  aggiornaAnticipo();
+
+  // Rate buttons
+  const rateContainer = document.getElementById('popup_rate_buttons');
+  rateContainer.innerHTML = RATE_OPTIONS.map(n =>
+    `<button class="popup-rate-btn${pagState.nRate === n ? ' selected' : ''}" onclick="scelgiRate(${n})">${n} mesi</button>`
+  ).join('');
+
+  calcolaRata();
+  document.getElementById('popupFinanziamento').classList.add('active');
+}
+
+function aggiornaAnticipo() {
+  const val = parseInt(document.getElementById('popup_anticipo').value);
+  pagState.anticipo = val;
+  document.getElementById('popup_anticipo_val').textContent = '€ ' + val.toLocaleString('it-IT');
+  calcolaRata();
+}
+
+function scelgiRate(n) {
+  pagState.nRate = n;
+  document.querySelectorAll('.popup-rate-btn').forEach(b => b.classList.remove('selected'));
+  event.target.classList.add('selected');
+  calcolaRata();
+}
+
+function calcolaRata() {
+  const importo = state.prezzoTotale - pagState.anticipo;
+  if (importo <= 0) { document.getElementById('popup_rata_val').textContent = '€ 0'; return; }
+  const tanMensile = TAN_RATE / 100 / 12;
+  const n = pagState.nRate;
+  let rata;
+  if (tanMensile === 0) {
+    rata = importo / n;
+  } else {
+    rata = importo * (tanMensile * Math.pow(1 + tanMensile, n)) / (Math.pow(1 + tanMensile, n) - 1);
+  }
+  rata = Math.round(rata);
+  pagState.rata = rata;
+
+  const totaleDovuto = pagState.anticipo + rata * n;
+  const taeg = ((Math.pow(totaleDovuto / importo, 12 / n) - 1) * 100);
+  pagState.taeg = Math.round(taeg * 100) / 100;
+
+  document.getElementById('popup_rata_val').textContent = '€ ' + rata.toLocaleString('it-IT');
+  document.getElementById('popup_tan_val').textContent = TAN_RATE.toFixed(2).replace('.', ',');
+  document.getElementById('popup_taeg_val').textContent = pagState.taeg.toFixed(2).replace('.', ',');
+  document.getElementById('popup_importo_val').textContent = '€ ' + importo.toLocaleString('it-IT');
+  document.getElementById('popup_totale_dovuto').textContent = '€ ' + totaleDovuto.toLocaleString('it-IT');
+}
+
+function confermaFinanziamento() {
+  document.getElementById('popupFinanziamento').classList.remove('active');
+  const box = document.getElementById('riepilogo_pag_box');
+  box.textContent = `📊 Finanziamento Deutsche Bank: anticipo € ${pagState.anticipo.toLocaleString('it-IT')} + ${pagState.nRate} rate da € ${pagState.rata.toLocaleString('it-IT')}/mese · TAN ${TAN_RATE.toFixed(2).replace('.',',')}%`;
+  document.getElementById('riepilogo_pagamento').style.display = 'block';
+  aggiornaConsensi();
+}
+
+function chiudiPopup() {
+  document.getElementById('popupFinanziamento').classList.remove('active');
+  pagState.modalita = null;
+  document.getElementById('pag_finanziamento').classList.remove('selected');
+  aggiornaConsensi();
+}
+
+// ════════════════════════════════════════
+// CONSENSI + INVIO
+// ════════════════════════════════════════
+
+function aggiornaConsensi() {
+  const campiOk = ['f_nome','f_cognome','f_email','f_telefono','f_sede'].every(id => {
+    const el = document.getElementById(id);
+    return el && el.value.trim() !== '';
+  });
+  const consensiOk = ['cb1','cb2','cb3','cb4'].every(id => document.getElementById(id).checked);
+  const pagOk = pagState.modalita !== null;
+  const btnFirma = document.getElementById('btn-firma');
+  if (btnFirma) btnFirma.disabled = !(campiOk && consensiOk && pagOk);
+}
+
+function normalizzaTelefono(tel) {
+  let t = tel.replace(/\s/g, '').replace(/-/g, '');
+  if (t.startsWith('00')) t = '+' + t.slice(2);
+  if (!t.startsWith('+') && t.startsWith('3')) t = '+39' + t;
+  if (!t.startsWith('+')) t = '+39' + t;
+  return t;
+}
+
+async function inviaRichiesta() {
+  const btn = document.getElementById('btn-firma');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Invio in corso...';
+
+  const now = new Date();
+  const dataFormattata = now.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const numeroContratto = 'SG-' + now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + String(now.getDate()).padStart(2,'0') + '-' + String(now.getHours()).padStart(2,'0') + String(now.getMinutes()).padStart(2,'0');
+
+  const accSel = [];
+  if (state.zavorre) accSel.push('Zavorre');
+  if (state.zavorreVela) accSel.push('Zavorre a vela');
+  if (state.wallbox) accSel.push('Wall Box');
+  if (state.ottimizzatori) accSel.push('Ottimizzatori Tigo');
+  if (state.tigoCloud) accSel.push('Tigo Cloud Connect');
+
+  const LINEE_LABEL = { smart: 'Smart One', power: 'Power Plus', premium: 'Premium Top' };
+
+  const payload = {
+    numero_contratto: numeroContratto,
+    data_contratto: dataFormattata,
+    data_firma_cliente: '',
+    linea: state.linea ? LINEE_LABEL[state.linea] : 'Solo fotovoltaico',
+    potenza: state.kwp,
+    accumulo_kwh: state.accumulo ? state.kwh : 'Non incluso',
+    pannello: state.pannello ? state.pannello.nome + ' (' + state.pannello.potenza_wp + ' Wp)' : '',
+    num_pannelli: state.numPannelli,
+    mq_totali: state.mqTotali,
+    tipo_tetto: '',
+    extra_zavorre: (state.zavorre ? prezzoZavorre() : 0) + (state.zavorreVela ? prezzoZavorreVela() : 0),
+    accessori: accSel.join(', ') || 'Nessuno',
+    extra_accessori: state.prezzoAccessori,
+    prezzo_base: state.prezzoBase,
+    prezzo_con_zavorre: state.prezzoBase + (state.zavorre ? prezzoZavorre() : 0) + (state.zavorreVela ? prezzoZavorreVela() : 0),
+    prezzo_totale: state.prezzoTotale,
+    nome: document.getElementById('f_nome').value,
+    cognome: document.getElementById('f_cognome').value,
+    email: document.getElementById('f_email').value,
+    telefono: normalizzaTelefono(document.getElementById('f_telefono').value),
+    codice_fiscale: '',
+    indirizzo: '',
+    citta: '',
+    provincia: '',
+    sede: document.getElementById('f_sede').value,
+    tipo_immobile: document.getElementById('f_tipo').value,
+    incentivo: '',
+    note: document.getElementById('f_note').value,
+    modalita_pagamento: pagState.modalita === 'finanziamento' ? 'Finanziamento Deutsche Bank' : 'Bonifico bancario',
+    anticipo: pagState.modalita === 'finanziamento' ? pagState.anticipo : '',
+    num_rate: pagState.modalita === 'finanziamento' ? pagState.nRate : '',
+    rata_mensile: pagState.modalita === 'finanziamento' ? pagState.rata : '',
+    tan: pagState.modalita === 'finanziamento' ? TAN_RATE : '',
+    taeg: pagState.modalita === 'finanziamento' ? pagState.taeg : '',
+    data_invio: now.toISOString(),
+  };
+
+  try {
+    const res = await fetch(MAKE_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok || res.status === 200) {
+      mostraConferma();
+    } else {
+      throw new Error('HTTP ' + res.status);
+    }
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = '✍️ Invia richiesta e firma digitale';
+    const errBox = document.createElement('div');
+    errBox.className = 'info-box';
+    errBox.style.cssText = 'border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.08);color:#b91c1c';
+    errBox.textContent = '❌ Errore nell\'invio. Riprova o contattaci su WhatsApp.';
+    document.getElementById('s5').prepend(errBox);
+  }
+}
+
+function mostraConferma() {
+  document.getElementById('s5').innerHTML = `
+    <div class="confirm-box">
+      <div class="confirm-icon">✅</div>
+      <div class="confirm-title">Richiesta inviata!</div>
+      <div class="confirm-sub">Abbiamo ricevuto la tua configurazione. Ecco cosa succede ora:</div>
+      <div class="confirm-steps">
+        <div class="confirm-step"><span>📄</span> Stiamo generando la tua offerta in PDF</div>
+        <div class="confirm-step"><span>✍️</span> Riceverai un'email con il link per la firma digitale</div>
+        <div class="confirm-step"><span>📞</span> Un consulente Solair ti contatterà entro 24 ore</div>
+      </div>
+      <a class="btn-primary teal" href="https://wa.me/393497988101" target="_blank" style="display:inline-flex;margin:0 auto">
+        💬 Contattaci su WhatsApp
+      </a>
+    </div>`;
+  document.getElementById('totaleFisso').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ════════════════════════════════════════
+// SUGGERIMENTO SOLAIR
+// ════════════════════════════════════════
+
+const sgAnswers = { 0: null, 1: null, 2: null, 3: null };
+const sgState = { linea: null, kwp: null, kwh: null, prezzo: null };
+
+function sgScegli(domanda, valore, el) {
+  sgAnswers[domanda] = valore;
+  el.closest('.sg-opts').querySelectorAll('.sg-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('sgBtn' + domanda).disabled = false;
+}
+
+function sgAvanti(n) {
+  for (let i = 0; i <= 3; i++) {
+    const q = document.getElementById('sgQ' + i);
+    if (q) q.classList.remove('active');
+    const bar = document.getElementById('sgpbar' + i);
+    if (bar) bar.className = 'sg-step' + (i < n ? ' done' : i === n ? ' active' : '');
+  }
+  document.getElementById('sgRisultato').style.display = 'none';
+  const qEl = document.getElementById('sgQ' + n);
+  if (qEl) qEl.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function calcolaSuggerimento() {
+  const pesi = {
+    immobile:  { villetta: 0, bifamiliare: 1, azienda: 2, altro: 0 },
+    obiettivo: { risparmio: 0, autoconsumo: 1, blackout: 1, investimento: 2 },
+    garanzia:  { standard: 0, estesa: 1, massima: 2 },
+    budget:    { contenuto: 0, medio: 1, alto: 2 },
+  };
+  let score = 0;
+  score += pesi.immobile[sgAnswers[0]] || 0;
+  score += pesi.obiettivo[sgAnswers[1]] || 0;
+  score += pesi.garanzia[sgAnswers[2]] || 0;
+  score += pesi.budget[sgAnswers[3]] || 0;
+
+  let linea = score <= 3 ? 'smart' : score <= 6 ? 'power' : 'premium';
+  sgState.linea = linea;
+
+  const info = LINEE_INFO[linea];
+  document.getElementById('sg_nome_linea').textContent = info.nome;
+  document.getElementById('sg_motivazione').textContent = {
+    smart: 'Per le tue esigenze, Smart One offre il giusto equilibrio tra qualità e accessibilità, con 10 anni di garanzia e inverter Solis monofase.',
+    power: 'Power Plus è la nostra soluzione più venduta: batteria ad alta tensione Sineng, protezione anti-blackout EPS inclusa e 12 anni di garanzia.',
+    premium: 'Premium Top è il top di gamma Solair: BYD Battery-Box HVE, 15 anni di garanzia con 80% di capacità nominale garantita al 10° anno.',
+  }[linea];
+
+  document.getElementById('sg_features').innerHTML = info.specs.map(s =>
+    `<li class="sg-feature">${s}</li>`
+  ).join('');
+
+  // Aggiorna barre progresso
+  for (let i = 0; i <= 3; i++) {
+    document.getElementById('sgpbar' + i).className = 'sg-step done';
+    const q = document.getElementById('sgQ' + i);
+    if (q) q.classList.remove('active');
+  }
+  document.getElementById('sgRisultato').style.display = 'block';
+
+  renderTaglieSuggerimento(linea);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderTaglieSuggerimento(linea) {
+  const container = document.getElementById('sg_taglie_list');
+  container.innerHTML = '';
+  const kwhOpts = KWH_OPTIONS[linea];
+  // kWp 6–9
+  const kwpDefault = 6;
+  const kwhDefault = kwhOpts[0];
+
+  // Prima riga: kWp6 con tutti i kWh
+  kwhOpts.forEach((kwh, idx) => {
+    let prezzo = null;
+    if (kwh === 5 && linea === 'smart') {
+      prezzo = PREZZI_ACC.smart[6][10] - SMART_5KWH_DISCOUNT;
+    } else {
+      prezzo = PREZZI_ACC[linea][6] ? PREZZI_ACC[linea][6][kwh] : null;
+    }
+    if (!prezzo) return;
+
+    const isDefault = idx === 0;
+    const card = document.createElement('div');
+    card.className = 'sg-taglia-card' + (isDefault ? ' selected' : '');
+    card.innerHTML = `
+      <div>
+        <div class="stc-info">6 kWp + ${kwh} kWh</div>
+        <div class="stc-sub">${LINEE_INFO[linea].nome}</div>
+      </div>
+      <div class="stc-price">€ ${prezzo.toLocaleString('it-IT')}</div>`;
+    card.onclick = () => {
+      container.querySelectorAll('.sg-taglia-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      sgState.kwp = 6; sgState.kwh = kwh; sgState.prezzo = prezzo;
+      document.getElementById('sg_btn_procedi').disabled = false;
+    };
+    container.appendChild(card);
+    if (isDefault) { sgState.kwp = 6; sgState.kwh = kwh; sgState.prezzo = prezzo; document.getElementById('sg_btn_procedi').disabled = false; }
+  });
+}
+
+function procediDaSuggerimento() {
+  state.kwp = sgState.kwp;
+  state.accumulo = true;
+  state.linea = sgState.linea;
+  state.kwh = sgState.kwh;
+  state.prezzoBase = sgState.prezzo || 0;
+  aggiornaTotale();
+  document.getElementById('suggerimentoPage').style.display = 'none';
+  document.getElementById('configuratorePage').style.display = 'block';
+  document.getElementById('progressBar').style.display = 'block';
+  renderKwpButtons();
+  // Pre-seleziona accumulo
+  document.getElementById('btn_si_acc').classList.add('selected');
+  goTo(4); // vai diretto agli accessori
+}
+
+// ════════════════════════════════════════
+// INTRO / RESET
+// ════════════════════════════════════════
+
+function avviaConfigurazione() {
+  document.getElementById('introPage').style.display = 'none';
+  document.getElementById('configuratorePage').style.display = 'block';
+  document.getElementById('progressBar').style.display = 'block';
+  renderKwpButtons();
+  goTo(0);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function avviaSuggerimento() {
+  document.getElementById('introPage').style.display = 'none';
+  document.getElementById('suggerimentoPage').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function tornaIntro() {
+  // Reset state
+  Object.assign(state, { kwp:null, pannello:null, numPannelli:null, mqTotali:null, accumulo:null, linea:null, kwh:null, prezzoBase:0, zavorre:false, zavorreVela:false, wallbox:false, ottimizzatori:false, tigoCloud:false, prezzoAccessori:0, prezzoTotale:0 });
+  Object.assign(pagState, { modalita:null, anticipo:0, nRate:60, rata:0, taeg:0 });
+  Object.assign(sgAnswers, {0:null,1:null,2:null,3:null});
+  Object.assign(sgState, {linea:null,kwp:null,kwh:null,prezzo:null});
+
+  document.getElementById('suggerimentoPage').style.display = 'none';
+  document.getElementById('configuratorePage').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'none';
+  document.getElementById('totaleFisso').style.display = 'none';
+  document.getElementById('introPage').style.display = 'block';
+
+  // Reset suggerimento UI
+  for (let i=0;i<=3;i++) {
+    const q=document.getElementById('sgQ'+i); if(q){q.classList.remove('active'); if(i===0) q.classList.add('active');}
+    const bar=document.getElementById('sgpbar'+i); if(bar) bar.className='sg-step'+(i===0?' active':'');
+    const btn=document.getElementById('sgBtn'+i); if(btn) btn.disabled=true;
+    if(q) q.querySelectorAll('.sg-opt').forEach(o=>o.classList.remove('selected'));
+  }
+  document.getElementById('sgRisultato').style.display='none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+
+renderKwpButtons();
+loadPannelliSanity();
+</script>
+</body>
+</html>
