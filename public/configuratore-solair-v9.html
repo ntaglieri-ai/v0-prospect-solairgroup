@@ -1057,7 +1057,7 @@ function scelgiAccumulo(haAcc) {
   document.getElementById('btn_no_acc').classList.toggle('selected', !haAcc);
   document.getElementById('btn_si_acc').classList.toggle('selected', haAcc);
   document.getElementById('btn-s2').disabled = false;
-  document.getElementById('btn-s2').textContent = haAcc ? 'Avanti → Scegli linea e kWh' : 'Avanti → Tipo tetto';
+  document.getElementById('btn-s2').textContent = haAcc ? 'Avanti → Scegli capacità batterie' : 'Avanti → Tipo tetto';
   aggiornaTotale();
 }
 
@@ -1769,7 +1769,7 @@ function tornaIntro() {
 renderKwpButtons();
 loadPannelliSanity();
 
-// ════════════════════════════════════════
+// ════════════════════════════════��═══════
 // DRAWER DETTAGLI PANNELLO
 // ════════════════════════════════════════
 
