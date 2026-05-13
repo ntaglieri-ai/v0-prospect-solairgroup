@@ -975,7 +975,7 @@ function renderPannelliCards() {
     // supporta sia campo "nome" (nuovo) che "brand modello" (legacy)
     const nomeDisplay = p.nome || `${p.brand} ${p.modello}`;
     const potenzaDisplay = p.potenza_wp || p.potenza;
-    const isSelected = state.pannello && (state.pannello.modello === p.modello || state.pannello.nome === p.nome);
+    const isSelected = state.pannello && ((p.modello && state.pannello.modello === p.modello) || (p.nome && state.pannello.nome === p.nome));
     const card = document.createElement('div');
     card.className = 'pannello-card' + (isSelected ? ' selected' : '');
     card.innerHTML = `
@@ -1754,7 +1754,7 @@ function tornaIntro() {
 
 // ════════════════════════════════════════
 // INIT
-// ════════════════════════════════════════
+// ════════════════════════════���═══════════
 
 renderKwpButtons();
 loadPannelliSanity();
@@ -1795,7 +1795,7 @@ function openDrawer(p) {
   if (p.scheda) { btnScheda.style.display = 'block'; btnScheda.href = p.scheda; }
   else { btnScheda.style.display = 'none'; }
 
-  const isSelected = state.pannello && (state.pannello.modello === p.modello || state.pannello.nome === p.nome);
+  const isSelected = state.pannello && ((p.modello && state.pannello.modello === p.modello) || (p.nome && state.pannello.nome === p.nome));
   const btn = document.getElementById('pd_btn_select');
   btn.textContent = isSelected ? '✓ Selezionato' : 'Seleziona questo pannello';
   btn.className = 'pd-btn-select' + (isSelected ? ' already' : '');
