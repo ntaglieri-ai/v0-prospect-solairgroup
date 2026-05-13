@@ -40,7 +40,7 @@ export function HeroSection() {
       </div>
 
       {/* Content - centered vertically with equal padding */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 sm:px-6 py-24 sm:py-24 md:pt-32 md:pb-32 lg:pt-40 lg:pb-32">
+      <div className="relative z-10 min-h-[85vh] md:min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-20 sm:py-24 md:py-32 lg:py-40">
         <div className="text-center max-w-5xl w-full">
           {/* Overline - DM Sans */}
           <p className="overline text-white/90 mb-4 sm:mb-6 text-[10px] sm:text-[11px]">
