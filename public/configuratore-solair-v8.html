@@ -785,7 +785,7 @@ let pannelliList = []; // da Sanity
 
 const state = {
   kwp: null,
-  pannello: null,       // oggetto {nome, potenza_wp, larghezza_mm, altezza_mm}
+  pannello: null,       // oggetto {brand, modello, potenza, larghezza_mm, altezza_mm}
   numPannelli: null,
   mqTotali: null,
   accumulo: null,       // false | true
@@ -890,7 +890,7 @@ function renderKwpButtons() {
 
 async function loadPannelliSanity() {
   try {
-    const query = encodeURIComponent(`*[_type=="pannello" && attivo==true]{nome, potenza_wp, larghezza_mm, altezza_mm}`);
+    const query = encodeURIComponent(`*[_type=="pannello" && attivo==true]{brand, modello, potenza, larghezza_mm, altezza_mm}`);
     const url = `https://${SANITY_PROJECT}.api.sanity.io/v2021-06-07/data/query/${SANITY_DATASET}?query=${query}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error('Sanity error');
@@ -909,9 +909,12 @@ async function loadPannelliSanity() {
 
 function fallbackPannelli() {
   return [
-    { nome: 'Pannello Standard 400W', potenza_wp: 400, larghezza_mm: 1722, altezza_mm: 1134 },
-    { nome: 'Pannello High Power 450W', potenza_wp: 450, larghezza_mm: 2094, altezza_mm: 1038 },
-    { nome: 'Pannello Premium 550W', potenza_wp: 550, larghezza_mm: 2279, altezza_mm: 1134 },
+    { brand: 'LONGi', modello: 'Hi-MO X10 Explorer', potenza: 645, larghezza_mm: 1134, altezza_mm: 2382 },
+    { brand: 'DMEGC', modello: 'iNFINITY RT', potenza: 510, larghezza_mm: 1134, altezza_mm: 1950 },
+    { brand: 'Astronergy', modello: 'ASTRO N7s', potenza: 515, larghezza_mm: 1134, altezza_mm: 1961 },
+    { brand: 'Trina Solar', modello: 'Vertex S+', potenza: 505, larghezza_mm: 1134, altezza_mm: 1961 },
+    { brand: 'LONGi', modello: 'Hi-MO X6 Explorer', potenza: 435, larghezza_mm: 1134, altezza_mm: 1722 },
+    { brand: 'Qcells', modello: 'Q.TRON Classic', potenza: 450, larghezza_mm: 1134, altezza_mm: 1762 },
   ];
 }
 
@@ -923,12 +926,12 @@ function renderPannelliCards() {
   }
   container.innerHTML = '';
   pannelliList.forEach(p => {
-    const isSelected = state.pannello && state.pannello.nome === p.nome;
+    const isSelected = state.pannello && state.pannello.modello === p.modello;
     const card = document.createElement('div');
     card.className = 'pannello-card' + (isSelected ? ' selected' : '');
     card.innerHTML = `
-      <div class="p-nome">${p.nome}</div>
-      <div class="p-potenza">${p.potenza_wp} Wp</div>
+      <div class="p-nome">${p.brand} ${p.modello}</div>
+      <div class="p-potenza">${p.potenza} Wp</div>
       <div class="p-info">${p.larghezza_mm} × ${p.altezza_mm} mm</div>`;
     card.onclick = () => {
       state.pannello = p;
@@ -946,7 +949,7 @@ function renderPannelliCards() {
 
 function ricalcolaPannello() {
   if (!state.pannello || !state.kwp) return;
-  const n = Math.ceil(state.kwp * 1000 / state.pannello.potenza_wp);
+  const n = Math.ceil(state.kwp * 1000 / state.pannello.potenza);
   const mq = (n * (state.pannello.larghezza_mm / 1000) * (state.pannello.altezza_mm / 1000)).toFixed(1);
   state.numPannelli = n;
   state.mqTotali = parseFloat(mq);
@@ -1262,7 +1265,7 @@ function toggleAccessorio(key, disabled) {
 
 function renderRiepilogo() {
   document.getElementById('ril_kwp').textContent = (state.kwp || '-') + ' kWp';
-  document.getElementById('ril_pannello').textContent = state.pannello ? state.pannello.nome + ' (' + state.pannello.potenza_wp + ' Wp)' : '-';
+  document.getElementById('ril_pannello').textContent = state.pannello ? state.pannello.brand + ' ' + state.pannello.modello + ' (' + state.pannello.potenza + ' Wp)' : '-';
   document.getElementById('ril_num_pannelli').textContent = state.numPannelli ? state.numPannelli + ' pz' : '-';
   document.getElementById('ril_mq').textContent = state.mqTotali ? state.mqTotali + ' m²' : '-';
   document.getElementById('ril_acc').textContent = state.accumulo
@@ -1427,7 +1430,7 @@ async function inviaRichiesta() {
     linea: state.linea ? LINEE_LABEL[state.linea] : 'Solo fotovoltaico',
     potenza: state.kwp,
     accumulo_kwh: state.accumulo ? state.kwh : 'Non incluso',
-    pannello: state.pannello ? state.pannello.nome + ' (' + state.pannello.potenza_wp + ' Wp)' : '',
+    pannello: state.pannello ? state.pannello.brand + ' ' + state.pannello.modello + ' (' + state.pannello.potenza + ' Wp)' : '',
     num_pannelli: state.numPannelli,
     mq_totali: state.mqTotali,
     tipo_tetto: state.tetto === 'piano' ? 'Piano' : 'A falde',
