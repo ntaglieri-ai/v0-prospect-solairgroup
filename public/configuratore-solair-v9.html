@@ -666,15 +666,23 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
         <div class="form-group full"><label>Note aggiuntive</label><textarea id="f_note" placeholder="Eventuali informazioni utili..."></textarea></div>
       </div>
 
-      <!-- Consensi -->
-      <div class="consensi">
-        <div class="consenso-row"><input type="checkbox" id="cb1" onchange="aggiornaConsensi()"><label for="cb1">Ho letto e accetto l'<a href="https://solairgroup.it/privacy" target="_blank">Informativa Privacy</a> *</label></div>
-        <div class="consenso-row"><input type="checkbox" id="cb2" onchange="aggiornaConsensi()"><label for="cb2">Acconsento al trattamento dei miei dati per finalità commerciali *</label></div>
-        <div class="consenso-row"><input type="checkbox" id="cb3" onchange="aggiornaConsensi()"><label for="cb3">Dichiaro che i dati inseriti sono corretti e veritieri *</label></div>
-        <div class="consenso-row"><input type="checkbox" id="cb4" onchange="aggiornaConsensi()"><label for="cb4">Acconsento alla firma digitale del preventivo via email *</label></div>
+      <!-- Dichiarazioni Obbligatorie -->
+      <div class="dichiarazioni-box" style="background:#fffbeb;border-left:4px solid #d69e2e;border-radius:8px;padding:20px;margin-bottom:20px">
+        <div style="font-weight:700;color:var(--navy);margin-bottom:16px;font-size:15px;text-transform:uppercase;letter-spacing:0.5px">DICHIARAZIONI OBBLIGATORIE</div>
+        <div class="consensi">
+          <div class="consenso-row"><input type="checkbox" id="cb1" onchange="aggiornaConsensi()"><label for="cb1"><a href="/condizioni-generali-solair.pdf" target="_blank" style="text-decoration:underline">Dichiaro di aver letto e accettato le condizioni generali di vendita e i termini e condizioni generali di contratto Solair Group srl</a></label></div>
+          <div class="consenso-row"><input type="checkbox" id="cb2" onchange="aggiornaConsensi()"><label for="cb2">Acconsento al trattamento dei dati personali ai sensi del GDPR 679/2016 (Art. 10).</label></div>
+          <div class="consenso-row"><input type="checkbox" id="cb3" onchange="aggiornaConsensi()"><label for="cb3">Dichiaro di essere proprietario/avente diritto dell'immobile o di avere le necessarie autorizzazioni per l'installazione.</label></div>
+          <div class="consenso-row"><input type="checkbox" id="cb4" onchange="aggiornaConsensi()"><label for="cb4">Approvo specificamente le clausole onerose: Art. 3 (tempi), Art. 4 (responsabilità), Art. 8 (recesso e penale), Art. 9 (clausola risolutiva), Art. 11 (foro competente) — ai sensi degli artt. 1341 e 1342 c.c.</label></div>
+        </div>
       </div>
 
-      <button class="btn-primary teal" id="btn-firma" onclick="inviaRichiesta()" disabled>✍️ Invia richiesta e firma digitale</button>
+      <!-- Box conferma finale -->
+      <div class="conferma-box" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:20px">
+        <p style="font-size:14px;color:var(--mid);line-height:1.6;margin:0">✅ Cliccando su <strong style="color:var(--teal)">Accetta e firma</strong> confermo di aver letto e accettato la configurazione sopra indicata e autorizzo l'avvio della procedura di sottoscrizione del contratto. Riceverò via email il documento da firmare digitalmente tramite OTP.</p>
+      </div>
+
+      <button class="btn-primary teal" id="btn-firma" onclick="inviaRichiesta()" disabled>✍️ Accetta e firma</button>
       <button class="btn-back" style="justify-content:center" onclick="goTo(4)">← Torna agli accessori</button>
     </div>
 
@@ -1142,7 +1150,7 @@ function renderStepPrezzo() {
       if (!prezzo) return;
       const kwhs = String(kwh);
       const isSelected = String(state.kwh) === kwhs;
-      html += `<button class="kwh-btn${isSelected ? ' selected' : ''}" onclick="scelgiKwhFlat(${JSON.stringify(kwh)}, ${prezzo}, this)">
+      html += `<button class="kwh-btn${isSelected ? ' selected' : ''}" onclick="scelgiKwhFlat('${kwhs}', ${prezzo}, this)">
         <strong>${kwhs} kWh</strong><br><span style="font-size:11px;font-weight:500">€ ${prezzo.toLocaleString('it-IT')}</span>
       </button>`;
     });
@@ -1164,7 +1172,8 @@ function renderStepPrezzo() {
 }
 
 function scelgiKwhFlat(kwh, prezzo, el) {
-  state.kwh = kwh;
+  // kwh arriva sempre come stringa dall'onclick; converti a numero se intero
+  state.kwh = kwh.includes('.') ? kwh : parseFloat(kwh);
   state.linea = null;
   state.prezzoBase = prezzo;
   document.querySelectorAll('#kwh_flat_buttons .kwh-btn').forEach(b => b.classList.remove('selected'));
