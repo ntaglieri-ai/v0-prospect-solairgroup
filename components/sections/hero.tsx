@@ -39,11 +39,11 @@ export function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/50" />
       </div>
 
-      {/* Content - centered vertically with generous top padding */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 sm:px-6 pt-16 sm:pt-24 md:pt-32 lg:pt-40 pb-16 sm:pb-24 md:pb-32">
+      {/* Content - centered vertically with equal padding */}
+      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 sm:px-6 py-24 sm:py-24 md:pt-32 md:pb-32 lg:pt-40 lg:pb-32">
         <div className="text-center max-w-5xl w-full">
           {/* Overline - DM Sans */}
-          <p className="overline text-white/90 mb-4 sm:mb-6 mt-4 sm:mt-8 text-[10px] sm:text-[11px]">
+          <p className="overline text-white/90 mb-4 sm:mb-6 text-[10px] sm:text-[11px]">
             Energia Rinnovabile · Italia
           </p>
 
