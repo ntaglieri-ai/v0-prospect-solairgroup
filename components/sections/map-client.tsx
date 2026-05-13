@@ -156,24 +156,24 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       />
 
-      <section className="bg-[#1e3a5f] mt-[50px] mb-0 md:mb-[25px] relative z-[1]">
-        <div className="grid lg:grid-cols-[55%_45%] min-h-[500px]">
+      <section className="bg-[#1e3a5f] mt-8 sm:mt-[50px] mb-0 md:mb-[25px] relative z-[1]">
+        <div className="grid lg:grid-cols-[55%_45%] min-h-[400px] sm:min-h-[500px]">
           {/* Leaflet Map */}
           <div 
             ref={mapContainerRef} 
-            className="h-[400px] lg:h-auto lg:min-h-[500px] w-full"
+            className="h-[280px] sm:h-[400px] lg:h-auto lg:min-h-[500px] w-full"
           />
 
           {/* Sidebar */}
-          <div className="flex flex-col justify-center px-8 lg:px-10 py-12 border-l border-white/10">
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#2e8b72] mb-3">Sedi</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-10">
+          <div className="flex flex-col justify-center px-4 sm:px-8 lg:px-10 py-8 sm:py-12 border-l border-white/10">
+            <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-[#2e8b72] mb-2 sm:mb-3">Sedi</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-6 sm:mb-10">
               Le nostre sedi<br />in Italia
             </h2>
 
             {Object.entries(grouped).map(([regione, items]) => (
-              <div key={regione} className="mb-8">
-                <p className="text-[10px] tracking-[0.14em] uppercase text-gray-300 mb-4 pt-4 border-t border-white/20">
+              <div key={regione} className="mb-6 sm:mb-8">
+                <p className="text-[9px] sm:text-[10px] tracking-[0.14em] uppercase text-gray-300 mb-3 sm:mb-4 pt-3 sm:pt-4 border-t border-white/20">
                   {regione}
                 </p>
 
@@ -181,18 +181,18 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
                   <div
                     key={sede._id}
                     onClick={() => setActiveId(sede._id)}
-                    className={`cursor-pointer mb-5 pl-3 border-l-2 transition-colors bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-4 hover:bg-white/20 ${
+                    className={`cursor-pointer mb-3 sm:mb-5 pl-3 border-l-2 transition-colors bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 hover:bg-white/20 ${
                       activeId === sede._id ? "border-l-[#2e8b72]" : "border-l-transparent"
                     }`}
                   >
-                    <p className={`text-lg mb-1 font-bold text-white transition-all`}>
+                    <p className={`text-base sm:text-lg mb-1 font-bold text-white transition-all`}>
                       {sede.citta}
                     </p>
-                    <p className="text-sm text-gray-300 mb-0.5">{sede.referente}</p>
-                    <p className="text-sm text-gray-300 mb-0.5 flex items-center gap-2">
+                    <p className="text-xs sm:text-sm text-gray-300 mb-0.5">{sede.referente}</p>
+                    <p className="text-xs sm:text-sm text-gray-300 mb-0.5 flex items-center gap-2">
                       <span className="text-[#2e8b72]">Tel:</span> {sede.telefono}
                     </p>
-                    {sede.email && <p className="text-sm text-gray-300 flex items-center gap-2">
+                    {sede.email && <p className="text-xs sm:text-sm text-gray-300 flex items-center gap-2">
                       <span className="text-[#2e8b72]">Email:</span> {sede.email}
                     </p>}
                   </div>

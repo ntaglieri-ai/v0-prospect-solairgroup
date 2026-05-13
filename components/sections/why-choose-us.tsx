@@ -58,15 +58,15 @@ export function WhyChooseUsSection() {
               <div className="absolute inset-0 hidden md:block bg-black/35" />
               
               {/* Content centered at exact vertical center */}
-              <div className="relative z-10 w-full flex items-center justify-start px-8 lg:px-[10vw]">
-                <div className="max-w-xl">
-                  <p className="overline mobile-text-pearl-70 md:text-white/90 mb-5">
+              <div className="relative z-10 w-full flex items-center justify-center md:justify-start px-4 sm:px-8 lg:px-[10vw]">
+                <div className="max-w-xl text-center md:text-left">
+                  <p className="overline mobile-text-pearl-70 md:text-white/90 mb-3 sm:mb-5 text-[10px] sm:text-[11px]">
                     {service.overline}
                   </p>
-                  <h3 className="font-heading mobile-text-pearl md:text-white mb-6" style={{ fontSize: "clamp(2.5rem, 4vw, 3.5rem)" }}>
+                  <h3 className="font-heading mobile-text-pearl md:text-white mb-4 sm:mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
                     {service.title}
                   </h3>
-                  <p className="body-text mobile-text-pearl-85 md:text-white/95">
+                  <p className="body-text mobile-text-pearl-85 md:text-white/95 text-sm sm:text-base">
                     {service.description}
                   </p>
                 </div>
@@ -122,15 +122,15 @@ export function WhyChooseUsSection() {
               </div>
 
               {/* Mobile: Text overlay */}
-              <div className="relative z-10 flex items-center justify-center min-h-screen px-8 py-20 md:hidden">
-                <div className="max-w-md">
-                  <p className="overline mobile-text-pearl-70 mb-5">
+              <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-8 py-16 sm:py-20 md:hidden">
+                <div className="max-w-md text-center">
+                  <p className="overline mobile-text-pearl-70 mb-3 sm:mb-5 text-[10px] sm:text-[11px]">
                     {service.overline}
                   </p>
-                  <h3 className="font-heading mobile-text-pearl mb-6" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
+                  <h3 className="font-heading mobile-text-pearl mb-4 sm:mb-6 text-2xl sm:text-3xl">
                     {service.title}
                   </h3>
-                  <p className="body-text mobile-text-pearl-85">
+                  <p className="body-text mobile-text-pearl-85 text-sm sm:text-base">
                     {service.description}
                   </p>
                 </div>

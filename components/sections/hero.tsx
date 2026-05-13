@@ -40,34 +40,34 @@ export function HeroSection() {
       </div>
 
       {/* Content - centered vertically with generous top padding */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center px-6 pt-32 md:pt-40 pb-20">
-        <div className="text-center max-w-5xl">
+      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 sm:px-6 pt-24 sm:pt-32 md:pt-40 pb-16 sm:pb-20">
+        <div className="text-center max-w-5xl w-full">
           {/* Overline - DM Sans */}
-          <p className="overline text-white/90 mb-6 mt-8">
+          <p className="overline text-white/90 mb-4 sm:mb-6 mt-4 sm:mt-8 text-[10px] sm:text-[11px]">
             Energia Rinnovabile · Italia
           </p>
 
           {/* H1 Title - Barlow Condensed - Premium */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-normal text-white mb-10" style={{ fontFamily: "var(--font-barlow-condensed)", textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
+          <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-normal text-white mb-6 sm:mb-10 px-2" style={{ fontFamily: "var(--font-barlow-condensed)", textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
             Impianti fotovoltaici chiavi in mano per privati e aziende in tutta Italia
           </h1>
 
           {/* Subtitle - DM Sans */}
-          <p className="text-base font-medium text-white/90 max-w-xl mx-auto mb-10" style={{ fontFamily: "var(--font-dm-sans)", textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
+          <p className="text-sm sm:text-base font-medium text-white/90 max-w-xl mx-auto mb-8 sm:mb-10 px-2" style={{ fontFamily: "var(--font-dm-sans)", textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
             Soluzioni su misura per la tua casa o azienda: indipendenza energetica, sostenibilità e incentivi dedicati
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col gap-3 sm:gap-4 sm:flex-row justify-center px-6 sm:px-0">
             <a
               href="/configuratore"
-              className="w-full sm:w-64 text-center bg-[#2e8b72] text-white font-bold px-8 py-4 rounded-lg shadow-lg hover:brightness-110 transition-all duration-300"
+              className="w-full sm:w-64 text-center bg-[#2e8b72] text-white font-semibold px-5 sm:px-8 py-3 sm:py-4 rounded-full sm:rounded-lg shadow-lg hover:brightness-110 transition-all duration-300 text-xs sm:text-base tracking-wide"
             >
               {homepage?.heroCtaPrimario || "Calcola il tuo risparmio"}
             </a>
             <button
               onClick={() => setIsContactOpen(true)}
-              className="w-full sm:w-64 border-2 border-white text-white font-bold px-8 py-4 rounded-lg hover:bg-white/10 transition-all duration-300"
+              className="w-full sm:w-64 border border-white/80 text-white font-semibold px-5 sm:px-8 py-3 sm:py-4 rounded-full sm:rounded-lg hover:bg-white/10 transition-all duration-300 text-xs sm:text-base tracking-wide"
             >
               {homepage?.heroCtaSecondario || "Parla con un consulente"}
             </button>
