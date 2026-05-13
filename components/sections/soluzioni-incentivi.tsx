@@ -161,19 +161,19 @@ export function SoluzioniIncentiviSection() {
       }}
     >
       {/* ── HEADER ── */}
-      <div style={{ textAlign: "center", padding: "24px 24px 72px" }}>
+      <div className="text-center px-4 sm:px-6 pt-6 pb-10 sm:pb-[72px]">
         <p
-          className="text-sm font-semibold uppercase tracking-widest text-[#2e8b72] mb-4"
+          className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-[#2e8b72] mb-3 sm:mb-4"
         >
           Soluzioni
         </p>
         <h2
-          className="text-3xl md:text-4xl font-extrabold text-[#1e3a5f] tracking-tight mb-5"
+          className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#1e3a5f] tracking-tight mb-4 sm:mb-5"
         >
           I nostri pacchetti
         </h2>
         <p
-          className="text-gray-800 leading-relaxed text-base max-w-[460px] mx-auto"
+          className="text-sm sm:text-base text-gray-800 leading-relaxed max-w-[460px] mx-auto"
         >
           Tre linee di impianto fotovoltaico con accumulo, chiavi in mano.
           Tutte includono progettazione, installazione e pratiche GSE.
@@ -185,23 +185,15 @@ export function SoluzioniIncentiviSection() {
         style={{
           maxWidth: "1120px",
           margin: "0 auto",
-          padding: "0 24px",
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "2px",
         }}
-        className="cards-grid"
+        className="cards-grid px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-[2px]"
       >
         {pacchetti.map((p) => (
           <div
             key={p.id}
-            className={`rounded-2xl shadow-md hover:-translate-y-2 hover:shadow-xl transition-all duration-300 ${p.highlight ? 'bg-[#1e3a5f] text-white ring-2 ring-[#2e8b72]' : 'bg-white border border-gray-200'}`}
+            className={`rounded-2xl shadow-md hover:-translate-y-2 hover:shadow-xl transition-all duration-300 ${p.highlight ? 'bg-[#1e3a5f] text-white ring-2 ring-[#2e8b72]' : 'bg-white border border-gray-200'} p-6 sm:p-8 md:p-10 relative flex flex-col`}
             style={{
-              padding: "40px 32px 36px",
-              position: "relative",
               borderTop: p.highlight ? 'none' : `3px solid ${p.accentColor}`,
-              display: "flex",
-              flexDirection: "column",
             }}
           >
             {p.badge && (
@@ -299,36 +291,27 @@ export function SoluzioniIncentiviSection() {
       </div>
 
       {/* ── INCENTIVI ── */}
-      <div className="bg-gray-50 py-16">
+      <div className="bg-gray-50 py-10 sm:py-16">
       <div
         id="incentivi"
-        style={{
-          maxWidth: "1120px",
-          margin: "0 auto",
-          padding: "0 24px",
-          display: "grid",
-          gridTemplateColumns: "1fr 2fr",
-          gap: "80px",
-          alignItems: "start",
-        }}
-        className="incentivi-grid"
+        className="incentivi-grid max-w-[1120px] mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-20 items-start"
       >
         {/* left */}
-        <div>
+        <div className="text-center md:text-left">
           <p
-            className="text-sm font-semibold uppercase tracking-widest text-[#2e8b72] mb-4"
+            className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-[#2e8b72] mb-3 sm:mb-4"
           >
             Incentivi
           </p>
           <h3
-            className="text-3xl md:text-4xl font-extrabold text-[#1e3a5f] tracking-tight"
+            className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#1e3a5f] tracking-tight"
           >
             Riduci il costo
             <br />
             del tuo impianto
           </h3>
           <p
-            className="text-gray-800 leading-relaxed text-base mt-4"
+            className="text-sm sm:text-base text-gray-800 leading-relaxed mt-3 sm:mt-4"
           >
             Gli incentivi statali possono coprire una parte significativa
             dell&apos;investimento. I nostri consulenti ti guidano nell&apos;accesso
@@ -338,12 +321,7 @@ export function SoluzioniIncentiviSection() {
 
         {/* right */}
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "40px",
-          }}
-          className="incentivi-items"
+          className="incentivi-items grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-10"
         >
           {incentivi.map((inc) => (
             <div key={inc.valore}>
@@ -399,21 +377,21 @@ export function SoluzioniIncentiviSection() {
       {/* ── CTA ── */}
       <div
         id="contatti"
-        className="bg-[#1e3a5f] py-20 px-6"
+        className="bg-[#1e3a5f] py-12 sm:py-20 px-4 sm:px-6"
       >
         <div className="max-w-3xl mx-auto text-center">
-          <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-6">
+          <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-4 sm:mb-6">
             Pronto a risparmiare energia?
           </h3>
-          <p className="text-white/90 text-base leading-relaxed max-w-xl mx-auto mb-10">
+          <p className="text-sm sm:text-base text-white/90 leading-relaxed max-w-xl mx-auto mb-8 sm:mb-10">
             Non sai quale linea fa per te? Usa il configuratore per trovare
             la soluzione giusta, oppure parla direttamente con un nostro consulente.
           </p>
 
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-2 sm:px-0">
             <a
               href={CONFIGURATORE_URL}
-              className="inline-flex items-center justify-center w-64 px-8 py-4 bg-[#2e8b72] text-white font-bold rounded-lg hover:scale-105 active:scale-95 transition-all duration-200"
+              className="inline-flex items-center justify-center w-full sm:w-64 px-6 sm:px-8 py-3.5 sm:py-4 bg-[#2e8b72] text-white font-bold rounded-lg hover:scale-105 active:scale-95 transition-all duration-200 text-sm sm:text-base"
             >
               Configura e Ordina
             </a>
@@ -422,7 +400,7 @@ export function SoluzioniIncentiviSection() {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center w-64 px-8 py-4 border border-white text-white font-bold rounded-lg hover:bg-white/10 hover:scale-105 active:scale-95 transition-all duration-200"
+              className="inline-flex items-center justify-center w-full sm:w-64 px-6 sm:px-8 py-3.5 sm:py-4 border border-white text-white font-bold rounded-lg hover:bg-white/10 hover:scale-105 active:scale-95 transition-all duration-200 text-sm sm:text-base"
             >
               Contatta Solair
             </a>
@@ -433,21 +411,7 @@ export function SoluzioniIncentiviSection() {
       {/* ── SEPARATOR (before map) ── */}
       <Separator />
 
-      <style jsx>{`
-        @media (max-width: 900px) {
-          .cards-grid {
-            grid-template-columns: 1fr !important;
-            gap: 16px !important;
-          }
-          .incentivi-grid {
-            grid-template-columns: 1fr !important;
-            gap: 32px !important;
-          }
-          .incentivi-items {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
+      
     </section>
   );
 }

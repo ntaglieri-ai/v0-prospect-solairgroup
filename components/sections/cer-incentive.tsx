@@ -30,44 +30,44 @@ export function CERIncentiveSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section className="min-h-[90vh] py-32 bg-white" ref={ref}>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section className="min-h-[90vh] py-16 sm:py-32 bg-white" ref={ref}>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="text-center mb-12 sm:mb-20"
         >
-          <p className="text-[10px] tracking-[0.4em] uppercase text-[#8a9aaa] mb-6 font-light">
+          <p className="text-[9px] sm:text-[10px] tracking-[0.4em] uppercase text-[#8a9aaa] mb-4 sm:mb-6 font-light">
             Incentivi CER
           </p>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[var(--font-display)] font-light text-[#1e3a5f] leading-[1.15] mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[var(--font-display)] font-light text-[#1e3a5f] leading-[1.15] mb-4 sm:mb-6">
             Massimizza i tuoi
             <br />
             <span className="font-normal">guadagni</span>
           </h2>
-          <p className="text-base text-gray-800 max-w-xl mx-auto font-light">
+          <p className="text-sm sm:text-base text-gray-800 max-w-xl mx-auto font-light px-2">
             Scopri come ottenere il massimo dal tuo impianto con le comunita energetiche
           </p>
         </motion.div>
 
         {/* Flow Diagram */}
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-4 mb-16">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-8 lg:gap-4 mb-10 sm:mb-16">
           {flowSteps.map((step, index) => (
             <motion.div
               key={step.title}
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: index * 0.15 }}
-              className="flex items-center"
+              className="flex items-center w-full lg:w-auto"
             >
-              <div className="bg-[#eaecee] border border-[#d0d6da] p-10 text-center min-w-[280px] group hover:border-[#1e3a5f] transition-all duration-500">
-                <div className="w-12 h-12 border border-[#d0d6da] flex items-center justify-center mx-auto mb-6 group-hover:bg-[#1e3a5f] group-hover:border-[#1e3a5f] transition-all duration-500">
-                  <step.icon className="h-5 w-5 text-[#1e3a5f] group-hover:text-white transition-all duration-500" />
+              <div className="bg-[#eaecee] border border-[#d0d6da] p-6 sm:p-10 text-center w-full lg:min-w-[280px] group hover:border-[#1e3a5f] transition-all duration-500 rounded-xl sm:rounded-none">
+                <div className="w-10 sm:w-12 h-10 sm:h-12 border border-[#d0d6da] flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:bg-[#1e3a5f] group-hover:border-[#1e3a5f] transition-all duration-500 rounded-lg sm:rounded-none">
+                  <step.icon className="h-4 sm:h-5 w-4 sm:w-5 text-[#1e3a5f] group-hover:text-white transition-all duration-500" />
                 </div>
-                <h3 className="font-[var(--font-display)] text-[#1e3a5f] mb-3">{step.title}</h3>
-                <p className="text-2xl font-[var(--font-display)] font-light text-[#1e3a5f] mb-2">{step.value}</p>
-                <span className="text-[9px] tracking-[0.2em] uppercase text-[#8a9aaa] font-light">
+                <h3 className="font-[var(--font-display)] text-[#1e3a5f] mb-2 sm:mb-3 text-sm sm:text-base">{step.title}</h3>
+                <p className="text-xl sm:text-2xl font-[var(--font-display)] font-light text-[#1e3a5f] mb-1 sm:mb-2">{step.value}</p>
+                <span className="text-[8px] sm:text-[9px] tracking-[0.2em] uppercase text-[#8a9aaa] font-light">
                   {step.label}
                 </span>
               </div>

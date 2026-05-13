@@ -44,23 +44,23 @@ export function TestimonialsSection() {
   const prev = () => setCurrentIndex((prev) => Math.max(prev - 1, 0))
 
   return (
-    <section id="recensioni" className="relative min-h-[60vh] py-[100px] bg-gray-50 flex items-center mb-0">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
+    <section id="recensioni" className="relative min-h-[60vh] py-12 sm:py-[100px] bg-gray-50 flex items-center mb-0">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
         {/* Header */}
-        <div className="text-center mb-16">
-          <p className="text-sm font-semibold uppercase tracking-widest text-[#2e8b72] mb-4">Testimonianze</p>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[#1e3a5f] tracking-tight mb-8">
+        <div className="text-center mb-10 sm:mb-16">
+          <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-[#2e8b72] mb-3 sm:mb-4">Testimonianze</p>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#1e3a5f] tracking-tight mb-6 sm:mb-8 px-2">
             Cosa dicono i nostri clienti
           </h2>
           
           {/* Badge */}
-          <div className="inline-flex items-center gap-3 px-6 py-3 border border-[#d0d6da] bg-white">
-            <span className="overline text-[#8a9aaa]">Eccellente</span>
-            <span className="text-[#d0d6da]">·</span>
-            <span className="text-[11px] text-[#8a9aaa]">99 recensioni Google</span>
+          <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 border border-[#d0d6da] bg-white rounded-lg">
+            <span className="overline text-[#8a9aaa] text-[9px] sm:text-[11px]">Eccellente</span>
+            <span className="text-[#d0d6da] hidden sm:inline">·</span>
+            <span className="text-[9px] sm:text-[11px] text-[#8a9aaa]">99 recensioni Google</span>
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-3 w-3 fill-[#2e8b72] text-[#2e8b72]" />
+                <Star key={i} className="h-2.5 sm:h-3 w-2.5 sm:w-3 fill-[#2e8b72] text-[#2e8b72]" />
               ))}
             </div>
           </div>
@@ -78,18 +78,18 @@ export function TestimonialsSection() {
                   key={index}
                   className={`flex-shrink-0 ${isMobile ? "w-full" : "w-[calc(33.333%-1rem)]"}`}
                 >
-                  <div className="bg-white rounded-2xl shadow-md hover:-translate-y-2 hover:shadow-xl transition-all duration-300 p-10 h-full">
+                  <div className="bg-white rounded-2xl shadow-md hover:-translate-y-2 hover:shadow-xl transition-all duration-300 p-6 sm:p-10 h-full">
                     {/* Quote icon */}
-                    <span className="text-6xl text-[#2e8b72] font-serif leading-none block mb-4">&ldquo;</span>
-                    <div className="flex gap-0.5 mb-6">
+                    <span className="text-4xl sm:text-6xl text-[#2e8b72] font-serif leading-none block mb-3 sm:mb-4">&ldquo;</span>
+                    <div className="flex gap-0.5 mb-4 sm:mb-6">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5 fill-amber-400 text-amber-400" />
+                        <Star key={i} className="h-4 sm:h-5 w-4 sm:w-5 fill-amber-400 text-amber-400" />
                       ))}
                     </div>
-                    <p className="text-gray-800 leading-relaxed text-base mb-8 font-light">
+                    <p className="text-gray-800 leading-relaxed text-sm sm:text-base mb-6 sm:mb-8 font-light">
                       {testimonial.text}
                     </p>
-                    <p className="font-semibold text-[#1e3a5f]">
+                    <p className="font-semibold text-[#1e3a5f] text-sm sm:text-base">
                       {testimonial.name}
                     </p>
                   </div>

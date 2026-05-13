@@ -93,43 +93,43 @@ export function SolairCERClient({ cer }: SolairCERClientProps) {
       </div>
 
       {/* Mobile: Text overlay */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-8 py-20 md:hidden">
-        <div className="max-w-lg">
-          <p className="overline mb-5 mobile-text-pearl-70">
+      <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-8 py-16 sm:py-20 md:hidden">
+        <div className="max-w-lg text-center">
+          <p className="overline mb-4 sm:mb-5 mobile-text-pearl-70 text-[10px] sm:text-[11px]">
             Solair CER
           </p>
-          <h3 className="font-heading mb-6 mobile-text-pearl" style={{ fontSize: "clamp(2.2rem, 3.5vw, 3rem)" }}>
+          <h3 className="font-heading mb-4 sm:mb-6 mobile-text-pearl text-2xl sm:text-3xl">
             {titolo}
           </h3>
-          <p className="body-text mb-10 mobile-text-pearl-85">
+          <p className="body-text mb-8 sm:mb-10 mobile-text-pearl-85 text-sm sm:text-base">
             {descrizione}
           </p>
           
           {/* CER Benefits list */}
-          <div className="space-y-0 mb-10">
+          <div className="space-y-0 mb-8 sm:mb-10 text-left">
             {cerBenefits.map((benefit, idx) => (
               <div 
                 key={idx} 
-                className="flex items-center gap-4 py-4 last:border-0 mobile-border-pearl-20"
+                className="flex items-center gap-3 sm:gap-4 py-3 sm:py-4 last:border-0 mobile-border-pearl-20"
                 style={{ borderBottomWidth: "1px", borderBottomStyle: "solid" }}
               >
                 <span className="mobile-text-pearl-70">—</span>
-                <span className="text-sm font-light mobile-text-pearl">{benefit}</span>
+                <span className="text-xs sm:text-sm font-light mobile-text-pearl">{benefit}</span>
               </div>
             ))}
           </div>
           
           {/* Stat */}
-          <div className="mb-10 pt-6 mobile-border-pearl-20" style={{ borderTopWidth: "1px", borderTopStyle: "solid" }}>
-            <p className="font-heading mobile-text-pearl" style={{ fontSize: "3rem" }}>{incentivo}+</p>
-            <p className="overline mt-1 mobile-text-pearl-70">
+          <div className="mb-8 sm:mb-10 pt-5 sm:pt-6 mobile-border-pearl-20" style={{ borderTopWidth: "1px", borderTopStyle: "solid" }}>
+            <p className="font-heading mobile-text-pearl text-4xl sm:text-[3rem]">{incentivo}+</p>
+            <p className="overline mt-1 mobile-text-pearl-70 text-[9px] sm:text-[11px]">
               CER attive in Italia
             </p>
           </div>
 
           <a 
             href={ctaLink} 
-            className="btn-outline mobile-text-pearl mobile-border-pearl-20"
+            className="btn-outline mobile-text-pearl mobile-border-pearl-20 w-full sm:w-auto justify-center text-sm sm:text-base py-3 sm:py-4"
           >
             {ctaTesto}
           </a>

@@ -32,36 +32,36 @@ export function AboutSection() {
           <div className="absolute inset-0 bg-[#1e3a5f]/10" />
         </div>
 
-        {/* Right - Text with padding 80px, centered vertically */}
-        <div className="flex items-center py-[100px] px-8 lg:px-20 md:bg-white">
-          <div className="max-w-lg">
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#2e8b72] mb-4 mobile-text-pearl-70">
+        {/* Right - Text with padding, centered vertically */}
+        <div className="flex items-center py-16 sm:py-[100px] px-4 sm:px-8 lg:px-20 md:bg-white">
+          <div className="max-w-lg mx-auto md:mx-0 text-center md:text-left">
+            <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-[#2e8b72] mb-3 sm:mb-4 mobile-text-pearl-70">
               Chi Siamo
             </p>
 
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#1e3a5f] tracking-tight mb-6 mobile-text-pearl">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#1e3a5f] tracking-tight mb-4 sm:mb-6 mobile-text-pearl">
               L&apos;energia pulita, finalmente accessibile
             </h2>
 
-            <p className="text-gray-800 leading-relaxed text-base mb-10 mobile-text-pearl-85">
+            <p className="text-sm sm:text-base text-gray-800 leading-relaxed mb-8 sm:mb-10 mobile-text-pearl-85">
               Solair Group e il partner di fiducia per il fotovoltaico in Italia. 
               Installiamo impianti chiavi in mano con assistenza completa: dalla progettazione 
               alle pratiche GSE, dal monitoraggio remoto alla manutenzione.
             </p>
 
             {/* Stats with vertical dividers and hover effect */}
-            <div className="flex items-center gap-0 pt-8 border-t border-[#d0d6da] mobile-border-pearl-20">
-              <div className="pr-8 hover:scale-105 transition-transform duration-300 cursor-default">
-                <p className="font-heading text-[2.5rem] text-[#1e3a5f] mobile-text-pearl">500+</p>
-                <p className="overline mt-1 text-[#8a9aaa] mobile-text-pearl-70">Impianti</p>
+            <div className="flex items-center justify-center md:justify-start gap-0 pt-6 sm:pt-8 border-t border-[#d0d6da] mobile-border-pearl-20">
+              <div className="pr-4 sm:pr-8 hover:scale-105 transition-transform duration-300 cursor-default">
+                <p className="font-heading text-2xl sm:text-[2.5rem] text-[#1e3a5f] mobile-text-pearl">500+</p>
+                <p className="overline mt-1 text-[#8a9aaa] mobile-text-pearl-70 text-[9px] sm:text-[11px]">Impianti</p>
               </div>
-              <div className="border-l border-[#d0d6da] mobile-border-pearl-20 px-8 hover:scale-105 transition-transform duration-300 cursor-default">
-                <p className="font-heading text-[2.5rem] text-[#1e3a5f] mobile-text-pearl">4</p>
-                <p className="overline mt-1 text-[#8a9aaa] mobile-text-pearl-70">Sedi</p>
+              <div className="border-l border-[#d0d6da] mobile-border-pearl-20 px-4 sm:px-8 hover:scale-105 transition-transform duration-300 cursor-default">
+                <p className="font-heading text-2xl sm:text-[2.5rem] text-[#1e3a5f] mobile-text-pearl">4</p>
+                <p className="overline mt-1 text-[#8a9aaa] mobile-text-pearl-70 text-[9px] sm:text-[11px]">Sedi</p>
               </div>
-              <div className="border-l border-[#d0d6da] mobile-border-pearl-20 pl-8 hover:scale-105 transition-transform duration-300 cursor-default">
-                <p className="font-heading text-[2.5rem] text-[#1e3a5f] mobile-text-pearl">98%</p>
-                <p className="overline mt-1 text-[#8a9aaa] mobile-text-pearl-70">Soddisfatti</p>
+              <div className="border-l border-[#d0d6da] mobile-border-pearl-20 pl-4 sm:pl-8 hover:scale-105 transition-transform duration-300 cursor-default">
+                <p className="font-heading text-2xl sm:text-[2.5rem] text-[#1e3a5f] mobile-text-pearl">98%</p>
+                <p className="overline mt-1 text-[#8a9aaa] mobile-text-pearl-70 text-[9px] sm:text-[11px]">Soddisfatti</p>
               </div>
             </div>
           </div>
