@@ -274,6 +274,12 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 .sg-taglia-card{border:2px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:16px;cursor:pointer;transition:all .2s;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .sg-taglia-card:hover{border-color:var(--teal-border)}
 .sg-taglia-card.selected{border-color:var(--teal);background:var(--teal-light)}
+  .sg-badge-suggerito{display:inline-block;padding:4px 10px;background:#1e5245;color:#fff;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;border-radius:4px;margin-bottom:8px}
+  .sg-alternatives-toggle{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;margin:16px 0 0;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;font-size:14px;font-weight:500;color:var(--mid);transition:all .2s}
+  .sg-alternatives-toggle:hover{background:var(--surface);border-color:var(--navy);color:var(--navy)}
+  .sg-alt-arrow{width:18px;height:18px;transition:transform .2s}
+  .sg-alternatives-toggle.open .sg-alt-arrow{transform:rotate(180deg)}
+  .sg-alternatives{margin-top:12px}
 .sg-taglia-card .stc-info{font-size:15px;font-weight:700}
 .sg-taglia-card .stc-sub{font-size:12px;color:var(--muted);margin-top:3px}
 .sg-taglia-card .stc-price{font-size:18px;font-weight:800;color:var(--navy)}
@@ -427,8 +433,14 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
       </div>
       <ul class="sg-features" id="sg_features"></ul>
 
-      <div class="sg-taglie-title">Scegli la taglia dell'impianto:</div>
-      <div id="sg_taglie_list"></div>
+<div class="sg-taglie-title">La tua configurazione:</div>
+  <div id="sg_suggerito"></div>
+  
+  <div class="sg-alternatives-toggle" id="sg_alt_toggle" onclick="toggleAlternative()">
+    <span>Alternative sempre in linea ai tuoi obiettivi</span>
+    <svg class="sg-alt-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+  <div class="sg-alternatives" id="sg_alternatives" style="display:none"></div>
 
       <button class="btn-primary teal" id="sg_btn_procedi" onclick="procediDaSuggerimento()" disabled>Procedi con questa configurazione →</button>
       <button class="btn-back" style="justify-content:center;margin-top:8px" onclick="avviaConfigurazione()">Configura manualmente invece</button>
@@ -443,7 +455,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
   <div class="container">
     <button class="btn-back" onclick="tornaIntro()">← Ricomincia</button>
 
-    <!-- ─── STEP 1: POTENZA ─── -->
+    <!-- ──�� STEP 1: POTENZA ─── -->
     <div class="section active" id="s0">
       <div class="section-title">Potenza dell'impianto</div>
       <div class="section-sub">Seleziona la potenza in kilowatt-picco (kWp)</div>
@@ -697,7 +709,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 
 // ════════════════════════════════════════
 // COSTANTI
-// ════════════════════════════════════════
+// ═════════════���══════════════════════════
 
 const MAKE_WEBHOOK_URL = 'https://hook.eu1.make.com/2clnfl0s9958wkei5uq8vp26wbmyfqf6';
 const SANITY_PROJECT = '88az0w6y';
@@ -1154,7 +1166,7 @@ function scelgiKwh(kwh, prezzo) {
   document.getElementById('btn-s4').disabled = !prezzo;
 }
 
-// ════════════════════════════════════════
+// ═��══════════════════════════════════════
 // STEP 5 — ACCESSORI
 // ════════════════════════════════════════
 
@@ -1555,14 +1567,16 @@ function calcolaSuggerimento() {
 }
 
 function renderTaglieSuggerimento(linea) {
-  const container = document.getElementById('sg_taglie_list');
-  container.innerHTML = '';
+  const suggerito = document.getElementById('sg_suggerito');
+  const alternatives = document.getElementById('sg_alternatives');
+  suggerito.innerHTML = '';
+  alternatives.innerHTML = '';
+  alternatives.style.display = 'none';
+  document.getElementById('sg_alt_toggle').classList.remove('open');
+  
   const kwhOpts = KWH_OPTIONS[linea];
-  // kWp 6–9
-  const kwpDefault = 6;
-  const kwhDefault = kwhOpts[0];
+  let isFirst = true;
 
-  // Prima riga: kWp6 con tutti i kWh
   kwhOpts.forEach((kwh, idx) => {
     let prezzo = null;
     if (kwh === 5 && linea === 'smart') {
@@ -1572,24 +1586,54 @@ function renderTaglieSuggerimento(linea) {
     }
     if (!prezzo) return;
 
-    const isDefault = idx === 0;
     const card = document.createElement('div');
-    card.className = 'sg-taglia-card' + (isDefault ? ' selected' : '');
-    card.innerHTML = `
-      <div>
-        <div class="stc-info">6 kWp + ${kwh} kWh</div>
-        <div class="stc-sub">${LINEE_INFO[linea].nome}</div>
-      </div>
-      <div class="stc-price">€ ${prezzo.toLocaleString('it-IT')}</div>`;
-    card.onclick = () => {
-      container.querySelectorAll('.sg-taglia-card').forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
+    card.className = 'sg-taglia-card' + (isFirst ? ' selected' : '');
+    
+    if (isFirst) {
+      // Prima opzione: suggerita con badge
+      card.innerHTML = `
+        <div>
+          <div class="sg-badge-suggerito">Suggerito</div>
+          <div class="stc-info">6 kWp + ${kwh} kWh</div>
+          <div class="stc-sub">${LINEE_INFO[linea].nome}</div>
+        </div>
+        <div class="stc-price">€ ${prezzo.toLocaleString('it-IT')}</div>`;
       sgState.kwp = 6; sgState.kwh = kwh; sgState.prezzo = prezzo;
       document.getElementById('sg_btn_procedi').disabled = false;
+    } else {
+      // Alternative
+      card.innerHTML = `
+        <div>
+          <div class="stc-info">6 kWp + ${kwh} kWh</div>
+          <div class="stc-sub">${LINEE_INFO[linea].nome}</div>
+        </div>
+        <div class="stc-price">€ ${prezzo.toLocaleString('it-IT')}</div>`;
+    }
+    
+    const targetKwh = kwh;
+    const targetPrezzo = prezzo;
+    card.onclick = () => {
+      suggerito.querySelectorAll('.sg-taglia-card').forEach(c => c.classList.remove('selected'));
+      alternatives.querySelectorAll('.sg-taglia-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      sgState.kwp = 6; sgState.kwh = targetKwh; sgState.prezzo = targetPrezzo;
+      document.getElementById('sg_btn_procedi').disabled = false;
     };
-    container.appendChild(card);
-    if (isDefault) { sgState.kwp = 6; sgState.kwh = kwh; sgState.prezzo = prezzo; document.getElementById('sg_btn_procedi').disabled = false; }
+    
+    if (isFirst) {
+      suggerito.appendChild(card);
+      isFirst = false;
+    } else {
+      alternatives.appendChild(card);
+    }
   });
+}
+
+function toggleAlternative() {
+  const toggle = document.getElementById('sg_alt_toggle');
+  const alt = document.getElementById('sg_alternatives');
+  toggle.classList.toggle('open');
+  alt.style.display = alt.style.display === 'none' ? 'block' : 'none';
 }
 
 function procediDaSuggerimento() {
