@@ -1346,8 +1346,8 @@ function renderRiepilogo() {
   document.getElementById('ril_pannello').textContent = state.pannello
     ? (state.pannello.nome || state.pannello.brand + ' ' + state.pannello.modello) + ' (' + (state.pannello.potenza_wp || state.pannello.potenza) + ' Wp)'
     : '-';
-  document.getElementById('ril_num_pannelli').textContent = state.numPannelli ? state.numPannelli + ' pz' : '-';
-  document.getElementById('ril_mq').textContent = state.mqTotali ? state.mqTotali + ' m²' : '-';
+document.getElementById('ril_num_pannelli').textContent = state.numPannelli ? state.numPannelli + ' pz' : 'Chiedi al consulente per i dettagli';
+document.getElementById('ril_mq').textContent = state.mqTotali ? state.mqTotali + ' m²' : 'Chiedi al consulente per i dettagli';
   document.getElementById('ril_acc').textContent = state.accumulo
     ? (state.kwh ? `Sì — ${state.kwh} kWh` + (state.linea ? ` · ${LINEE_INFO[state.linea].nome}` : '') : 'Sì')
     : 'No';
