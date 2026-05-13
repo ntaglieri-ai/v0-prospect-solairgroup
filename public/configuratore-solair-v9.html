@@ -542,7 +542,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
       </div>
       <div class="nav-footer">
         <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="goTo(1)">← Indietro</button>
-        <button class="btn-primary navy" id="btn-s2" onclick="goTo(3)" disabled>Avanti →</button>
+        <button class="btn-primary navy" id="btn-s2" onclick="avantiDaAccumulo()" disabled>Avanti →</button>
       </div>
     </div>
 
@@ -574,8 +574,8 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
       <div class="section-sub" id="s4_sub"></div>
       <div id="s4_content"></div>
       <div class="nav-footer">
-        <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="goTo(3)">← Indietro</button>
-        <button class="btn-primary navy" id="btn-s4" onclick="goTo(5)" disabled>Avanti → Accessori</button>
+        <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="goTo(2)">← Indietro</button>
+        <button class="btn-primary navy" id="btn-s4" onclick="goTo(3)" disabled>Avanti → Tipo tetto</button>
       </div>
     </div>
 
@@ -1033,18 +1033,18 @@ function indietroDaTetto() {
   // Se potenza <= 5 kWp, torna a Pannelli (salta Accumulo)
   if (state.kwp <= 5) {
     goTo(1);
+  } else if (state.accumulo) {
+    // Con accumulo: torna a Prezzo (step 4)
+    goTo(4);
   } else {
+    // Senza accumulo: torna a Accumulo (step 2)
     goTo(2);
   }
 }
 
 function avantiDaTetto() {
-  // Se non c'e accumulo (kwp <= 5), salta Prezzo e vai diretto ad Accessori
-  if (state.kwp <= 5 && !state.accumulo) {
-    goTo(5); // Accessori
-  } else {
-    goTo(4); // Prezzo (selezione linea/kWh)
-  }
+  // Dopo Tetto vai sempre ad Accessori (step 5)
+  goTo(5);
 }
 
 // ════════════════════════════════════════
@@ -1059,6 +1059,16 @@ function scelgiAccumulo(haAcc) {
   document.getElementById('btn-s2').disabled = false;
   document.getElementById('btn-s2').textContent = haAcc ? 'Avanti → Scegli linea e kWh' : 'Avanti → Tipo tetto';
   aggiornaTotale();
+}
+
+function avantiDaAccumulo() {
+  // Con accumulo: vai a step 4 (Prezzo/selezione linea e kWh)
+  // Senza accumulo: vai a step 3 (Tetto)
+  if (state.accumulo) {
+    goTo(4);
+  } else {
+    goTo(3);
+  }
 }
 
 function scelgiTetto(tipo) {
