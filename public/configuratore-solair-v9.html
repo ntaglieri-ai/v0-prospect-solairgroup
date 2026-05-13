@@ -367,7 +367,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
     <button class="step-tab disabled" id="tab2" onclick="goTo(2)"><span class="step-num">3</span>Accumulo</button>
     <button class="step-tab disabled" id="tab3" onclick="goTo(3)"><span class="step-num">4</span>Tetto</button>
     <button class="step-tab disabled" id="tab4" onclick="goTo(4)"><span class="step-num">5</span>Accessori</button>
-    <button class="step-tab disabled" id="tab5" onclick="goTo(5)"><span class="step-num">6</span>Invio</button>
+    <button class="step-tab disabled" id="tab5" onclick="goTo(5)"><span class="step-num">6</span>Riepilogo e Invio</button>
   </div>
 </div>
 
@@ -641,6 +641,9 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
         <div class="form-group"><label>Cognome *</label><input type="text" id="f_cognome" placeholder="Rossi" oninput="aggiornaConsensi()"></div>
         <div class="form-group"><label>Email *</label><input type="email" id="f_email" placeholder="mario@email.com" oninput="aggiornaConsensi()"></div>
         <div class="form-group"><label>Telefono *</label><input type="tel" id="f_telefono" placeholder="+39 320 123 4567" oninput="aggiornaConsensi()"></div>
+        <div class="form-group"><label>Città *</label><input type="text" id="f_citta" placeholder="Es. Milano" oninput="aggiornaConsensi()"></div>
+        <div class="form-group"><label>Provincia *</label><input type="text" id="f_provincia" placeholder="Es. MI" maxlength="2" oninput="aggiornaConsensi()"></div>
+        <div class="form-group"><label>Codice Fiscale *</label><input type="text" id="f_cf" placeholder="RSSMRA80A01H501Z" maxlength="16" oninput="aggiornaConsensi()"></div>
         <div class="form-group"><label>Sede Solair di riferimento *</label>
           <select id="f_sede" onchange="aggiornaConsensi()">
             <option value="">Seleziona sede...</option>
@@ -1457,9 +1460,9 @@ function chiudiPopup() {
 // ════════════════════════════════════════
 
 function aggiornaConsensi() {
-  const campiOk = ['f_nome','f_cognome','f_email','f_telefono','f_sede'].every(id => {
-    const el = document.getElementById(id);
-    return el && el.value.trim() !== '';
+  const campiOk = ['f_nome','f_cognome','f_email','f_telefono','f_citta','f_provincia','f_cf','f_sede'].every(id => {
+  const el = document.getElementById(id);
+  return el && el.value.trim() !== '';
   });
   const consensiOk = ['cb1','cb2','cb3','cb4'].every(id => document.getElementById(id).checked);
   const pagOk = pagState.modalita !== null;
@@ -1508,15 +1511,15 @@ async function inviaRichiesta() {
     prezzo_base: state.prezzoBase,
     prezzo_con_zavorre: state.prezzoBase + state.extraZavorre,
     prezzo_totale: state.prezzoTotale,
-    nome: document.getElementById('f_nome').value,
-    cognome: document.getElementById('f_cognome').value,
-    email: document.getElementById('f_email').value,
-    telefono: normalizzaTelefono(document.getElementById('f_telefono').value),
-    codice_fiscale: '',
-    indirizzo: '',
-    citta: '',
-    provincia: '',
-    sede: document.getElementById('f_sede').value,
+nome: document.getElementById('f_nome').value,
+cognome: document.getElementById('f_cognome').value,
+email: document.getElementById('f_email').value,
+telefono: normalizzaTelefono(document.getElementById('f_telefono').value),
+codice_fiscale: document.getElementById('f_cf').value.toUpperCase(),
+indirizzo: '',
+citta: document.getElementById('f_citta').value,
+provincia: document.getElementById('f_provincia').value.toUpperCase(),
+sede: document.getElementById('f_sede').value,
     tipo_immobile: document.getElementById('f_tipo').value,
     incentivo: '',
     note: document.getElementById('f_note').value,
