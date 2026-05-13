@@ -297,7 +297,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
     <button class="step-tab active" id="tab0" onclick="goTo(0)"><span class="step-num">1</span>Potenza</button>
     <button class="step-tab disabled" id="tab1" onclick="goTo(1)"><span class="step-num">2</span>Pannelli</button>
     <button class="step-tab disabled" id="tab2" onclick="goTo(2)"><span class="step-num">3</span>Accumulo</button>
-    <button class="step-tab disabled" id="tab3" onclick="goTo(3)"><span class="step-num">4</span>Prezzo</button>
+    <button class="step-tab disabled" id="tab3" onclick="goTo(3)"><span class="step-num">4</span>Tetto</button>
     <button class="step-tab disabled" id="tab4" onclick="goTo(4)"><span class="step-num">5</span>Accessori</button>
     <button class="step-tab disabled" id="tab5" onclick="goTo(5)"><span class="step-num">6</span>Invio</button>
   </div>
@@ -335,7 +335,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 
 <!-- ═══════════════════════════════════════
      SUGGERIMENTO PAGE
-═══════════════════════════════════════ -->
+═════════���═════════════════════════════ -->
 <div id="suggerimentoPage" style="display:none">
   <div class="sg-page">
     <button class="btn-back" onclick="tornaIntro()">← Torna indietro</button>
@@ -472,30 +472,52 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
       </div>
     </div>
 
-    <!-- ─── STEP 4: PREZZO ─── -->
+    <!-- ─── STEP TETTO ─── -->
     <div class="section" id="s3">
-      <div class="section-title" id="s3_title">Prezzo impianto</div>
-      <div class="section-sub" id="s3_sub"></div>
-      <div id="s3_content"></div>
+      <div class="section-title">Tipo di tetto</div>
+      <div class="section-sub">Serve per stabilire se sono necessarie le zavorre di ancoraggio</div>
+      <div class="acc-toggle">
+        <div class="acc-toggle-btn" id="btn_tetto_piano" onclick="scelgiTetto('piano')">
+          <div class="atb-icon">🏠</div>
+          <div class="atb-label">Tetto piano</div>
+          <div class="atb-sub">+€100/kWp zavorre incluse automaticamente</div>
+        </div>
+        <div class="acc-toggle-btn" id="btn_tetto_falde" onclick="scelgiTetto('falde')">
+          <div class="atb-icon">🏚️</div>
+          <div class="atb-label">Tetto a falde</div>
+          <div class="atb-sub">Nessun extra per zavorre</div>
+        </div>
+      </div>
       <div class="nav-footer">
         <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="goTo(2)">← Indietro</button>
         <button class="btn-primary navy" id="btn-s3" onclick="goTo(4)" disabled>Avanti → Accessori</button>
       </div>
     </div>
 
+    <!-- ─── STEP 4: PREZZO ─── -->
+    <div class="section" id="s4_prezzo">
+      <div class="section-title" id="s4_title">Prezzo impianto</div>
+      <div class="section-sub" id="s4_sub"></div>
+      <div id="s4_content"></div>
+      <div class="nav-footer">
+        <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="goTo(3)">← Indietro</button>
+        <button class="btn-primary navy" id="btn-s4" onclick="goTo(5)" disabled>Avanti → Accessori</button>
+      </div>
+    </div>
+
     <!-- ─── STEP 5: ACCESSORI ─── -->
-    <div class="section" id="s4">
+    <div class="section" id="s5">
       <div class="section-title">Accessori opzionali</div>
       <div class="section-sub">Seleziona gli eventuali accessori. Tutti i prezzi includono IVA 10%.</div>
       <div class="acc-list" id="accessori_list"></div>
       <div class="nav-footer">
-        <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="goTo(3)">← Indietro</button>
-        <button class="btn-primary teal" onclick="goTo(5)">Avanti → Riepilogo e invio</button>
+        <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="goTo(4)">← Indietro</button>
+        <button class="btn-primary teal" onclick="goTo(6)">Avanti → Riepilogo e invio</button>
       </div>
     </div>
 
     <!-- ─── STEP 6: RIEPILOGO + FORM ─── -->
-    <div class="section" id="s5">
+    <div class="section" id="s6">
       <div class="section-title">Riepilogo e invio</div>
       <div class="section-sub">Controlla la tua configurazione e inserisci i dati per ricevere l'offerta firmabile digitalmente.</div>
 
@@ -507,6 +529,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
         <div class="rb-row"><span class="rb-key">Numero pannelli</span><span class="rb-val" id="ril_num_pannelli">-</span></div>
         <div class="rb-row"><span class="rb-key">Superficie</span><span class="rb-val" id="ril_mq">-</span></div>
         <div class="rb-row"><span class="rb-key">Accumulo</span><span class="rb-val" id="ril_acc">-</span></div>
+        <div class="rb-row"><span class="rb-key">Tipo tetto</span><span class="rb-val" id="ril_tetto">-</span></div>
         <div class="rb-row" id="ril_linea_row" style="display:none"><span class="rb-key">Linea</span><span class="rb-val" id="ril_linea">-</span></div>
         <div class="rb-row"><span class="rb-key">Accessori</span><span class="rb-val" id="ril_acc_list">Nessuno</span></div>
       </div>
@@ -731,9 +754,9 @@ const state = {
   linea: null,          // 'smart'|'power'|'premium'
   kwh: null,            // numero kWh selezionati
   prezzoBase: 0,
+  tetto: null,          // 'piano'|'falde'
+  extraZavorre: 0,
   // accessori
-  zavorre: false,
-  zavorreVela: false,
   wallbox: false,
   ottimizzatori: false,
   tigoCloud: false,
@@ -757,25 +780,32 @@ let currentStep = 0;
 
 function goTo(step) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById('s' + step).classList.add('active');
+  // Map step to section ID
+  const sectionMap = {0:'s0', 1:'s1', 2:'s2', 3:'s3', 4:'s4_prezzo', 5:'s5', 6:'s6'};
+  const sectionEl = document.getElementById(sectionMap[step]);
+  if (sectionEl) sectionEl.classList.add('active');
   currentStep = step;
 
-  // Update tabs
+  // Update tabs (tabs 0-5 map to steps 0-5, step 6 = riepilogo)
   for (let i = 0; i <= 5; i++) {
     const tab = document.getElementById('tab' + i);
     tab.classList.remove('active', 'completed', 'disabled');
-    if (i < step) tab.classList.add('completed');
-    else if (i === step) tab.classList.add('active');
+    const tabStep = i <= 2 ? i : i + 1; // tabs 3,4,5 map to steps 4,5,6 (skipping prezzo internal step)
+    if (i < step && i <= 2) tab.classList.add('completed');
+    else if (i === step && i <= 2) tab.classList.add('active');
+    else if (i === 3 && step >= 3) tab.classList.add(step > 3 ? 'completed' : 'active');
+    else if (i === 4 && step >= 5) tab.classList.add(step > 5 ? 'completed' : 'active');
+    else if (i === 5 && step >= 6) tab.classList.add('active');
     else tab.classList.add('disabled');
   }
 
-  // Mostra totale fisso da step 3 in poi
+  // Mostra totale fisso da step 4 (Prezzo) in poi
   const tf = document.getElementById('totaleFisso');
-  tf.style.display = step >= 3 ? 'flex' : 'none';
+  tf.style.display = step >= 4 ? 'flex' : 'none';
 
-  if (step === 3) renderStepPrezzo();
-  if (step === 4) renderAccessori();
-  if (step === 5) renderRiepilogo();
+  if (step === 4) renderStepPrezzo();
+  if (step === 5) renderAccessori();
+  if (step === 6) renderRiepilogo();
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -887,7 +917,16 @@ function scelgiAccumulo(haAcc) {
   document.getElementById('btn_no_acc').classList.toggle('selected', !haAcc);
   document.getElementById('btn_si_acc').classList.toggle('selected', haAcc);
   document.getElementById('btn-s2').disabled = false;
-  document.getElementById('btn-s2').textContent = haAcc ? 'Avanti → Scegli linea e kWh' : 'Avanti → Visualizza prezzo';
+  document.getElementById('btn-s2').textContent = haAcc ? 'Avanti → Scegli linea e kWh' : 'Avanti → Tipo tetto';
+  aggiornaTotale();
+}
+
+function scelgiTetto(tipo) {
+  state.tetto = tipo;
+  state.extraZavorre = tipo === 'piano' ? (state.kwp || 0) * 100 : 0;
+  document.getElementById('btn_tetto_piano').classList.toggle('selected', tipo === 'piano');
+  document.getElementById('btn_tetto_falde').classList.toggle('selected', tipo === 'falde');
+  document.getElementById('btn-s4').disabled = false;
   aggiornaTotale();
 }
 
@@ -896,9 +935,9 @@ function scelgiAccumulo(haAcc) {
 // ════════════════════════════════════════
 
 function renderStepPrezzo() {
-  const content = document.getElementById('s3_content');
-  const title = document.getElementById('s3_title');
-  const sub = document.getElementById('s3_sub');
+  const content = document.getElementById('s4_content');
+  const title = document.getElementById('s4_title');
+  const sub = document.getElementById('s4_sub');
 
   if (!state.accumulo) {
     // Prezzo fisso senza accumulo
@@ -914,7 +953,7 @@ function renderStepPrezzo() {
         <div class="pb-iva">IVA 10% inclusa · chiavi in mano</div>
       </div>
       <div class="info-box">✅ Prezzo definitivo, nessuna sorpresa. Comprende fornitura, installazione, pratiche GSE e collaudo.</div>`;
-    document.getElementById('btn-s3').disabled = false;
+    document.getElementById('btn-s4').disabled = false;
 
   } else {
     // Scelta linea + kWh
@@ -929,7 +968,7 @@ function renderStepPrezzo() {
         ⚠️ I pacchetti con accumulo sono disponibili per impianti da 6 a 9 kWp. 
         Torna al passo 1 e seleziona una potenza tra 6 e 9 kWp, oppure scegli l'opzione senza accumulo.
       </div>`;
-      document.getElementById('btn-s3').disabled = true;
+document.getElementById('btn-s4').disabled = true;
       return;
     }
 
@@ -1033,7 +1072,7 @@ function scelgiKwh(kwh, prezzo) {
     lpbTot.textContent = prezzo ? '€ ' + prezzo.toLocaleString('it-IT') : '—';
     wrap.style.display = 'block';
   }
-  document.getElementById('btn-s3').disabled = !prezzo;
+  document.getElementById('btn-s4').disabled = !prezzo;
 }
 
 // ════════════════════════════════════════
@@ -1041,19 +1080,15 @@ function scelgiKwh(kwh, prezzo) {
 // ════════════════════════════════════════
 
 // prezzi IVA 10% inclusa
-function prezzoZavorre() { return (state.kwp || 0) * 100; }
-function prezzoZavorreVela() { return (state.kwp || 0) * 150; }
 function prezzoOttimizzatori() { return (state.kwp || 0) * 150; }
 function prezzoWallbox() {
-  const altriSelezionati = state.zavorre || state.zavorreVela || state.ottimizzatori || state.tigoCloud;
+  const altriSelezionati = state.ottimizzatori || state.tigoCloud;
   return altriSelezionati ? 1000 : 1500;
 }
 function prezzoTigoCloud() { return 600; }
 
 function aggiornaPrezziAccessori() {
   let tot = 0;
-  if (state.zavorre)      tot += prezzoZavorre();
-  if (state.zavorreVela)  tot += prezzoZavorreVela();
   if (state.wallbox)      tot += prezzoWallbox();
   if (state.ottimizzatori) tot += prezzoOttimizzatori();
   if (state.tigoCloud)    tot += prezzoTigoCloud();
@@ -1062,7 +1097,7 @@ function aggiornaPrezziAccessori() {
 }
 
 function aggiornaTotale() {
-  state.prezzoTotale = state.prezzoBase + state.prezzoAccessori;
+  state.prezzoTotale = state.prezzoBase + state.extraZavorre + state.prezzoAccessori;
   const tfEl = document.getElementById('tf_val');
   if (tfEl) tfEl.textContent = '€ ' + state.prezzoTotale.toLocaleString('it-IT');
 }
@@ -1079,20 +1114,6 @@ function renderAccessori() {
   const tigoDisabled = !state.ottimizzatori;
 
   const items = [
-    {
-      key: 'zavorre',
-      nome: 'Zavorre',
-      desc: `Struttura di zavorra per tetti piani — ${state.kwp || '-'} kWp`,
-      prezzo: '€ ' + prezzoZavorre().toLocaleString('it-IT'),
-      disabled: false,
-    },
-    {
-      key: 'zavorreVela',
-      nome: 'Zavorre a vela',
-      desc: `Zavorre a vela per maggiore efficienza aerodinamica — ${state.kwp || '-'} kWp`,
-      prezzo: '€ ' + prezzoZavorreVela().toLocaleString('it-IT'),
-      disabled: false,
-    },
     {
       key: 'wallbox',
       nome: 'Wall Box (SolaxPower / Sungrow)',
@@ -1146,7 +1167,7 @@ function toggleAccessorio(key, disabled) {
 
 // ════════════════════════════════════════
 // STEP 6 — RIEPILOGO
-// ════════════════════════════════════════
+// ═════════════════════��══════════════════
 
 function renderRiepilogo() {
   document.getElementById('ril_kwp').textContent = (state.kwp || '-') + ' kWp';
@@ -1157,6 +1178,10 @@ function renderRiepilogo() {
     ? (state.linea ? `Sì — ${LINEE_INFO[state.linea].nome} · ${state.kwh} kWh` : 'Sì')
     : 'No';
 
+  document.getElementById('ril_tetto').textContent = state.tetto === 'piano'
+    ? 'Piano (zavorre +€' + state.extraZavorre.toLocaleString('it-IT') + ')'
+    : 'A falde';
+
   const linRow = document.getElementById('ril_linea_row');
   if (state.accumulo && state.linea) {
     linRow.style.display = 'flex';
@@ -1166,8 +1191,6 @@ function renderRiepilogo() {
   }
 
   const accSel = [];
-  if (state.zavorre) accSel.push('Zavorre');
-  if (state.zavorreVela) accSel.push('Zavorre a vela');
   if (state.wallbox) accSel.push('Wall Box');
   if (state.ottimizzatori) accSel.push('Ottimizzatori Tigo');
   if (state.tigoCloud) accSel.push('Tigo Cloud Connect');
@@ -1300,8 +1323,6 @@ async function inviaRichiesta() {
   const numeroContratto = 'SG-' + now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + String(now.getDate()).padStart(2,'0') + '-' + String(now.getHours()).padStart(2,'0') + String(now.getMinutes()).padStart(2,'0');
 
   const accSel = [];
-  if (state.zavorre) accSel.push('Zavorre');
-  if (state.zavorreVela) accSel.push('Zavorre a vela');
   if (state.wallbox) accSel.push('Wall Box');
   if (state.ottimizzatori) accSel.push('Ottimizzatori Tigo');
   if (state.tigoCloud) accSel.push('Tigo Cloud Connect');
@@ -1318,12 +1339,12 @@ async function inviaRichiesta() {
     pannello: state.pannello ? state.pannello.nome + ' (' + state.pannello.potenza_wp + ' Wp)' : '',
     num_pannelli: state.numPannelli,
     mq_totali: state.mqTotali,
-    tipo_tetto: '',
-    extra_zavorre: (state.zavorre ? prezzoZavorre() : 0) + (state.zavorreVela ? prezzoZavorreVela() : 0),
+    tipo_tetto: state.tetto === 'piano' ? 'Piano' : 'A falde',
+    extra_zavorre: state.extraZavorre,
     accessori: accSel.join(', ') || 'Nessuno',
     extra_accessori: state.prezzoAccessori,
     prezzo_base: state.prezzoBase,
-    prezzo_con_zavorre: state.prezzoBase + (state.zavorre ? prezzoZavorre() : 0) + (state.zavorreVela ? prezzoZavorreVela() : 0),
+    prezzo_con_zavorre: state.prezzoBase + state.extraZavorre,
     prezzo_totale: state.prezzoTotale,
     nome: document.getElementById('f_nome').value,
     cognome: document.getElementById('f_cognome').value,
@@ -1364,12 +1385,12 @@ async function inviaRichiesta() {
     errBox.className = 'info-box';
     errBox.style.cssText = 'border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.08);color:#b91c1c';
     errBox.textContent = '❌ Errore nell\'invio. Riprova o contattaci su WhatsApp.';
-    document.getElementById('s5').prepend(errBox);
+    document.getElementById('s6').prepend(errBox);
   }
 }
 
 function mostraConferma() {
-  document.getElementById('s5').innerHTML = `
+  document.getElementById('s6').innerHTML = `
     <div class="confirm-box">
       <div class="confirm-icon">✅</div>
       <div class="confirm-title">Richiesta inviata!</div>
@@ -1505,7 +1526,7 @@ function procediDaSuggerimento() {
   renderKwpButtons();
   // Pre-seleziona accumulo
   document.getElementById('btn_si_acc').classList.add('selected');
-  goTo(4); // vai diretto agli accessori
+  goTo(5); // vai diretto agli accessori
 }
 
 // ════════════════════════════════════════
@@ -1529,7 +1550,7 @@ function avviaSuggerimento() {
 
 function tornaIntro() {
   // Reset state
-  Object.assign(state, { kwp:null, pannello:null, numPannelli:null, mqTotali:null, accumulo:null, linea:null, kwh:null, prezzoBase:0, zavorre:false, zavorreVela:false, wallbox:false, ottimizzatori:false, tigoCloud:false, prezzoAccessori:0, prezzoTotale:0 });
+  Object.assign(state, { kwp:null, pannello:null, numPannelli:null, mqTotali:null, accumulo:null, linea:null, kwh:null, prezzoBase:0, tetto:null, extraZavorre:0, wallbox:false, ottimizzatori:false, tigoCloud:false, prezzoAccessori:0, prezzoTotale:0 });
   Object.assign(pagState, { modalita:null, anticipo:0, nRate:60, rata:0, taeg:0 });
   Object.assign(sgAnswers, {0:null,1:null,2:null,3:null});
   Object.assign(sgState, {linea:null,kwp:null,kwh:null,prezzo:null});
