@@ -42,29 +42,18 @@ export function HeroSection() {
       {/* Content - centered vertically with more breathing room */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-6 py-20">
         <div className="text-center max-w-5xl">
-          {/* Logo */}
-          <div className="hidden md:block relative md:w-[360px] md:h-30 mx-auto mb-0">
-            <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp_Image_2026-05-05_at_18.34.28-removebg-preview-1BVOsiAd1yhDgv9eOJpKcg5rntHuff.png"
-              alt="Solair Group"
-              fill
-              className="object-contain brightness-0 invert"
-              priority
-            />
-          </div>
-
           {/* Overline - DM Sans */}
           <p className="overline text-white/90 mb-6 mt-0">
             Energia Rinnovabile · Italia
           </p>
 
           {/* H1 Title - Barlow Condensed - Cinematographic */}
-          <h1 className="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight text-white mb-8" style={{ fontFamily: "var(--font-barlow-condensed)", textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-loose tracking-tight text-white mb-10" style={{ fontFamily: "var(--font-barlow-condensed)", textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
             Impianti fotovoltaici chiavi in mano per privati e aziende in tutta Italia
           </h1>
 
           {/* Subtitle - DM Sans */}
-          <p className="text-base font-light text-white/95 max-w-xl mx-auto mb-10" style={{ fontFamily: "var(--font-dm-sans)", textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
+          <p className="text-base font-medium text-white/90 max-w-xl mx-auto mb-10" style={{ fontFamily: "var(--font-dm-sans)", textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
             Soluzioni su misura per la tua casa o azienda: indipendenza energetica, sostenibilità e incentivi dedicati
           </p>
 

@@ -38,8 +38,8 @@ export function SolairCERClient({ cer }: SolairCERClientProps) {
 
       {/* Desktop: Grid layout */}
       <div className="hidden md:grid lg:grid-cols-[45%_55%] min-h-screen">
-        {/* Text - centered vertically - gradient background */}
-        <div className="flex items-center justify-center bg-gradient-to-br from-[#1e3a5f] to-[#2e8b72] px-8 lg:px-20 py-20 lg:py-0">
+        {/* Text - centered vertically - solid navy background */}
+        <div className="flex items-center justify-center bg-[#1e3a5f] px-8 lg:px-20 py-20 lg:py-0">
           <div className="max-w-lg">
             <p className="text-sm font-semibold uppercase tracking-widest text-white/80 mb-5">
               Solair CER

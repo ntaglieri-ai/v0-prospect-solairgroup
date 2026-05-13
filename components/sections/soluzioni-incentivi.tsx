@@ -399,7 +399,7 @@ export function SoluzioniIncentiviSection() {
       {/* ── CTA ── */}
       <div
         id="contatti"
-        className="bg-gradient-to-r from-[#1e3a5f] to-[#2e8b72] py-20 px-6"
+        className="bg-[#1e3a5f] py-20 px-6"
       >
         <div className="max-w-3xl mx-auto text-center">
           <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-6">
@@ -413,7 +413,7 @@ export function SoluzioniIncentiviSection() {
           <div className="flex flex-wrap gap-4 justify-center">
             <a
               href={CONFIGURATORE_URL}
-              className="inline-flex items-center justify-center w-64 px-8 py-4 bg-white text-[#1e3a5f] font-bold rounded-lg hover:scale-105 active:scale-95 transition-all duration-200"
+              className="inline-flex items-center justify-center w-64 px-8 py-4 bg-[#2e8b72] text-white font-bold rounded-lg hover:scale-105 active:scale-95 transition-all duration-200"
             >
               Configura e Ordina
             </a>
@@ -422,7 +422,7 @@ export function SoluzioniIncentiviSection() {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center w-64 px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 hover:scale-105 active:scale-95 transition-all duration-200"
+              className="inline-flex items-center justify-center w-64 px-8 py-4 border border-white text-white font-bold rounded-lg hover:bg-white/10 hover:scale-105 active:scale-95 transition-all duration-200"
             >
               Contatta Solair
             </a>
