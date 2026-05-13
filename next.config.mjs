@@ -10,7 +10,7 @@ const nextConfig = {
     return [
       {
         source: '/configuratore',
-        destination: '/configuratore-solair-v6.html',
+        destination: '/configuratore-solair-v8.html',
         permanent: false,
       },
     ]
