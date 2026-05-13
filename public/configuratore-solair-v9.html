@@ -890,9 +890,9 @@ function goTo(step) {
     else tab.classList.add('disabled');
   }
 
-  // Mostra totale fisso da step 4 (Prezzo) in poi
+  // Mostra totale fisso da step 0 (Potenza) in poi
   const tf = document.getElementById('totaleFisso');
-  tf.style.display = step >= 4 ? 'flex' : 'none';
+  tf.style.display = step >= 0 ? 'flex' : 'none';
 
   if (step === 4) renderStepPrezzo();
   if (step === 5) renderAccessori();
@@ -912,12 +912,14 @@ function renderKwpButtons() {
     const btn = document.createElement('div');
     btn.className = 'kwp-btn' + (state.kwp === kwp ? ' selected' : '');
     btn.innerHTML = `<div class="kwp-val">${kwp}</div><div class="kwp-sub">kWp</div>`;
-    btn.onclick = () => {
-      state.kwp = kwp;
-      // reset steps avanzati
-      state.pannello = null; state.numPannelli = null; state.mqTotali = null;
-      state.kwh = null; state.linea = null; state.prezzoBase = 0;
-      aggiornaTotale();
+btn.onclick = () => {
+  state.kwp = kwp;
+  // reset steps avanzati
+  state.pannello = null; state.numPannelli = null; state.mqTotali = null;
+  state.kwh = null; state.linea = null;
+  // Imposta prezzo base stimato (assumendo no accumulo)
+  state.prezzoBase = PREZZI_NO_ACC[kwp] || 0;
+  aggiornaTotale();
       renderKwpButtons();
       renderPannelliCards(); // ricalcola immediato se pannello già scelto
       document.getElementById('btn-s0').disabled = false;
@@ -1053,7 +1055,9 @@ function avantiDaTetto() {
 
 function scelgiAccumulo(haAcc) {
   state.accumulo = haAcc;
-  state.linea = null; state.kwh = null; state.prezzoBase = 0;
+  state.linea = null; state.kwh = null;
+  // Senza accumulo: usa PREZZI_NO_ACC, con accumulo: prezzo verra impostato nella selezione linea/kWh
+  state.prezzoBase = haAcc ? 0 : (PREZZI_NO_ACC[state.kwp] || 0);
   document.getElementById('btn_no_acc').classList.toggle('selected', !haAcc);
   document.getElementById('btn_si_acc').classList.toggle('selected', haAcc);
   document.getElementById('btn-s2').disabled = false;
@@ -1769,7 +1773,7 @@ function tornaIntro() {
 renderKwpButtons();
 loadPannelliSanity();
 
-// ════════════════════════════════��═══════
+// ══════════════════════════════���═��═══════
 // DRAWER DETTAGLI PANNELLO
 // ════════════════════════════════════════
 
