@@ -58,16 +58,16 @@ export function HeroSection() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col gap-3 sm:gap-4 sm:flex-row justify-center px-4 sm:px-0">
+          <div className="flex flex-col gap-3 sm:gap-4 sm:flex-row justify-center px-6 sm:px-0">
             <a
               href="/configuratore"
-              className="w-full sm:w-64 text-center bg-[#2e8b72] text-white font-bold px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg shadow-lg hover:brightness-110 transition-all duration-300 text-sm sm:text-base"
+              className="w-full sm:w-64 text-center bg-[#2e8b72] text-white font-semibold px-5 sm:px-8 py-3 sm:py-4 rounded-full sm:rounded-lg shadow-lg hover:brightness-110 transition-all duration-300 text-xs sm:text-base tracking-wide"
             >
               {homepage?.heroCtaPrimario || "Calcola il tuo risparmio"}
             </a>
             <button
               onClick={() => setIsContactOpen(true)}
-              className="w-full sm:w-64 border-2 border-white text-white font-bold px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg hover:bg-white/10 transition-all duration-300 text-sm sm:text-base"
+              className="w-full sm:w-64 border border-white/80 text-white font-semibold px-5 sm:px-8 py-3 sm:py-4 rounded-full sm:rounded-lg hover:bg-white/10 transition-all duration-300 text-xs sm:text-base tracking-wide"
             >
               {homepage?.heroCtaSecondario || "Parla con un consulente"}
             </button>

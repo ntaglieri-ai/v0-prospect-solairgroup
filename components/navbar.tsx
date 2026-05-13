@@ -88,10 +88,10 @@ export function Navbar({ forceDark = false }: NavbarProps) {
           </div>
 
           {/* Mobile: CTA + Menu */}
-          <div className="lg:hidden flex items-center gap-3">
+          <div className="lg:hidden flex items-center gap-2">
             <Link
               href="/configuratore"
-              className="overline px-4 py-2 bg-[#2e8b72] text-white border-0 hover:bg-[#226b57] transition-all duration-300"
+              className="text-[10px] tracking-wider uppercase font-semibold px-4 py-2 bg-[#2e8b72] text-white rounded-full hover:bg-[#226b57] transition-all duration-300"
             >
               Configura
             </Link>
