@@ -1142,7 +1142,7 @@ function renderStepPrezzo() {
       if (!prezzo) return;
       const kwhs = String(kwh);
       const isSelected = String(state.kwh) === kwhs;
-      html += `<button class="kwh-btn${isSelected ? ' selected' : ''}" onclick="scelgiKwhFlat(${JSON.stringify(kwh)}, ${prezzo}, this)">
+      html += `<button class="kwh-btn${isSelected ? ' selected' : ''}" onclick="scelgiKwhFlat('${kwhs}', ${prezzo}, this)">
         <strong>${kwhs} kWh</strong><br><span style="font-size:11px;font-weight:500">€ ${prezzo.toLocaleString('it-IT')}</span>
       </button>`;
     });
@@ -1164,7 +1164,8 @@ function renderStepPrezzo() {
 }
 
 function scelgiKwhFlat(kwh, prezzo, el) {
-  state.kwh = kwh;
+  // kwh arriva sempre come stringa dall'onclick; converti a numero se intero
+  state.kwh = kwh.includes('.') ? kwh : parseFloat(kwh);
   state.linea = null;
   state.prezzoBase = prezzo;
   document.querySelectorAll('#kwh_flat_buttons .kwh-btn').forEach(b => b.classList.remove('selected'));
@@ -1394,7 +1395,7 @@ function apriPopupFinanziamento() {
   // Rate buttons
   const rateContainer = document.getElementById('popup_rate_buttons');
   rateContainer.innerHTML = RATE_OPTIONS.map(n =>
-    `<button class="popup-rate-btn${pagState.nRate === n ? ' selected' : ''}" onclick="scelgiRate(${n})">${n} mesi</button>`
+    `<button class="popup-rate-btn${pagState.nRate === n ? ' selected' : ''}" onclick="scelgiRate(${n}, this)">${n} mesi</button>`
   ).join('');
 
   calcolaRata();
@@ -1408,10 +1409,10 @@ function aggiornaAnticipo() {
   calcolaRata();
 }
 
-function scelgiRate(n) {
+function scelgiRate(n, el) {
   pagState.nRate = n;
   document.querySelectorAll('.popup-rate-btn').forEach(b => b.classList.remove('selected'));
-  event.target.classList.add('selected');
+  if (el) el.classList.add('selected');
   calcolaRata();
 }
 
