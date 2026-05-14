@@ -18,13 +18,16 @@
 body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color:var(--text)}
 
 /* HERO */
-.hero{padding:60px 24px 56px;text-align:center;border-bottom:1px solid var(--border);background:var(--bg);position:relative;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:url('/hero_config.webp') center/cover no-repeat;opacity:.18;z-index:0}
-.hero>*:not(.hero-bg){position:relative;z-index:1}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--navy-light);border:1px solid var(--navy-border);color:var(--navy);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:16px}
-.hero h1{font-size:clamp(22px,4vw,36px);font-weight:800;margin-bottom:8px;color:var(--text)}
-.hero h1 span{color:var(--teal)}
-.hero p{color:var(--mid);font-size:14px}
+.hero{padding:100px 24px 100px;text-align:center;border-bottom:1px solid var(--border);background:var(--navy);position:relative;overflow:hidden;aspect-ratio:16/7}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center center}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,45,78,0.5) 0%,rgba(20,45,78,0.65) 100%);z-index:1}
+@media(max-width:768px){.hero{padding:60px 24px 60px;aspect-ratio:4/3}.hero-bg img{object-position:center center}}
+.hero>*:not(.hero-bg):not(.hero-overlay){position:relative;z-index:2}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:16px}
+.hero h1{font-size:clamp(22px,4vw,36px);font-weight:800;margin-bottom:12px;color:#fff}
+.hero h1 span{color:#5dd9c1}
+.hero p{color:rgba(255,255,255,0.9);font-size:14px}
 
 /* PROGRESS */
 .progress-bar{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
@@ -355,12 +358,13 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 </a>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="hero-bg"></div>
+  <div class="hero">
+  <div class="hero-bg"><img src="/images/configuratore-hero.webp" alt="Casa con pannelli solari"></div>
+  <div class="hero-overlay"></div>
   <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp_Image_2026-05-05_at_18.34.28-removebg-preview-jcfox7rdoi9e0HsxAeICsxkvmJ25L7.png" alt="Solair Group" style="height:60px;width:auto;margin-bottom:16px">
   <h1>Configura il tuo <span>impianto fotovoltaico</span></h1>
   <p>Configura il tuo sistema solare in pochi minuti e ricevi un'offerta reale con prezzi trasparenti. Pannelli top brand Tier 1, accumulo incluso, installazione garantita in tutta Italia.<br>Prezzi chiari, tre linee disponibili, finanziamento Deutsche Bank incluso.</p>
-  <div style="margin-top:12px;display:inline-flex;align-items:center;gap:6px;background:var(--navy-light);border:1px solid var(--navy-border);color:var(--navy);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:20px">⚡ Impianti fotovoltaici residenziali monofase · fino a 10 kWp</div>
+  <div style="margin-top:12px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:20px">⚡ Impianti fotovoltaici residenziali monofase · fino a 10 kWp</div>
 </div>
 
 <!-- PROGRESS BAR -->
@@ -406,7 +410,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════
+<!-- ══════════════════���════════════════════
      SUGGERIMENTO PAGE — DOMANDE
 ═══════════════════════════════════════ -->
 <div id="suggerimentoDomandePage" style="display:none">
@@ -1797,10 +1801,10 @@ function sgScegli(domanda, valore, el) {
   el.classList.add('selected');
   const btn = document.getElementById('sgBtn' + domanda);
   btn.disabled = false;
-  // Q0: azienda/altro → bottone diventa WhatsApp
+  // Q0: azienda/altro �� bottone diventa WhatsApp
   if (domanda === 0) {
     if (valore === 'azienda' || valore === 'altro') {
-      btn.textContent = '💬 Contatta un nostro consulente via WhatsApp';
+      btn.textContent = '���� Contatta un nostro consulente via WhatsApp';
       btn.style.background = '#25D366';
       btn.onclick = () => window.open('https://wa.me/393497988101?text=Ciao%2C%20sono%20interessato%20a%20un%20impianto%20fotovoltaico%20per%20' + encodeURIComponent(valore === 'azienda' ? 'azienda/capannone' : 'altro tipo di immobile'), '_blank');
     } else {
