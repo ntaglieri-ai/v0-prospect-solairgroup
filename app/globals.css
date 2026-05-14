@@ -254,4 +254,20 @@
   .mobile-border-pearl-20 {
     border-color: rgba(255, 255, 255, 0.4) !important;
   }
+  
+  /* Mobile font size boost for all sections except hero */
+  section:not(#home) h2 {
+    font-size: clamp(1.75rem, 7vw, 2.5rem) !important;
+  }
+  section:not(#home) h3 {
+    font-size: clamp(1.35rem, 5.5vw, 2rem) !important;
+  }
+  section:not(#home) p,
+  section:not(#home) .body-text {
+    font-size: 1rem !important;
+    line-height: 1.7 !important;
+  }
+  section:not(#home) .overline {
+    font-size: 11px !important;
+  }
 }
