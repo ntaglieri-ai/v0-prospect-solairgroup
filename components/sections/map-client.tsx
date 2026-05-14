@@ -89,9 +89,18 @@ export function MapSectionClient({ sedi }: MapSectionClientProps) {
       })
 
       // Fit bounds to show all markers with good zoom
+      // Desktop: zoom out more to show all of Italy
+      // Mobile: tighter fit
       if (validSedi.length > 0) {
         const bounds = L.latLngBounds(validSedi.map((s) => [s.lat, s.lng]))
-        map.fitBounds(bounds, { padding: [50, 50], maxZoom: 7 })
+        const isDesktop = window.innerWidth >= 1024
+        if (isDesktop) {
+          // Desktop: show entire Italy with all locations visible
+          map.fitBounds(bounds, { padding: [80, 80], maxZoom: 6 })
+        } else {
+          // Mobile: standard fit
+          map.fitBounds(bounds, { padding: [50, 50], maxZoom: 7 })
+        }
       }
     }
 
