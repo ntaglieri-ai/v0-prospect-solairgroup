@@ -18,17 +18,17 @@
 body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color:var(--text)}
 
 /* HERO */
-.hero{padding:60px 24px 60px;text-align:center;border-bottom:1px solid var(--border);background:var(--navy);position:relative;overflow:hidden;min-height:280px;max-height:340px}
+.hero{padding:48px 24px 48px;text-align:center;border-bottom:1px solid var(--border);background:var(--navy);position:relative;overflow:hidden;min-height:320px;max-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .hero-bg{position:absolute;inset:0;z-index:0}
 .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center center}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,45,78,0.5) 0%,rgba(20,45,78,0.65) 100%);z-index:1}
-@media(max-width:768px){.hero{padding:60px 24px 60px;min-height:320px;max-height:400px}.hero-bg img{object-position:center center}}
+@media(max-width:768px){.hero{padding:40px 24px 40px;min-height:280px;max-height:360px}.hero-bg img{object-position:center center}}
 .hero>*:not(.hero-bg):not(.hero-overlay){position:relative;z-index:2}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:16px}
-.hero h1{font-size:clamp(28px,5vw,44px);font-weight:800;margin-bottom:14px;color:#fff}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:12px}
+.hero h1{font-size:clamp(24px,4.5vw,38px);font-weight:800;margin-bottom:10px;color:#fff}
 .hero h1 span{color:#5dd9c1}
-.hero p{color:rgba(255,255,255,0.9);font-size:16px;line-height:1.6}
-.hero .logo-hero{display:block;margin:0 auto 16px auto}
+.hero p{color:rgba(255,255,255,0.9);font-size:14px;line-height:1.5;max-width:700px;margin:0 auto}
+.hero .logo-hero{display:block;margin:0 auto 12px auto;height:36px}
 
 /* PROGRESS */
 .progress-bar{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
@@ -916,7 +916,7 @@ const RATE_OPTIONS = [24, 36, 48, 60, 72, 84];
 
 // ════════════════════════════════════════
 // STATE
-// ══════���═══���═════════════════════════════
+// ══════���═══������════════════════════════════
 
 let pannelliList = []; // da Sanity
 
