@@ -238,14 +238,20 @@
 @media (max-width: 767px) {
   .mobile-text-pearl {
     color: #FFFFFF !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+    font-weight: 500 !important;
   }
   .mobile-text-pearl-70 {
-    color: rgba(255, 255, 255, 0.9) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+    font-weight: 500 !important;
   }
   .mobile-text-pearl-85 {
-    color: rgba(255, 255, 255, 0.95) !important;
+    color: rgba(255, 255, 255, 0.98) !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+    font-weight: 400 !important;
   }
   .mobile-border-pearl-20 {
-    border-color: rgba(255, 255, 255, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
   }
 }
