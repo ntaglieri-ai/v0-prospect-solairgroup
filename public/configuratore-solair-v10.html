@@ -18,10 +18,11 @@
 body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color:var(--text)}
 
 /* HERO */
-.hero{padding:80px 24px 72px;text-align:center;border-bottom:1px solid var(--border);background:var(--bg);position:relative;overflow:hidden;min-height:320px}
-.hero-bg{position:absolute;inset:0;background:url('/images/configuratore-hero.jpg') center/cover no-repeat;opacity:.45;z-index:0}
-@media(max-width:768px){.hero{padding:60px 24px 56px;min-height:280px}.hero-bg{background-position:center 40%;opacity:.4}}
-.hero>*:not(.hero-bg){position:relative;z-index:1}
+.hero{padding:100px 24px 80px;text-align:center;border-bottom:1px solid var(--border);background:var(--bg);position:relative;overflow:hidden;min-height:420px}
+.hero-bg{position:absolute;inset:0;background:url('/images/configuratore-hero.jpg') center bottom/100% auto no-repeat;z-index:0}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,0.85) 0%,rgba(255,255,255,0.7) 50%,rgba(255,255,255,0.5) 100%);z-index:1}
+@media(max-width:768px){.hero{padding:70px 24px 60px;min-height:350px}.hero-bg{background-size:auto 100%;background-position:center bottom}}
+.hero>*:not(.hero-bg):not(.hero-overlay){position:relative;z-index:2}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--navy-light);border:1px solid var(--navy-border);color:var(--navy);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:16px}
 .hero h1{font-size:clamp(22px,4vw,36px);font-weight:800;margin-bottom:8px;color:var(--text)}
 .hero h1 span{color:var(--teal)}
@@ -356,8 +357,9 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 </a>
 
 <!-- HERO -->
-<div class="hero">
+  <div class="hero">
   <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
   <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp_Image_2026-05-05_at_18.34.28-removebg-preview-jcfox7rdoi9e0HsxAeICsxkvmJ25L7.png" alt="Solair Group" style="height:60px;width:auto;margin-bottom:16px">
   <h1>Configura il tuo <span>impianto fotovoltaico</span></h1>
   <p>Configura il tuo sistema solare in pochi minuti e ricevi un'offerta reale con prezzi trasparenti. Pannelli top brand Tier 1, accumulo incluso, installazione garantita in tutta Italia.<br>Prezzi chiari, tre linee disponibili, finanziamento Deutsche Bank incluso.</p>
@@ -407,7 +409,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════
+<!-- ══════════════════���════════════════════
      SUGGERIMENTO PAGE — DOMANDE
 ═══════════════════════════════════════ -->
 <div id="suggerimentoDomandePage" style="display:none">
@@ -1801,7 +1803,7 @@ function sgScegli(domanda, valore, el) {
   // Q0: azienda/altro → bottone diventa WhatsApp
   if (domanda === 0) {
     if (valore === 'azienda' || valore === 'altro') {
-      btn.textContent = '💬 Contatta un nostro consulente via WhatsApp';
+      btn.textContent = '���� Contatta un nostro consulente via WhatsApp';
       btn.style.background = '#25D366';
       btn.onclick = () => window.open('https://wa.me/393497988101?text=Ciao%2C%20sono%20interessato%20a%20un%20impianto%20fotovoltaico%20per%20' + encodeURIComponent(valore === 'azienda' ? 'azienda/capannone' : 'altro tipo di immobile'), '_blank');
     } else {
