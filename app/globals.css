@@ -47,6 +47,8 @@
   body {
     @apply bg-[#f4f6f7] text-[#1e3a5f];
     font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+    font-size: clamp(1rem, 2.2vw, 1.125rem);
+    line-height: 1.7;
   }
   
   /* Headings with Outfit - modern, clean, tech */
@@ -56,17 +58,17 @@
   }
   
   h1 {
-    font-size: clamp(3rem, 6vw, 5rem);
+    font-size: clamp(2.2rem, 8vw, 5rem);
     font-weight: 200;
   }
   
   h2 {
-    font-size: clamp(2.5rem, 4vw, 3.8rem);
+    font-size: clamp(1.8rem, 6vw, 3.8rem);
     font-weight: 200;
   }
   
   h3 {
-    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-size: clamp(1.4rem, 4.5vw, 2.5rem);
     font-weight: 300;
   }
 }
@@ -74,7 +76,7 @@
 /* Overline text style - DM Sans */
 .overline {
   font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
-  font-size: 11px;
+  font-size: clamp(11px, 1.8vw, 13px);
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-weight: 400;
@@ -83,7 +85,7 @@
 /* Body text - color can be overridden with inline styles */
 .body-text {
   font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
-  font-size: 1rem;
+  font-size: clamp(1rem, 2.2vw, 1.125rem);
   font-weight: 300;
   line-height: 1.8;
 }
@@ -99,7 +101,7 @@
   @apply border border-current bg-transparent;
   @apply px-8 py-3;
   font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 400;
@@ -115,7 +117,7 @@
   @apply border border-white bg-transparent text-white;
   @apply px-10 py-3.5;
   font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 400;
@@ -132,7 +134,7 @@
   @apply bg-[#1e3a5f] text-white border border-[#1e3a5f];
   @apply px-8 py-4 w-full;
   font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 400;
