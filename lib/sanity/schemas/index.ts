@@ -8,6 +8,7 @@ import { cer } from './cer'
 import { pannello } from './pannello'
 import { datiAziendali } from './datiAziendali'
 import linea from './linea'
+import batteria from './batteria'
 import priceList from './priceList'
 import finanziamentoTable from './finanziamentoTable'
 import configuratoreSettings from './configuratoreSettings'
@@ -22,6 +23,7 @@ export const schemaTypes = [
   faq,
   pannello,
   linea,
+  batteria,
   priceList,
   finanziamentoTable,
   configuratoreSettings,
