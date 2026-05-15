@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Script from "next/script"
 import { DM_Sans, Outfit, Barlow_Condensed } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { sanityFetch } from "@/lib/sanity"
@@ -79,6 +80,14 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://images.unsplash.com" />
+        <Script 
+          src="https://embeds.iubenda.com/widgets/b5c63c65-7531-40d4-bcbf-5c827407acc9.js" 
+          strategy="beforeInteractive" 
+        />
+        <Script 
+          src="https://cdn.iubenda.com/iubenda.js" 
+          strategy="afterInteractive" 
+        />
         {/* Suppress ResizeObserver loop error from third-party widgets */}
         <script dangerouslySetInnerHTML={{ __html: `
           const resizeObserverErr = window.onerror;
