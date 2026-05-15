@@ -316,16 +316,18 @@ export function Footer() {
               </Link>
               <a 
                 href="https://www.iubenda.com/privacy-policy/56116406" 
-                className="iubenda-white iubenda-noiframe iubenda-embed text-xs text-white/40 hover:text-white/70 transition-colors duration-200" 
-                title="Privacy Policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" 
                 style={{ fontFamily: "var(--font-dm-sans)" }}
               >
                 Privacy Policy
               </a>
               <a 
                 href="https://www.iubenda.com/privacy-policy/56116406/cookie-policy" 
-                className="iubenda-white iubenda-noiframe iubenda-embed text-xs text-white/40 hover:text-white/70 transition-colors duration-200" 
-                title="Cookie Policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" 
                 style={{ fontFamily: "var(--font-dm-sans)" }}
               >
                 Cookie Policy
