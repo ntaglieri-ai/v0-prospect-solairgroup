@@ -79,6 +79,17 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://images.unsplash.com" />
+        {/* Suppress ResizeObserver loop error from third-party widgets */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          const resizeObserverErr = window.onerror;
+          window.onerror = function(msg, url, line, col, error) {
+            if (msg && msg.includes && msg.includes('ResizeObserver loop')) return true;
+            return resizeObserverErr ? resizeObserverErr(msg, url, line, col, error) : false;
+          };
+          window.addEventListener('error', function(e) {
+            if (e.message && e.message.includes('ResizeObserver loop')) e.stopPropagation();
+          });
+        ` }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
