@@ -733,11 +733,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
         <div class="form-group"><label>Codice Fiscale *</label><input type="text" id="f_cf" placeholder="RSSMRA80A01H501Z" maxlength="16" oninput="aggiornaConsensi()"></div>
         <div class="form-group"><label>Sede Solair di riferimento *</label>
           <select id="f_sede" onchange="aggiornaConsensi()">
-            <option value="">Seleziona sede...</option>
-            <option value="Catania">Catania</option>
-            <option value="Giarre">Giarre (CT)</option>
-            <option value="Treviso">Treviso (TV)</option>
-            <option value="Torino">Torino (TO)</option>
+            <option value="">Caricamento sedi...</option>
           </select>
         </div>
         <div class="form-group"><label>Tipo immobile</label>
@@ -2083,6 +2079,34 @@ function tornaIntro() {
 
 renderKwpButtons();
 loadPannelliSanity();
+fetchSedi();
+
+async function fetchSedi() {
+  const query = encodeURIComponent('*[_type=="sede"] | order(nome asc) { nome, citta }');
+  const url = `https://${SANITY_PROJECT}.api.sanity.io/v2021-06-07/data/query/${SANITY_DATASET}?query=${query}`;
+  const select = document.getElementById('f_sede');
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const sedi = data.result || [];
+    if (sedi.length === 0) throw new Error('empty');
+    select.innerHTML = '<option value="">Seleziona sede...</option>';
+    sedi.forEach(sede => {
+      const label = sede.citta || sede.nome;
+      const opt = document.createElement('option');
+      opt.value = label; opt.textContent = label;
+      select.appendChild(opt);
+    });
+  } catch(e) {
+    select.innerHTML = `
+      <option value="">Seleziona sede...</option>
+      <option value="Porto Sant'Elpidio (FM)">Porto Sant'Elpidio (FM)</option>
+      <option value="Catania">Catania</option>
+      <option value="Giarre (CT)">Giarre (CT)</option>
+      <option value="Treviso (TV)">Treviso (TV)</option>
+      <option value="Torino (TO)">Torino (TO)</option>`;
+  }
+}
 
 // ══════════════════════════════���═��═══════
 // DRAWER DETTAGLI PANNELLO
