@@ -761,6 +761,28 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
           <div class="consenso-row"><input type="checkbox" id="cb2" onchange="aggiornaConsensi()"><label for="cb2">Acconsento al trattamento dei dati personali ai sensi del GDPR 679/2016 (Art. 10).</label></div>
           <div class="consenso-row"><input type="checkbox" id="cb3" onchange="aggiornaConsensi()"><label for="cb3">Dichiaro di essere proprietario/avente diritto dell'immobile o di avere le necessarie autorizzazioni per l'installazione.</label></div>
           <div class="consenso-row"><input type="checkbox" id="cb4" onchange="aggiornaConsensi()"><label for="cb4">Approvo specificamente le clausole onerose: Art. 3 (tempi), Art. 4 (responsabilità), Art. 8 (recesso e penale), Art. 9 (clausola risolutiva), Art. 11 (foro competente) — ai sensi degli artt. 1341 e 1342 c.c.</label></div>
+          
+          <!-- Presenza Impianto Esistente -->
+          <div class="consenso-row" style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(0,0,0,0.1)">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+              <span style="font-size:14px;color:var(--navy);font-weight:500">Presenza Impianto Esistente:</span>
+              <div style="display:flex;gap:16px">
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px"><input type="radio" name="impianto_esistente" id="impianto_si" value="si" onchange="aggiornaConsensi()" required> SI</label>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px"><input type="radio" name="impianto_esistente" id="impianto_no" value="no" onchange="aggiornaConsensi()" required> NO</label>
+              </div>
+            </div>
+          </div>
+          
+          <!-- CER Solair -->
+          <div class="consenso-row" style="margin-top:12px">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+              <span style="font-size:14px;color:var(--navy);font-weight:500">Il cliente desidera entrare a far parte della CER Solair?</span>
+              <div style="display:flex;gap:16px">
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px"><input type="radio" name="cer_solair" id="cer_si" value="si" onchange="aggiornaConsensi()" required> SI</label>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px"><input type="radio" name="cer_solair" id="cer_no" value="no" onchange="aggiornaConsensi()" required> NO</label>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1128,7 +1150,7 @@ function avantiDaTetto() {
   goTo(5);
 }
 
-// ════════════════════════════════════════
+// ═══════════════��════════════════════════
 // STEP 3 — ACCUMULO
 // ══════════════════��═════════════════════
 
@@ -1625,9 +1647,11 @@ function aggiornaConsensi() {
   return el && el.value.trim() !== '';
   });
   const consensiOk = ['cb1','cb2','cb3','cb4'].every(id => document.getElementById(id).checked);
+  const radioImpiantoOk = document.querySelector('input[name="impianto_esistente"]:checked') !== null;
+  const radioCerOk = document.querySelector('input[name="cer_solair"]:checked') !== null;
   const pagOk = pagState.modalita !== null;
   const btnFirma = document.getElementById('btn-firma');
-  if (btnFirma) btnFirma.disabled = !(campiOk && consensiOk && pagOk);
+  if (btnFirma) btnFirma.disabled = !(campiOk && consensiOk && radioImpiantoOk && radioCerOk && pagOk);
 }
 
 function normalizzaTelefono(tel) {
@@ -1681,6 +1705,8 @@ sede: document.getElementById('f_sede').value,
     tipo_immobile: document.getElementById('f_tipo').value,
     incentivo: '',
     note: document.getElementById('f_note').value,
+    impianto_esistente: document.querySelector('input[name="impianto_esistente"]:checked')?.value || '',
+    cer_solair: document.querySelector('input[name="cer_solair"]:checked')?.value || '',
     sg_immobile: sgAnswers[0] || '',
     sg_obiettivo: sgAnswers[1] || '',
     sg_garanzia: sgAnswers[2] || '',
