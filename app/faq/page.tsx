@@ -37,9 +37,29 @@ export default async function FAQPage() {
     return acc
   }, {} as Record<string, FAQ[]>)
 
+  // FAQPage JSON-LD schema — generato dinamicamente da Sanity
+  const faqSchema = faqs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.domanda,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.risposta,
+      },
+    })),
+  } : null
+
   return (
     <>
       <Navbar forceDark />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       <main className="min-h-screen bg-[#f4f6f7]">
         {/* Header */}
         <section className="pt-32 pb-16 px-6 md:px-12 lg:px-20">
