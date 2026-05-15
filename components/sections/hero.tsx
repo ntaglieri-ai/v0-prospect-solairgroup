@@ -27,7 +27,6 @@ export function HeroSection() {
           muted
           playsInline
           preload="metadata"
-          poster="/images/hero-poster.jpg"
           className="absolute inset-0 w-full h-full object-cover"
         >
           <source
