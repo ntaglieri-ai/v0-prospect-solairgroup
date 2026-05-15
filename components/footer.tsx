@@ -310,22 +310,12 @@ export function Footer() {
             <p className="text-xs text-white/40 text-center sm:text-left" style={{ fontFamily: "var(--font-dm-sans)" }}>
               © {new Date().getFullYear()} Solair Group S.r.l. — P.IVA 06056640870. Tutti i diritti riservati.
             </p>
-            <div className="flex flex-wrap items-center justify-center sm:justify-end gap-4 sm:gap-6">
-              <Link href="/faq" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
-                FAQ
-              </Link>
-              <a href="https://www.iubenda.com/privacy-policy/56116406" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
-                Privacy
-              </a>
-              <a href="https://www.iubenda.com/privacy-policy/56116406/cookie-policy" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
-                Cookies
-              </a>
-              <a href="/condizioni-generali-solair.pdf" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
-                Terms
-              </a>
-              <a href="https://solairgroup.sanity.studio" target="_blank" rel="noopener noreferrer" className="hidden sm:inline text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
-                Area Riservata
-              </a>
+            <div className="flex items-center gap-6">
+              <Link href="/faq" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>FAQ</Link>
+              <a href="https://www.iubenda.com/privacy-policy/56116406" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>Privacy</a>
+              <a href="https://www.iubenda.com/privacy-policy/56116406/cookie-policy" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>Cookies</a>
+              <a href="/condizioni-generali-solair.pdf" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>Terms</a>
+              <a href="https://solairgroup.sanity.studio" target="_blank" rel="noopener noreferrer" className="hidden sm:inline text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>Area Riservata</a>
             </div>
           </div>
         </div>
