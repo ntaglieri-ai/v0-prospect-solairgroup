@@ -57,7 +57,7 @@ export function TestimonialsSection() {
           <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 border border-[#d0d6da] bg-white rounded-lg">
             <span className="overline text-[#8a9aaa] text-[9px] sm:text-[11px]">Eccellente</span>
             <span className="text-[#d0d6da] hidden sm:inline">·</span>
-            <span className="text-[9px] sm:text-[11px] text-[#8a9aaa]">99 recensioni Google</span>
+            <span className="text-[9px] sm:text-[11px] text-[#8a9aaa]">104 recensioni Google</span>
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="h-2.5 sm:h-3 w-2.5 sm:w-3 fill-[#2e8b72] text-[#2e8b72]" />
