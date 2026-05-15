@@ -314,15 +314,31 @@ export function Footer() {
               <Link href="/faq" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
                 FAQ
               </Link>
-              <Link href="/cookies" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
-                Cookies
-              </Link>
-              <Link href="/privacy" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
-                Privacy
-              </Link>
-              <Link href="/terms" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>
-                Terms
-              </Link>
+              <a 
+                href="https://www.iubenda.com/privacy-policy/56116406" 
+                className="iubenda-white iubenda-noiframe iubenda-embed text-xs text-white/40 hover:text-white/70 transition-colors duration-200" 
+                title="Privacy Policy"
+                style={{ fontFamily: "var(--font-dm-sans)" }}
+              >
+                Privacy Policy
+              </a>
+              <a 
+                href="https://www.iubenda.com/privacy-policy/56116406/cookie-policy" 
+                className="iubenda-white iubenda-noiframe iubenda-embed text-xs text-white/40 hover:text-white/70 transition-colors duration-200" 
+                title="Cookie Policy"
+                style={{ fontFamily: "var(--font-dm-sans)" }}
+              >
+                Cookie Policy
+              </a>
+              <a 
+                href="/condizioni-generali-solair.pdf" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" 
+                style={{ fontFamily: "var(--font-dm-sans)" }}
+              >
+                Termini e Condizioni
+              </a>
               <a 
                 href="https://solairgroup.sanity.studio" 
                 target="_blank" 

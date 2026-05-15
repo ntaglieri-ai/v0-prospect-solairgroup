@@ -84,6 +84,10 @@ export default async function RootLayout({
           src="https://embeds.iubenda.com/widgets/b5c63c65-7531-40d4-bcbf-5c827407acc9.js" 
           strategy="beforeInteractive" 
         />
+        <Script 
+          src="https://cdn.iubenda.com/iubenda.js" 
+          strategy="afterInteractive" 
+        />
         {/* Suppress ResizeObserver loop error from third-party widgets */}
         <script dangerouslySetInnerHTML={{ __html: `
           const resizeObserverErr = window.onerror;
