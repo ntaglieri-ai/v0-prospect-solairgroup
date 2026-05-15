@@ -162,7 +162,7 @@ export function Footer() {
             Solair Group S.r.l. — P.IVA 06056640870
           </p>
           <p className="text-xs text-white/40 font-light" style={{ fontFamily: "var(--font-dm-sans)" }}>
-            Sedi a Catania, Giarre (CT), Treviso (TV) e Torino (TO)
+            Sedi a Catania, Giarre (CT), Treviso (TV), Torino (TO) e Porto Sant'Elpidio (FM)
           </p>
         </div>
 
@@ -202,7 +202,7 @@ export function Footer() {
             {/* Description - Left */}
             <div>
               <p className="text-sm text-white/70 font-light leading-relaxed mb-4" style={{ fontFamily: "var(--font-dm-sans)" }}>
-                Solair Group opera in tutta Italia con sedi a Catania, Giarre (CT), Treviso (TV) e Torino (TO)
+                Solair Group opera in tutta Italia con sedi a Catania, Giarre (CT), Treviso (TV), Torino (TO) e Porto Sant'Elpidio (FM)
               </p>
               <p className="text-xs text-white/50 font-light" style={{ fontFamily: "var(--font-dm-sans)" }}>
                 Solair Group S.r.l. — P.IVA 06056640870
