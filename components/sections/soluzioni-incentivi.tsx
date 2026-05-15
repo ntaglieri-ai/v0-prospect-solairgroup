@@ -191,7 +191,7 @@ export function SoluzioniIncentiviSection() {
         {pacchetti.map((p) => (
           <a
             key={p.id}
-            href="/configuratore?mode=suggerimento"
+            href="/configuratore-solair-v10.html?mode=suggerimento"
             className={`rounded-2xl shadow-md hover:-translate-y-2 hover:shadow-xl transition-all duration-300 ${p.highlight ? 'bg-[#1e3a5f] text-white ring-2 ring-[#2e8b72]' : 'bg-white border border-gray-200'} p-6 sm:p-8 md:p-10 relative flex flex-col cursor-pointer no-underline`}
             style={{
               borderTop: p.highlight ? 'none' : `3px solid ${p.accentColor}`,
