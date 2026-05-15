@@ -896,7 +896,7 @@ const LINEE_INFO = {
   },
 };
 
-// ── Tabella FLAT per percorso manuale: kWp → marca → kWh → prezzo �������─
+// ── Tabella FLAT per percorso manuale: kWp → marca → kWh → prezzo ���������─
 // Calcolata come PREZZI_NO_ACC[kwp] + prezzo_solo_acc[marca][kwp][kwh]
 // Nota: kWp 3/4/5 usano i prezzi accumulo di kWp 5 (stessi valori)
 const PREZZI_ACC_FLAT = {
@@ -919,7 +919,7 @@ const RATE_OPTIONS = [24, 36, 48, 60, 72, 84];
 
 // ═════════════════���═════���════════════════
 // STATE
-// ══════���═══������═══════════════════���═���═���════
+// ══════���═══������═════════════════���═���═���═���════
 
 let pannelliList = []; // da Sanity
 let batterieData = {}; // { 'V-TAC': { taglie: [...], prezzi: { 3: { 10: 1500, ... } } }, ... }
@@ -1427,8 +1427,7 @@ function scelgiKwh(kwh, prezzo) {
 // prezzi IVA 10% inclusa
 function prezzoOttimizzatori() { return (state.kwp || 0) * 150; }
 function prezzoWallbox() {
-  const altriSelezionati = state.ottimizzatori || state.tigoCloud;
-  return altriSelezionati ? 1000 : 1500;
+  return 1000;
 }
 function prezzoTigoCloud() { return 600; }
 
@@ -1450,20 +1449,14 @@ function aggiornaTotale() {
 function renderAccessori() {
   const container = document.getElementById('accessori_list');
 
-  // Regola wallbox: se altri acc selezionati, scende a 1000
-  const wbPrezzo = prezzoWallbox();
-  const wbDesc = wbPrezzo === 1000
-    ? '€ 1.000 (sconto combo applicato)'
-    : '€ 1.500 (€ 1.000 se in combo con altri accessori)';
-
   const tigoDisabled = !state.ottimizzatori;
 
   const items = [
     {
       key: 'wallbox',
       nome: 'Wall Box (SolaxPower / Sungrow)',
-      desc: wbDesc,
-      prezzo: '€ ' + wbPrezzo.toLocaleString('it-IT'),
+      desc: '',
+      prezzo: '€ ' + prezzoWallbox().toLocaleString('it-IT'),
       disabled: false,
     },
     {
