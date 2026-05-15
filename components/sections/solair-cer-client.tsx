@@ -66,7 +66,7 @@ export function SolairCERClient({ cer }: SolairCERClientProps) {
             
             {/* Stat */}
             <div className="mb-10 pt-6 border-t border-white/20">
-              <p className="font-heading text-[3rem] text-white">100</p>
+              <p className="font-heading text-[3rem] text-white">100+</p>
               <p className="text-sm font-semibold uppercase tracking-widest text-white/80 mt-1">
                 Configurazioni attive
               </p>
@@ -121,7 +121,7 @@ export function SolairCERClient({ cer }: SolairCERClientProps) {
           
           {/* Stat */}
           <div className="mb-8 sm:mb-10 pt-5 sm:pt-6 mobile-border-pearl-20" style={{ borderTopWidth: "1px", borderTopStyle: "solid" }}>
-            <p className="font-heading mobile-text-pearl text-4xl sm:text-[3rem]">100</p>
+            <p className="font-heading mobile-text-pearl text-4xl sm:text-[3rem]">100+</p>
             <p className="overline mt-1 mobile-text-pearl-70 text-[9px] sm:text-[11px]">
               Configurazioni attive
             </p>
