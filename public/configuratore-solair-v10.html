@@ -731,11 +731,6 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
         <div class="form-group"><label>Città *</label><input type="text" id="f_citta" placeholder="Es. Milano" oninput="aggiornaConsensi()"></div>
         <div class="form-group"><label>Provincia *</label><input type="text" id="f_provincia" placeholder="Es. MI" maxlength="2" oninput="aggiornaConsensi()"></div>
         <div class="form-group"><label>Codice Fiscale *</label><input type="text" id="f_cf" placeholder="RSSMRA80A01H501Z" maxlength="16" oninput="aggiornaConsensi()"></div>
-        <div class="form-group"><label>Sede Solair di riferimento *</label>
-          <select id="f_sede" onchange="aggiornaConsensi()">
-            <option value="">Caricamento sedi...</option>
-          </select>
-        </div>
         <div class="form-group"><label>Tipo immobile</label>
           <select id="f_tipo">
             <option value="">-</option>
@@ -896,7 +891,7 @@ const LINEE_INFO = {
   },
 };
 
-// ── Tabella FLAT per percorso manuale: kWp → marca → kWh → prezzo ���������─
+// ── Tabella FLAT per percorso manuale: kWp → marca → kWh → prezzo �����������─
 // Calcolata come PREZZI_NO_ACC[kwp] + prezzo_solo_acc[marca][kwp][kwh]
 // Nota: kWp 3/4/5 usano i prezzi accumulo di kWp 5 (stessi valori)
 const PREZZI_ACC_FLAT = {
@@ -919,7 +914,7 @@ const RATE_OPTIONS = [24, 36, 48, 60, 72, 84];
 
 // ═════════════════���═════���════════════════
 // STATE
-// ══════���═══������═════════════════���═���═���═���════
+// ══════���═══������═══════════════���═���═���═���═���════
 
 let pannelliList = []; // da Sanity
 let batterieData = {}; // { 'V-TAC': { taglie: [...], prezzi: { 3: { 10: 1500, ... } } }, ... }
@@ -1635,7 +1630,7 @@ function chiudiPopup() {
 // ════════════════════════════════════════
 
 function aggiornaConsensi() {
-  const campiOk = ['f_nome','f_cognome','f_email','f_telefono','f_citta','f_provincia','f_cf','f_sede'].every(id => {
+  const campiOk = ['f_nome','f_cognome','f_email','f_telefono','f_citta','f_provincia','f_cf'].every(id => {
   const el = document.getElementById(id);
   return el && el.value.trim() !== '';
   });
@@ -1692,10 +1687,9 @@ email: document.getElementById('f_email').value,
 telefono: normalizzaTelefono(document.getElementById('f_telefono').value),
 codice_fiscale: document.getElementById('f_cf').value.toUpperCase(),
 indirizzo: '',
-citta: document.getElementById('f_citta').value,
-provincia: document.getElementById('f_provincia').value.toUpperCase(),
-sede: document.getElementById('f_sede').value,
-    tipo_immobile: document.getElementById('f_tipo').value,
+  citta: document.getElementById('f_citta').value,
+  provincia: document.getElementById('f_provincia').value.toUpperCase(),
+  tipo_immobile: document.getElementById('f_tipo').value,
     incentivo: '',
     note: document.getElementById('f_note').value,
     impianto_esistente: document.querySelector('input[name="impianto_esistente"]:checked')?.value || '',
@@ -2084,36 +2078,10 @@ function tornaIntro() {
 
 renderKwpButtons();
 loadPannelliSanity();
-fetchSedi();
 fetchLineeSanity();
 fetchBatterieSanity();
 
-async function fetchSedi() {
-  const query = encodeURIComponent('*[_type=="sede"] | order(nome asc) { nome, citta }');
-  const url = `https://${SANITY_PROJECT}.api.sanity.io/v2021-06-07/data/query/${SANITY_DATASET}?query=${query}`;
-  const select = document.getElementById('f_sede');
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    const sedi = data.result || [];
-    if (sedi.length === 0) throw new Error('empty');
-    select.innerHTML = '<option value="">Seleziona sede...</option>';
-    sedi.forEach(sede => {
-      const label = sede.citta || sede.nome;
-      const opt = document.createElement('option');
-      opt.value = label; opt.textContent = label;
-      select.appendChild(opt);
-    });
-  } catch(e) {
-    select.innerHTML = `
-      <option value="">Seleziona sede...</option>
-      <option value="Porto Sant'Elpidio (FM)">Porto Sant'Elpidio (FM)</option>
-      <option value="Catania">Catania</option>
-      <option value="Giarre (CT)">Giarre (CT)</option>
-      <option value="Treviso (TV)">Treviso (TV)</option>
-      <option value="Torino (TO)">Torino (TO)</option>`;
-  }
-}
+
 
 async function fetchBatterieSanity() {
   const query = encodeURIComponent('*[_type=="batteria"]{marca, taglie, prezzi[]{kwp, kwh, prezzo}}');
