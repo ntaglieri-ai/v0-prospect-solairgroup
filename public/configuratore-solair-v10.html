@@ -896,7 +896,7 @@ const LINEE_INFO = {
   },
 };
 
-// ── Tabella FLAT per percorso manuale: kWp → marca → kWh → prezzo ���─
+// ── Tabella FLAT per percorso manuale: kWp → marca → kWh → prezzo �����─
 // Calcolata come PREZZI_NO_ACC[kwp] + prezzo_solo_acc[marca][kwp][kwh]
 // Nota: kWp 3/4/5 usano i prezzi accumulo di kWp 5 (stessi valori)
 const PREZZI_ACC_FLAT = {
@@ -919,9 +919,10 @@ const RATE_OPTIONS = [24, 36, 48, 60, 72, 84];
 
 // ═════════════════���═════���════════════════
 // STATE
-// ══════���═══������═══════════════════════���════
+// ══════���═══������═════════════════════���═���════
 
 let pannelliList = []; // da Sanity
+let batterieData = {}; // { 'V-TAC': { taglie: [...], prezzi: { 3: { 10: 1500, ... } } }, ... }
 
 const state = {
   kwp: null,
@@ -1221,8 +1222,9 @@ function renderKwhAccButtons() {
   const container = document.getElementById('kwh_acc_buttons');
   container.innerHTML = '';
   if (!state.linea || !state.kwp) return;
-  const marcaFlat = PREZZI_ACC_FLAT[state.kwp] && PREZZI_ACC_FLAT[state.kwp][state.linea];
-  if (!marcaFlat) return;
+  const marcaNome = MARCA_INFO[state.linea]?.label?.split(' ')[0];
+  const marcaFlat = getPrezziMarca(marcaNome, state.kwp);
+  if (!marcaFlat || Object.keys(marcaFlat).length === 0) return;
   Object.entries(marcaFlat).forEach(([kwh, prezzo]) => {
     const isSelected = String(state.kwh) === String(kwh);
     const btn = document.createElement('button');
@@ -2089,6 +2091,7 @@ renderKwpButtons();
 loadPannelliSanity();
 fetchSedi();
 fetchLineeSanity();
+fetchBatterieSanity();
 
 async function fetchSedi() {
   const query = encodeURIComponent('*[_type=="sede"] | order(nome asc) { nome, citta }');
@@ -2115,6 +2118,34 @@ async function fetchSedi() {
       <option value="Treviso (TV)">Treviso (TV)</option>
       <option value="Torino (TO)">Torino (TO)</option>`;
   }
+}
+
+async function fetchBatterieSanity() {
+  const query = encodeURIComponent('*[_type=="batteria"]{marca, taglie, prezzi[]{kwp, kwh, prezzo}}');
+  const url = `https://${SANITY_PROJECT}.api.sanity.io/v2021-06-07/data/query/${SANITY_DATASET}?query=${query}`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    (data.result || []).forEach(b => {
+      const lookup = {};
+      (b.prezzi || []).forEach(p => {
+        if (!lookup[p.kwp]) lookup[p.kwp] = {};
+        lookup[p.kwp][p.kwh] = p.prezzo;
+      });
+      batterieData[b.marca] = { taglie: b.taglie || [], prezzi: lookup };
+    });
+  } catch(e) {
+    console.warn('[Configuratore] Fetch batterie fallito:', e.message);
+  }
+}
+
+function getPrezziMarca(marca, kwp) {
+  if (batterieData[marca] && batterieData[marca].prezzi[kwp]) {
+    return batterieData[marca].prezzi[kwp];
+  }
+  // fallback hardcoded
+  const marcaKey = marca === 'V-TAC' ? 'smart' : marca === 'Sineng' ? 'power' : 'premium';
+  return PREZZI_ACC_FLAT[kwp]?.[marcaKey] || {};
 }
 
 let lineaDataSanity = {};
