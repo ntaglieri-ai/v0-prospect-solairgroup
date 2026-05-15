@@ -333,6 +333,52 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 .divider{border:none;border-top:1px solid var(--border);margin:20px 0}
 .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(46,139,114,.1);color:var(--teal);margin-left:6px}
 
+/* ── SUGGERIMENTO RISULTATO CARD ── */
+.sg-linea-result-card{border-radius:16px;overflow:hidden;border:1px solid var(--border);margin-bottom:16px;box-shadow:0 2px 12px rgba(30,58,95,.06);transition:all .22s cubic-bezier(.4,0,.2,1)}
+.sg-linea-result-card:hover{box-shadow:0 6px 24px rgba(30,58,95,.1);transform:translateY(-2px)}
+.sg-rc-header{background:linear-gradient(135deg,var(--navy) 0%,#2a5298 60%,var(--teal) 100%);padding:20px}
+.sg-rc-body{padding:16px 20px 20px;background:var(--surface)}
+.sg-rc-toggle{width:100%;text-align:left;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;margin-top:10px;transition:all .18s ease}
+.sg-rc-toggle:hover{background:var(--navy-light);border-color:var(--navy-border)}
+.sg-rc-offerta{background:rgba(46,139,114,.08);border-color:var(--teal-border);color:var(--teal)}
+.sg-rc-offerta:hover{background:rgba(46,139,114,.15)}
+/* ── MICRO-INTERACTIONS ── */
+.kwp-btn,.pannello-card,.linea-card,.acc-toggle-btn,.acc-card,.pag-card,.sg-opt,.sg-taglia-card,.kwh-btn,.btn-primary,.btn-back,.intro-opt{transition:all .22s cubic-bezier(.4,0,.2,1)}
+.kwp-btn:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(30,58,95,.12);border-color:var(--navy-border);background:var(--navy-light)}
+.kwp-btn.selected{transform:translateY(-2px);box-shadow:0 4px 14px rgba(30,58,95,.18)}
+.kwp-btn:active{transform:translateY(0)}
+.pannello-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(30,58,95,.1);border-color:var(--navy-border)}
+.pannello-card.selected{transform:translateY(-2px);box-shadow:0 6px 18px rgba(30,58,95,.14)}
+.pannello-card:active{transform:translateY(0)}
+.linea-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(46,139,114,.13);border-color:var(--teal-border)}
+.linea-card.selected{transform:translateY(-2px);box-shadow:0 6px 18px rgba(46,139,114,.18)}
+.linea-card:active{transform:translateY(0)}
+.acc-toggle-btn:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(30,58,95,.1);border-color:var(--navy-border)}
+.acc-toggle-btn.selected{transform:translateY(-2px);box-shadow:0 4px 14px rgba(46,139,114,.15)}
+.acc-toggle-btn:active{transform:translateY(0)}
+.acc-card:hover:not(.disabled-card){transform:translateX(4px);box-shadow:0 4px 14px rgba(30,58,95,.08);border-color:var(--navy-border)}
+.acc-card.selected{transform:translateX(4px)}
+.acc-card:active:not(.disabled-card){transform:translateX(0)}
+.pag-card:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(30,58,95,.1)}
+.pag-card.selected{transform:translateY(-2px);box-shadow:0 4px 14px rgba(46,139,114,.15)}
+.pag-card:active{transform:translateY(0)}
+.sg-opt:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(30,58,95,.1);border-color:var(--navy-border)}
+.sg-opt.selected{transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,95,.15)}
+.sg-opt:active{transform:translateY(0)}
+.sg-taglia-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(46,139,114,.12);border-color:var(--teal-border)}
+.sg-taglia-card.selected{transform:translateY(-2px);box-shadow:0 6px 18px rgba(46,139,114,.2)}
+.sg-taglia-card:active{transform:translateY(0)}
+.kwh-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(46,139,114,.12);border-color:var(--teal-border)}
+.kwh-btn.selected{transform:translateY(-1px);box-shadow:0 3px 10px rgba(46,139,114,.15)}
+.kwh-btn:active{transform:translateY(0)}
+.intro-opt:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(30,58,95,.12);border-color:var(--navy-border)}
+.intro-opt:active{transform:translateY(-1px)}
+.btn-primary:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.btn-primary:not(:disabled):active{transform:translateY(0);box-shadow:none}
+.btn-back:hover{transform:translateX(-3px)}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.section.active{animation:slideUp .3s cubic-bezier(.4,0,.2,1)}
+
 @media(max-width:480px){
   .form-grid{grid-template-columns:1fr}
   .form-group.full{grid-column:1}
@@ -484,74 +530,13 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
       <div class="sg-step active" id="sgpbar_linea"></div>
       <div class="sg-step" id="sgpbar_risultato"></div>
     </div>
-
-    <!-- SCELTA LINEA -->
-    <div id="sgSceltaLinea">
-      <div class="section-title" style="margin-bottom:4px">Scegli il tuo Sistema di Accumulo</div>
-      <div class="section-sub" style="margin-bottom:12px">Prezzi calcolati per <span id="sg_kwp_label">—</span> kWp · IVA 10% inclusa</div>
-
-      <!-- Messaggio upsell 3-4-5 kWp -->
-      <div id="sg_upsell_msg" style="display:none;background:var(--teal-light);border:1px solid var(--teal-border);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--teal-dark);margin-bottom:16px;line-height:1.6"></div>
-
-      <div class="linea-card" id="sgcard_smart" onclick="sgScelgiLinea('smart')">
-        <span class="lc-badge badge-smart">Smart One</span>
-        <div class="lc-nome">🔋 V-TAC LiFePO</div>
-        <div class="lc-inverter">Inverter Solis · IP20 · 10 anni garanzia</div>
-        <div class="lc-specs">
-          <div class="lc-spec">Solo fotovoltaico disponibile</div>
-          <div class="lc-spec">Con accumulo: 10 / 16 / 20 / 32 kWh</div>
-        </div>
-      </div>
-
-      <div class="linea-card" style="margin-top:12px" id="sgcard_power" onclick="sgScelgiLinea('power')">
-        <span class="lc-badge badge-power">Power Plus</span>
-        <div class="lc-nome">⚡ Sineng RHP</div>
-        <div class="lc-inverter">Inverter Sineng ibrido · IP65 · 12 anni garanzia · EPS incluso</div>
-        <div class="lc-specs">
-          <div class="lc-spec">Con accumulo: 10,6 / 15,9 / 21,2 kWh</div>
-        </div>
-      </div>
-
-      <div class="linea-card" style="margin-top:12px" id="sgcard_premium" onclick="sgScelgiLinea('premium')">
-        <span class="lc-badge badge-premium">Premium Top</span>
-        <div class="lc-nome">⭐ BYD Battery-Box HVE</div>
-        <div class="lc-inverter">Inverter BYD ibrido · IP65 · 15 anni garanzia · EPS incluso</div>
-        <div class="lc-specs">
-          <div class="lc-spec">80% capacità garantita al 10° anno</div>
-          <div class="lc-spec">Con accumulo: 12,9 / 17,2 / 21,4 kWh</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- RISULTATO / SCELTA KWH -->
-    <div class="sg-risultato" id="sgRisultato" style="display:none">
-      <div class="sg-hero">
-        <div class="sh-badge" id="sg_badge_linea">—</div>
-        <div class="sh-nome" id="sg_nome_linea"></div>
-        <div class="sh-why" id="sg_motivazione"></div>
-      </div>
-      <ul class="sg-features" id="sg_features"></ul>
-
-      <!-- Solo FV (solo Smart) -->
-      <div id="sg_solo_fv_wrap" style="display:none">
-        <div class="sg-taglie-title">Solo fotovoltaico:</div>
-        <div class="sg-taglia-card" id="sg_solo_fv_card" onclick="sgScelgiSoloFv()" style="flex-direction:column;align-items:flex-start;gap:10px;padding:18px 20px">
-          <div style="display:flex;justify-content:space-between;align-items:center;width:100%">
-            <div>
-              <div style="font-size:18px;font-weight:800;color:var(--navy)" id="sg_solo_fv_info">—</div>
-              <div style="font-size:12px;color:var(--muted);margin-top:2px">Senza batteria di accumulo</div>
-            </div>
-            <div style="font-size:22px;font-weight:800;color:var(--navy);white-space:nowrap;margin-left:16px" id="sg_solo_fv_price">—</div>
-          </div>
-          <div style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;background:rgba(30,58,95,.08);border:1px solid rgba(30,58,95,.2);font-size:11px;font-weight:700;color:var(--navy);letter-spacing:.04em">✦ Investimento minimo — massima semplicità</div>
-        </div>
-      </div>
-
-      <div class="sg-taglie-title" id="sg_kwh_title" style="margin-top:20px">Scegli la capacità:</div>
-      <div id="sg_suggerito"></div>
-
-      <button class="btn-primary teal" id="sg_btn_procedi" onclick="procediDaSuggerimento()" disabled style="margin-top:16px">Procedi con questa configurazione →</button>
-      <button class="btn-back" style="justify-content:center;margin-top:8px" onclick="tornaScelgiLinea()">← Cambia linea</button>
+    <div id="sg_upsell_msg" style="display:none;background:var(--teal-light);border:1px solid var(--teal-border);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--teal-dark);margin-bottom:16px;line-height:1.6"></div>
+    <div id="sgSceltaLinea" style="display:none"></div>
+    <div id="sgRisultato" style="display:none">
+      <div class="section-title" style="margin-bottom:4px" id="sg_risultato_titolo">Soluzioni compatibili:</div>
+      <div class="section-sub" style="margin-bottom:16px">Prezzi per <span id="sg_kwp_label2">—</span> kWp · IVA 10% inclusa</div>
+      <div id="sg_linee_risultato"></div>
+      <button class="btn-primary teal" id="sg_btn_procedi" onclick="procediDaSuggerimento()" disabled style="margin-top:20px">Procedi con questa configurazione →</button>
     </div>
   </div>
 </div>
@@ -776,6 +761,28 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
           <div class="consenso-row"><input type="checkbox" id="cb2" onchange="aggiornaConsensi()"><label for="cb2">Acconsento al trattamento dei dati personali ai sensi del GDPR 679/2016 (Art. 10).</label></div>
           <div class="consenso-row"><input type="checkbox" id="cb3" onchange="aggiornaConsensi()"><label for="cb3">Dichiaro di essere proprietario/avente diritto dell'immobile o di avere le necessarie autorizzazioni per l'installazione.</label></div>
           <div class="consenso-row"><input type="checkbox" id="cb4" onchange="aggiornaConsensi()"><label for="cb4">Approvo specificamente le clausole onerose: Art. 3 (tempi), Art. 4 (responsabilità), Art. 8 (recesso e penale), Art. 9 (clausola risolutiva), Art. 11 (foro competente) — ai sensi degli artt. 1341 e 1342 c.c.</label></div>
+          
+          <!-- Presenza Impianto Esistente -->
+          <div class="consenso-row" style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(0,0,0,0.1)">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+              <span style="font-size:14px;color:var(--navy);font-weight:500">Presenza Impianto Esistente:</span>
+              <div style="display:flex;gap:16px">
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px"><input type="radio" name="impianto_esistente" id="impianto_si" value="si" onchange="aggiornaConsensi()" required> SI</label>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px"><input type="radio" name="impianto_esistente" id="impianto_no" value="no" onchange="aggiornaConsensi()" required> NO</label>
+              </div>
+            </div>
+          </div>
+          
+          <!-- CER Solair -->
+          <div class="consenso-row" style="margin-top:12px">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+              <span style="font-size:14px;color:var(--navy);font-weight:500">Il cliente desidera entrare a far parte della CER Solair?</span>
+              <div style="display:flex;gap:16px">
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px"><input type="radio" name="cer_solair" id="cer_si" value="si" onchange="aggiornaConsensi()" required> SI</label>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px"><input type="radio" name="cer_solair" id="cer_no" value="no" onchange="aggiornaConsensi()" required> NO</label>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1143,7 +1150,7 @@ function avantiDaTetto() {
   goTo(5);
 }
 
-// ════════════════════════════════════════
+// ═══════════════��════════════════════════
 // STEP 3 — ACCUMULO
 // ══════════════════��═════════════════════
 
@@ -1640,9 +1647,11 @@ function aggiornaConsensi() {
   return el && el.value.trim() !== '';
   });
   const consensiOk = ['cb1','cb2','cb3','cb4'].every(id => document.getElementById(id).checked);
+  const radioImpiantoOk = document.querySelector('input[name="impianto_esistente"]:checked') !== null;
+  const radioCerOk = document.querySelector('input[name="cer_solair"]:checked') !== null;
   const pagOk = pagState.modalita !== null;
   const btnFirma = document.getElementById('btn-firma');
-  if (btnFirma) btnFirma.disabled = !(campiOk && consensiOk && pagOk);
+  if (btnFirma) btnFirma.disabled = !(campiOk && consensiOk && radioImpiantoOk && radioCerOk && pagOk);
 }
 
 function normalizzaTelefono(tel) {
@@ -1696,6 +1705,8 @@ sede: document.getElementById('f_sede').value,
     tipo_immobile: document.getElementById('f_tipo').value,
     incentivo: '',
     note: document.getElementById('f_note').value,
+    impianto_esistente: document.querySelector('input[name="impianto_esistente"]:checked')?.value || '',
+    cer_solair: document.querySelector('input[name="cer_solair"]:checked')?.value || '',
     sg_immobile: sgAnswers[0] || '',
     sg_obiettivo: sgAnswers[1] || '',
     sg_garanzia: sgAnswers[2] || '',
@@ -1757,208 +1768,242 @@ function mostraConferma() {
 const sgAnswers = { 0: null, 1: null, 2: null, 3: null };
 const sgState = { linea: null, kwp: null, kwh: null, prezzo: null, soloFv: false };
 
+const LINEA_DETAILS = {
+  smart: {
+    badge: 'Smart One', badgeClass: 'badge-smart',
+    nome: 'V-TAC LiFePO · Inverter Solis',
+    descrizione: 'Soluzione residenziale entry-level con pannelli Top Tier 1 e batteria LiFePO. Unica linea disponibile anche solo fotovoltaico.',
+    caratteristiche: [
+      'Pannelli fotovoltaici Top Tier 1 (LONGi / Trina Solar / Astro Energy)',
+      'Inverter Solis monofase — efficienza fino al 98,4%',
+      'Batteria V-TAC LiFePO — 6.000/7.000 cicli garantiti',
+      'Garanzia impianto 10 anni', 'IP20 — installazione interna',
+      'Pratiche GSE, e-distribuzione e collaudo inclusi',
+      'Ingresso CER Solair — 20 anni TIP sulla vendita',
+    ],
+    haEps: false, garanzia: 10, budgetMin: 0,
+  },
+  power: {
+    badge: 'Power Plus', badgeClass: 'badge-power',
+    nome: 'Sineng RHP · Inverter ibrido',
+    descrizione: 'La più venduta: batteria alta tensione LFP con EPS anti-blackout integrato e inverter ibrido Sineng.',
+    caratteristiche: [
+      'Pannelli fotovoltaici Top Tier 1 (LONGi / Trina Solar / Astro Energy)',
+      'Inverter ibrido Sineng monofase — alta efficienza',
+      'Batteria Sineng RHP alta tensione LFP',
+      'EPS anti-blackout incluso — commutazione < 20ms',
+      'IP65 — installazione interna ed esterna',
+      'Garanzia impianto 12 anni', 'Monitoraggio remoto 24/7',
+      'Pratiche GSE, e-distribuzione e collaudo inclusi',
+      'Ingresso CER Solair — 20 anni TIP sulla vendita',
+    ],
+    haEps: true, garanzia: 12, budgetMin: 9000,
+  },
+  premium: {
+    badge: 'Premium Top', badgeClass: 'badge-premium',
+    nome: 'BYD Battery-Box HVE · Inverter BYD',
+    descrizione: 'Top di gamma: inverter ibrido BYD monofase con Battery-Box HVE, la batteria più sottile al mondo (140mm).',
+    caratteristiche: [
+      'Pannelli fotovoltaici Top Tier 1 (LONGi / Trina Solar / Astro Energy)',
+      'Inverter ibrido BYD Power-Box SH monofase — efficienza 97,7%',
+      'BYD Battery-Box HVE — ultra-sottile 140mm',
+      'EPS anti-blackout incluso — commutazione < 13ms',
+      'IP65 — installazione interna ed esterna',
+      'Garanzia 15 anni — 80% capacità garantita al 10° anno',
+      'Scalabile fino a 70,92 kWh', 'WiFi / LAN / RS485 / CAN — monitoraggio remoto',
+      'Pratiche GSE, e-distribuzione e collaudo inclusi',
+      'Ingresso CER Solair — 20 anni TIP sulla vendita',
+    ],
+    haEps: true, garanzia: 15, budgetMin: 12000,
+  },
+};
+
+const BUDGET_SOGLIE = { contenuto: 10000, medio: 15000, alto: Infinity };
+
 function sgScegli(domanda, valore, el) {
   sgAnswers[domanda] = valore;
   el.closest('.sg-opts').querySelectorAll('.sg-opt').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
   const btn = document.getElementById('sgBtn' + domanda);
   btn.disabled = false;
-  // Q0: azienda/altro -> bottone diventa WhatsApp
   if (domanda === 0) {
     if (valore === 'azienda' || valore === 'altro') {
-      btn.innerHTML = '<svg style="display:inline;vertical-align:middle;margin-right:8px" width="20" height="20" fill="#fff" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Contatta un nostro consulente via WhatsApp';
-      btn.style.background = '#25D366';
+      btn.textContent = '💬 Contatta un nostro consulente via WhatsApp';
+      btn.style.background = '#25D366'; btn.style.color = '#fff';
       btn.onclick = () => window.open('https://wa.me/393497988101?text=Ciao%2C%20sono%20interessato%20a%20un%20impianto%20fotovoltaico%20per%20' + encodeURIComponent(valore === 'azienda' ? 'azienda/capannone' : 'altro tipo di immobile'), '_blank');
     } else {
-      btn.textContent = 'Avanti →';
-      btn.style.background = '';
+      btn.textContent = 'Avanti →'; btn.style.background = ''; btn.style.color = '';
       btn.onclick = () => sgAvantiQ0();
     }
   }
 }
 
-function sgAvantiQ0() {
-  sgAvanti(1);
-}
+function sgAvantiQ0() { sgAvanti(1); }
 
 function sgAvanti(n) {
   for (let i = 0; i <= 3; i++) {
-    const q = document.getElementById('sgQ' + i);
-    if (q) q.classList.remove('active');
+    const q = document.getElementById('sgQ' + i); if (q) q.classList.remove('active');
     const bar = document.getElementById('sgpbar' + i);
     if (bar) bar.className = 'sg-step' + (i < n ? ' done' : i === n ? ' active' : '');
   }
-  const qEl = document.getElementById('sgQ' + n);
-  if (qEl) qEl.classList.add('active');
+  const qEl = document.getElementById('sgQ' + n); if (qEl) qEl.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function sgDomandeComplete() {
-  // Domande completate → vai al configuratore (Potenza)
   document.getElementById('suggerimentoDomandePage').style.display = 'none';
   document.getElementById('configuratorePage').style.display = 'block';
-  document.getElementById('sg_steps_configuratore').style.display = 'block';
-  renderKwpButtons();
-  goTo(0);
+  const sgSteps = document.getElementById('sg_steps_configuratore');
+  if (sgSteps) sgSteps.style.display = 'block';
+  renderKwpButtons(); goTo(0);
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function calcolaLineeCompatibili() {
+  let linee = ['smart', 'power', 'premium'];
+  if (sgAnswers[1] === 'blackout') linee = linee.filter(l => LINEA_DETAILS[l].haEps);
+  if (sgAnswers[2] === 'standard') linee = linee.filter(l => l === 'smart');
+  if (sgAnswers[2] === 'estesa')   linee = linee.filter(l => l === 'power');
+  if (sgAnswers[2] === 'massima')  linee = linee.filter(l => l === 'premium');
+  const budgetMax = BUDGET_SOGLIE[sgAnswers[3]] || Infinity;
+  const kwp = state.kwp || 6;
+  linee = linee.filter(l => {
+    const kwhOpts = KWH_OPTIONS[l];
+    const prezziLinea = PREZZI_ACC[l][kwp];
+    if (!prezziLinea) return true;
+    const minPrezzo = Math.min(...kwhOpts.map(k => prezziLinea[k] || Infinity));
+    if (l === 'smart') { const pvP = PREZZI_NO_ACC[kwp] || 0; return pvP <= budgetMax || minPrezzo <= budgetMax; }
+    return minPrezzo <= budgetMax;
+  });
+  if (linee.length === 0) linee = ['smart', 'power', 'premium'];
+  return linee;
 }
 
 function avviaSuggerimentoPage() {
   document.getElementById('sgRisultato').style.display = 'none';
   document.getElementById('sgpbar_linea').className = 'sg-step active';
   document.getElementById('sgpbar_risultato').className = 'sg-step';
-  ['smart','power','premium'].forEach(l => {
-    const c = document.getElementById('sgcard_' + l);
-    if (c) c.classList.remove('selected');
-  });
-
-  // Per kWp 3-4-5 mostra messaggio e porta a 6 kWp
   const msgEl = document.getElementById('sg_upsell_msg');
   if (state.kwp <= 5) {
     const diff = PREZZI_NO_ACC[6] - (PREZZI_NO_ACC[state.kwp] || 0);
     msgEl.style.display = 'block';
-    msgEl.innerHTML = `💡 <strong>Consiglio Solair:</strong> con soli €&nbsp;${diff.toLocaleString('it-IT')} in più rispetto a ${state.kwp}&nbsp;kWp, un impianto da <strong>6&nbsp;kWp</strong> produce circa il ${Math.round((6/state.kwp - 1)*100)}% di energia in più e apre l'accesso a tutte le linee con accumulo. Ti mostriamo le opzioni da 6&nbsp;kWp.`;
+    msgEl.innerHTML = `💡 <strong>Consiglio Solair:</strong> con soli € ${diff.toLocaleString('it-IT')} in più rispetto a ${state.kwp} kWp, un impianto da <strong>6 kWp</strong> produce circa il ${Math.round((6/state.kwp - 1)*100)}% di energia in più. Ti mostriamo le opzioni da 6 kWp.`;
     state.kwp = 6;
-  } else {
-    msgEl.style.display = 'none';
-  }
-
-  document.getElementById('sg_kwp_label').textContent = state.kwp;
-  document.getElementById('sgSceltaLinea').style.display = 'block';
-  renderKwpButtons(); // aggiorna la selezione visiva nel configuratore
+  } else { msgEl.style.display = 'none'; }
+  const l2 = document.getElementById('sg_kwp_label2'); if(l2) l2.textContent = state.kwp;
+  renderRisultatoLinee();
 }
 
-function sgScelgiLinea(linea) {
-  sgState.linea = linea;
-  sgState.kwh = null;
-  sgState.prezzo = null;
-  sgState.soloFv = false;
-  // Highlight card
-  ['smart','power','premium'].forEach(l => {
-    const c = document.getElementById('sgcard_' + l);
-    if (c) c.classList.toggle('selected', l === linea);
+function renderRisultatoLinee() {
+  const lineeCompatibili = calcolaLineeCompatibili();
+  const kwp = state.kwp || 6;
+  const container = document.getElementById('sg_linee_risultato');
+  container.innerHTML = '';
+  sgState.linea = null; sgState.kwh = null; sgState.prezzo = null; sgState.soloFv = false;
+  document.getElementById('sg_btn_procedi').disabled = true;
+  const titolo = document.getElementById('sg_risultato_titolo');
+  titolo.textContent = lineeCompatibili.length === 1 ? 'La soluzione ideale per te:' : `${lineeCompatibili.length} soluzioni compatibili con le tue esigenze:`;
+
+  const BANNER = {
+    10:{label:'Ideale per famiglie 2-3 persone',color:'#2e8b72',bg:'rgba(46,139,114,.12)'},
+    16:{label:'Miglior equilibrio costo/autonomia',color:'#1e6b9a',bg:'rgba(30,107,154,.12)'},
+    20:{label:'Alta autonomia energetica',color:'#7c3aed',bg:'rgba(124,58,237,.1)'},
+    32:{label:'Massima indipendenza dalla rete',color:'#b45309',bg:'rgba(180,83,9,.1)'},
+    '10.6':{label:'Ideale per famiglie 2-3 persone',color:'#2e8b72',bg:'rgba(46,139,114,.12)'},
+    '15.9':{label:'Miglior equilibrio costo/autonomia',color:'#1e6b9a',bg:'rgba(30,107,154,.12)'},
+    '21.2':{label:'Alta autonomia — EPS anti-blackout',color:'#7c3aed',bg:'rgba(124,58,237,.1)'},
+    '12.9':{label:'Ideale per famiglie 3-4 persone',color:'#2e8b72',bg:'rgba(46,139,114,.12)'},
+    '17.2':{label:'Risparmio bolletta fino al 90%',color:'#1e6b9a',bg:'rgba(30,107,154,.12)'},
+    '21.4':{label:'Autonomia totale — top di gamma',color:'#b45309',bg:'rgba(180,83,9,.1)'},
+  };
+
+  lineeCompatibili.forEach(linea => {
+    const det = LINEA_DETAILS[linea];
+    const kwhOpts = KWH_OPTIONS[linea];
+    const prezziLinea = PREZZI_ACC[linea][kwp] || {};
+    const card = document.createElement('div');
+    card.className = 'sg-linea-result-card';
+    const carHtml = det.caratteristiche.map(c =>
+      `<li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text);margin-bottom:6px"><span style="color:var(--teal);font-weight:700;flex-shrink:0">✓</span>${c}</li>`
+    ).join('');
+    const taglieHtml = kwhOpts.map(kwh => {
+      const p = prezziLinea[kwh]; if (!p) return '';
+      const b = BANNER[kwh] || {};
+      return `<div style="margin-bottom:8px">
+        <button class="kwh-btn sg-kwh-sel" data-linea="${linea}" data-kwh="${kwh}" data-prezzo="${p}" onclick="sgSelezionaTaglia('${linea}','${kwh}',${p},this)" style="width:100%;flex-direction:column;align-items:flex-start;gap:4px;padding:12px 14px;height:auto">
+          <div style="display:flex;justify-content:space-between;width:100%;align-items:center">
+            <strong style="font-size:16px">${kwh} kWh</strong>
+            <span style="font-size:18px;font-weight:800;color:var(--navy)">€ ${p.toLocaleString('it-IT')}</span>
+          </div>
+          ${b.label ? `<div style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;background:${b.bg};border:1px solid ${b.color}33;font-size:10px;font-weight:700;color:${b.color}">✦ ${b.label}</div>` : ''}
+        </button>
+      </div>`;
+    }).join('');
+    const soloFvHtml = linea === 'smart' ? `<div style="margin-bottom:8px">
+      <button class="kwh-btn sg-kwh-sel" data-linea="smart" data-kwh="fv" data-prezzo="${PREZZI_NO_ACC[kwp]}" onclick="sgSelezionaTaglia('smart','fv',${PREZZI_NO_ACC[kwp]},this)" style="width:100%;flex-direction:column;align-items:flex-start;gap:4px;padding:12px 14px;height:auto;border-color:var(--navy-border)">
+        <div style="display:flex;justify-content:space-between;width:100%;align-items:center">
+          <strong style="font-size:16px">Solo fotovoltaico</strong>
+          <span style="font-size:18px;font-weight:800;color:var(--navy)">€ ${(PREZZI_NO_ACC[kwp]||0).toLocaleString('it-IT')}</span>
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;background:rgba(30,58,95,.08);border:1px solid rgba(30,58,95,.2);font-size:10px;font-weight:700;color:var(--navy)">✦ Investimento minimo — massima semplicità</div>
+      </button>
+    </div>` : '';
+    card.innerHTML = `
+      <div class="sg-rc-header">
+        <span class="lc-badge ${det.badgeClass}" style="font-size:11px">${det.badge}</span>
+        <div style="font-size:17px;font-weight:800;color:#fff;margin:8px 0 2px">${det.badge}</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.7);margin-bottom:4px">${det.nome}</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.8);line-height:1.5">${det.descrizione}</div>
+      </div>
+      <div class="sg-rc-body">
+        <button class="sg-rc-toggle" onclick="sgToggleCaratteristiche('${linea}')">📋 Caratteristiche incluse <span id="sgct_arrow_${linea}">▼</span></button>
+        <ul id="sgct_${linea}" style="display:none;list-style:none;padding:0;margin:8px 0 0">${carHtml}</ul>
+        <button class="sg-rc-toggle sg-rc-offerta" onclick="sgApriOfferta('${linea}')">📄 Vedi offerta completa</button>
+        <div style="margin-top:16px">
+          <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:8px">Scegli la configurazione adatta alle tue esigenze:</div>
+          ${soloFvHtml}${taglieHtml}
+        </div>
+      </div>`;
+    container.appendChild(card);
   });
-  // Vai a risultato
   document.getElementById('sgSceltaLinea').style.display = 'none';
   document.getElementById('sgRisultato').style.display = 'block';
   document.getElementById('sgpbar_linea').className = 'sg-step done';
   document.getElementById('sgpbar_risultato').className = 'sg-step active';
-  document.getElementById('sg_btn_procedi').disabled = true;
-
-  const info = LINEE_INFO[linea];
-  const badges = { smart: 'Smart One', power: 'Power Plus', premium: 'Premium Top' };
-  document.getElementById('sg_badge_linea').textContent = badges[linea];
-  document.getElementById('sg_nome_linea').textContent = {
-    smart: 'V-TAC LiFePO · Inverter Solis',
-    power: 'Sineng RHP · Inverter ibrido',
-    premium: 'BYD Battery-Box HVE · Inverter ibrido',
-  }[linea];
-  document.getElementById('sg_motivazione').textContent = {
-    smart: 'Soluzione entry level con 10 anni di garanzia. Unica linea disponibile anche senza accumulo.',
-    power: 'La più venduta: batteria alta tensione IP65, EPS anti-blackout incluso, 12 anni di garanzia.',
-    premium: 'Top di gamma: BYD HVE, 15 anni di garanzia con 80% capacità nominale garantita al 10° anno.',
-  }[linea];
-  document.getElementById('sg_features').innerHTML = info.specs.map(s => `<li class="sg-feature">${s}</li>`).join('');
-
-  // Solo FV solo per Smart
-  const soloFvWrap = document.getElementById('sg_solo_fv_wrap');
-  if (linea === 'smart') {
-    const pFv = PREZZI_NO_ACC[state.kwp] || 0;
-    document.getElementById('sg_solo_fv_info').textContent = state.kwp + ' kWp — solo fotovoltaico';
-    document.getElementById('sg_solo_fv_price').textContent = '€ ' + pFv.toLocaleString('it-IT');
-    soloFvWrap.style.display = 'block';
-    document.getElementById('sg_kwh_title').textContent = 'Oppure con accumulo — scegli la capacità:';
-  } else {
-    soloFvWrap.style.display = 'none';
-    document.getElementById('sg_kwh_title').textContent = 'Scegli la capacità:';
-  }
-
-  renderTaglieSuggerimento(linea);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function sgScelgiSoloFv() {
-  sgState.soloFv = true;
-  sgState.kwh = null;
-  sgState.prezzo = PREZZI_NO_ACC[state.kwp] || 0;
-  // Deseleziona kWh cards
-  document.querySelectorAll('#sg_suggerito .sg-taglia-card').forEach(c => c.classList.remove('selected'));
-  // Seleziona solo FV card
-  document.getElementById('sg_solo_fv_card').classList.add('selected');
-  document.getElementById('sg_btn_procedi').disabled = false;
+function sgToggleCaratteristiche(linea) {
+  const el = document.getElementById('sgct_' + linea);
+  const arrow = document.getElementById('sgct_arrow_' + linea);
+  const isOpen = el.style.display !== 'none';
+  el.style.display = isOpen ? 'none' : 'block';
+  arrow.textContent = isOpen ? '▼' : '▲';
 }
 
-function renderTaglieSuggerimento(linea) {
-  const suggerito = document.getElementById('sg_suggerito');
-  suggerito.innerHTML = '';
-  const kwp = state.kwp || 6;
-  const kwhOpts = KWH_OPTIONS[linea];
+function sgApriOfferta(linea) {
+  alert('PDF offerta ' + LINEA_DETAILS[linea].badge + ' — disponibile a breve');
+}
 
-  // Banner descrittivi per taglia kWh
-  const BANNER = {
-    // Smart / V-TAC
-    10:   { label: 'Ideale per famiglie 2-3 persone',  color: '#2e8b72', bg: 'rgba(46,139,114,.12)' },
-    16:   { label: 'Miglior equilibrio costo/autonomia', color: '#1e6b9a', bg: 'rgba(30,107,154,.12)' },
-    20:   { label: 'Alta autonomia energetica',          color: '#7c3aed', bg: 'rgba(124,58,237,.1)' },
-    32:   { label: 'Massima indipendenza dalla rete',    color: '#b45309', bg: 'rgba(180,83,9,.1)' },
-    // Power Plus / Sineng
-    '10.6': { label: 'Ideale per famiglie 2-3 persone',  color: '#2e8b72', bg: 'rgba(46,139,114,.12)' },
-    '15.9': { label: 'Miglior equilibrio costo/autonomia', color: '#1e6b9a', bg: 'rgba(30,107,154,.12)' },
-    '21.2': { label: 'Alta autonomia — EPS anti-blackout', color: '#7c3aed', bg: 'rgba(124,58,237,.1)' },
-    // Premium / BYD
-    '12.9': { label: 'Ideale per famiglie 3-4 persone',  color: '#2e8b72', bg: 'rgba(46,139,114,.12)' },
-    '17.2': { label: 'Risparmio bolletta fino al 90%',    color: '#1e6b9a', bg: 'rgba(30,107,154,.12)' },
-    '21.4': { label: 'Autonomia totale — top di gamma',   color: '#b45309', bg: 'rgba(180,83,9,.1)' },
-  };
-
-  let isFirst = true;
-  kwhOpts.forEach(kwh => {
-    const prezzo = PREZZI_ACC[linea][kwp] ? PREZZI_ACC[linea][kwp][kwh] : null;
-    if (!prezzo) return;
-    const banner = BANNER[kwh] || {};
-    const card = document.createElement('div');
-    card.className = 'sg-taglia-card';
-    card.style.cssText = 'flex-direction:column;align-items:flex-start;gap:10px;padding:18px 20px';
-    card.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center;width:100%">
-        <div>
-          <div style="font-size:18px;font-weight:800;color:var(--navy)">${kwp} kWp + ${kwh} kWh</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px">${MARCA_INFO[linea].label}</div>
-        </div>
-        <div style="font-size:22px;font-weight:800;color:var(--navy);white-space:nowrap;margin-left:16px">€ ${prezzo.toLocaleString('it-IT')}</div>
-      </div>
-      ${banner.label ? `<div style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;background:${banner.bg};border:1px solid ${banner.color}33;font-size:11px;font-weight:700;color:${banner.color};letter-spacing:.04em">✦ ${banner.label}</div>` : ''}`;
-
-    if (isFirst) {
-      // Non pre-selezionare, ma teniamo isFirst per eventuale logica futura
-      isFirst = false;
-    }
-    const tk = kwh; const tp = prezzo;
-    card.onclick = () => {
-      document.querySelectorAll('#sg_suggerito .sg-taglia-card').forEach(c => c.classList.remove('selected'));
-      const sfv = document.getElementById('sg_solo_fv_card');
-      if (sfv) sfv.classList.remove('selected');
-      card.classList.add('selected');
-      sgState.kwh = tk; sgState.prezzo = tp; sgState.soloFv = false;
-      document.getElementById('sg_btn_procedi').disabled = false;
-    };
-    suggerito.appendChild(card);
-  });
+function sgSelezionaTaglia(linea, kwh, prezzo, el) {
+  document.querySelectorAll('.sg-kwh-sel').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  sgState.linea = linea;
+  sgState.kwh = kwh === 'fv' ? null : parseFloat(kwh);
+  sgState.prezzo = prezzo;
+  sgState.soloFv = kwh === 'fv';
+  document.getElementById('sg_btn_procedi').disabled = false;
 }
 
 function tornaScelgiLinea() {
   document.getElementById('sgRisultato').style.display = 'none';
-  document.getElementById('sgSceltaLinea').style.display = 'block';
-  document.getElementById('sgpbar_linea').className = 'sg-step active';
-  document.getElementById('sgpbar_risultato').className = 'sg-step';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function tornaDaPannelliSg() {
   document.getElementById('suggerimentoPage').style.display = 'none';
   document.getElementById('configuratorePage').style.display = 'block';
-  goTo(1);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  goTo(1); window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function procediDaSuggerimento() {
@@ -1970,8 +2015,7 @@ function procediDaSuggerimento() {
   document.getElementById('suggerimentoPage').style.display = 'none';
   document.getElementById('configuratorePage').style.display = 'block';
   document.getElementById('progressBar').style.display = 'none';
-  renderKwpButtons();
-  goTo(3); // vai a Tetto
+  renderKwpButtons(); goTo(3);
 }
 // ═════════════��══════════════════════════
 // INTRO / RESET
