@@ -896,7 +896,7 @@ const LINEE_INFO = {
   },
 };
 
-// ── Tabella FLAT per percorso manuale: kWp → marca → kWh → prezzo ──
+// ── Tabella FLAT per percorso manuale: kWp → marca → kWh → prezzo ���─
 // Calcolata come PREZZI_NO_ACC[kwp] + prezzo_solo_acc[marca][kwp][kwh]
 // Nota: kWp 3/4/5 usano i prezzi accumulo di kWp 5 (stessi valori)
 const PREZZI_ACC_FLAT = {
@@ -919,7 +919,7 @@ const RATE_OPTIONS = [24, 36, 48, 60, 72, 84];
 
 // ═════════════════���═════���════════════════
 // STATE
-// ══════���═══������════════════════════════════
+// ══════���═══������═══════════════════════���════
 
 let pannelliList = []; // da Sanity
 
@@ -1919,9 +1919,12 @@ function renderRisultatoLinee() {
     const prezziLinea = PREZZI_ACC[linea][kwp] || {};
     const card = document.createElement('div');
     card.className = 'sg-linea-result-card';
-    const carHtml = det.caratteristiche.map(c =>
-      `<li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text);margin-bottom:6px"><span style="color:var(--teal);font-weight:700;flex-shrink:0">✓</span>${c}</li>`
-    ).join('');
+const features = lineaDataSanity[linea]?.features?.length 
+  ? lineaDataSanity[linea].features 
+  : det.caratteristiche;
+const carHtml = features.map(c =>
+  `<li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text);margin-bottom:6px"><span style="color:var(--teal);font-weight:700;flex-shrink:0">✓</span>${c}</li>`
+  ).join('');
     const taglieHtml = kwhOpts.map(kwh => {
       const p = prezziLinea[kwh]; if (!p) return '';
       const b = BANNER[kwh] || {};
@@ -1978,7 +1981,12 @@ function sgToggleCaratteristiche(linea) {
 }
 
 function sgApriOfferta(linea) {
-  alert('PDF offerta ' + LINEA_DETAILS[linea].badge + ' — disponibile a breve');
+  const pdfUrl = lineaDataSanity[linea]?.pdfUrl;
+  if (pdfUrl) {
+    window.open(pdfUrl, '_blank');
+  } else {
+    alert('PDF offerta ' + (LINEA_DETAILS[linea]?.badge || linea) + ' — disponibile a breve');
+  }
 }
 
 function sgSelezionaTaglia(linea, kwh, prezzo, el) {
@@ -2080,6 +2088,7 @@ function tornaIntro() {
 renderKwpButtons();
 loadPannelliSanity();
 fetchSedi();
+fetchLineeSanity();
 
 async function fetchSedi() {
   const query = encodeURIComponent('*[_type=="sede"] | order(nome asc) { nome, citta }');
@@ -2105,6 +2114,29 @@ async function fetchSedi() {
       <option value="Giarre (CT)">Giarre (CT)</option>
       <option value="Treviso (TV)">Treviso (TV)</option>
       <option value="Torino (TO)">Torino (TO)</option>`;
+  }
+}
+
+let lineaDataSanity = {};
+
+async function fetchLineeSanity() {
+  const query = encodeURIComponent('*[_type=="linea"] | order(ordine asc) { id, nome, brand, features, "pdfUrl": offertaPdf.asset->url }');
+  const url = `https://${SANITY_PROJECT}.api.sanity.io/v2021-06-07/data/query/${SANITY_DATASET}?query=${query}`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    (data.result || []).forEach(l => {
+      if (l.id && ['smart','power','premium'].includes(l.id)) {
+        lineaDataSanity[l.id] = {
+          features: l.features || [],
+          pdfUrl: l.pdfUrl || null,
+          nome: l.nome || '',
+          brand: l.brand || '',
+        };
+      }
+    });
+  } catch(e) {
+    console.warn('[Configuratore] Fetch linee fallito:', e.message);
   }
 }
 
