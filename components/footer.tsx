@@ -314,7 +314,7 @@ export function Footer() {
               <Link href="/faq" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>FAQ</Link>
               <a href="https://www.iubenda.com/privacy-policy/56116406" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>Privacy</a>
               <a href="https://www.iubenda.com/privacy-policy/56116406/cookie-policy" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>Cookies</a>
-              <a href="/condizioni-generali-solair.pdf" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>Terms</a>
+              <a href="/condizioni-generali-solair.pdf" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>Termini e Condizioni</a>
               <a href="https://solairgroup.sanity.studio" target="_blank" rel="noopener noreferrer" className="hidden sm:inline text-xs text-white/40 hover:text-white/70 transition-colors duration-200" style={{ fontFamily: "var(--font-dm-sans)" }}>Area Riservata</a>
             </div>
           </div>
