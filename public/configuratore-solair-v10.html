@@ -896,7 +896,7 @@ const LINEE_INFO = {
   },
 };
 
-// ── Tabella FLAT per percorso manuale: kWp → marca → kWh → prezzo �����─
+// ── Tabella FLAT per percorso manuale: kWp → marca → kWh → prezzo �������─
 // Calcolata come PREZZI_NO_ACC[kwp] + prezzo_solo_acc[marca][kwp][kwh]
 // Nota: kWp 3/4/5 usano i prezzi accumulo di kWp 5 (stessi valori)
 const PREZZI_ACC_FLAT = {
@@ -919,7 +919,7 @@ const RATE_OPTIONS = [24, 36, 48, 60, 72, 84];
 
 // ═════════════════���═════���════════════════
 // STATE
-// ══════���═══������═════════════════════���═���════
+// ══════���═══������═══════════════════���═���═���════
 
 let pannelliList = []; // da Sanity
 let batterieData = {}; // { 'V-TAC': { taglie: [...], prezzi: { 3: { 10: 1500, ... } } }, ... }
@@ -1153,7 +1153,7 @@ function avantiDaTetto() {
 
 function scelgiAccumulo(haAcc) {
   state.accumulo = haAcc;
-  state.linea = null; state.kwh = null; state.prezzoBase = 0;
+  state.linea = null; state.kwh = null;
   document.getElementById('btn_no_acc').classList.toggle('selected', !haAcc);
   document.getElementById('btn_si_acc').classList.toggle('selected', haAcc);
 
@@ -1162,6 +1162,8 @@ function scelgiAccumulo(haAcc) {
   const wrap2 = document.getElementById('acc_prezzo_wrap2');
 
   if (haAcc) {
+    // Mantieni il prezzo base dei pannelli mentre l'utente sceglie l'accumulo
+    state.prezzoBase = PREZZI_NO_ACC[state.kwp] || 0;
     marcaSel.style.display = 'block';
     kwhSel.style.display = 'none';
     if (wrap2) wrap2.style.display = 'none';
@@ -1172,7 +1174,6 @@ function scelgiAccumulo(haAcc) {
     marcaSel.style.display = 'none';
     kwhSel.style.display = 'none';
     state.prezzoBase = PREZZI_NO_ACC[state.kwp] || 0;
-    aggiornaTotale();
     document.getElementById('btn-s2').disabled = false;
     document.getElementById('btn-s2').textContent = 'Avanti → Tipo tetto';
   }
@@ -1205,7 +1206,8 @@ function renderMarcaCards() {
 function scelgiMarca(marcaKey) {
   state.linea = marcaKey;
   state.kwh = null;
-  state.prezzoBase = 0;
+  // Mantieni il prezzo base dei pannelli mentre l'utente sceglie la capacita
+  state.prezzoBase = PREZZI_NO_ACC[state.kwp] || 0;
   document.querySelectorAll('.linea-card').forEach(c => c.classList.remove('selected'));
   const mc = document.getElementById('mcard_' + marcaKey);
   if (mc) mc.classList.add('selected');
