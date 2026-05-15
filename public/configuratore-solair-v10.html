@@ -2147,8 +2147,16 @@ function selectFromDrawer() {
   const btn = document.getElementById('pd_btn_select');
   btn.textContent = '✓ Selezionato';
   btn.className = 'pd-btn-select already';
-}
-</script>
+  }
+
+  // Auto-avvia suggerimento se parametro URL presente
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('mode') === 'suggerimento') {
+      setTimeout(function() { avviaSuggerimento(); }, 100);
+    }
+  })();
+  </script>
 <!-- DRAWER DETTAGLI PANNELLO -->
 <div class="pd-overlay" id="pd_overlay" onclick="closeDrawer()"></div>
 <div class="pd-drawer" id="pd_drawer">
