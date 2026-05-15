@@ -7,6 +7,14 @@ import { FAQAccordion } from "./faq-accordion"
 export const metadata = {
   title: "FAQ - Domande Frequenti | Solair Group",
   description: "Trova risposte alle domande più frequenti su impianti fotovoltaici, installazione, garanzie e incentivi.",
+  alternates: {
+    canonical: "https://solairgroup.it/faq",
+  },
+  openGraph: {
+    title: "FAQ - Domande Frequenti | Solair Group",
+    description: "Trova risposte alle domande più frequenti su impianti fotovoltaici, installazione, garanzie e incentivi.",
+    url: "https://solairgroup.it/faq",
+  },
 }
 
 export default async function FAQPage() {
