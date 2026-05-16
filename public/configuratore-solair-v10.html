@@ -1234,13 +1234,13 @@ function renderKwhAccButtons() {
 
 function scelgiKwhAcc(kwh, prezzo, el) {
   state.kwh = kwh.toString().includes('.') ? kwh : parseFloat(kwh);
-  state.prezzoBase = prezzo;
+  state.prezzoBase = (PREZZI_NO_ACC[state.kwp] || 0) + prezzo;
   document.querySelectorAll('#kwh_acc_buttons .kwh-btn').forEach(b => b.classList.remove('selected'));
   if (el) el.classList.add('selected');
   const wrap2 = document.getElementById('acc_prezzo_wrap2');
   const marcaNome = MARCA_INFO[state.linea] ? MARCA_INFO[state.linea].label : state.linea;
   document.getElementById('acc_prezzo_desc2').textContent = `Impianto ${state.kwp} kWp + ${marcaNome} ${kwh} kWh`;
-  document.getElementById('acc_totale2').textContent = '€ ' + prezzo.toLocaleString('it-IT');
+  document.getElementById('acc_totale2').textContent = '€ ' + state.prezzoBase.toLocaleString('it-IT');
   wrap2.style.display = 'block';
   document.getElementById('btn-s2').disabled = false;
   document.getElementById('btn-s2').textContent = 'Avanti → Tipo tetto';
@@ -2074,7 +2074,7 @@ function tornaIntro() {
 
 // ════════════════════════════════════════
 // INIT
-// ════════════════════���═══════���═══════════
+// ════════════════════���═════��═���═══════════
 
 renderKwpButtons();
 loadPannelliSanity();
