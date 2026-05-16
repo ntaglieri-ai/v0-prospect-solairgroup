@@ -1098,7 +1098,7 @@ function renderPannelliCards() {
       renderPannelliCards();
       const btnS1 = document.getElementById('btn-s1');
       btnS1.disabled = false;
-      btnS1.textContent = isSuggerimento ? 'Avanti → Domande' : 'Avanti → Accumulo';
+      btnS1.textContent = isSuggerimento ? 'Avanti → Domande' : 'Avanti �� Accumulo';
     };
     container.appendChild(card);
   });
@@ -1343,7 +1343,7 @@ function scelgiKwhFlat(kwh, prezzo, el) {
   // kwh arriva sempre come stringa dall'onclick; converti a numero se intero
   state.kwh = kwh.includes('.') ? kwh : parseFloat(kwh);
   state.linea = null;
-  state.prezzoBase = prezzo;
+  state.prezzoBase = (PREZZI_NO_ACC[state.kwp] || 0) + prezzo;
   document.querySelectorAll('#kwh_flat_buttons .kwh-btn').forEach(b => b.classList.remove('selected'));
   if (el) el.classList.add('selected');
   const wrap = document.getElementById('acc_prezzo_wrap');
