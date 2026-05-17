@@ -120,7 +120,7 @@ export function TestimonialsSection() {
   }
 
   return (
-    <section id="recensioni" className="relative py-16 sm:py-24 bg-white">
+    <section id="recensioni" className="relative py-10 sm:py-16 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
         {/* Header */}
         <div className="text-center mb-10 sm:mb-16">
