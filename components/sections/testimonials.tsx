@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface Recensione {
   _id: string
@@ -105,18 +104,20 @@ export function TestimonialsSection() {
   }, [])
 
   const totalPages = Math.ceil(recensioni.length / 3)
+
+  // Auto-advance every 4 seconds with infinite loop
+  useEffect(() => {
+    if (totalPages <= 1) return
+    const interval = setInterval(() => {
+      setCurrentPage((prev) => (prev + 1) % totalPages)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [totalPages])
+
   const visibleReviews = recensioni.slice(currentPage * 3, currentPage * 3 + 3)
 
   const goToPage = (page: number) => {
     setCurrentPage(page)
-  }
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (direction === 'left') {
-      setCurrentPage(currentPage === 0 ? totalPages - 1 : currentPage - 1)
-    } else {
-      setCurrentPage(currentPage === totalPages - 1 ? 0 : currentPage + 1)
-    }
   }
 
   return (
@@ -147,22 +148,6 @@ export function TestimonialsSection() {
           <p className="text-center text-gray-500">Nessuna recensione disponibile</p>
         ) : (
           <div className="relative">
-            {/* Navigation buttons */}
-            <button
-              onClick={() => scroll('left')}
-              className="hidden lg:flex absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition-colors"
-              aria-label="Precedente"
-            >
-              <ChevronLeft className="h-6 w-6 text-[#1e3a5f]" />
-            </button>
-            <button
-              onClick={() => scroll('right')}
-              className="hidden lg:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition-colors"
-              aria-label="Successiva"
-            >
-              <ChevronRight className="h-6 w-6 text-[#1e3a5f]" />
-            </button>
-
             {/* Mobile: horizontal scroll carousel */}
             <div
               ref={scrollRef}
@@ -176,10 +161,10 @@ export function TestimonialsSection() {
               ))}
             </div>
 
-            {/* Desktop: 3-column grid with pagination */}
-            <div className="hidden lg:grid lg:grid-cols-3 gap-6">
+            {/* Desktop: 3-column grid with auto-sliding */}
+            <div className="hidden lg:grid lg:grid-cols-3 gap-6 transition-opacity duration-500">
               {visibleReviews.map((recensione) => (
-                <div key={recensione._id}>
+                <div key={recensione._id} className="transition-all duration-500">
                   <ReviewCard recensione={recensione} />
                 </div>
               ))}
@@ -187,7 +172,7 @@ export function TestimonialsSection() {
 
             {/* Dot navigation */}
             {totalPages > 1 && (
-              <div className="flex justify-center gap-2 mt-8">
+              <div className="hidden lg:flex justify-center gap-2 mt-8">
                 {Array.from({ length: totalPages }).map((_, index) => (
                   <button
                     key={index}
