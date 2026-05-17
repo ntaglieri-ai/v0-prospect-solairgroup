@@ -55,8 +55,8 @@ function ReviewCard({ recensione }: { recensione: Recensione }) {
   }, [recensione.testo])
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col h-full min-w-[280px] sm:min-w-[320px]">
-      <div className="flex items-center justify-between mb-3">
+    <div className="bg-white rounded-xl shadow-md p-6 flex flex-col h-full border border-gray-100">
+      <div className="flex items-start justify-between mb-3">
         <StarRating stelle={recensione.stelle} />
         <GoogleBadge />
       </div>
@@ -84,6 +84,7 @@ function ReviewCard({ recensione }: { recensione: Recensione }) {
 export function TestimonialsSection() {
   const [recensioni, setRecensioni] = useState<Recensione[]>([])
   const [loading, setLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(0)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -103,29 +104,34 @@ export function TestimonialsSection() {
     fetchRecensioni()
   }, [])
 
+  const totalPages = Math.ceil(recensioni.length / 3)
+  const visibleReviews = recensioni.slice(currentPage * 3, currentPage * 3 + 3)
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page)
+  }
+
   const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const scrollAmount = 340
-      scrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      })
+    if (direction === 'left' && currentPage > 0) {
+      setCurrentPage(currentPage - 1)
+    } else if (direction === 'right' && currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1)
     }
   }
 
   return (
-    <section id="recensioni" className="relative py-16 sm:py-24 bg-[#1e3a5f]">
+    <section id="recensioni" className="relative py-16 sm:py-24 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
         {/* Header */}
         <div className="text-center mb-10 sm:mb-16">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+          <div className="inline-flex items-center gap-2 bg-gray-100 rounded-full px-4 py-2 mb-6">
             <span className="text-[#2e8b72] font-bold text-lg">4.8</span>
             <svg className="h-5 w-5 text-[#2e8b72]" fill="currentColor" viewBox="0 0 20 20">
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
-            <span className="text-white/80 text-sm">basato su 105 recensioni Google</span>
+            <span className="text-gray-600 text-sm">basato su 105 recensioni Google</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight px-2">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#1e3a5f] tracking-tight px-2">
             Cosa dicono i nostri clienti
           </h2>
         </div>
@@ -135,37 +141,64 @@ export function TestimonialsSection() {
             <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#2e8b72]"></div>
           </div>
         ) : recensioni.length === 0 ? (
-          <p className="text-center text-white/60">Nessuna recensione disponibile</p>
+          <p className="text-center text-gray-500">Nessuna recensione disponibile</p>
         ) : (
           <div className="relative">
-            {/* Navigation buttons - desktop only */}
+            {/* Navigation buttons */}
             <button
               onClick={() => scroll('left')}
-              className="hidden lg:flex absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition-colors"
+              disabled={currentPage === 0}
+              className="hidden lg:flex absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               aria-label="Precedente"
             >
               <ChevronLeft className="h-6 w-6 text-[#1e3a5f]" />
             </button>
             <button
               onClick={() => scroll('right')}
-              className="hidden lg:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition-colors"
+              disabled={currentPage >= totalPages - 1}
+              className="hidden lg:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               aria-label="Successiva"
             >
               <ChevronRight className="h-6 w-6 text-[#1e3a5f]" />
             </button>
 
-            {/* Carousel for mobile, Grid for desktop */}
+            {/* Mobile: horizontal scroll carousel */}
             <div
               ref={scrollRef}
-              className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 lg:grid lg:grid-cols-3 lg:overflow-visible lg:pb-0"
+              className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 lg:hidden"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {recensioni.map((recensione) => (
-                <div key={recensione._id} className="snap-start flex-shrink-0 w-[85vw] sm:w-[320px] lg:w-auto">
+                <div key={recensione._id} className="snap-start flex-shrink-0 w-[85vw] sm:w-[320px]">
                   <ReviewCard recensione={recensione} />
                 </div>
               ))}
             </div>
+
+            {/* Desktop: 3-column grid with pagination */}
+            <div className="hidden lg:grid lg:grid-cols-3 gap-6">
+              {visibleReviews.map((recensione) => (
+                <div key={recensione._id}>
+                  <ReviewCard recensione={recensione} />
+                </div>
+              ))}
+            </div>
+
+            {/* Dot navigation */}
+            {totalPages > 1 && (
+              <div className="flex justify-center gap-2 mt-8">
+                {Array.from({ length: totalPages }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToPage(index)}
+                    className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                      index === currentPage ? 'bg-[#2e8b72]' : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                    aria-label={`Pagina ${index + 1}`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>
