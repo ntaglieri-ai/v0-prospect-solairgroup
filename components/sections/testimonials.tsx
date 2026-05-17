@@ -54,7 +54,7 @@ function ReviewCard({ recensione }: { recensione: Recensione }) {
   }, [recensione.testo])
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 flex flex-col h-full border border-gray-100">
+    <div className="bg-white rounded-xl shadow-md p-6 flex flex-col h-full border border-gray-100 min-w-[300px] lg:min-w-[350px]">
       <div className="flex items-start justify-between mb-3">
         <StarRating stelle={recensione.stelle} />
         <GoogleBadge />
@@ -83,8 +83,6 @@ function ReviewCard({ recensione }: { recensione: Recensione }) {
 export function TestimonialsSection() {
   const [recensioni, setRecensioni] = useState<Recensione[]>([])
   const [loading, setLoading] = useState(true)
-  const [currentPage, setCurrentPage] = useState(0)
-  const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     async function fetchRecensioni() {
@@ -103,25 +101,11 @@ export function TestimonialsSection() {
     fetchRecensioni()
   }, [])
 
-  const totalPages = Math.ceil(recensioni.length / 3)
-
-  // Auto-advance every 4 seconds with infinite loop
-  useEffect(() => {
-    if (totalPages <= 1) return
-    const interval = setInterval(() => {
-      setCurrentPage((prev) => (prev + 1) % totalPages)
-    }, 4000)
-    return () => clearInterval(interval)
-  }, [totalPages])
-
-  const visibleReviews = recensioni.slice(currentPage * 3, currentPage * 3 + 3)
-
-  const goToPage = (page: number) => {
-    setCurrentPage(page)
-  }
+  // Duplicate reviews for seamless infinite loop
+  const duplicatedReviews = [...recensioni, ...recensioni]
 
   return (
-    <section id="recensioni" className="relative py-10 sm:py-16 bg-white">
+    <section id="recensioni" className="relative py-10 sm:py-16 bg-white overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
         {/* Header */}
         <div className="text-center mb-10 sm:mb-16">
@@ -147,47 +131,40 @@ export function TestimonialsSection() {
         ) : recensioni.length === 0 ? (
           <p className="text-center text-gray-500">Nessuna recensione disponibile</p>
         ) : (
-          <div className="relative">
-            {/* Mobile: horizontal scroll carousel */}
-            <div
-              ref={scrollRef}
-              className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 lg:hidden"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          <div className="relative overflow-hidden">
+            {/* Infinite scrolling strip */}
+            <div 
+              className="flex gap-6 animate-scroll-left"
+              style={{
+                width: 'max-content',
+              }}
             >
-              {recensioni.map((recensione) => (
-                <div key={recensione._id} className="snap-start flex-shrink-0 w-[85vw] sm:w-[320px]">
+              {duplicatedReviews.map((recensione, index) => (
+                <div key={`${recensione._id}-${index}`} className="flex-shrink-0">
                   <ReviewCard recensione={recensione} />
                 </div>
               ))}
             </div>
-
-            {/* Desktop: 3-column grid with auto-sliding */}
-            <div className="hidden lg:grid lg:grid-cols-3 gap-6 transition-opacity duration-500">
-              {visibleReviews.map((recensione) => (
-                <div key={recensione._id} className="transition-all duration-500">
-                  <ReviewCard recensione={recensione} />
-                </div>
-              ))}
-            </div>
-
-            {/* Dot navigation */}
-            {totalPages > 1 && (
-              <div className="hidden lg:flex justify-center gap-2 mt-8">
-                {Array.from({ length: totalPages }).map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToPage(index)}
-                    className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                      index === currentPage ? 'bg-[#2e8b72]' : 'bg-[#c5cdd5] hover:bg-[#9aa5b0]'
-                    }`}
-                    aria-label={`Pagina ${index + 1}`}
-                  />
-                ))}
-              </div>
-            )}
           </div>
         )}
       </div>
+
+      <style jsx>{`
+        @keyframes scroll-left {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .animate-scroll-left {
+          animation: scroll-left 30s linear infinite;
+        }
+        .animate-scroll-left:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </section>
   )
 }
