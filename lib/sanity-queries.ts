@@ -67,3 +67,24 @@ export async function getSettings() {
     }
   `, {}, { cache: 'no-store' })
 }
+
+// ── RECENSIONI ──
+export interface Recensione {
+  _id: string
+  nome: string
+  testo: string
+  stelle: number
+  fonte: string
+}
+
+export async function getRecensioni(): Promise<Recensione[]> {
+  return client.fetch(`
+    *[_type == "recensione" && attiva == true] | order(stelle desc) {
+      _id,
+      nome,
+      testo,
+      stelle,
+      fonte
+    }
+  `, {}, { cache: 'no-store' })
+}
