@@ -192,7 +192,7 @@ export function TestimonialsSection() {
                     key={index}
                     onClick={() => goToPage(index)}
                     className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                      index === currentPage ? 'bg-[#2e8b72]' : 'bg-gray-300 hover:bg-gray-400'
+                      index === currentPage ? 'bg-[#2e8b72]' : 'bg-[#c5cdd5] hover:bg-[#9aa5b0]'
                     }`}
                     aria-label={`Pagina ${index + 1}`}
                   />
