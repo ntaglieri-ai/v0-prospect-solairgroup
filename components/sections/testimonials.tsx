@@ -112,10 +112,10 @@ export function TestimonialsSection() {
   }
 
   const scroll = (direction: 'left' | 'right') => {
-    if (direction === 'left' && currentPage > 0) {
-      setCurrentPage(currentPage - 1)
-    } else if (direction === 'right' && currentPage < totalPages - 1) {
-      setCurrentPage(currentPage + 1)
+    if (direction === 'left') {
+      setCurrentPage(currentPage === 0 ? totalPages - 1 : currentPage - 1)
+    } else {
+      setCurrentPage(currentPage === totalPages - 1 ? 0 : currentPage + 1)
     }
   }
 
@@ -150,16 +150,14 @@ export function TestimonialsSection() {
             {/* Navigation buttons */}
             <button
               onClick={() => scroll('left')}
-              disabled={currentPage === 0}
-              className="hidden lg:flex absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              className="hidden lg:flex absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition-colors"
               aria-label="Precedente"
             >
               <ChevronLeft className="h-6 w-6 text-[#1e3a5f]" />
             </button>
             <button
               onClick={() => scroll('right')}
-              disabled={currentPage >= totalPages - 1}
-              className="hidden lg:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              className="hidden lg:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition-colors"
               aria-label="Successiva"
             >
               <ChevronRight className="h-6 w-6 text-[#1e3a5f]" />
