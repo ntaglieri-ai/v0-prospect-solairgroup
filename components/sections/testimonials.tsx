@@ -54,7 +54,7 @@ function ReviewCard({ recensione }: { recensione: Recensione }) {
   }, [recensione.testo])
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 flex flex-col h-full border border-gray-100 min-w-[300px] lg:min-w-[350px]">
+    <div className="bg-white rounded-xl shadow-md p-6 flex flex-col border border-gray-100 w-full h-full">
       <div className="flex items-start justify-between mb-3">
         <StarRating stelle={recensione.stelle} />
         <GoogleBadge />
@@ -83,6 +83,7 @@ function ReviewCard({ recensione }: { recensione: Recensione }) {
 export function TestimonialsSection() {
   const [recensioni, setRecensioni] = useState<Recensione[]>([])
   const [loading, setLoading] = useState(true)
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
     async function fetchRecensioni() {
@@ -101,8 +102,27 @@ export function TestimonialsSection() {
     fetchRecensioni()
   }, [])
 
-  // Duplicate reviews for seamless infinite loop
-  const duplicatedReviews = [...recensioni, ...recensioni]
+  // Auto-advance every 4 seconds
+  useEffect(() => {
+    if (recensioni.length === 0) return
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % recensioni.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [recensioni.length])
+
+  // Get 3 visible cards with infinite loop
+  const getVisibleCards = () => {
+    if (recensioni.length === 0) return []
+    const cards = []
+    for (let i = 0; i < 3; i++) {
+      const index = (currentIndex + i) % recensioni.length
+      cards.push({ ...recensioni[index], displayIndex: i })
+    }
+    return cards
+  }
+
+  const visibleCards = getVisibleCards()
 
   return (
     <section id="recensioni" className="relative py-10 sm:py-16 bg-white overflow-hidden">
@@ -131,40 +151,18 @@ export function TestimonialsSection() {
         ) : recensioni.length === 0 ? (
           <p className="text-center text-gray-500">Nessuna recensione disponibile</p>
         ) : (
-          <div className="relative overflow-hidden">
-            {/* Infinite scrolling strip */}
-            <div 
-              className="flex gap-6 animate-scroll-left"
-              style={{
-                width: 'max-content',
-              }}
-            >
-              {duplicatedReviews.map((recensione, index) => (
-                <div key={`${recensione._id}-${index}`} className="flex-shrink-0">
-                  <ReviewCard recensione={recensione} />
-                </div>
-              ))}
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {visibleCards.map((recensione, idx) => (
+              <div 
+                key={`${recensione._id}-${currentIndex}-${idx}`}
+                className="transition-all duration-500 ease-in-out"
+              >
+                <ReviewCard recensione={recensione} />
+              </div>
+            ))}
           </div>
         )}
       </div>
-
-      <style jsx>{`
-        @keyframes scroll-left {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-        .animate-scroll-left {
-          animation: scroll-left 30s linear infinite;
-        }
-        .animate-scroll-left:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
     </section>
   )
 }
