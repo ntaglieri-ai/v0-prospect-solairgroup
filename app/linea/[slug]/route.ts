@@ -6,16 +6,20 @@ const API_VERSION = '2024-01-01'
 
 export async function GET(
   _request: Request,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = params
+  const { slug } = await context.params
 
   const query = `*[_type == "linea" && slug.current == $slug][0]{ "pdfUrl": offertaPdf.asset->url }`
   const url = `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/query/${DATASET}?query=${encodeURIComponent(query)}&$slug=${encodeURIComponent(JSON.stringify(slug))}`
 
-  const res = await fetch(url, { next: { revalidate: 0 } })
+  const res = await fetch(url, { next: { revalidate: 60 } })
   const data = await res.json()
+  const pdfUrl = data?.result?.pdfUrl
 
-  // Ritorna il JSON grezzo per debug
-  return NextResponse.json({ slug, url, data })
+  if (!pdfUrl) {
+    return new NextResponse('PDF non trovato', { status: 404 })
+  }
+
+  return NextResponse.redirect(pdfUrl, { status: 302 })
 }
