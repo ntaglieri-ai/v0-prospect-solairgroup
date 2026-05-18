@@ -10,15 +10,11 @@ export async function GET(
 ) {
   const { slug } = params
 
-  const query = encodeURIComponent(
-    `*[_type == "linea" && slug.current == "${slug}"][0]{ "pdfUrl": offertaPdf.asset->url }`
-  )
+  const query = `*[_type == "linea" && slug.current == $slug][0]{ "pdfUrl": offertaPdf.asset->url }`
 
-  const res = await fetch(
-    `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/query/${DATASET}?query=${query}`,
-    { next: { revalidate: 60 } }
-  )
+  const url = `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/query/${DATASET}?query=${encodeURIComponent(query)}&$slug=${encodeURIComponent(JSON.stringify(slug))}`
 
+  const res = await fetch(url, { next: { revalidate: 60 } })
   const data = await res.json()
   const pdfUrl = data?.result?.pdfUrl
 
