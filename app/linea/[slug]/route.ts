@@ -1,12 +1,8 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@sanity/client'
 
-const client = createClient({
-  projectId: '88az0w6y',
-  dataset: 'production',
-  apiVersion: '2024-01-01',
-  useCdn: true,
-})
+const PROJECT_ID = '88az0w6y'
+const DATASET = 'production'
+const API_VERSION = '2024-01-01'
 
 export async function GET(
   _request: Request,
@@ -14,16 +10,21 @@ export async function GET(
 ) {
   const { slug } = params
 
-  const linea = await client.fetch(
-    `*[_type == "linea" && slug.current == $slug][0]{
-      "pdfUrl": offertaPdf.asset->url
-    }`,
-    { slug }
+  const query = encodeURIComponent(
+    `*[_type == "linea" && slug.current == "${slug}"][0]{ "pdfUrl": offertaPdf.asset->url }`
   )
 
-  if (!linea?.pdfUrl) {
+  const res = await fetch(
+    `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/query/${DATASET}?query=${query}`,
+    { next: { revalidate: 60 } }
+  )
+
+  const data = await res.json()
+  const pdfUrl = data?.result?.pdfUrl
+
+  if (!pdfUrl) {
     return new NextResponse('PDF non trovato', { status: 404 })
   }
 
-  return NextResponse.redirect(linea.pdfUrl, { status: 302 })
+  return NextResponse.redirect(pdfUrl, { status: 302 })
 }
