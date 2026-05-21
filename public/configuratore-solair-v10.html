@@ -902,6 +902,7 @@ const PREZZI_ACC_FLAT = {
   7:  { smart: { 10: 9300, 16: 10000, 20: 11200, 32: 12400 }, power: { '10.6': 10300, '15.9': 11300, '21.2': 12300 }, premium: { '12.9': 13200, '17.2': 14800, '21.4': 15700 } },
   8:  { smart: { 10: 10300, 16: 10900, 20: 12200, 32: 13400 }, power: { '10.6': 11300, '15.9': 12300, '21.2': 13300 }, premium: { '12.9': 13800, '17.2': 15400, '21.4': 16300 } },
   9:  { smart: { 10: 11100, 16: 11800, 20: 13000, 32: 14300 }, power: { '10.6': 12300, '15.9': 13300, '21.2': 14300 }, premium: { '12.9': 14600, '17.2': 16200, '21.4': 17200 } },
+  10: { smart: { 10: 11900, 16: 12600, 20: 13800, 32: 15100 }, power: { '10.6': 13100, '15.9': 14100, '21.2': 15100 }, premium: { '12.9': 15400, '17.2': 17000, '21.4': 18000 } },
 };
 
 // Ordine visualizzazione taglie nel percorso Suggerimento (step 4 con accumulo)
@@ -1098,7 +1099,7 @@ function renderPannelliCards() {
       renderPannelliCards();
       const btnS1 = document.getElementById('btn-s1');
       btnS1.disabled = false;
-      btnS1.textContent = isSuggerimento ? 'Avanti → Domande' : 'Avanti → Accumulo';
+      btnS1.textContent = isSuggerimento ? 'Avanti → Domande' : 'Avanti �� Accumulo';
     };
     container.appendChild(card);
   });
