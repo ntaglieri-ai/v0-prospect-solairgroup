@@ -915,7 +915,7 @@ const RATE_OPTIONS = [24, 36, 48, 60, 72, 84];
 
 // ═════════════════���═════���════════════════
 // STATE
-// ══════���═══������═══════════════���═���═���═���������════
+// ══════���═══������═══════════════���═���═���═�����������════
 
 let pannelliList = []; // da Sanity
 let batterieData = {}; // { 'V-TAC': { taglie: [...], prezzi: { 3: { 10: 1500, ... } } }, ... }
@@ -1196,17 +1196,26 @@ function renderMarcaCards() {
   const lista = nomiMarche.length ? nomiMarche : Object.values(MARCA_INFO).map(i => (i.label || '').split(' ')[0]);
   lista.forEach(nome => {
     const lineaKey = nomeToKey[nome] || nome;
-    const meta = META[lineaKey] || { badge: '', badgeClass: 'badge-smart', icon: '🔋', specs: [] };
+    const meta = META[lineaKey] || {};
+    // Icona: usa quella dei metadati oppure fallback batteria
+    const icon = meta.icon || '🔋';
+    // Badge opzionale: solo se esiste un testo
+    const badge = meta.badge || '';
+    const badgeClass = meta.badgeClass || 'badge-smart';
+    // Descrizione opzionale
     const desc = MARCA_INFO[lineaKey]?.desc || '';
+    // Features opzionali: solo se array non vuoto
+    const specs = Array.isArray(meta.specs) ? meta.specs.filter(Boolean) : [];
     const isSelected = state.linea === lineaKey;
     const card = document.createElement('div');
     card.className = 'linea-card' + (isSelected ? ' selected' : '');
     card.id = 'mcard_' + lineaKey;
-    card.innerHTML = `
-      <span class="lc-badge ${meta.badgeClass}">${meta.badge}</span>
-      <div class="lc-nome">${meta.icon} ${nome}</div>
-      <div class="lc-inverter">${desc}</div>
-      <div class="lc-specs">${meta.specs.map(s => `<div class="lc-spec">${s}</div>`).join('')}</div>`;
+    let html = '';
+    if (badge) html += `<span class="lc-badge ${badgeClass}">${badge}</span>`;
+    html += `<div class="lc-nome">${icon} ${nome}</div>`;
+    if (desc) html += `<div class="lc-inverter">${desc}</div>`;
+    if (specs.length) html += `<div class="lc-specs">${specs.map(s => `<div class="lc-spec">${s}</div>`).join('')}</div>`;
+    card.innerHTML = html;
     card.onclick = () => scelgiMarca(lineaKey);
     container.appendChild(card);
   });
