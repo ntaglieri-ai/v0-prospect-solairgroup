@@ -915,7 +915,7 @@ const RATE_OPTIONS = [24, 36, 48, 60, 72, 84];
 
 // ═════════════════���═════���════════════════
 // STATE
-// ══════���═══������═══════════════���═���═���═�����������════
+// ══════���═══������═══════════════���═���═���═�������������════
 
 let pannelliList = []; // da Sanity
 let batterieData = {}; // { 'V-TAC': { taglie: [...], prezzi: { 3: { 10: 1500, ... } } }, ... }
@@ -1179,13 +1179,25 @@ function scelgiAccumulo(haAcc) {
 function renderMarcaCards() {
   const container = document.getElementById('marca_cards');
   container.innerHTML = '';
-  // Metadati di visualizzazione (badge, specs, icona) indicizzati per chiave linea
-  const META = {
-    smart:   { badge: 'LiFePO',            badgeClass: 'badge-smart',   icon: '🔋', specs: ['6.000/7.000 cicli garantiti', 'Compatibile inverter Solis', '10 anni garanzia impianto'] },
-    power:   { badge: 'RHP Alta Tensione', badgeClass: 'badge-power',   icon: '⚡', specs: ['Alta tensione LFP', 'IP65 — uso interno/esterno', 'EPS anti-blackout incluso'] },
-    premium: { badge: 'Battery-Box HVE',   badgeClass: 'badge-premium', icon: '⭐', specs: ['Alta tensione HVE', 'IP65 — uso interno/esterno', '80% capacità garantita a 10 anni'] },
+  // Metadati estetici (badge + icona) indicizzati per nome marca
+  const CARD_META = {
+    'Solis':   { badge: 'LiFePO',            badgeClass: 'badge-smart',   icon: '🔋' },
+    'V-TAC':   { badge: 'LiFePO',            badgeClass: 'badge-smart',   icon: '🔋' },
+    'Sineng':  { badge: 'RHP Alta Tensione', badgeClass: 'badge-power',   icon: '⚡' },
+    'BYD':     { badge: 'Battery-Box HVE',   badgeClass: 'badge-premium', icon: '⭐' },
+    'Sungrow': { badge: 'Alta Tensione',     badgeClass: 'badge-power',   icon: '🔋' },
+    'Solax':   { badge: 'Alta Tensione',     badgeClass: 'badge-power',   icon: '🔋' },
   };
-  // Reverse map: nome marca (es. 'V-TAC') -> chiave linea (es. 'smart')
+  // Feature/bullet di fallback per marca (note listino) usate quando Sanity non le fornisce
+  const CARD_FEATURES = {
+    'Solis':   ['10 anni garanzia', 'IP20', 'Bassa tensione', 'Batterie da 16 o 32 kWh: 7.000 cicli garantiti'],
+    'V-TAC':   ['10 anni garanzia', 'IP20', 'Bassa tensione', 'Batterie da 16 o 32 kWh: 7.000 cicli garantiti'],
+    'Sineng':  ['12 anni garanzia', 'IP65', 'Alta tensione'],
+    'BYD':     ['15 anni garanzia', '80% capacità nominale garantita al 10° anno', 'IP65', 'Alta tensione'],
+    'Sungrow': ['IP65', 'Alta tensione', '10 anni garanzia', 'DOD 100%'],
+    'Solax':   ['IP65', 'Alta tensione', '10 anni garanzia'],
+  };
+  // Reverse map: nome marca (es. 'V-TAC') -> chiave linea (es. 'smart') per la logica di selezione/prezzi
   const nomeToKey = {};
   Object.entries(MARCA_INFO).forEach(([key, info]) => {
     const nome = (info.label || '').split(' ')[0];
@@ -1193,19 +1205,23 @@ function renderMarcaCards() {
   });
   // Genera i bottoni dinamicamente per tutte le marche presenti in batterieData
   const nomiMarche = Object.keys(batterieData);
-  const lista = nomiMarche.length ? nomiMarche : Object.values(MARCA_INFO).map(i => (i.label || '').split(' ')[0]);
+  const lista = nomiMarche.length ? nomiMarche : Object.keys(CARD_FEATURES);
   lista.forEach(nome => {
     const lineaKey = nomeToKey[nome] || nome;
-    const meta = META[lineaKey] || {};
+    const data = batterieData[nome] || {};
+    const meta = CARD_META[nome] || {};
     // Icona: usa quella dei metadati oppure fallback batteria
     const icon = meta.icon || '🔋';
     // Badge opzionale: solo se esiste un testo
     const badge = meta.badge || '';
     const badgeClass = meta.badgeClass || 'badge-smart';
-    // Descrizione opzionale
-    const desc = MARCA_INFO[lineaKey]?.desc || '';
-    // Features opzionali: solo se array non vuoto
-    const specs = Array.isArray(meta.specs) ? meta.specs.filter(Boolean) : [];
+    // Descrizione opzionale: preferisci i campi Sanity
+    const desc = data.descrizione || data.note || '';
+    // Features: preferisci i dati Sanity, altrimenti fallback per marca dalle note listino
+    const sanityFeatures = Array.isArray(data.features)
+      ? data.features.filter(Boolean)
+      : (typeof data.features === 'string' && data.features.trim() ? [data.features.trim()] : []);
+    const specs = (sanityFeatures.length ? sanityFeatures : (CARD_FEATURES[nome] || [])).filter(Boolean);
     const isSelected = state.linea === lineaKey;
     const card = document.createElement('div');
     card.className = 'linea-card' + (isSelected ? ' selected' : '');
@@ -2107,7 +2123,7 @@ fetchBatterieSanity();
 
 
 async function fetchBatterieSanity() {
-  const query = encodeURIComponent('*[_type=="batteria"]{marca, taglie, prezzi[]{kwp, kwh, prezzo}}');
+  const query = encodeURIComponent('*[_type=="batteria"]{marca, taglie, descrizione, note, features, bullet, prezzi[]{kwp, kwh, prezzo}}');
   const url = `https://${SANITY_PROJECT}.api.sanity.io/v2021-06-07/data/query/${SANITY_DATASET}?query=${query}`;
   try {
     const res = await fetch(url);
@@ -2118,7 +2134,14 @@ async function fetchBatterieSanity() {
         if (!lookup[p.kwp]) lookup[p.kwp] = {};
         lookup[p.kwp][p.kwh] = p.prezzo;
       });
-      batterieData[b.marca] = { taglie: b.taglie || [], prezzi: lookup };
+      batterieData[b.marca] = {
+        taglie: b.taglie || [],
+        prezzi: lookup,
+        descrizione: b.descrizione || '',
+        note: b.note || '',
+        // features/bullet possono essere array o stringa a seconda dello schema
+        features: b.features || b.bullet || [],
+      };
     });
   } catch(e) {
     console.warn('[Configuratore] Fetch batterie fallito:', e.message);
