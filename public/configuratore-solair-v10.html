@@ -902,6 +902,7 @@ const PREZZI_ACC_FLAT = {
   7:  { smart: { 10: 9300, 16: 10000, 20: 11200, 32: 12400 }, power: { '10.6': 10300, '15.9': 11300, '21.2': 12300 }, premium: { '12.9': 13200, '17.2': 14800, '21.4': 15700 } },
   8:  { smart: { 10: 10300, 16: 10900, 20: 12200, 32: 13400 }, power: { '10.6': 11300, '15.9': 12300, '21.2': 13300 }, premium: { '12.9': 13800, '17.2': 15400, '21.4': 16300 } },
   9:  { smart: { 10: 11100, 16: 11800, 20: 13000, 32: 14300 }, power: { '10.6': 12300, '15.9': 13300, '21.2': 14300 }, premium: { '12.9': 14600, '17.2': 16200, '21.4': 17200 } },
+  10: { smart: { 10: 11900, 16: 12600, 20: 13800, 32: 15100 }, power: { '10.6': 13100, '15.9': 14100, '21.2': 15100 }, premium: { '12.9': 15400, '17.2': 17000, '21.4': 18000 } },
 };
 
 // Ordine visualizzazione taglie nel percorso Suggerimento (step 4 con accumulo)
@@ -914,7 +915,7 @@ const RATE_OPTIONS = [24, 36, 48, 60, 72, 84];
 
 // ═════════════════���═════���════════════════
 // STATE
-// ══════���═══������═══════════════���═���═���═���═���════
+// ══════���═══������═══════════════���═���═���═���������════
 
 let pannelliList = []; // da Sanity
 let batterieData = {}; // { 'V-TAC': { taglie: [...], prezzi: { 3: { 10: 1500, ... } } }, ... }
@@ -1098,7 +1099,7 @@ function renderPannelliCards() {
       renderPannelliCards();
       const btnS1 = document.getElementById('btn-s1');
       btnS1.disabled = false;
-      btnS1.textContent = isSuggerimento ? 'Avanti → Domande' : 'Avanti → Accumulo';
+      btnS1.textContent = isSuggerimento ? 'Avanti → Domande' : 'Avanti �� Accumulo';
     };
     container.appendChild(card);
   });
@@ -1178,22 +1179,35 @@ function scelgiAccumulo(haAcc) {
 function renderMarcaCards() {
   const container = document.getElementById('marca_cards');
   container.innerHTML = '';
-  const marche = [
-    { key: 'smart',   nome: 'V-TAC', badge: 'LiFePO', badgeClass: 'badge-smart',   icon: '🔋', specs: ['6.000/7.000 cicli garantiti', 'Compatibile inverter Solis', '10 anni garanzia impianto'] },
-    { key: 'power',   nome: 'Sineng', badge: 'RHP Alta Tensione', badgeClass: 'badge-power',  icon: '⚡', specs: ['Alta tensione LFP', 'IP65 — uso interno/esterno', 'EPS anti-blackout incluso'] },
-    { key: 'premium', nome: 'BYD',    badge: 'Battery-Box HVE',   badgeClass: 'badge-premium', icon: '⭐', specs: ['Alta tensione HVE', 'IP65 — uso interno/esterno', '80% capacità garantita a 10 anni'] },
-  ];
-  marche.forEach(m => {
-    const isSelected = state.linea === m.key;
+  // Metadati di visualizzazione (badge, specs, icona) indicizzati per chiave linea
+  const META = {
+    smart:   { badge: 'LiFePO',            badgeClass: 'badge-smart',   icon: '🔋', specs: ['6.000/7.000 cicli garantiti', 'Compatibile inverter Solis', '10 anni garanzia impianto'] },
+    power:   { badge: 'RHP Alta Tensione', badgeClass: 'badge-power',   icon: '⚡', specs: ['Alta tensione LFP', 'IP65 — uso interno/esterno', 'EPS anti-blackout incluso'] },
+    premium: { badge: 'Battery-Box HVE',   badgeClass: 'badge-premium', icon: '⭐', specs: ['Alta tensione HVE', 'IP65 — uso interno/esterno', '80% capacità garantita a 10 anni'] },
+  };
+  // Reverse map: nome marca (es. 'V-TAC') -> chiave linea (es. 'smart')
+  const nomeToKey = {};
+  Object.entries(MARCA_INFO).forEach(([key, info]) => {
+    const nome = (info.label || '').split(' ')[0];
+    if (nome) nomeToKey[nome] = key;
+  });
+  // Genera i bottoni dinamicamente per tutte le marche presenti in batterieData
+  const nomiMarche = Object.keys(batterieData);
+  const lista = nomiMarche.length ? nomiMarche : Object.values(MARCA_INFO).map(i => (i.label || '').split(' ')[0]);
+  lista.forEach(nome => {
+    const lineaKey = nomeToKey[nome] || nome;
+    const meta = META[lineaKey] || { badge: '', badgeClass: 'badge-smart', icon: '🔋', specs: [] };
+    const desc = MARCA_INFO[lineaKey]?.desc || '';
+    const isSelected = state.linea === lineaKey;
     const card = document.createElement('div');
     card.className = 'linea-card' + (isSelected ? ' selected' : '');
-    card.id = 'mcard_' + m.key;
+    card.id = 'mcard_' + lineaKey;
     card.innerHTML = `
-      <span class="lc-badge ${m.badgeClass}">${m.badge}</span>
-      <div class="lc-nome">${m.icon} ${m.nome}</div>
-      <div class="lc-inverter">${MARCA_INFO[m.key].desc}</div>
-      <div class="lc-specs">${m.specs.map(s => `<div class="lc-spec">${s}</div>`).join('')}</div>`;
-    card.onclick = () => scelgiMarca(m.key);
+      <span class="lc-badge ${meta.badgeClass}">${meta.badge}</span>
+      <div class="lc-nome">${meta.icon} ${nome}</div>
+      <div class="lc-inverter">${desc}</div>
+      <div class="lc-specs">${meta.specs.map(s => `<div class="lc-spec">${s}</div>`).join('')}</div>`;
+    card.onclick = () => scelgiMarca(lineaKey);
     container.appendChild(card);
   });
 }
@@ -1613,7 +1627,7 @@ function calcolaRata() {
 function confermaFinanziamento() {
   document.getElementById('popupFinanziamento').classList.remove('active');
   const box = document.getElementById('riepilogo_pag_box');
-  box.textContent = `📊 Finanziamento Deutsche Bank: anticipo € ${pagState.anticipo.toLocaleString('it-IT')} + ${pagState.nRate} rate da € ${pagState.rata.toLocaleString('it-IT')}/mese · TAN ${TAN_RATE.toFixed(2).replace('.',',')}%`;
+  box.textContent = `📊 Finanziamento Deutsche Bank: anticipo € ${pagState.anticipo.toLocaleString('it-IT')} + ${pagState.nRate} rate da € ${pagState.rata.toLocaleString('it-IT')}/mese �� TAN ${TAN_RATE.toFixed(2).replace('.',',')}%`;
   document.getElementById('riepilogo_pagamento').style.display = 'block';
   aggiornaConsensi();
 }
