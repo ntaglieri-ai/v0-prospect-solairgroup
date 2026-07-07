@@ -915,7 +915,7 @@ const RATE_OPTIONS = [24, 36, 48, 60, 72, 84];
 
 // ═════════════════���═════���════════════════
 // STATE
-// ══════���═══������═══════════════���═���═���═�������������════
+// ══════���═══������═══════════════���═���═���═���������������════
 
 let pannelliList = []; // da Sanity
 let batterieData = {}; // { 'V-TAC': { taglie: [...], prezzi: { 3: { 10: 1500, ... } } }, ... }
@@ -1258,7 +1258,7 @@ function renderKwhAccButtons() {
   const container = document.getElementById('kwh_acc_buttons');
   container.innerHTML = '';
   if (!state.linea || !state.kwp) return;
-  const marcaNome = MARCA_INFO[state.linea]?.label?.split(' ')[0];
+  const marcaNome = batterieData[state.linea] ? state.linea : MARCA_INFO[state.linea]?.label?.split(' ')[0];
   const marcaFlat = getPrezziMarca(marcaNome, state.kwp);
   if (!marcaFlat || Object.keys(marcaFlat).length === 0) return;
   Object.entries(marcaFlat).forEach(([kwh, prezzo]) => {
@@ -1277,7 +1277,7 @@ function scelgiKwhAcc(kwh, prezzo, el) {
   document.querySelectorAll('#kwh_acc_buttons .kwh-btn').forEach(b => b.classList.remove('selected'));
   if (el) el.classList.add('selected');
   const wrap2 = document.getElementById('acc_prezzo_wrap2');
-  const marcaNome = MARCA_INFO[state.linea] ? MARCA_INFO[state.linea].label : state.linea;
+  const marcaNome = batterieData[state.linea] ? state.linea : (MARCA_INFO[state.linea]?.label || state.linea);
   document.getElementById('acc_prezzo_desc2').textContent = `Impianto ${state.kwp} kWp + ${marcaNome} ${kwh} kWh`;
   document.getElementById('acc_totale2').textContent = '€ ' + state.prezzoBase.toLocaleString('it-IT');
   wrap2.style.display = 'block';
