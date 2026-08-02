@@ -148,9 +148,9 @@ function Chat() {
             style={{ backgroundColor: TEAL }}
             aria-hidden="true"
           >
-            S
+            R
           </span>
-          <h1 className="text-white font-semibold">Sofia — Test</h1>
+          <h1 className="text-white font-semibold">Roberta — Test</h1>
         </div>
       </header>
 
