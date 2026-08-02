@@ -99,12 +99,22 @@ export async function getRobertaKnowledge(
 /**
  * Formatta chunk e catalogo in testo leggibile da inserire nel contesto del
  * modello. Restituisce stringa vuota se non c'e' nulla di rilevante.
+ *
+ * Per contenere la dimensione del prompt si tengono solo i primi `maxChunks`
+ * chunk e le prime `maxCatalogo` voci di catalogo (gia' ordinati per rilevanza
+ * dal CRM).
  */
-export function formattaKnowledge(knowledge: RobertaKnowledge): string {
+export function formattaKnowledge(
+  knowledge: RobertaKnowledge,
+  { maxChunks = 4, maxCatalogo = 6 }: { maxChunks?: number; maxCatalogo?: number } = {},
+): string {
   const parti: string[] = []
 
-  if (knowledge.chunks.length > 0) {
-    const righe = knowledge.chunks
+  const chunks = knowledge.chunks.slice(0, maxChunks)
+  const catalogo = knowledge.catalogo.slice(0, maxCatalogo)
+
+  if (chunks.length > 0) {
+    const righe = chunks
       .map((c) => {
         const intestazione = [c.categoria, c.titolo].filter(Boolean).join(" — ")
         return intestazione ? `- [${intestazione}] ${c.contenuto}` : `- ${c.contenuto}`
