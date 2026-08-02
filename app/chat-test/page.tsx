@@ -3,7 +3,7 @@ import ChatTestClient from "./chat-test-client"
 
 export const metadata: Metadata = {
   robots: "noindex, nofollow",
-  title: "Sofia — Test",
+  title: "Roberta — Test",
 }
 
 export default function ChatTestPage() {
