@@ -123,8 +123,8 @@ export function formattaKnowledge(
     parti.push(`INFORMAZIONI RILEVANTI:\n${righe}`)
   }
 
-  if (knowledge.catalogo.length > 0) {
-    const righe = knowledge.catalogo
+  if (catalogo.length > 0) {
+    const righe = catalogo
       .map((v) => {
         const dettagli: string[] = []
         if (Number.isFinite(v.potenza_kw) && v.potenza_kw > 0) dettagli.push(`${v.potenza_kw} kW`)
