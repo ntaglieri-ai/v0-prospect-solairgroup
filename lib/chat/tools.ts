@@ -41,6 +41,18 @@ export const chatTools: Anthropic.Tool[] = [
           description:
             "Sintesi di cosa cerca il cliente: tipo di impianto, consumi, tempistiche, dubbi emersi.",
         },
+        consensoTelefono: {
+          type: "boolean",
+          description: "true solo se il cliente ha acconsentito a essere contattato telefonicamente",
+        },
+        consensoWhatsapp: {
+          type: "boolean",
+          description: "true solo se il cliente ha acconsentito a essere contattato via WhatsApp",
+        },
+        consensoEmail: {
+          type: "boolean",
+          description: "true solo se il cliente ha acconsentito a essere contattato via email",
+        },
       },
       required: ["nome"],
     },
@@ -75,6 +87,9 @@ type InputCreaLead = {
   email?: unknown
   provincia?: unknown
   note?: unknown
+  consensoTelefono?: unknown
+  consensoWhatsapp?: unknown
+  consensoEmail?: unknown
 }
 
 function testo(value: unknown): string | undefined {
@@ -83,10 +98,17 @@ function testo(value: unknown): string | undefined {
   return trimmed.length > 0 ? trimmed : undefined
 }
 
+function booleano(value: unknown): boolean | undefined {
+  return typeof value === "boolean" ? value : undefined
+}
+
 async function creaLead(input: InputCreaLead): Promise<RisultatoTool> {
   const nome = testo(input.nome)
   const telefono = testo(input.telefono)
   const email = testo(input.email)
+  const consensoTelefono = booleano(input.consensoTelefono) ?? false
+  const consensoWhatsapp = booleano(input.consensoWhatsapp) ?? false
+  const consensoEmail = booleano(input.consensoEmail) ?? false
 
   if (!nome) {
     return { content: "Manca il nome del cliente: chiediglielo prima di salvare.", isError: true }
@@ -100,6 +122,15 @@ async function creaLead(input: InputCreaLead): Promise<RisultatoTool> {
         "Per salvare il contatto serve anche il numero di telefono. " +
         "Chiedilo al cliente con garbo, come cosa che serve al consulente per richiamarlo, " +
         "senza nominare sistemi interni, e riprova.",
+      isError: true,
+    }
+  }
+
+  if (!consensoTelefono && !consensoWhatsapp && !consensoEmail) {
+    return {
+      content:
+        "Prima di salvare il contatto serve il consenso al canale di contatto. " +
+        "Chiedi se preferisce essere contattato via telefono, WhatsApp o email, poi riprova.",
       isError: true,
     }
   }
@@ -129,6 +160,9 @@ async function creaLead(input: InputCreaLead): Promise<RisultatoTool> {
         ...(email ? { email } : {}),
         ...(testo(input.provincia) ? { provincia: testo(input.provincia) } : {}),
         ...(testo(input.note) ? { note: testo(input.note) } : {}),
+        consensoTelefono,
+        consensoWhatsapp,
+        consensoEmail,
       }),
     })
 
