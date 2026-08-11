@@ -719,13 +719,33 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 
       <!-- Codice sconto -->
       <div class="rb-sconto-wrap" style="margin-bottom:20px">
-        <a href="#" id="sconto_toggle" onclick="apriCodiceSconto(event)" style="font-size:14px;color:var(--teal);text-decoration:underline;cursor:pointer;display:inline-block">Hai un codice sconto?</a>
+        <!-- STATO 1: link di apertura -->
+        <a href="#" id="sconto_toggle" onclick="apriCodiceSconto(event)" style="display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:600;color:var(--teal);text-decoration:none;cursor:pointer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+          <span style="text-decoration:underline">Hai un codice sconto?</span>
+        </a>
+
+        <!-- STATO 2 / 4: campo aperto -->
         <div id="sconto_input_row" style="display:none;margin-top:10px">
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
             <input type="text" id="sconto_code" placeholder="Inserisci il codice" autocomplete="off" onkeydown="if(event.key==='Enter' && !event.nativeEvent?.isComposing && event.keyCode!==229){event.preventDefault();applicaCodiceSconto();}" style="flex:1;min-width:180px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;text-transform:uppercase">
             <button type="button" class="btn-primary teal" id="sconto_apply_btn" onclick="applicaCodiceSconto()" style="white-space:nowrap">Applica</button>
+            <button type="button" id="sconto_cancel_btn" onclick="chiudiCodiceSconto()" aria-label="Annulla codice sconto" title="Annulla" style="display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--muted);font-size:14px;font-weight:600;cursor:pointer;padding:8px 4px;font-family:inherit">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              Annulla
+            </button>
           </div>
           <div id="sconto_msg" style="margin-top:8px;font-size:14px"></div>
+        </div>
+
+        <!-- STATO 3: codice applicato -->
+        <div id="sconto_applied" style="display:none;margin-top:10px">
+          <div style="display:inline-flex;align-items:center;gap:10px;background:var(--teal-light);color:var(--teal-dark);border:1px solid var(--teal-border);border-radius:8px;padding:8px 12px;font-weight:600;font-size:14px">
+            <span id="sconto_applied_label">✓ Codice applicato</span>
+            <button type="button" onclick="rimuoviCodiceSconto()" aria-label="Rimuovi codice sconto" title="Rimuovi codice sconto" style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--teal);color:#fff;border:none;cursor:pointer;padding:0;line-height:0">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -852,7 +872,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 <script>
 'use strict';
 
-// ════════════════════════════════════════
+// ══════════════════════════════════════���═
 // COSTANTI
 // ═════════════���══════════════════════════
 
@@ -1579,16 +1599,53 @@ function aggiornaScontoDisplay() {
 // CODICE SCONTO
 // ════════════════════════════════════════
 
+// Riporta la UI allo Stato 1 (link visibile, campo e badge nascosti)
+function mostraStatoScontoChiuso() {
+  const toggle = document.getElementById('sconto_toggle');
+  const row = document.getElementById('sconto_input_row');
+  const applied = document.getElementById('sconto_applied');
+  if (toggle) toggle.style.display = 'inline-flex';
+  if (row) row.style.display = 'none';
+  if (applied) applied.style.display = 'none';
+}
+
+// STATO 1 → STATO 2: apre il campo
 function apriCodiceSconto(e) {
   if (e) e.preventDefault();
   const toggle = document.getElementById('sconto_toggle');
   const row = document.getElementById('sconto_input_row');
+  const msg = document.getElementById('sconto_msg');
+  const input = document.getElementById('sconto_code');
   if (toggle) toggle.style.display = 'none';
   if (row) row.style.display = 'block';
-  const input = document.getElementById('sconto_code');
+  if (msg) msg.innerHTML = '';
   if (input) input.focus();
 }
 
+// STATO 2/4 → STATO 1: chiude e resetta l'input digitato
+function chiudiCodiceSconto() {
+  const input = document.getElementById('sconto_code');
+  const msg = document.getElementById('sconto_msg');
+  if (input) input.value = '';
+  if (msg) msg.innerHTML = '';
+  mostraStatoScontoChiuso();
+}
+
+// STATO 3 → STATO 1: rimuove lo sconto e ripristina il prezzo pieno
+function rimuoviCodiceSconto() {
+  state.codiceSconto = null;
+  state.scontoPercentuale = 0;
+  aggiornaTotale(); // ricalcola al prezzo pieno + aggiorna barrato/#tf_val
+  const input = document.getElementById('sconto_code');
+  const btn = document.getElementById('sconto_apply_btn');
+  const msg = document.getElementById('sconto_msg');
+  if (input) { input.value = ''; input.disabled = false; }
+  if (btn) { btn.style.display = ''; btn.disabled = false; btn.textContent = 'Applica'; }
+  if (msg) msg.innerHTML = '';
+  mostraStatoScontoChiuso();
+}
+
+// STATO 2 → STATO 3 (successo) o STATO 4 (codice non valido)
 async function applicaCodiceSconto() {
   const input = document.getElementById('sconto_code');
   const msg = document.getElementById('sconto_msg');
@@ -1605,21 +1662,26 @@ async function applicaCodiceSconto() {
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     if (data && data.valido === true && data.tipo === 'percentuale') {
+      // STATO 3: codice applicato
       state.codiceSconto = data.codice;
       state.scontoPercentuale = data.sconto_percentuale;
       aggiornaTotale(); // ricalcola totale scontato + aggiorna barrato e #tf_val
-      if (msg) msg.innerHTML = '<span style="display:inline-block;background:#e6f4ea;color:#1e7e34;border:1px solid #b7e0c4;border-radius:8px;padding:8px 12px;font-weight:600">✓ Codice ' + data.codice + ' applicato: -' + data.sconto_percentuale + '%</span>';
-      if (input) input.disabled = true;
-      if (btn) btn.style.display = 'none';
+      const label = document.getElementById('sconto_applied_label');
+      if (label) label.textContent = '✓ Codice ' + data.codice + ' applicato: -' + data.sconto_percentuale + '%';
+      const row = document.getElementById('sconto_input_row');
+      const applied = document.getElementById('sconto_applied');
+      if (msg) msg.innerHTML = '';
+      if (row) row.style.display = 'none';
+      if (applied) applied.style.display = 'block';
     } else {
-      // valido:false → nessun ricalcolo, nessuna modifica allo state
+      // STATO 4: valido:false → nessun ricalcolo, campo resta aperto
       if (msg) msg.innerHTML = '<span style="color:#c53030">Codice non valido</span>';
     }
   } catch (err) {
     console.warn('[Configuratore] Errore verifica codice sconto:', err.message);
     if (msg) msg.innerHTML = '<span style="color:#c53030">Codice non valido</span>';
   } finally {
-    if (btn && btn.style.display !== 'none') { btn.disabled = false; btn.textContent = oldTxt; }
+    if (btn) { btn.disabled = false; btn.textContent = oldTxt; }
   }
 }
 
