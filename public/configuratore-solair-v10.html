@@ -282,6 +282,12 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
   .intro-card{background:var(--surface);border-radius:20px;border:1px solid var(--border);padding:48px 40px;max-width:620px;width:100%;text-align:center;margin:0 auto}
   .intro-card h2{font-size:30px;font-weight:800;margin-bottom:12px}
   .intro-card p{font-size:16px;color:var(--mid);line-height:1.7;margin-bottom:28px}
+  .doc-choice{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0 26px;text-align:left}
+  .doc-choice-btn{border:2px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:18px;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
+  .doc-choice-btn:hover{border-color:var(--navy-border);box-shadow:0 4px 14px rgba(30,58,95,.08)}
+  .doc-choice-btn.selected{border-color:var(--teal);background:var(--teal-light)}
+  .doc-choice-title{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:4px}
+  .doc-choice-sub{font-size:12px;color:var(--muted);line-height:1.4}
   .intro-opts{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:12px}
   .intro-opt{border:2px solid var(--border);border-radius:var(--radius);padding:26px 22px;cursor:pointer;transition:all .2s;text-align:center;background:var(--surface);font-family:'Outfit',sans-serif}
 .intro-opt:hover{border-color:var(--navy-border);box-shadow:0 4px 16px rgba(30,58,95,.08)}
@@ -382,7 +388,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 @media(max-width:480px){
   .form-grid{grid-template-columns:1fr}
   .form-group.full{grid-column:1}
-  .intro-opts,.acc-toggle,.pag-grid{grid-template-columns:1fr}
+  .intro-opts,.doc-choice,.acc-toggle,.pag-grid{grid-template-columns:1fr}
   .linee-grid{grid-template-columns:1fr}
   .totale-fisso{font-size:13px}
 }
@@ -439,8 +445,18 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
   <div class="container" style="padding-top:48px">
     <div class="intro-card">
       <h2>Come vuoi procedere?</h2>
-      <p>Puoi configurare l'impianto manualmente oppure rispondere a poche domande e lasciare che Solair ti suggerisca la soluzione giusta.</p>
+      <p>Prima scegli l'obiettivo, poi configura l'impianto manualmente oppure lascia che Solair ti suggerisca la soluzione giusta.</p>
       <p style="font-size:14px;color:var(--muted);margin-bottom:24px;margin-top:-8px">Configuratore per impianti residenziali monofase fino a 10 kWp. Per impianti industriali o trifase <a href="https://wa.me/393497988101" target="_blank" style="color:var(--teal);font-weight:600;text-decoration:none">contattaci su WhatsApp →</a></p>
+      <div class="doc-choice" aria-label="Tipo richiesta">
+        <button type="button" class="doc-choice-btn selected" id="doc_preventivo" onclick="scegliTipoDocumento('preventivo')">
+          <div class="doc-choice-title">Ricevere un preventivo</div>
+          <div class="doc-choice-sub">Ti inviamo una proposta riepilogativa, senza avviare la firma.</div>
+        </button>
+        <button type="button" class="doc-choice-btn" id="doc_contratto" onclick="scegliTipoDocumento('contratto')">
+          <div class="doc-choice-title">Procedere con contratto</div>
+          <div class="doc-choice-sub">Prepariamo il documento firmabile digitalmente con OTP.</div>
+        </button>
+      </div>
       <div class="intro-opts">
         <div class="intro-opt" onclick="avviaConfigurazione()">
           <div class="io-icon">⚙️</div>
@@ -680,7 +696,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
     <!-- ─── STEP 6: RIEPILOGO + FORM ─── -->
     <div class="section" id="s6">
       <div class="section-title">Riepilogo e invio</div>
-      <div class="section-sub">Controlla la tua configurazione e inserisci i dati per ricevere l'offerta firmabile digitalmente.</div>
+      <div class="section-sub" id="s6_sub">Controlla la tua configurazione e inserisci i dati per ricevere il preventivo.</div>
 
       <!-- Riepilogo tecnico -->
       <div class="riepilogo-box">
@@ -748,10 +764,10 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
       <div class="dichiarazioni-box" style="background:#fffbeb;border-left:4px solid #d69e2e;border-radius:8px;padding:20px;margin-bottom:20px">
         <div style="font-weight:700;color:var(--navy);margin-bottom:16px;font-size:15px;text-transform:uppercase;letter-spacing:0.5px">DICHIARAZIONI OBBLIGATORIE</div>
         <div class="consensi">
-          <div class="consenso-row"><input type="checkbox" id="cb1" onchange="aggiornaConsensi()"><label for="cb1"><a href="/condizioni-generali-solair.pdf" target="_blank" style="text-decoration:underline">Dichiaro di aver letto e accettato le condizioni generali di vendita e i termini e condizioni generali di contratto Solair Group srl</a></label></div>
+          <div class="consenso-row" id="row_cb1"><input type="checkbox" id="cb1" onchange="aggiornaConsensi()"><label for="cb1"><a href="/condizioni-generali-solair.pdf" target="_blank" style="text-decoration:underline">Dichiaro di aver letto e accettato le condizioni generali di vendita e i termini e condizioni generali di contratto Solair Group srl</a></label></div>
           <div class="consenso-row"><input type="checkbox" id="cb2" onchange="aggiornaConsensi()"><label for="cb2">Acconsento al trattamento dei dati personali ai sensi del GDPR 679/2016 (Art. 10).</label></div>
-          <div class="consenso-row"><input type="checkbox" id="cb3" onchange="aggiornaConsensi()"><label for="cb3">Dichiaro di essere proprietario/avente diritto dell'immobile o di avere le necessarie autorizzazioni per l'installazione.</label></div>
-          <div class="consenso-row"><input type="checkbox" id="cb4" onchange="aggiornaConsensi()"><label for="cb4">Approvo specificamente le clausole onerose: Art. 3 (tempi), Art. 4 (responsabilità), Art. 8 (recesso e penale), Art. 9 (clausola risolutiva), Art. 11 (foro competente) — ai sensi degli artt. 1341 e 1342 c.c.</label></div>
+          <div class="consenso-row" id="row_cb3"><input type="checkbox" id="cb3" onchange="aggiornaConsensi()"><label for="cb3">Dichiaro di essere proprietario/avente diritto dell'immobile o di avere le necessarie autorizzazioni per l'installazione.</label></div>
+          <div class="consenso-row" id="row_cb4"><input type="checkbox" id="cb4" onchange="aggiornaConsensi()"><label for="cb4">Approvo specificamente le clausole onerose: Art. 3 (tempi), Art. 4 (responsabilità), Art. 8 (recesso e penale), Art. 9 (clausola risolutiva), Art. 11 (foro competente) — ai sensi degli artt. 1341 e 1342 c.c.</label></div>
 
           <!-- Preferenze di contatto -->
           <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(0,0,0,0.1)">
@@ -788,10 +804,10 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 
       <!-- Box conferma finale -->
       <div class="conferma-box" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:20px">
-        <p style="font-size:14px;color:var(--mid);line-height:1.6;margin:0">✅ Cliccando su <strong style="color:var(--teal)">Accetta e firma</strong> confermo di aver letto e accettato la configurazione sopra indicata e autorizzo l'avvio della procedura di sottoscrizione del contratto. Riceverò via email il documento da firmare digitalmente tramite OTP.</p>
+        <p id="testo_conferma_finale" style="font-size:14px;color:var(--mid);line-height:1.6;margin:0">✅ Cliccando su <strong style="color:var(--teal)">Ricevi preventivo</strong> confermo di voler ricevere la configurazione riepilogativa via email. Un consulente Solair potrà ricontattarmi per verificarla.</p>
       </div>
 
-      <button class="btn-primary teal" id="btn-firma" onclick="inviaRichiesta()" disabled>✍️ Accetta e firma</button>
+      <button class="btn-primary teal" id="btn-firma" onclick="inviaRichiesta()" disabled>📄 Ricevi preventivo</button>
       <button class="btn-back" style="justify-content:center" onclick="goTo(4)">← Torna agli accessori</button>
     </div>
 
@@ -930,6 +946,7 @@ let pannelliList = []; // da Sanity
 let batterieData = {}; // { 'V-TAC': { taglie: [...], prezzi: { 3: { 10: 1500, ... } } }, ... }
 
 const state = {
+  tipoDocumento: 'preventivo', // 'preventivo'|'contratto'
   kwp: null,
   pannello: null,       // oggetto {brand, modello, potenza, larghezza_mm, altezza_mm}
   numPannelli: null,
@@ -957,6 +974,40 @@ const pagState = {
 };
 
 let currentStep = 0;
+
+function scegliTipoDocumento(tipo) {
+  state.tipoDocumento = tipo === 'contratto' ? 'contratto' : 'preventivo';
+  document.getElementById('doc_preventivo')?.classList.toggle('selected', state.tipoDocumento === 'preventivo');
+  document.getElementById('doc_contratto')?.classList.toggle('selected', state.tipoDocumento === 'contratto');
+  aggiornaTestiTipoDocumento();
+  aggiornaConsensi();
+}
+
+function aggiornaTestiTipoDocumento() {
+  const isContratto = state.tipoDocumento === 'contratto';
+  const sub = document.getElementById('s6_sub');
+  const testoConferma = document.getElementById('testo_conferma_finale');
+  const btn = document.getElementById('btn-firma');
+
+  if (sub) {
+    sub.textContent = isContratto
+      ? "Controlla la tua configurazione e inserisci i dati per ricevere l'offerta firmabile digitalmente."
+      : "Controlla la tua configurazione e inserisci i dati per ricevere il preventivo.";
+  }
+  if (testoConferma) {
+    testoConferma.innerHTML = isContratto
+      ? `✅ Cliccando su <strong style="color:var(--teal)">Accetta e firma</strong> confermo di aver letto e accettato la configurazione sopra indicata e autorizzo l'avvio della procedura di sottoscrizione del contratto. Riceverò via email il documento da firmare digitalmente tramite OTP.`
+      : `✅ Cliccando su <strong style="color:var(--teal)">Ricevi preventivo</strong> confermo di voler ricevere la configurazione riepilogativa via email. Un consulente Solair potrà ricontattarmi per verificarla.`;
+  }
+  if (btn) {
+    btn.textContent = isContratto ? '✍️ Accetta e firma' : '📄 Ricevi preventivo';
+  }
+
+  ['row_cb1','row_cb3','row_cb4'].forEach(id => {
+    const row = document.getElementById(id);
+    if (row) row.style.display = isContratto ? 'flex' : 'none';
+  });
+}
 
 // ════════════════════════════════════════
 // NAVIGAZIONE
@@ -1551,6 +1602,7 @@ function toggleAccessorio(key, disabled) {
 // ═════════════════════��══════════════════
 
 function renderRiepilogo() {
+  aggiornaTestiTipoDocumento();
   document.getElementById('ril_kwp').textContent = (state.kwp || '-') + ' kWp';
   document.getElementById('ril_pannello').textContent = state.pannello
     ? (state.pannello.nome || state.pannello.brand + ' ' + state.pannello.modello) + ' (' + (state.pannello.potenza_wp || state.pannello.potenza) + ' Wp)'
@@ -1682,7 +1734,9 @@ function aggiornaConsensi() {
   const el = document.getElementById(id);
   return el && el.value.trim() !== '';
   });
-  const consensiOk = ['cb1','cb2','cb3','cb4'].every(id => document.getElementById(id).checked);
+  const consensiOk = state.tipoDocumento === 'contratto'
+    ? ['cb1','cb2','cb3','cb4'].every(id => document.getElementById(id).checked)
+    : document.getElementById('cb2').checked;
   const contattoOk = ['consenso_tel','consenso_whatsapp','consenso_email'].some(id => document.getElementById(id).checked);
   const radioImpiantoOk = document.querySelector('input[name="impianto_esistente"]:checked') !== null;
   const radioCerOk = document.querySelector('input[name="cer_solair"]:checked') !== null;
@@ -1703,6 +1757,7 @@ async function inviaRichiesta() {
   const btn = document.getElementById('btn-firma');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Invio in corso...';
+  const isContratto = state.tipoDocumento === 'contratto';
 
   const now = new Date();
   const dataFormattata = now.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -1717,6 +1772,7 @@ async function inviaRichiesta() {
   const consensoEmail = document.getElementById('consenso_email').checked;
 
   const payload = {
+    tipo_documento: state.tipoDocumento,
     numero_contratto: numeroContratto,
     data_contratto: dataFormattata,
     data_firma_cliente: '',
@@ -1780,7 +1836,7 @@ indirizzo: '',
     }
   } catch (e) {
     btn.disabled = false;
-    btn.textContent = '✍️ Invia richiesta e firma digitale';
+    btn.textContent = isContratto ? '✍️ Accetta e firma' : '📄 Ricevi preventivo';
     const errBox = document.createElement('div');
     errBox.className = 'info-box';
     errBox.style.cssText = 'border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.08);color:#b91c1c';
@@ -1790,14 +1846,15 @@ indirizzo: '',
 }
 
 function mostraConferma() {
+  const isContratto = state.tipoDocumento === 'contratto';
   document.getElementById('s6').innerHTML = `
     <div class="confirm-box">
       <div class="confirm-icon">✅</div>
       <div class="confirm-title">Richiesta inviata!</div>
       <div class="confirm-sub">Abbiamo ricevuto la tua configurazione. Ecco cosa succede ora:</div>
       <div class="confirm-steps">
-        <div class="confirm-step"><span>📄</span> Stiamo generando la tua offerta in PDF</div>
-        <div class="confirm-step"><span>✍️</span> Riceverai un'email con il link per la firma digitale</div>
+        <div class="confirm-step"><span>📄</span> Stiamo generando il tuo ${isContratto ? 'contratto' : 'preventivo'} in PDF</div>
+        <div class="confirm-step"><span>${isContratto ? '✍️' : '📧'}</span> ${isContratto ? "Riceverai un'email con il link per la firma digitale" : "Riceverai il preventivo all'indirizzo email indicato"}</div>
         <div class="confirm-step"><span>📞</span> Un consulente Solair ti contatterà entro 24 ore</div>
       </div>
       <a class="btn-primary teal" href="https://wa.me/393497988101" target="_blank" style="display:inline-flex;margin:0 auto">
