@@ -717,6 +717,38 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
         <span class="rbt-val" id="ril_totale">€ -</span>
       </div>
 
+      <!-- Codice sconto -->
+      <div class="rb-sconto-wrap" style="margin-bottom:20px">
+        <!-- STATO 1: link di apertura -->
+        <a href="#" id="sconto_toggle" onclick="apriCodiceSconto(event)" style="display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:600;color:var(--teal);text-decoration:none;cursor:pointer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+          <span style="text-decoration:underline">Hai un codice sconto?</span>
+        </a>
+
+        <!-- STATO 2 / 4: campo aperto -->
+        <div id="sconto_input_row" style="display:none;margin-top:10px">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <input type="text" id="sconto_code" placeholder="Inserisci il codice" autocomplete="off" onkeydown="if(event.key==='Enter' && !event.nativeEvent?.isComposing && event.keyCode!==229){event.preventDefault();applicaCodiceSconto();}" style="flex:1;min-width:180px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;text-transform:uppercase">
+            <button type="button" class="btn-primary teal" id="sconto_apply_btn" onclick="applicaCodiceSconto()" style="white-space:nowrap">Applica</button>
+            <button type="button" id="sconto_cancel_btn" onclick="chiudiCodiceSconto()" aria-label="Annulla codice sconto" title="Annulla" style="display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--muted);font-size:14px;font-weight:600;cursor:pointer;padding:8px 4px;font-family:inherit">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              Annulla
+            </button>
+          </div>
+          <div id="sconto_msg" style="margin-top:8px;font-size:14px"></div>
+        </div>
+
+        <!-- STATO 3: codice applicato -->
+        <div id="sconto_applied" style="display:none;margin-top:10px">
+          <div style="display:inline-flex;align-items:center;gap:10px;background:var(--teal-light);color:var(--teal-dark);border:1px solid var(--teal-border);border-radius:8px;padding:8px 12px;font-weight:600;font-size:14px">
+            <span id="sconto_applied_label">✓ Codice applicato</span>
+            <button type="button" onclick="rimuoviCodiceSconto()" aria-label="Rimuovi codice sconto" title="Rimuovi codice sconto" style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--teal);color:#fff;border:none;cursor:pointer;padding:0;line-height:0">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- Modalità di pagamento -->
       <div class="section-title" style="font-size:17px;margin-bottom:8px">Modalità di pagamento</div>
       <div class="pag-grid">
@@ -840,7 +872,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 <script>
 'use strict';
 
-// ════════════════════════════════════════
+// ══════════════════════════════════════���═
 // COSTANTI
 // ═════════════���══════════════════════════
 
@@ -962,7 +994,11 @@ const state = {
   ottimizzatori: false,
   tigoCloud: false,
   prezzoAccessori: 0,
-  prezzoTotale: 0,
+  prezzoTotaleBase: 0,   // totale prima dello sconto
+  prezzoTotale: 0,       // totale finale (già scontato se presente sconto)
+  // codice sconto
+  codiceSconto: null,
+  scontoPercentuale: 0,
 };
 
 const pagState = {
@@ -1370,7 +1406,7 @@ function scelgiTetto(tipo) {
   aggiornaTotale();
 }
 
-// ══��═════════════════════════════════════
+// ══��═══��═════════════════════════════════
 // STEP 4 — PREZZO
 // ════════════════════════════════════════
 
@@ -1535,9 +1571,118 @@ function aggiornaPrezziAccessori() {
 }
 
 function aggiornaTotale() {
-  state.prezzoTotale = state.prezzoBase + state.extraZavorre + state.prezzoAccessori;
+  // Totale base prima di eventuale sconto
+  state.prezzoTotaleBase = state.prezzoBase + state.extraZavorre + state.prezzoAccessori;
+  // Riapplica la percentuale di sconto sul nuovo totale base (non fissata sull'importo iniziale)
+  if (state.scontoPercentuale && state.scontoPercentuale > 0) {
+    state.prezzoTotale = Math.round(state.prezzoTotaleBase * (1 - state.scontoPercentuale / 100));
+  } else {
+    state.prezzoTotale = state.prezzoTotaleBase;
+  }
   const tfEl = document.getElementById('tf_val');
   if (tfEl) tfEl.textContent = '€ ' + state.prezzoTotale.toLocaleString('it-IT');
+  aggiornaScontoDisplay();
+}
+
+// Aggiorna il box totale nel riepilogo (step 6): totale barrato + scontato in evidenza se sconto attivo
+function aggiornaScontoDisplay() {
+  const ril = document.getElementById('ril_totale');
+  if (!ril) return;
+  if (state.scontoPercentuale && state.scontoPercentuale > 0) {
+    ril.innerHTML = '<span style="text-decoration:line-through;opacity:0.6;font-weight:400;margin-right:8px">€ ' + state.prezzoTotaleBase.toLocaleString('it-IT') + '</span>€ ' + state.prezzoTotale.toLocaleString('it-IT');
+  } else {
+    ril.textContent = '€ ' + state.prezzoTotale.toLocaleString('it-IT');
+  }
+}
+
+// ════════════════════════════════════════
+// CODICE SCONTO
+// ════════════════════════════════════════
+
+// Riporta la UI allo Stato 1 (link visibile, campo e badge nascosti)
+function mostraStatoScontoChiuso() {
+  const toggle = document.getElementById('sconto_toggle');
+  const row = document.getElementById('sconto_input_row');
+  const applied = document.getElementById('sconto_applied');
+  if (toggle) toggle.style.display = 'inline-flex';
+  if (row) row.style.display = 'none';
+  if (applied) applied.style.display = 'none';
+}
+
+// STATO 1 → STATO 2: apre il campo
+function apriCodiceSconto(e) {
+  if (e) e.preventDefault();
+  const toggle = document.getElementById('sconto_toggle');
+  const row = document.getElementById('sconto_input_row');
+  const msg = document.getElementById('sconto_msg');
+  const input = document.getElementById('sconto_code');
+  if (toggle) toggle.style.display = 'none';
+  if (row) row.style.display = 'block';
+  if (msg) msg.innerHTML = '';
+  if (input) input.focus();
+}
+
+// STATO 2/4 → STATO 1: chiude e resetta l'input digitato
+function chiudiCodiceSconto() {
+  const input = document.getElementById('sconto_code');
+  const msg = document.getElementById('sconto_msg');
+  if (input) input.value = '';
+  if (msg) msg.innerHTML = '';
+  mostraStatoScontoChiuso();
+}
+
+// STATO 3 → STATO 1: rimuove lo sconto e ripristina il prezzo pieno
+function rimuoviCodiceSconto() {
+  state.codiceSconto = null;
+  state.scontoPercentuale = 0;
+  aggiornaTotale(); // ricalcola al prezzo pieno + aggiorna barrato/#tf_val
+  const input = document.getElementById('sconto_code');
+  const btn = document.getElementById('sconto_apply_btn');
+  const msg = document.getElementById('sconto_msg');
+  if (input) { input.value = ''; input.disabled = false; }
+  if (btn) { btn.style.display = ''; btn.disabled = false; btn.textContent = 'Applica'; }
+  if (msg) msg.innerHTML = '';
+  mostraStatoScontoChiuso();
+}
+
+// STATO 2 → STATO 3 (successo) o STATO 4 (codice non valido)
+async function applicaCodiceSconto() {
+  const input = document.getElementById('sconto_code');
+  const msg = document.getElementById('sconto_msg');
+  const btn = document.getElementById('sconto_apply_btn');
+  const code = (input?.value || '').trim();
+  if (!code) {
+    if (msg) msg.innerHTML = '<span style="color:#c53030">Inserisci un codice</span>';
+    return;
+  }
+  const oldTxt = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Verifica...'; }
+  try {
+    const res = await fetch('https://crm.solairgroup.it/api/public/discount-code?code=' + encodeURIComponent(code));
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (data && data.valido === true && data.tipo === 'percentuale') {
+      // STATO 3: codice applicato
+      state.codiceSconto = data.codice;
+      state.scontoPercentuale = data.sconto_percentuale;
+      aggiornaTotale(); // ricalcola totale scontato + aggiorna barrato e #tf_val
+      const label = document.getElementById('sconto_applied_label');
+      if (label) label.textContent = '✓ Codice ' + data.codice + ' applicato: -' + data.sconto_percentuale + '%';
+      const row = document.getElementById('sconto_input_row');
+      const applied = document.getElementById('sconto_applied');
+      if (msg) msg.innerHTML = '';
+      if (row) row.style.display = 'none';
+      if (applied) applied.style.display = 'block';
+    } else {
+      // STATO 4: valido:false → nessun ricalcolo, campo resta aperto
+      if (msg) msg.innerHTML = '<span style="color:#c53030">Codice non valido</span>';
+    }
+  } catch (err) {
+    console.warn('[Configuratore] Errore verifica codice sconto:', err.message);
+    if (msg) msg.innerHTML = '<span style="color:#c53030">Codice non valido</span>';
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = oldTxt; }
+  }
 }
 
 function renderAccessori() {
@@ -1630,7 +1775,7 @@ document.getElementById('ril_mq').textContent = state.mqTotali ? state.mqTotali 
   if (state.ottimizzatori) accSel.push('Ottimizzatori Tigo');
   if (state.tigoCloud) accSel.push('Tigo Cloud Connect');
   document.getElementById('ril_acc_list').textContent = accSel.length ? accSel.join(', ') : 'Nessuno';
-  document.getElementById('ril_totale').textContent = '€ ' + state.prezzoTotale.toLocaleString('it-IT');
+  aggiornaScontoDisplay();
 
   aggiornaConsensi();
 }
@@ -1788,6 +1933,9 @@ async function inviaRichiesta() {
     extra_accessori: state.prezzoAccessori,
     prezzo_base: state.prezzoBase,
     prezzo_con_zavorre: state.prezzoBase + state.extraZavorre,
+    prezzo_totale_prima_sconto: state.prezzoTotaleBase,
+    codice_sconto: state.codiceSconto || null,
+    sconto_percentuale: state.scontoPercentuale || 0,
     prezzo_totale: state.prezzoTotale,
 nome: document.getElementById('f_nome').value,
 cognome: document.getElementById('f_cognome').value,
@@ -2063,7 +2211,7 @@ const carHtml = features.map(c =>
         <div style="font-size:12px;color:rgba(255,255,255,.8);line-height:1.5">${det.descrizione}</div>
       </div>
       <div class="sg-rc-body">
-        <button class="sg-rc-toggle" onclick="sgToggleCaratteristiche('${linea}')">📋 Caratteristiche incluse <span id="sgct_arrow_${linea}">▼</span></button>
+        <button class="sg-rc-toggle" onclick="sgToggleCaratteristiche('${linea}')">���� Caratteristiche incluse <span id="sgct_arrow_${linea}">▼</span></button>
         <ul id="sgct_${linea}" style="display:none;list-style:none;padding:0;margin:8px 0 0">${carHtml}</ul>
         <button class="sg-rc-toggle sg-rc-offerta" onclick="sgApriOfferta('${linea}')">📄 Vedi offerta completa</button>
         <div style="margin-top:16px">
@@ -2165,7 +2313,7 @@ function avviaSuggerimento() {
 function tornaIntro() {
   isSuggerimento = false;
   // Reset state
-  Object.assign(state, { kwp:null, pannello:null, numPannelli:null, mqTotali:null, accumulo:null, linea:null, kwh:null, prezzoBase:0, tetto:null, extraZavorre:0, wallbox:false, ottimizzatori:false, tigoCloud:false, prezzoAccessori:0, prezzoTotale:0 });
+  Object.assign(state, { kwp:null, pannello:null, numPannelli:null, mqTotali:null, accumulo:null, linea:null, kwh:null, prezzoBase:0, tetto:null, extraZavorre:0, wallbox:false, ottimizzatori:false, tigoCloud:false, prezzoAccessori:0, prezzoTotaleBase:0, prezzoTotale:0, codiceSconto:null, scontoPercentuale:0 });
   Object.assign(pagState, { modalita:null, anticipo:0, nRate:60, rata:0, taeg:0 });
   Object.assign(sgAnswers, {0:null,1:null,2:null,3:null});
   Object.assign(sgState, {linea:null,kwp:null,kwh:null,prezzo:null,soloFv:false});
