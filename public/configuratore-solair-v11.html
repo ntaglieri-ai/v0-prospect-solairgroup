@@ -385,6 +385,17 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
  .sg-subq{font-size:14px;font-weight:700;color:var(--navy);margin:6px 0 10px}
  .sg-note{font-size:12px;color:var(--muted);line-height:1.5;margin:-6px 0 18px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
  .so-brand-img{width:100%;height:44px;object-fit:contain;margin-bottom:6px}
+ /* Stat prominenti nel banner risultato (kWp / kWh) */
+ .sg-rc-stats{display:flex;gap:10px;margin:14px 0 10px;flex-wrap:wrap}
+ .sg-rc-stat{display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:14px;padding:12px 22px;min-width:104px;backdrop-filter:blur(2px)}
+ .sg-rc-stat .rcs-num{font-size:32px;font-weight:800;color:#fff;line-height:1;letter-spacing:-1px}
+ .sg-rc-stat .rcs-unit{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.82);margin-top:5px}
+ /* Q6 — card marca pannello premium (solo testo, accento colorato per marca) */
+ .sg-brand-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:96px;border:1px solid var(--border);border-radius:14px;padding:20px 14px;cursor:pointer;text-align:center;box-shadow:0 1px 3px rgba(30,58,95,.07);transition:transform .18s ease,box-shadow .18s ease;font-family:'Outfit',sans-serif}
+ .sg-brand-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(30,58,95,.12)}
+ .sg-brand-card .sbc-dot{width:10px;height:10px;border-radius:50%;background:currentColor;flex-shrink:0}
+ .sg-brand-card .sbc-name{font-size:17px;font-weight:800;letter-spacing:-.2px}
+ .sg-brand-card.selected{box-shadow:0 0 0 2px currentColor inset,0 8px 20px rgba(30,58,95,.14)}
  .sg-tgrid{display:flex;flex-direction:column;gap:12px}
  .sg-tcard{display:flex;flex-direction:column;align-items:stretch;gap:10px;width:100%;text-align:left;border:2px solid var(--border);border-radius:14px;background:var(--surface);padding:18px 20px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s}
  .sg-tcard:hover{border-color:var(--teal-border);transform:translateY(-2px);box-shadow:0 6px 18px rgba(46,139,114,.12)}
@@ -2299,15 +2310,21 @@ function renderMarcheOpzioni() {
   if (!wrap) return;
   const seen = {}; const brands = [];
   (pannelliList || []).forEach(p => { if (p && p.brand && !seen[p.brand]) { seen[p.brand] = p; brands.push(p.brand); } });
+  // Palette pastello enterprise: {bg, border, accento} — ciclata tra le marche
+  const PALETTE = [
+    { bg: '#eef4ff', border: '#c7d9ff', accent: '#2952cc' }, // blu
+    { bg: '#eafaf1', border: '#bfe8d0', accent: '#1f8a54' }, // verde
+    { bg: '#f4effc', border: '#ddd0f5', accent: '#6b3fc4' }, // viola
+    { bg: '#fff4e8', border: '#ffdcb8', accent: '#c76a12' }, // arancio
+    { bg: '#fdeef3', border: '#f7cfdd', accent: '#c23a6b' }, // rosa
+    { bg: '#e9f7fa', border: '#c1e6ee', accent: '#12889e' }, // teal
+  ];
   let html = '';
-  brands.forEach(b => {
-    const p = seen[b];
-    const img = p.immagine_nc_path
-      ? `<img class="so-brand-img" src="https://crm.solairgroup.it/api/public/asset?path=${encodeURIComponent(p.immagine_nc_path)}" alt="${b}" onerror="this.style.display='none'">`
-      : '<div class="so-icon">🔆</div>';
-    html += `<div class="sg-opt" onclick="sgSel('marcaPannello','${String(b).replace(/'/g, "\\'")}',this)">${img}<div class="so-label">${b}</div></div>`;
+  brands.forEach((b, i) => {
+    const c = PALETTE[i % PALETTE.length];
+    html += `<div class="sg-opt sg-brand-card" style="background:${c.bg};border-color:${c.border};color:${c.accent}" onclick="sgSel('marcaPannello','${String(b).replace(/'/g, "\\'")}',this)"><span class="sbc-dot"></span><span class="sbc-name">${b}</span></div>`;
   });
-  html += `<div class="sg-opt" onclick="sgSel('marcaPannello','',this)"><div class="so-icon">✨</div><div class="so-label">Nessuna preferenza / consigliami voi</div></div>`;
+  html += `<div class="sg-opt" onclick="sgSel('marcaPannello','',this)"><div class="so-icon">✨</div><div class="so-label">Nessuna preferenza, consigliatemi voi</div></div>`;
   wrap.innerHTML = html;
 }
 
@@ -2456,9 +2473,13 @@ function renderRisultato() {
     <div class="sg-linea-result-card">
       <div class="sg-rc-header">
         <span class="lc-badge ${badgeClass}" style="font-size:12px">Batteria ${marca}</span>
-        <div style="font-size:22px;font-weight:800;color:#fff;margin:10px 0 4px">${marca}</div>
-        <div style="font-size:15px;color:rgba(255,255,255,.85);margin-bottom:6px">${sgState.numPannelli ? sgState.numPannelli + ' × ' : ''}${pannelloNome} · ${kwp} kWp</div>
-        <div style="font-size:14px;color:rgba(255,255,255,.8);line-height:1.55">Soluzione con batteria ${marca}${d.garanzia_anni ? `, garanzia ${d.garanzia_anni} anni` : ''}${tensioneTxt ? `, ${tensioneTxt.toLowerCase()} tensione` : ''}${d.ip ? ` · ${d.ip}` : ''}.</div>
+        <div style="font-size:24px;font-weight:800;color:#fff;margin:10px 0 2px">${marca}</div>
+        <div class="sg-rc-stats">
+          <div class="sg-rc-stat"><span class="rcs-num">${kwp}</span><span class="rcs-unit">kWp</span></div>
+          <div class="sg-rc-stat" id="sg_rc_kwh_stat" style="${sgState.taglia ? '' : 'display:none'}"><span class="rcs-num" id="sg_rc_kwh_num">${sgState.taglia || ''}</span><span class="rcs-unit">kWh</span></div>
+        </div>
+        <div style="font-size:14px;color:rgba(255,255,255,.85);margin-bottom:6px">${sgState.numPannelli ? sgState.numPannelli + ' × ' : ''}${pannelloNome}</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.75);line-height:1.55">Soluzione con batteria ${marca}${d.garanzia_anni ? `, garanzia ${d.garanzia_anni} anni` : ''}${tensioneTxt ? `, ${tensioneTxt.toLowerCase()} tensione` : ''}${d.ip ? ` · ${d.ip}` : ''}.</div>
       </div>
       <div class="sg-rc-body">
         <button class="sg-rc-toggle" onclick="sgToggleCaratteristiche('sg')">
@@ -2493,6 +2514,13 @@ function sgSelezionaTaglia(kwh, prezzo, el) {
   sgState.soloFv = (kwh === 'fv');
   sgState.taglia = kwh === 'fv' ? null : kwh;
   sgState.prezzoSel = prezzo;
+  // Aggiorna la stat kWh prominente nel banner in base alla taglia selezionata
+  const kwhStat = document.getElementById('sg_rc_kwh_stat');
+  const kwhNum = document.getElementById('sg_rc_kwh_num');
+  if (kwhStat && kwhNum) {
+    if (sgState.taglia) { kwhNum.textContent = sgState.taglia; kwhStat.style.display = ''; }
+    else { kwhStat.style.display = 'none'; }
+  }
   document.getElementById('sg_btn_procedi').disabled = false;
 }
 
