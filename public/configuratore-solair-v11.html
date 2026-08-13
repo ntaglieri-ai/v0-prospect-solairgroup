@@ -2571,8 +2571,8 @@ function renderRisultato() {
       <div class="sg-rc-header">
         <span class="sg-marca-badge">Batteria ${marca}</span>
         <div class="sg-marca-name">${marca}</div>
+        <div style="font-size:15px;color:rgba(255,255,255,.9);margin-top:8px">Potenza impianto: <strong style="color:#fff;font-weight:700">${kwp} kWp</strong></div>
         <div class="sg-rc-stats">
-          <div class="sg-rc-stat"><span class="rcs-num">${kwp}</span><span class="rcs-unit">kWp</span></div>
           <div class="sg-rc-stat" id="sg_rc_kwh_stat" style="${sgState.taglia ? '' : 'display:none'}"><span class="rcs-num" id="sg_rc_kwh_num">${sgState.taglia || ''}</span><span class="rcs-unit">kWh</span></div>
         </div>
         <div class="sg-rc-info">
