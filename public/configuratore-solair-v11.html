@@ -92,25 +92,28 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 .pd-overlay.open{opacity:1;pointer-events:all}
 .pd-drawer{position:fixed;top:0;right:0;width:min(460px,100vw);height:100%;background:#fff;z-index:901;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column}
 .pd-drawer.open{transform:translateX(0)}
-.pd-img{width:100%;height:210px;object-fit:cover;background:#e8eef5;display:block;flex-shrink:0}
-.pd-body{padding:22px;flex:1;display:flex;flex-direction:column;gap:14px}
+.pd-img{width:100%;height:260px;object-fit:contain;background:#f4f6f9;display:block;flex-shrink:0;padding:20px;border-bottom:1px solid var(--border)}
+.pd-body{padding:26px 24px 24px;flex:1;display:flex;flex-direction:column;gap:20px}
+.pd-head{display:flex;flex-direction:column;gap:5px}
 .pd-brand{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal)}
-.pd-name{font-size:20px;font-weight:800;color:var(--navy);line-height:1.2}
-.pd-code{font-size:12px;color:var(--muted);font-family:monospace}
+.pd-name{font-size:21px;font-weight:800;color:var(--navy);line-height:1.25}
+.pd-code{font-size:12px;color:var(--muted);font-family:monospace;margin-top:2px}
 .pd-power{font-size:34px;font-weight:800;color:var(--navy);line-height:1}
 .pd-power span{font-size:14px;color:var(--muted);font-weight:500;margin-left:4px}
 .pd-divider{border:none;border-top:1px solid var(--border);margin:0}
-.pd-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.pd-stat{background:var(--bg);border-radius:10px;padding:11px 13px}
+.pd-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pd-stat{background:var(--bg);border-radius:10px;padding:12px 14px}
 .pd-stat-label{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px}
 .pd-stat-val{font-size:14px;font-weight:700;color:var(--navy)}
 .pd-tags{display:flex;flex-wrap:wrap;gap:6px}
 .pd-tag{background:var(--teal-light);color:var(--teal);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid var(--teal-border)}
 .pd-warranty{display:flex;gap:16px;padding:14px 16px;background:var(--navy-light);border-radius:12px;border:1px solid var(--navy-border)}
+.pd-warranty:empty{display:none}
+.pd-tags:empty{display:none}
 .pd-w-item{display:flex;align-items:center;gap:8px}
 .pd-w-num{font-size:26px;font-weight:800;color:var(--navy)}
 .pd-w-lbl{font-size:11px;color:var(--mid);line-height:1.3}
-.pd-actions{display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:4px}
+.pd-actions{display:flex;flex-direction:column;gap:10px;margin-top:auto;padding-top:16px;border-top:1px solid var(--border)}
 .pd-btn-select{padding:14px;background:var(--navy);color:#fff;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s}
 .pd-btn-select:hover{background:var(--navy-dark)}
 .pd-btn-select.already{background:var(--teal)}
@@ -2458,7 +2461,7 @@ function selectFromDrawer() {
   <button class="pd-close" onclick="closeDrawer()">×</button>
   <img class="pd-img" id="pd_img" src="" alt="Immagine pannello">
   <div class="pd-body">
-    <div>
+    <div class="pd-head">
       <div class="pd-brand" id="pd_brand"></div>
       <div class="pd-name" id="pd_name"></div>
       <div class="pd-code" id="pd_code"></div>
