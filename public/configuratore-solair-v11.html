@@ -2220,80 +2220,321 @@ function mostraConferma() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ════════════════════════════════════════
+// ═══════════════════════════════════���════
 // SUGGERIMENTO SOLAIR
 // ════════════════════════════════════════
 
-const sgAnswers = { 0: null, 1: null, 2: null, 3: null };
-const sgState = { linea: null, kwp: null, kwh: null, prezzo: null, soloFv: false };
-
-const LINEA_DETAILS = {
-  smart: {
-    badge: 'Smart One', badgeClass: 'badge-smart',
-    nome: 'V-TAC LiFePO · Inverter Solis',
-    descrizione: 'Soluzione residenziale entry-level con pannelli Top Tier 1 e batteria LiFePO. Unica linea disponibile anche solo fotovoltaico.',
-    caratteristiche: [
-      'Pannelli fotovoltaici Top Tier 1 (LONGi / Trina Solar / Astro Energy)',
-      'Inverter Solis monofase — efficienza fino al 98,4%',
-      'Batteria V-TAC LiFePO — 6.000/7.000 cicli garantiti',
-      'Garanzia impianto 10 anni', 'IP20 — installazione interna',
-      'Pratiche GSE, e-distribuzione e collaudo inclusi',
-      'Ingresso CER Solair — 20 anni TIP sulla vendita',
-    ],
-    haEps: false, garanzia: 10, budgetMin: 0,
-  },
-  power: {
-    badge: 'Power Plus', badgeClass: 'badge-power',
-    nome: 'Sineng RHP · Inverter ibrido',
-    descrizione: 'La più venduta: batteria alta tensione LFP con EPS anti-blackout integrato e inverter ibrido Sineng.',
-    caratteristiche: [
-      'Pannelli fotovoltaici Top Tier 1 (LONGi / Trina Solar / Astro Energy)',
-      'Inverter ibrido Sineng monofase — alta efficienza',
-      'Batteria Sineng RHP alta tensione LFP',
-      'EPS anti-blackout incluso — commutazione < 20ms',
-      'IP65 — installazione interna ed esterna',
-      'Garanzia impianto 12 anni', 'Monitoraggio remoto 24/7',
-      'Pratiche GSE, e-distribuzione e collaudo inclusi',
-      'Ingresso CER Solair — 20 anni TIP sulla vendita',
-    ],
-    haEps: true, garanzia: 12, budgetMin: 9000,
-  },
-  premium: {
-    badge: 'Premium Top', badgeClass: 'badge-premium',
-    nome: 'BYD Battery-Box HVE · Inverter BYD',
-    descrizione: 'Top di gamma: inverter ibrido BYD monofase con Battery-Box HVE, la batteria più sottile al mondo (140mm).',
-    caratteristiche: [
-      'Pannelli fotovoltaici Top Tier 1 (LONGi / Trina Solar / Astro Energy)',
-      'Inverter ibrido BYD Power-Box SH monofase — efficienza 97,7%',
-      'BYD Battery-Box HVE — ultra-sottile 140mm',
-      'EPS anti-blackout incluso — commutazione < 13ms',
-      'IP65 — installazione interna ed esterna',
-      'Garanzia 15 anni — 80% capacità garantita al 10° anno',
-      'Scalabile fino a 70,92 kWh', 'WiFi / LAN / RS485 / CAN — monitoraggio remoto',
-      'Pratiche GSE, e-distribuzione e collaudo inclusi',
-      'Ingresso CER Solair — 20 anni TIP sulla vendita',
-    ],
-    haEps: true, garanzia: 15, budgetMin: 12000,
-  },
+// ════════════════════════════════════════
+// PERCORSO SUGGERIMENTO SOLAIR — flusso guidato basato sui dati reali (/api/public/catalogo)
+// ════════════════════════════════════════
+const sgState = {
+  indirizzo: null, citta: null,
+  immobile: null, tetto: null,
+  obiettivo: null, garanzia: null, budget: null,
+  marcaPannello: null,
+  // valori calcolati
+  marca: null, accumulo: false, kwpCalc: null,
+  pannello: null, numPannelli: null,
+  taglia: null, prezzoSel: null, soloFv: false,
 };
 
-const BUDGET_SOGLIE = { contenuto: 10000, medio: 15000, alto: Infinity };
+// Q1 — Indirizzo (usato solo per personalizzare il testo del risultato)
+function sgCheckStep(step) {
+  if (step === 0) {
+    const v = (document.getElementById('sg_indirizzo').value || '').trim();
+    document.getElementById('sgBtn0').disabled = v.length < 3;
+  }
+}
+function sgSalvaIndirizzo() {
+  const v = (document.getElementById('sg_indirizzo').value || '').trim();
+  sgState.indirizzo = v;
+  let citta = '';
+  if (v.includes(',')) citta = v.split(',').pop().trim();
+  else { const parts = v.split(/\s+/); citta = parts.length > 1 ? parts[parts.length - 1] : v; }
+  citta = citta.replace(/\d+/g, '').replace(/\s+/g, ' ').trim();
+  sgState.citta = citta;
+}
 
-function sgScegli(domanda, valore, el) {
-  sgAnswers[domanda] = valore;
-  el.closest('.sg-opts').querySelectorAll('.sg-opt').forEach(o => o.classList.remove('selected'));
+// Selezione generica delle opzioni a bottone
+const SG_FIELD_STEP = { immobile: 1, tetto: 1, obiettivo: 2, garanzia: 3, budget: 4, marcaPannello: 5 };
+function sgSel(field, value, el) {
+  sgState[field] = value;
+  const grp = el.closest('.sg-opts');
+  if (grp) grp.querySelectorAll('.sg-opt').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
-  const btn = document.getElementById('sgBtn' + domanda);
-  btn.disabled = false;
-  if (domanda === 0) {
-    if (valore === 'azienda' || valore === 'altro') {
-      btn.textContent = '💬 Contatta un nostro consulente via WhatsApp';
+  const step = SG_FIELD_STEP[field];
+  if (step === 1) {
+    const btn = document.getElementById('sgBtn1');
+    if (sgState.immobile === 'azienda' || sgState.immobile === 'altro') {
+      btn.disabled = false;
+      btn.textContent = '💬 Contatta un consulente via WhatsApp';
       btn.style.background = '#25D366'; btn.style.color = '#fff';
-      btn.onclick = () => window.open('https://wa.me/393497988101?text=Ciao%2C%20sono%20interessato%20a%20un%20impianto%20fotovoltaico%20per%20' + encodeURIComponent(valore === 'azienda' ? 'azienda/capannone' : 'altro tipo di immobile'), '_blank');
+      btn.onclick = () => window.open('https://wa.me/393497988101?text=' + encodeURIComponent('Ciao, sono interessato a un impianto fotovoltaico per ' + (sgState.immobile === 'azienda' ? 'azienda/capannone' : 'altro immobile')), '_blank');
     } else {
       btn.textContent = 'Avanti →'; btn.style.background = ''; btn.style.color = '';
-      btn.onclick = () => sgAvantiQ0();
+      btn.onclick = () => sgAvanti(2);
+      btn.disabled = !(sgState.immobile && sgState.tetto);
     }
+  } else {
+    const btn = document.getElementById('sgBtn' + step);
+    if (btn) btn.disabled = false;
+  }
+}
+
+function sgAvanti(n) {
+  for (let i = 0; i <= 5; i++) {
+    const q = document.getElementById('sgQ' + i); if (q) q.classList.remove('active');
+    const bar = document.getElementById('sgpbar' + i);
+    if (bar) bar.className = 'sg-step' + (i < n ? ' done' : i === n ? ' active' : '');
+  }
+  if (n === 5) renderMarcheOpzioni();
+  const qEl = document.getElementById('sgQ' + n); if (qEl) qEl.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Q6 — Marche pannello reali dal catalogo (raggruppate per brand)
+function renderMarcheOpzioni() {
+  const wrap = document.getElementById('sg_marche_opts');
+  if (!wrap) return;
+  const seen = {}; const brands = [];
+  (pannelliList || []).forEach(p => { if (p && p.brand && !seen[p.brand]) { seen[p.brand] = p; brands.push(p.brand); } });
+  let html = '';
+  brands.forEach(b => {
+    const p = seen[b];
+    const img = p.immagine_nc_path
+      ? `<img class="so-brand-img" src="https://crm.solairgroup.it/api/public/asset?path=${encodeURIComponent(p.immagine_nc_path)}" alt="${b}" onerror="this.style.display='none'">`
+      : '<div class="so-icon">🔆</div>';
+    html += `<div class="sg-opt" onclick="sgSel('marcaPannello','${String(b).replace(/'/g, "\\'")}',this)">${img}<div class="so-label">${b}</div></div>`;
+  });
+  html += `<div class="sg-opt" onclick="sgSel('marcaPannello','',this)"><div class="so-icon">✨</div><div class="so-label">Nessuna preferenza / consigliami voi</div></div>`;
+  wrap.innerHTML = html;
+}
+
+// ── Helper prezzi reali ──
+function sgFvPrezzo(kwp) { const r = (fotovoltaicoList || []).find(x => x.kwp === kwp); return r ? r.prezzo : 0; }
+function sgAccumuloMin(marca, kwp) {
+  const d = batterieData[marca];
+  if (!d || !d.prezzi) return null;
+  const arr = d.prezzi[String(kwp)];
+  if (!Array.isArray(arr) || !arr.length) return null;
+  const vals = arr.filter(x => x != null);
+  return vals.length ? Math.min(...vals) : null;
+}
+function sgTrovaKwp(cap, conAccumulo, marca) {
+  const lista = fotovoltaicoList || [];
+  for (let i = lista.length - 1; i >= 0; i--) {
+    const fv = lista[i];
+    let tot = fv.prezzo;
+    if (conAccumulo) { const acc = sgAccumuloMin(marca, fv.kwp); if (acc == null) continue; tot += acc; }
+    if (cap === Infinity || tot <= cap) return fv.kwp;
+  }
+  return null;
+}
+
+// ── LOGICA DI MAPPING (dopo Q6) — usa SEMPRE i prezzi reali del catalogo ──
+function calcolaSuggerimento() {
+  const marcaMap = { standard: 'Solis', estesa: 'Sineng', massima: 'Byd' };
+  const marca = marcaMap[sgState.garanzia] || 'Solis';
+  const accumulo = (sgState.obiettivo === 'autoconsumo' || sgState.obiettivo === 'blackout');
+  const capMap = { contenuto: 10000, medio: 15000, alto: Infinity };
+  const cap = capMap[sgState.budget] != null ? capMap[sgState.budget] : Infinity;
+  const lista = fotovoltaicoList || [];
+
+  let kwp = null;
+  if (sgState.budget === 'contenuto') {
+    kwp = sgTrovaKwp(cap, false, marca);                       // kWp più alto entro 10k senza accumulo
+  } else if (sgState.budget === 'alto') {
+    kwp = lista.length ? lista[lista.length - 1].kwp : null;   // kWp più alto disponibile
+  } else {
+    kwp = sgTrovaKwp(cap, accumulo, marca);                    // medio: entro 15k con accumulo se richiesto
+    if (kwp == null && accumulo) kwp = sgTrovaKwp(cap, false, marca); // fallback senza accumulo
+  }
+  if (kwp == null) kwp = sgTrovaKwp(Infinity, false, marca) || (lista[0] && lista[0].kwp) || 6;
+
+  sgState.marca = marca;
+  sgState.accumulo = accumulo;
+  sgState.kwpCalc = kwp;
+
+  // Pannello: filtra per brand preferito, altrimenti primo per potenza decrescente
+  let pannelli = (pannelliList || []).slice();
+  if (sgState.marcaPannello) {
+    const filt = pannelli.filter(p => p.brand === sgState.marcaPannello);
+    if (filt.length) pannelli = filt;
+  }
+  pannelli.sort((a, b) => (b.potenza_wp || 0) - (a.potenza_wp || 0));
+  sgState.pannello = pannelli[0] || null;
+  sgState.numPannelli = (sgState.pannello && sgState.pannello.potenza_wp)
+    ? Math.max(1, Math.round(kwp * 1000 / sgState.pannello.potenza_wp)) : null;
+}
+
+function sgVaiRisultato() {
+  calcolaSuggerimento();
+  document.getElementById('suggerimentoDomandePage').style.display = 'none';
+  document.getElementById('suggerimentoPage').style.display = 'block';
+  avviaSuggerimentoPage();
+}
+
+function avviaSuggerimentoPage() {
+  document.getElementById('sgSceltaLinea').style.display = 'none';
+  const msgEl = document.getElementById('sg_upsell_msg');
+  // Banner upsell con prezzi reali
+  if (sgState.kwpCalc <= 5 && sgFvPrezzo(6) > 0) {
+    const target = 6;
+    const diff = sgFvPrezzo(target) - sgFvPrezzo(sgState.kwpCalc);
+    if (diff > 0) {
+      const perc = Math.round((target / sgState.kwpCalc - 1) * 100);
+      msgEl.style.display = 'block';
+      msgEl.innerHTML = `💡 <strong>Consiglio Solair:</strong> con soli € ${diff.toLocaleString('it-IT')} in più rispetto a ${sgState.kwpCalc} kWp, un impianto da <strong>${target} kWp</strong> produce circa il ${perc}% di energia in più. Ti mostriamo la soluzione da ${target} kWp.`;
+      sgState.kwpCalc = target;
+      if (sgState.pannello && sgState.pannello.potenza_wp) sgState.numPannelli = Math.max(1, Math.round(target * 1000 / sgState.pannello.potenza_wp));
+    } else { msgEl.style.display = 'none'; }
+  } else { msgEl.style.display = 'none'; }
+  const l2 = document.getElementById('sg_kwp_label2'); if (l2) l2.textContent = sgState.kwpCalc;
+  renderRisultato();
+  document.getElementById('sgRisultato').style.display = 'block';
+  document.getElementById('sgpbar_linea').className = 'sg-step done';
+  document.getElementById('sgpbar_risultato').className = 'sg-step active';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Tag descrittivo per taglia in base alla posizione relativa
+function sgTagTaglia(i, n) {
+  if (n <= 1) return { t: 'Soluzione consigliata', c: '#2e8b72', bg: 'rgba(46,139,114,.12)' };
+  if (i === 0) return { t: 'Investimento minimo', c: '#2e8b72', bg: 'rgba(46,139,114,.12)' };
+  if (i === n - 1) return { t: 'Massima indipendenza dalla rete', c: '#b45309', bg: 'rgba(180,83,9,.1)' };
+  return { t: 'Miglior equilibrio costo/autonomia', c: '#1e6b9a', bg: 'rgba(30,107,154,.12)' };
+}
+
+function renderRisultato() {
+  const marca = sgState.marca;
+  const d = batterieData[marca] || {};
+  const kwp = sgState.kwpCalc;
+  const fv = sgFvPrezzo(kwp);
+  const container = document.getElementById('sg_linee_risultato');
+  const titolo = document.getElementById('sg_risultato_titolo');
+  titolo.textContent = sgState.citta ? `La soluzione ideale per il tuo impianto a ${sgState.citta}` : 'La soluzione ideale per te';
+
+  // reset selezione
+  sgState.taglia = null; sgState.prezzoSel = null; sgState.soloFv = false;
+  document.getElementById('sg_btn_procedi').disabled = true;
+
+  // Caratteristiche generate dinamicamente dai dati reali
+  const pannelloNome = sgState.pannello ? (sgState.pannello.nome_display || ((sgState.pannello.brand || '') + ' ' + (sgState.pannello.modello || '')).trim()) : 'Pannelli Top Tier 1';
+  const tensioneTxt = d.tensione ? (d.tensione.charAt(0).toUpperCase() + d.tensione.slice(1)) : '';
+  const carat = [];
+  carat.push(`Pannelli ${pannelloNome}${sgState.pannello && sgState.pannello.potenza_wp ? ` — ${sgState.pannello.potenza_wp} Wp` : ''}`);
+  carat.push(`Impianto da ${kwp} kWp${sgState.numPannelli ? ` — ${sgState.numPannelli} pannelli` : ''}`);
+  carat.push(`Batteria ${marca}${d.garanzia_anni ? ` — garanzia ${d.garanzia_anni} anni` : ''}`);
+  if (tensioneTxt) carat.push(`${tensioneTxt} tensione${d.ip ? ` · ${d.ip}` : ''}`);
+  carat.push('Pratiche GSE, e-distribuzione e collaudo incluse');
+  carat.push('Ingresso CER Solair — 20 anni TIP sulla vendita');
+  const carHtml = carat.map(c => `<li style="display:flex;gap:10px;align-items:flex-start;font-size:15px;color:var(--text);margin-bottom:10px;line-height:1.5"><span style="color:var(--teal);font-weight:800;flex-shrink:0">✓</span>${c}</li>`).join('');
+
+  // Card configurazioni: Solo fotovoltaico + una card per ogni taglia kWh reale
+  const taglie = Array.isArray(d.taglie) ? d.taglie : [];
+  const prezziArr = (d.prezzi && d.prezzi[String(kwp)]) || [];
+  let cardsHtml = `<button type="button" class="sg-tcard" onclick="sgSelezionaTaglia('fv', ${fv}, this)">
+      <div class="stc-top"><span class="stc-titolo">Solo fotovoltaico</span><span class="stc-check">✓</span></div>
+      <div class="stc-prezzo">€ ${fv.toLocaleString('it-IT')} <small>chiavi in mano</small></div>
+      <span class="stc-tag" style="background:rgba(30,58,95,.08);border:1px solid rgba(30,58,95,.2);color:var(--navy)">Nessun accumulo · investimento minimo</span>
+    </button>`;
+  taglie.forEach((t, i) => {
+    const pAcc = prezziArr[i];
+    if (pAcc == null) return;
+    const tot = fv + pAcc;
+    const tag = sgTagTaglia(i, taglie.length);
+    cardsHtml += `<button type="button" class="sg-tcard" onclick="sgSelezionaTaglia(${t}, ${tot}, this)">
+        <div class="stc-top"><span class="stc-titolo">${t} kWh</span><span class="stc-check">✓</span></div>
+        <div class="stc-prezzo">€ ${tot.toLocaleString('it-IT')} <small>chiavi in mano</small></div>
+        <span class="stc-tag" style="background:${tag.bg};border:1px solid ${tag.c}33;color:${tag.c}">${tag.t}</span>
+      </button>`;
+  });
+
+  const badgeClass = d.tensione === 'bassa' ? 'badge-smart' : 'badge-power';
+  container.innerHTML = `
+    <div class="sg-linea-result-card">
+      <div class="sg-rc-header">
+        <span class="lc-badge ${badgeClass}" style="font-size:12px">Batteria ${marca}</span>
+        <div style="font-size:22px;font-weight:800;color:#fff;margin:10px 0 4px">${marca}</div>
+        <div style="font-size:15px;color:rgba(255,255,255,.85);margin-bottom:6px">${sgState.numPannelli ? sgState.numPannelli + ' × ' : ''}${pannelloNome} · ${kwp} kWp</div>
+        <div style="font-size:14px;color:rgba(255,255,255,.8);line-height:1.55">Soluzione con batteria ${marca}${d.garanzia_anni ? `, garanzia ${d.garanzia_anni} anni` : ''}${tensioneTxt ? `, ${tensioneTxt.toLowerCase()} tensione` : ''}${d.ip ? ` · ${d.ip}` : ''}.</div>
+      </div>
+      <div class="sg-rc-body">
+        <button class="sg-rc-toggle" onclick="sgToggleCaratteristiche('sg')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M20 6 9 17l-5-5"/></svg>
+          Caratteristiche incluse <span id="sgct_arrow_sg" style="margin-left:auto">▼</span>
+        </button>
+        <ul id="sgct_sg" style="display:none;list-style:none;padding:0;margin:12px 0 0">${carHtml}</ul>
+        <div style="margin-top:20px">
+          <div style="font-size:16px;font-weight:800;color:var(--navy);margin-bottom:14px">Scegli la configurazione adatta alle tue esigenze</div>
+          <div class="sg-tgrid">${cardsHtml}</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function sgToggleCaratteristiche(id) {
+  const el = document.getElementById('sgct_' + id);
+  const arrow = document.getElementById('sgct_arrow_' + id);
+  if (!el) return;
+  const isOpen = el.style.display !== 'none';
+  el.style.display = isOpen ? 'none' : 'block';
+  if (arrow) arrow.textContent = isOpen ? '▼' : '▲';
+}
+
+function sgSelezionaTaglia(kwh, prezzo, el) {
+  document.querySelectorAll('#sg_linee_risultato .sg-tcard').forEach(b => {
+    b.classList.remove('selected');
+    const c = b.querySelector('.stc-check'); if (c) c.textContent = '';
+  });
+  el.classList.add('selected');
+  const chk = el.querySelector('.stc-check'); if (chk) chk.textContent = '✓';
+  sgState.soloFv = (kwh === 'fv');
+  sgState.taglia = kwh === 'fv' ? null : kwh;
+  sgState.prezzoSel = prezzo;
+  document.getElementById('sg_btn_procedi').disabled = false;
+}
+
+function tornaDaPannelliSg() {
+  document.getElementById('suggerimentoPage').style.display = 'none';
+  document.getElementById('suggerimentoDomandePage').style.display = 'block';
+  sgAvanti(5);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function procediDaSuggerimento() {
+  state.kwp = sgState.kwpCalc;
+  state.pannello = sgState.pannello
+    ? Object.assign({}, sgState.pannello, {
+        nome: sgState.pannello.nome_display || ((sgState.pannello.brand || '') + ' ' + (sgState.pannello.modello || '')).trim(),
+        potenza: sgState.pannello.potenza_wp,
+      })
+    : null;
+  state.numPannelli = sgState.numPannelli || null;
+  state.tetto = sgState.tetto || 'falde';
+  // Zavorre reali (€/kWp) per tetto piano — accessorio implicito dalla scelta tetto
+  const zav = (accessoriList || []).find(a => (a.nome || '').trim().toLowerCase() === 'zavorre');
+  const zavPrezzo = zav && zav.prezzo != null ? zav.prezzo : 100;
+  state.extraZavorre = state.tetto === 'piano' ? (state.kwp || 0) * zavPrezzo : 0;
+  if (sgState.soloFv) {
+    state.accumulo = false; state.linea = null; state.kwh = null;
+    state.prezzoBase = sgState.prezzoSel || sgFvPrezzo(state.kwp);
+  } else {
+    state.accumulo = true;
+    state.linea = sgState.marca;   // nome marca reale (risolto da batterieData nel flusso manuale)
+    state.kwh = sgState.taglia;
+    state.prezzoBase = sgState.prezzoSel || 0;
+  }
+  // Da qui in poi l'utente modifica liberamente col flusso manuale
+  isSuggerimento = false;
+  aggiornaTotale();
+  document.getElementById('suggerimentoPage').style.display = 'none';
+  document.getElementById('configuratorePage').style.display = 'block';
+  document.getElementById('sg_steps_configuratore').style.display = 'none';
+  renderKwpButtons();
+  goTo(6);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
   }
 }
 
@@ -2418,7 +2659,7 @@ const carHtml = features.map(c =>
         <div style="font-size:12px;color:rgba(255,255,255,.8);line-height:1.5">${det.descrizione}</div>
       </div>
       <div class="sg-rc-body">
-        <button class="sg-rc-toggle" onclick="sgToggleCaratteristiche('${linea}')">���� Caratteristiche incluse <span id="sgct_arrow_${linea}">▼</span></button>
+        SG_TOGGLE_SENTINEL_LINE
         <ul id="sgct_${linea}" style="display:none;list-style:none;padding:0;margin:8px 0 0">${carHtml}</ul>
         <button class="sg-rc-toggle sg-rc-offerta" onclick="sgApriOfferta('${linea}')">📄 Vedi offerta completa</button>
         <div style="margin-top:16px">
