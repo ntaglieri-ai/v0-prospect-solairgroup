@@ -385,16 +385,17 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
  .sg-subq{font-size:14px;font-weight:700;color:var(--navy);margin:6px 0 10px}
  .sg-note{font-size:12px;color:var(--muted);line-height:1.5;margin:-6px 0 18px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
  .so-brand-img{width:100%;height:44px;object-fit:contain;margin-bottom:6px}
- .sg-taglie-grid{display:flex;flex-direction:column;gap:12px}
- .sg-taglia-card{display:flex;flex-direction:column;align-items:stretch;gap:8px;width:100%;text-align:left;border:2px solid var(--border);border-radius:14px;background:var(--surface);padding:16px 18px;cursor:pointer;font-family:'Outfit',sans-serif}
- .sg-taglia-card:hover{border-color:var(--teal-border);transform:translateY(-2px);box-shadow:0 6px 18px rgba(46,139,114,.12)}
- .sg-taglia-card.selected{border-color:var(--teal);background:var(--teal-light);box-shadow:0 4px 14px rgba(46,139,114,.18)}
- .sg-taglia-card .stc-top{display:flex;align-items:center;justify-content:space-between}
- .sg-taglia-card .stc-titolo{font-size:17px;font-weight:700;color:var(--navy)}
- .sg-taglia-card .stc-check{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);color:transparent;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0}
- .sg-taglia-card.selected .stc-check{background:var(--teal);border-color:var(--teal);color:#fff}
- .sg-taglia-card .stc-prezzo{font-size:28px;font-weight:800;color:var(--navy);letter-spacing:-.5px}
- .sg-taglia-card .stc-tag{align-self:flex-start;font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px}
+ .sg-tgrid{display:flex;flex-direction:column;gap:12px}
+ .sg-tcard{display:flex;flex-direction:column;align-items:stretch;gap:10px;width:100%;text-align:left;border:2px solid var(--border);border-radius:14px;background:var(--surface);padding:18px 20px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s}
+ .sg-tcard:hover{border-color:var(--teal-border);transform:translateY(-2px);box-shadow:0 6px 18px rgba(46,139,114,.12)}
+ .sg-tcard.selected{border-color:var(--teal);background:var(--teal-light);box-shadow:0 4px 14px rgba(46,139,114,.18)}
+ .sg-tcard .stc-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+ .sg-tcard .stc-titolo{font-size:18px;font-weight:800;color:var(--navy)}
+ .sg-tcard .stc-check{width:26px;height:26px;border-radius:50%;border:2px solid var(--border);color:transparent;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0}
+ .sg-tcard.selected .stc-check{background:var(--teal);border-color:var(--teal);color:#fff}
+ .sg-tcard .stc-prezzo{font-size:30px;font-weight:800;color:var(--navy);letter-spacing:-.5px;line-height:1}
+ .sg-tcard .stc-prezzo small{font-size:13px;font-weight:600;color:var(--muted);letter-spacing:0}
+ .sg-tcard .stc-tag{align-self:flex-start;font-size:12px;font-weight:700;padding:6px 14px;border-radius:20px}
 .sg-rc-offerta{background:rgba(46,139,114,.08);border-color:var(--teal-border);color:var(--teal)}
 .sg-rc-offerta:hover{background:rgba(46,139,114,.15)}
 /* ── MICRO-INTERACTIONS ── */
@@ -533,52 +534,76 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
       <div class="sg-step" id="sgpbar1"></div>
       <div class="sg-step" id="sgpbar2"></div>
       <div class="sg-step" id="sgpbar3"></div>
+      <div class="sg-step" id="sgpbar4"></div>
+      <div class="sg-step" id="sgpbar5"></div>
     </div>
 
-    <!-- Q0 -->
+    <!-- Q0 — Indirizzo -->
     <div class="sg-question active" id="sgQ0">
+      <div class="sg-q-title">Qual è l'indirizzo dell'impianto?</div>
+      <input type="text" class="sg-input" id="sg_indirizzo" placeholder="Via e città (es. Via Roma 12, Milano)" autocomplete="off"
+        oninput="sgCheckStep(0)"
+        onkeydown="if(event.key==='Enter' && !event.nativeEvent?.isComposing && event.keyCode!==229){event.preventDefault();if(!document.getElementById('sgBtn0').disabled)sgAvanti(1);}">
+      <button class="btn-primary navy" id="sgBtn0" onclick="sgSalvaIndirizzo();sgAvanti(1)" disabled>Avanti →</button>
+    </div>
+
+    <!-- Q1 — Immobile + Tetto -->
+    <div class="sg-question" id="sgQ1">
       <div class="sg-q-title">Che tipo di immobile hai?</div>
       <div class="sg-opts">
-        <div class="sg-opt" onclick="sgScegli(0,'villetta',this)"><div class="so-icon">🏡</div><div class="so-label">Villetta unifamiliare</div></div>
-        <div class="sg-opt" onclick="sgScegli(0,'bifamiliare',this)"><div class="so-icon">🏘️</div><div class="so-label">Bifamiliare / condominio</div></div>
-        <div class="sg-opt" onclick="sgScegli(0,'azienda',this)"><div class="so-icon">🏭</div><div class="so-label">Azienda / capannone</div></div>
-        <div class="sg-opt" onclick="sgScegli(0,'altro',this)"><div class="so-icon">🏢</div><div class="so-label">Altro</div></div>
+        <div class="sg-opt" onclick="sgSel('immobile','villetta',this)"><div class="so-icon">🏡</div><div class="so-label">Villetta unifamiliare</div></div>
+        <div class="sg-opt" onclick="sgSel('immobile','bifamiliare',this)"><div class="so-icon">🏘️</div><div class="so-label">Bifamiliare / condominio</div></div>
+        <div class="sg-opt" onclick="sgSel('immobile','azienda',this)"><div class="so-icon">🏭</div><div class="so-label">Azienda / capannone</div></div>
+        <div class="sg-opt" onclick="sgSel('immobile','altro',this)"><div class="so-icon">🏢</div><div class="so-label">Altro</div></div>
       </div>
-      <button class="btn-primary navy" id="sgBtn0" onclick="sgAvantiQ0()" disabled>Avanti →</button>
-    </div>
-
-    <!-- Q1 -->
-    <div class="sg-question" id="sgQ1">
-      <div class="sg-q-title">Qual è il tuo obiettivo principale?</div>
-      <div class="sg-opts">
-        <div class="sg-opt" onclick="sgScegli(1,'risparmio',this)"><div class="so-icon">💰</div><div class="so-label">Ridurre la bolletta</div></div>
-        <div class="sg-opt" onclick="sgScegli(1,'autoconsumo',this)"><div class="so-icon">🔄</div><div class="so-label">Massimizzare l'autoconsumo</div></div>
-        <div class="sg-opt" onclick="sgScegli(1,'blackout',this)"><div class="so-icon">🔋</div><div class="so-label">Protezione dai blackout</div></div>
-        <div class="sg-opt" onclick="sgScegli(1,'investimento',this)"><div class="so-icon">📈</div><div class="so-label">Investimento a lungo termine</div></div>
+      <div class="sg-subq">Che tipo di tetto hai?</div>
+      <div class="sg-opts" id="sg_tetto_group">
+        <div class="sg-opt" onclick="sgSel('tetto','falde',this)"><div class="so-icon">🏠</div><div class="so-label">A falde (spiovente)</div></div>
+        <div class="sg-opt" onclick="sgSel('tetto','piano',this)"><div class="so-icon">🏢</div><div class="so-label">Piano / lastrico solare</div></div>
       </div>
       <button class="btn-primary navy" id="sgBtn1" onclick="sgAvanti(2)" disabled>Avanti →</button>
     </div>
 
-    <!-- Q2 -->
+    <!-- Q2 — Obiettivo -->
     <div class="sg-question" id="sgQ2">
-      <div class="sg-q-title">Quanto è importante la garanzia per te?</div>
+      <div class="sg-q-title">Qual è il tuo obiettivo principale?</div>
       <div class="sg-opts">
-        <div class="sg-opt" onclick="sgScegli(2,'standard',this)"><div class="so-icon">📋</div><div class="so-label">Standard (10 anni)</div></div>
-        <div class="sg-opt" onclick="sgScegli(2,'estesa',this)"><div class="so-icon">🛡️</div><div class="so-label">Estesa (12 anni)</div></div>
-        <div class="sg-opt" onclick="sgScegli(2,'massima',this)"><div class="so-icon">⭐</div><div class="so-label">Massima (15 anni)</div></div>
+        <div class="sg-opt" onclick="sgSel('obiettivo','risparmio',this)"><div class="so-icon">💰</div><div class="so-label">Ridurre la bolletta</div></div>
+        <div class="sg-opt" onclick="sgSel('obiettivo','autoconsumo',this)"><div class="so-icon">🔄</div><div class="so-label">Massimizzare l'autoconsumo</div></div>
+        <div class="sg-opt" onclick="sgSel('obiettivo','blackout',this)"><div class="so-icon">🔋</div><div class="so-label">Protezione dai blackout</div></div>
+        <div class="sg-opt" onclick="sgSel('obiettivo','investimento',this)"><div class="so-icon">📈</div><div class="so-label">Investimento a lungo termine</div></div>
       </div>
       <button class="btn-primary navy" id="sgBtn2" onclick="sgAvanti(3)" disabled>Avanti →</button>
     </div>
 
-    <!-- Q3 -->
+    <!-- Q3 — Garanzia -->
     <div class="sg-question" id="sgQ3">
+      <div class="sg-q-title">Quanto è importante la garanzia per te?</div>
+      <div class="sg-opts">
+        <div class="sg-opt" onclick="sgSel('garanzia','standard',this)"><div class="so-icon">📋</div><div class="so-label">Standard (10 anni)</div></div>
+        <div class="sg-opt" onclick="sgSel('garanzia','estesa',this)"><div class="so-icon">🛡️</div><div class="so-label">Estesa (12 anni)</div></div>
+        <div class="sg-opt" onclick="sgSel('garanzia','massima',this)"><div class="so-icon">⭐</div><div class="so-label">Massima (15 anni)</div></div>
+      </div>
+      <button class="btn-primary navy" id="sgBtn3" onclick="sgAvanti(4)" disabled>Avanti →</button>
+    </div>
+
+    <!-- Q4 — Budget -->
+    <div class="sg-question" id="sgQ4">
       <div class="sg-q-title">Qual è la tua disponibilità di budget?</div>
       <div class="sg-opts">
-        <div class="sg-opt" onclick="sgScegli(3,'contenuto',this)"><div class="so-icon">🟢</div><div class="so-label">Contenuto (fino a €10.000)</div></div>
-        <div class="sg-opt" onclick="sgScegli(3,'medio',this)"><div class="so-icon">🟡</div><div class="so-label">Medio (€10.000–€15.000)</div></div>
-        <div class="sg-opt" onclick="sgScegli(3,'alto',this)"><div class="so-icon">🔴</div><div class="so-label">Alto (oltre €15.000)</div></div>
+        <div class="sg-opt" onclick="sgSel('budget','contenuto',this)"><div class="so-icon">🟢</div><div class="so-label">Contenuto (fino a €10.000)</div></div>
+        <div class="sg-opt" onclick="sgSel('budget','medio',this)"><div class="so-icon">🟡</div><div class="so-label">Medio (€10.000–€15.000)</div></div>
+        <div class="sg-opt" onclick="sgSel('budget','alto',this)"><div class="so-icon">🔴</div><div class="so-label">Alto (oltre €15.000)</div></div>
       </div>
-      <button class="btn-primary navy" id="sgBtn3" onclick="sgDomandeComplete()" disabled>Avanti → Configura impianto</button>
+      <button class="btn-primary navy" id="sgBtn4" onclick="sgAvanti(5)" disabled>Avanti →</button>
+    </div>
+
+    <!-- Q5 — Marca pannello preferita -->
+    <div class="sg-question" id="sgQ5">
+      <div class="sg-q-title">Hai una marca di pannelli preferita?</div>
+      <div class="sg-opts" id="sg_marche_opts"></div>
+      <div class="sg-note">La compatibilità esatta con la superficie disponibile verrà confermata durante il sopralluogo tecnico gratuito.</div>
+      <button class="btn-primary teal" id="sgBtn5" onclick="sgVaiRisultato()" disabled>Vedi la soluzione consigliata →</button>
     </div>
   </div>
 </div>
@@ -1046,6 +1071,8 @@ const RATE_OPTIONS = [24, 36, 48, 60, 72, 84];
 
 let pannelliList = []; // da Sanity
 let batterieData = {}; // { 'V-TAC': { taglie: [...], prezzi: { 3: { 10: 1500, ... } } }, ... }
+let fotovoltaicoList = []; // [{kwp, prezzo}] reale da /api/public/catalogo?tipo=fotovoltaico
+let accessoriList = [];    // [{nome, prezzo, unita, ...}] reale da /api/public/catalogo?tipo=accessori
 
 const state = {
   tipoDocumento: 'preventivo', // 'preventivo'|'contratto'
@@ -1250,6 +1277,28 @@ async function caricaCatalogo() {
     accumuliOk = true;
   } catch (e) {
     console.warn('[Configuratore] Errore catalogo accumuli:', e.message);
+  }
+
+  // Fotovoltaico (prezzi reali per kWp) — usati dal percorso Suggerimento per il calcolo automatico
+  try {
+    const res = await fetch(`${CATALOGO_API_BASE}?tipo=fotovoltaico`);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    fotovoltaicoList = (Array.isArray(data.fotovoltaico) ? data.fotovoltaico : [])
+      .filter(x => x && x.kwp != null && x.prezzo != null)
+      .sort((a, b) => a.kwp - b.kwp);
+  } catch (e) {
+    console.warn('[Configuratore] Errore catalogo fotovoltaico:', e.message);
+  }
+
+  // Accessori (prezzi reali) — usati per calcolare le zavorre implicite (tetto piano) nel percorso Suggerimento
+  try {
+    const res = await fetch(`${CATALOGO_API_BASE}?tipo=accessori`);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    accessoriList = Array.isArray(data.accessori) ? data.accessori : [];
+  } catch (e) {
+    console.warn('[Configuratore] Errore catalogo accessori:', e.message);
   }
 
   // Render dopo aver atteso entrambe le fetch
