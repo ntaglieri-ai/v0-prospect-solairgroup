@@ -2311,19 +2311,29 @@ function sgSalvaIndirizzo() {
 // il titolo del risultato userà l'indirizzo intero invece di un valore parziale/rotto).
 function sgEstraiCitta(v) {
   if (!v) return '';
-  // Prendi il segmento dopo l'ultima virgola se presente, altrimenti l'intera stringa
-  let seg = v.includes(',') ? v.split(',').pop().trim() : v.trim();
-  // Rimuovi la provincia tra parentesi es. "(AQ)" e sigle provincia isolate a fine stringa
-  seg = seg.replace(/\([^)]*\)/g, ' ');           // "Pescina (AQ)" -> "Pescina "
-  seg = seg.replace(/\b[A-Z]{2}\b\s*$/,' ');       // "Pescina AQ" -> "Pescina "
-  seg = seg.replace(/\bCAP\b/gi, ' ');
-  seg = seg.replace(/\d+/g, ' ');                  // via civici / CAP
+  const VIA_RE = /\b(via|viale|piazza|piazzale|corso|largo|vicolo|str(ada)?|localit[aà]|fraz(ione)?|contrada|c\.da)\b/i;
+  // 1) Rimuovi provincia tra parentesi es. "(AQ)", sigla provincia finale e "CAP"
+  let s = v.replace(/\([^)]*\)/g, ' ').replace(/\bCAP\b/gi, ' ').trim();
+  let seg;
+  if (s.includes(',')) {
+    // Formato con virgola: la città è dopo l'ultima virgola
+    seg = s.split(',').pop().trim();
+  } else if (VIA_RE.test(s) && /\d/.test(s)) {
+    // Formato senza virgola "Via Della Stazione 90 Pescina": la città segue l'ultimo numero civico
+    const m = s.match(/^.*\d+\s*(.*)$/);
+    seg = m && m[1] ? m[1].trim() : '';
+  } else {
+    // Solo nome città (es. "Milano")
+    seg = s;
+  }
+  // Pulizia finale
+  seg = seg.replace(/\b[A-Z]{2}\b\s*$/, ' ');      // sigla provincia isolata a fine
+  seg = seg.replace(/\d+/g, ' ');                  // eventuali numeri residui
   seg = seg.replace(/\s+/g, ' ').trim();
-  // Se il segmento contiene ancora un indicatore di via, non è una città chiara
-  if (/\b(via|viale|piazza|piazzale|corso|largo|vicolo|str(ada)?|localit[aà]|fraz(ione)?|contrada|c\.da)\b/i.test(seg)) return '';
-  // Città valida: almeno 2 lettere e composta solo da lettere/spazi/apostrofi/trattini
-  if (seg.length >= 2 && /^[A-Za-zÀ-ÿ'’\- ]+$/.test(seg)) return seg;
-  return '';
+  if (!seg || VIA_RE.test(seg)) return '';
+  if (seg.length < 2 || !/^[A-Za-zÀ-ÿ'’\- ]+$/.test(seg)) return '';
+  // Title-case: "pescina" -> "Pescina", "san giovanni" -> "San Giovanni"
+  return seg.toLowerCase().replace(/(^|[\s'’-])([a-zà-ÿ])/g, (m, sep, ch) => sep + ch.toUpperCase());
 }
 
 // Selezione generica delle opzioni a bottone
