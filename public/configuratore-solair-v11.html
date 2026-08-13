@@ -2140,7 +2140,7 @@ function chiudiPopup() {
   aggiornaConsensi();
 }
 
-// ═══���═════════��══════════════════════════
+// ═══�����═════════��══════════════════════════
 // CONSENSI + INVIO
 // ════════════════════════════════════════
 
@@ -2605,13 +2605,7 @@ function renderRisultato() {
   container.innerHTML = `
     <div class="sg-linea-result-card">
       <div class="sg-rc-body-plain">
-        <button class="sg-rc-toggle" onclick="sgToggleCaratteristiche('sg')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M20 6 9 17l-5-5"/></svg>
-          Caratteristiche incluse <span id="sgct_arrow_sg" style="margin-left:auto">▼</span>
-        </button>
-        <ul id="sgct_sg" style="display:none;list-style:none;padding:0;margin:12px 0 0">${carHtml}</ul>
-        <div style="margin-top:20px">
-          <div style="font-size:16px;font-weight:800;color:var(--navy);margin-bottom:14px">Scegli la configurazione adatta alle tue esigenze</div>
+        <div>
           <div class="sg-tgrid">${cardsHtml}</div>
         </div>
       </div>
@@ -2788,7 +2782,7 @@ let lineaDataSanity = {};
 
 // ═════════════════════════��════���═��═══════
 // DRAWER DETTAGLI PANNELLO
-// ════════════════════════════════════════
+// ══════���═════════════════════════════════
 
 let _drawerPannello = null;
 
