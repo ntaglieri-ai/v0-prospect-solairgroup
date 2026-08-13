@@ -2583,10 +2583,11 @@ function renderRisultato() {
     </button>`;
 
   // Alternative (peso visivo minore): griglia compatta, ciascuna con identità colore dalla sua etichetta
-  const altCard = (onclick, titolo, prezzo, label, c, bg) =>
+  const altCard = (onclick, titolo, prezzo, label, c, bg, conAccumulo) =>
     `<button type="button" class="sg-tcard alt" onclick="${onclick}" style="background:${bg};border-color:${c}40">
         <span class="alt-label" style="color:${c}">${label}</span>
         <div class="stc-top"><span class="stc-titolo">${titolo}</span><span class="stc-radio"></span></div>
+        ${conAccumulo ? `<div style="font-size:12px;font-weight:700;color:var(--muted);margin-top:-4px">Con accumulo</div>` : ''}
         <div class="stc-prezzo">€ ${prezzo.toLocaleString('it-IT')} <small>chiavi in mano</small></div>
       </button>`;
   const altCards = [];
@@ -2595,10 +2596,10 @@ function renderRisultato() {
     const pAcc = prezziArr[i]; if (pAcc == null) return;
     const tot = fv + pAcc;
     const tag = sgTagTaglia(i, taglie.length);
-    altCards.push(altCard(`sgSelezionaTaglia(${t}, ${tot}, this)`, `${marca} ${t} kWh`, tot, tag.t, tag.c, tag.bg));
+    altCards.push(altCard(`sgSelezionaTaglia(${t}, ${tot}, this)`, `${marca} ${t} kWh`, tot, tag.t, tag.c, tag.bg, true));
   });
   if (!recIsFv) {
-    altCards.push(altCard(`sgSelezionaTaglia('fv', ${fv}, this)`, 'Solo fotovoltaico', fv, 'Investimento minimo', '#1e3a5f', 'rgba(30,58,95,.06)'));
+    altCards.push(altCard(`sgSelezionaTaglia('fv', ${fv}, this)`, 'Solo fotovoltaico', fv, 'Investimento minimo', '#1e3a5f', 'rgba(30,58,95,.06)', false));
   }
   if (altCards.length) cardsHtml += `<div class="sg-alt-title">Altre configurazioni disponibili</div><div class="sg-alt-grid">${altCards.join('')}</div>`;
 
