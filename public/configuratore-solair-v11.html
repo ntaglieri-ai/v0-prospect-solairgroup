@@ -391,11 +391,15 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
  .sg-rc-stat .rcs-num{font-size:32px;font-weight:800;color:#fff;line-height:1;letter-spacing:-1px}
  .sg-rc-stat .rcs-unit{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.82);margin-top:5px}
  /* Q6 — card marca pannello premium (solo testo, accento colorato per marca) */
- .sg-brand-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:96px;border:1px solid var(--border);border-radius:14px;padding:20px 14px;cursor:pointer;text-align:center;box-shadow:0 1px 3px rgba(30,58,95,.07);transition:transform .18s ease,box-shadow .18s ease;font-family:'Outfit',sans-serif}
+ .sg-brand-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:96px;border:1px solid var(--border);border-radius:14px;padding:20px 14px;cursor:pointer;text-align:center;box-shadow:0 1px 3px rgba(30,58,95,.07);transition:transform .18s ease,box-shadow .18s ease,outline-color .18s ease;outline:3px solid transparent;outline-offset:-1px;font-family:'Outfit',sans-serif}
  .sg-brand-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(30,58,95,.12)}
+ .sg-brand-card *{pointer-events:none}
  .sg-brand-card .sbc-dot{width:10px;height:10px;border-radius:50%;background:currentColor;flex-shrink:0}
  .sg-brand-card .sbc-name{font-size:17px;font-weight:800;letter-spacing:-.2px}
- .sg-brand-card.selected{box-shadow:0 0 0 2px currentColor inset,0 8px 20px rgba(30,58,95,.14)}
+ .sg-brand-card.selected{outline-color:currentColor;box-shadow:0 8px 22px rgba(30,58,95,.18);transform:translateY(-2px)}
+ .sg-brand-card .sbc-check{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:currentColor;color:#fff;display:none;align-items:center;justify-content:center;font-size:13px;font-weight:800}
+ .sg-brand-card.selected .sbc-check{display:flex}
+ .sg-brand-card.selected .sbc-check::after{content:'✓';color:#fff}
  .sg-tgrid{display:flex;flex-direction:column;gap:12px}
  .sg-tcard{display:flex;flex-direction:column;align-items:stretch;gap:10px;width:100%;text-align:left;border:2px solid var(--border);border-radius:14px;background:var(--surface);padding:18px 20px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s}
  .sg-tcard:hover{border-color:var(--teal-border);transform:translateY(-2px);box-shadow:0 6px 18px rgba(46,139,114,.12)}
@@ -407,6 +411,22 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
  .sg-tcard .stc-prezzo{font-size:30px;font-weight:800;color:var(--navy);letter-spacing:-.5px;line-height:1}
  .sg-tcard .stc-prezzo small{font-size:13px;font-weight:600;color:var(--muted);letter-spacing:0}
  .sg-tcard .stc-tag{align-self:flex-start;font-size:12px;font-weight:700;padding:6px 14px;border-radius:20px}
+ /* Card CONSIGLIATA (hero) vs alternative */
+ .sg-tcard.rec{border-color:var(--teal);background:var(--teal-light);box-shadow:0 8px 26px rgba(46,139,114,.2);padding:22px 24px}
+ .sg-tcard.rec.selected{outline:3px solid var(--teal);outline-offset:-3px}
+ .sg-rec-badge{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:6px 14px;border-radius:20px;background:var(--teal);color:#fff}
+ .sg-tcard.rec .stc-titolo{font-size:20px}
+ .sg-tcard.rec .stc-prezzo{font-size:40px}
+ .sg-tcard .stc-radio{width:26px;height:26px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;position:relative}
+ .sg-tcard.selected .stc-radio{border-color:var(--teal)}
+ .sg-tcard.selected .stc-radio::after{content:'';position:absolute;inset:5px;border-radius:50%;background:var(--teal)}
+ .sg-rec-incluso{list-style:none;padding:0;margin:6px 0 2px;display:flex;flex-direction:column;gap:7px}
+ .sg-rec-incluso li{display:flex;gap:9px;align-items:flex-start;font-size:14px;color:var(--text);line-height:1.4}
+ .sg-rec-incluso li span.ic{color:var(--teal);font-weight:800;flex-shrink:0}
+ .sg-alt-title{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:22px 0 12px}
+ .sg-tcard.alt{padding:14px 18px;opacity:.92}
+ .sg-tcard.alt .stc-titolo{font-size:16px}
+ .sg-tcard.alt .stc-prezzo{font-size:22px}
 .sg-rc-offerta{background:rgba(46,139,114,.08);border-color:var(--teal-border);color:var(--teal)}
 .sg-rc-offerta:hover{background:rgba(46,139,114,.15)}
 /* ── MICRO-INTERACTIONS ── */
@@ -554,7 +574,8 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
       <div class="sg-q-title">Qual è l'indirizzo dell'impianto?</div>
       <input type="text" class="sg-input" id="sg_indirizzo" placeholder="Via e città (es. Via Roma 12, Milano)" autocomplete="off"
         oninput="sgCheckStep(0)"
-        onkeydown="if(event.key==='Enter' && !event.nativeEvent?.isComposing && event.keyCode!==229){event.preventDefault();if(!document.getElementById('sgBtn0').disabled)sgAvanti(1);}">
+        onkeydown="if(event.key==='Enter' && !event.nativeEvent?.isComposing && event.keyCode!==229){event.preventDefault();if(!document.getElementById('sgBtn0').disabled){sgSalvaIndirizzo();sgAvanti(1);}}">
+      <div style="font-size:12px;color:var(--muted);margin:-4px 0 16px;padding-left:2px">Formato consigliato: <strong>Via Roma 12, Pescina (AQ)</strong></div>
       <button class="btn-primary navy" id="sgBtn0" onclick="sgSalvaIndirizzo();sgAvanti(1)" disabled>Avanti →</button>
     </div>
 
@@ -2260,11 +2281,27 @@ function sgCheckStep(step) {
 function sgSalvaIndirizzo() {
   const v = (document.getElementById('sg_indirizzo').value || '').trim();
   sgState.indirizzo = v;
-  let citta = '';
-  if (v.includes(',')) citta = v.split(',').pop().trim();
-  else { const parts = v.split(/\s+/); citta = parts.length > 1 ? parts[parts.length - 1] : v; }
-  citta = citta.replace(/\d+/g, '').replace(/\s+/g, ' ').trim();
-  sgState.citta = citta;
+  sgState.citta = sgEstraiCitta(v);
+}
+
+// Estrae la città da un indirizzo libero gestendo vari formati.
+// Ritorna la città pulita, oppure '' se non identificabile con certezza (in tal caso
+// il titolo del risultato userà l'indirizzo intero invece di un valore parziale/rotto).
+function sgEstraiCitta(v) {
+  if (!v) return '';
+  // Prendi il segmento dopo l'ultima virgola se presente, altrimenti l'intera stringa
+  let seg = v.includes(',') ? v.split(',').pop().trim() : v.trim();
+  // Rimuovi la provincia tra parentesi es. "(AQ)" e sigle provincia isolate a fine stringa
+  seg = seg.replace(/\([^)]*\)/g, ' ');           // "Pescina (AQ)" -> "Pescina "
+  seg = seg.replace(/\b[A-Z]{2}\b\s*$/,' ');       // "Pescina AQ" -> "Pescina "
+  seg = seg.replace(/\bCAP\b/gi, ' ');
+  seg = seg.replace(/\d+/g, ' ');                  // via civici / CAP
+  seg = seg.replace(/\s+/g, ' ').trim();
+  // Se il segmento contiene ancora un indicatore di via, non è una città chiara
+  if (/\b(via|viale|piazza|piazzale|corso|largo|vicolo|str(ada)?|localit[aà]|fraz(ione)?|contrada|c\.da)\b/i.test(seg)) return '';
+  // Città valida: almeno 2 lettere e composta solo da lettere/spazi/apostrofi/trattini
+  if (seg.length >= 2 && /^[A-Za-zÀ-ÿ'’\- ]+$/.test(seg)) return seg;
+  return '';
 }
 
 // Selezione generica delle opzioni a bottone
@@ -2322,7 +2359,7 @@ function renderMarcheOpzioni() {
   let html = '';
   brands.forEach((b, i) => {
     const c = PALETTE[i % PALETTE.length];
-    html += `<div class="sg-opt sg-brand-card" style="background:${c.bg};border-color:${c.border};color:${c.accent}" onclick="sgSel('marcaPannello','${String(b).replace(/'/g, "\\'")}',this)"><span class="sbc-dot"></span><span class="sbc-name">${b}</span></div>`;
+    html += `<div class="sg-opt sg-brand-card" style="background:${c.bg};border-color:${c.border};color:${c.accent}" onclick="sgSel('marcaPannello','${String(b).replace(/'/g, "\\'")}',this)"><span class="sbc-check"></span><span class="sbc-dot"></span><span class="sbc-name">${b}</span></div>`;
   });
   html += `<div class="sg-opt" onclick="sgSel('marcaPannello','',this)"><div class="so-icon">✨</div><div class="so-label">Nessuna preferenza, consigliatemi voi</div></div>`;
   wrap.innerHTML = html;
@@ -2430,11 +2467,8 @@ function renderRisultato() {
   const fv = sgFvPrezzo(kwp);
   const container = document.getElementById('sg_linee_risultato');
   const titolo = document.getElementById('sg_risultato_titolo');
-  titolo.textContent = sgState.citta ? `La soluzione ideale per il tuo impianto a ${sgState.citta}` : 'La soluzione ideale per te';
-
-  // reset selezione
-  sgState.taglia = null; sgState.prezzoSel = null; sgState.soloFv = false;
-  document.getElementById('sg_btn_procedi').disabled = true;
+  const luogo = sgState.citta || (sgState.indirizzo || '').trim();
+  titolo.textContent = luogo ? `La soluzione ideale per il tuo impianto a ${luogo}` : 'La soluzione ideale per te';
 
   // Caratteristiche generate dinamicamente dai dati reali
   const pannelloNome = sgState.pannello ? (sgState.pannello.nome_display || ((sgState.pannello.brand || '') + ' ' + (sgState.pannello.modello || '')).trim()) : 'Pannelli Top Tier 1';
@@ -2448,25 +2482,66 @@ function renderRisultato() {
   carat.push('Ingresso CER Solair — 20 anni TIP sulla vendita');
   const carHtml = carat.map(c => `<li style="display:flex;gap:10px;align-items:flex-start;font-size:15px;color:var(--text);margin-bottom:10px;line-height:1.5"><span style="color:var(--teal);font-weight:800;flex-shrink:0">✓</span>${c}</li>`).join('');
 
-  // Card configurazioni: Solo fotovoltaico + una card per ogni taglia kWh reale
+  // ── Card configurazioni ──
   const taglie = Array.isArray(d.taglie) ? d.taglie : [];
   const prezziArr = (d.prezzi && d.prezzi[String(kwp)]) || [];
-  let cardsHtml = `<button type="button" class="sg-tcard" onclick="sgSelezionaTaglia('fv', ${fv}, this)">
-      <div class="stc-top"><span class="stc-titolo">Solo fotovoltaico</span><span class="stc-check">✓</span></div>
-      <div class="stc-prezzo">€ ${fv.toLocaleString('it-IT')} <small>chiavi in mano</small></div>
-      <span class="stc-tag" style="background:rgba(30,58,95,.08);border:1px solid rgba(30,58,95,.2);color:var(--navy)">Nessun accumulo · investimento minimo</span>
+  // Accessorio automatico incluso in base al tetto scelto in Q2 (tetto piano -> zavorre)
+  const tettoPiano = sgState.tetto === 'piano';
+  const zavTxt = tettoPiano ? 'Zavorre per tetto piano incluse' : null;
+
+  // La configurazione CONSIGLIATA deriva da calcolaSuggerimento:
+  // se l'obiettivo suggerisce l'accumulo -> taglia più piccola disponibile; altrimenti solo fotovoltaico.
+  let recTaglia = null, recPrezzo = null, recIdx = -1;
+  if (sgState.accumulo) {
+    for (let i = 0; i < taglie.length; i++) { if (prezziArr[i] != null) { recIdx = i; recTaglia = taglie[i]; recPrezzo = fv + prezziArr[i]; break; } }
+  }
+  const recIsFv = recTaglia == null;
+  if (recIsFv) recPrezzo = fv;
+
+  // Preseleziona la consigliata
+  sgState.soloFv = recIsFv;
+  sgState.taglia = recIsFv ? null : recTaglia;
+  sgState.prezzoSel = recPrezzo;
+  document.getElementById('sg_btn_procedi').disabled = false;
+
+  // Lista "cosa è incluso" per la card consigliata
+  const inclusi = [];
+  inclusi.push(`Impianto <strong>${kwp} kWp</strong>${sgState.numPannelli ? ` — ${sgState.numPannelli} pannelli` : ''}`);
+  inclusi.push(`Pannelli <strong>${pannelloNome}</strong>${sgState.pannello && sgState.pannello.potenza_wp ? ` (${sgState.pannello.potenza_wp} Wp)` : ''}`);
+  if (!recIsFv) inclusi.push(`Accumulo <strong>${marca} ${recTaglia} kWh</strong>${d.garanzia_anni ? ` — garanzia ${d.garanzia_anni} anni` : ''}`);
+  if (zavTxt) inclusi.push(zavTxt);
+  inclusi.push('Pratiche GSE, e-distribuzione e collaudo incluse');
+  const inclusiHtml = inclusi.map(x => `<li><span class="ic">✓</span><span>${x}</span></li>`).join('');
+
+  const recCall = recIsFv ? `sgSelezionaTaglia('fv', ${fv}, this)` : `sgSelezionaTaglia(${recTaglia}, ${recPrezzo}, this)`;
+  let cardsHtml = `<button type="button" class="sg-tcard rec selected" onclick="${recCall}">
+      <span class="sg-rec-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg> Consigliata per te</span>
+      <div class="stc-top"><span class="stc-titolo">${recIsFv ? 'Solo fotovoltaico' : marca + ' ' + recTaglia + ' kWh'}</span><span class="stc-radio"></span></div>
+      <div class="stc-prezzo">€ ${recPrezzo.toLocaleString('it-IT')} <small>chiavi in mano</small></div>
+      <ul class="sg-rec-incluso">${inclusiHtml}</ul>
     </button>`;
+
+  // Alternative (peso visivo minore): tutte le altre taglie + eventualmente solo-fotovoltaico
+  const altCards = [];
   taglie.forEach((t, i) => {
-    const pAcc = prezziArr[i];
-    if (pAcc == null) return;
+    if (i === recIdx) return;
+    const pAcc = prezziArr[i]; if (pAcc == null) return;
     const tot = fv + pAcc;
     const tag = sgTagTaglia(i, taglie.length);
-    cardsHtml += `<button type="button" class="sg-tcard" onclick="sgSelezionaTaglia(${t}, ${tot}, this)">
-        <div class="stc-top"><span class="stc-titolo">${t} kWh</span><span class="stc-check">✓</span></div>
+    altCards.push(`<button type="button" class="sg-tcard alt" onclick="sgSelezionaTaglia(${t}, ${tot}, this)">
+        <div class="stc-top"><span class="stc-titolo">${marca} ${t} kWh</span><span class="stc-radio"></span></div>
         <div class="stc-prezzo">€ ${tot.toLocaleString('it-IT')} <small>chiavi in mano</small></div>
         <span class="stc-tag" style="background:${tag.bg};border:1px solid ${tag.c}33;color:${tag.c}">${tag.t}</span>
-      </button>`;
+      </button>`);
   });
+  if (!recIsFv) {
+    altCards.push(`<button type="button" class="sg-tcard alt" onclick="sgSelezionaTaglia('fv', ${fv}, this)">
+        <div class="stc-top"><span class="stc-titolo">Solo fotovoltaico</span><span class="stc-radio"></span></div>
+        <div class="stc-prezzo">€ ${fv.toLocaleString('it-IT')} <small>chiavi in mano</small></div>
+        <span class="stc-tag" style="background:rgba(30,58,95,.08);border:1px solid rgba(30,58,95,.2);color:var(--navy)">Nessun accumulo · investimento minimo</span>
+      </button>`);
+  }
+  if (altCards.length) cardsHtml += `<div class="sg-alt-title">Altre configurazioni disponibili</div>` + altCards.join('');
 
   const badgeClass = d.tensione === 'bassa' ? 'badge-smart' : 'badge-power';
   container.innerHTML = `
@@ -2505,12 +2580,8 @@ function sgToggleCaratteristiche(id) {
 }
 
 function sgSelezionaTaglia(kwh, prezzo, el) {
-  document.querySelectorAll('#sg_linee_risultato .sg-tcard').forEach(b => {
-    b.classList.remove('selected');
-    const c = b.querySelector('.stc-check'); if (c) c.textContent = '';
-  });
+  document.querySelectorAll('#sg_linee_risultato .sg-tcard').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
-  const chk = el.querySelector('.stc-check'); if (chk) chk.textContent = '✓';
   sgState.soloFv = (kwh === 'fv');
   sgState.taglia = kwh === 'fv' ? null : kwh;
   sgState.prezzoSel = prezzo;
