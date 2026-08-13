@@ -374,8 +374,8 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(46,139,114,.1);color:var(--teal);margin-left:6px}
 
 /* ── SUGGERIMENTO RISULTATO CARD ── */
-.sg-linea-result-card{border-radius:16px;overflow:hidden;border:1px solid var(--border);margin-bottom:16px;box-shadow:0 2px 12px rgba(30,58,95,.06);transition:all .22s cubic-bezier(.4,0,.2,1)}
-.sg-linea-result-card:hover{box-shadow:0 6px 24px rgba(30,58,95,.1);transform:translateY(-2px)}
+.sg-linea-result-card{margin-bottom:16px}
+.sg-rc-body-plain{padding:20px 0 0}
 .sg-rc-header{position:relative;overflow:hidden;background:linear-gradient(150deg,var(--navy-dark) 0%,var(--navy) 45%,#2f5378 78%,#3a6a8f 100%);padding:30px 30px 26px}
 .sg-rc-header::after{content:'';position:absolute;top:-40%;right:-10%;width:320px;height:320px;background:radial-gradient(circle,rgba(93,217,193,.16) 0%,transparent 68%);pointer-events:none}
 .sg-rc-header>*{position:relative;z-index:1}
@@ -388,6 +388,16 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 .sg-rc-info .rci-row{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.92);line-height:1.4}
 .sg-rc-info .rci-row svg{width:17px;height:17px;flex-shrink:0;color:#8fd9c8}
 .sg-rc-info .rci-row strong{color:#fff;font-weight:700}
+/* Header risultato in testo semplice (nessun box colorato) */
+.sg-rc-header-plain{padding:2px 2px 20px}
+.sg-marca-badge-plain{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding:6px 14px;border-radius:20px;background:rgba(245,158,11,.16);color:#9a6208;border:1px solid rgba(245,158,11,.35)}
+.sg-marca-name-plain{font-size:30px;font-weight:800;color:var(--navy);letter-spacing:-.5px;margin:14px 0 0;line-height:1}
+.sg-potenza-plain{font-size:15px;color:var(--text);margin-top:8px}
+.sg-potenza-plain strong{color:var(--navy);font-weight:700}
+.sg-rc-info-plain{display:flex;flex-direction:column;gap:10px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}
+.sg-rc-info-plain .rci-row{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text);line-height:1.4}
+.sg-rc-info-plain .rci-row svg{width:17px;height:17px;flex-shrink:0;color:var(--teal)}
+.sg-rc-info-plain .rci-row strong{color:var(--navy);font-weight:700}
 .sg-rc-toggle{width:100%;text-align:left;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;margin-top:10px;transition:all .18s ease}
  .sg-rc-toggle:hover{background:var(--navy-light);border-color:var(--navy-border)}
  .sg-input{width:100%;padding:14px 16px;border:2px solid var(--border);border-radius:var(--radius);font-family:'Outfit',sans-serif;font-size:15px;color:var(--text);background:var(--surface);margin-bottom:12px;transition:border-color .2s}
@@ -594,11 +604,12 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
     <!-- Q0 — Indirizzo -->
     <div class="sg-question active" id="sgQ0">
       <div class="sg-q-title">Qual è l'indirizzo dell'impianto?</div>
-      <input type="text" class="sg-input" id="sg_indirizzo" placeholder="Via e città (es. Via Roma 12, Milano)" autocomplete="off"
+      <input type="text" class="sg-input" id="sg_indirizzo" placeholder="Es. Via Roma 12, Pescina (AQ)" autocomplete="off"
         oninput="sgCheckStep(0)"
-        onkeydown="if(event.key==='Enter' && !event.nativeEvent?.isComposing && event.keyCode!==229){event.preventDefault();if(!document.getElementById('sgBtn0').disabled){sgSalvaIndirizzo();sgAvanti(1);}}">
-      <div style="font-size:12px;color:var(--muted);margin:-4px 0 16px;padding-left:2px">Formato consigliato: <strong>Via Roma 12, Pescina (AQ)</strong></div>
-      <button class="btn-primary navy" id="sgBtn0" onclick="sgSalvaIndirizzo();sgAvanti(1)" disabled>Avanti →</button>
+        onkeydown="if(event.key==='Enter' && !event.nativeEvent?.isComposing && event.keyCode!==229){event.preventDefault();if(!document.getElementById('sgBtn0').disabled){sgProcediIndirizzo();}}">
+      <div style="font-size:12px;color:var(--muted);margin:-4px 0 12px;padding-left:2px">Formato richiesto: <strong>Via/Piazza + numero civico + città</strong> (es. Via Roma 12, Pescina). La provincia è facoltativa.</div>
+      <div id="sg_indirizzo_err" style="display:none;font-size:13px;font-weight:600;color:#b3261e;background:rgba(179,38,30,.08);border:1px solid rgba(179,38,30,.25);border-radius:10px;padding:10px 12px;margin:0 0 16px">Indirizzo incompleto: inserisci via, numero civico e città (es. <strong>Via Roma 12, Pescina</strong>).</div>
+      <button class="btn-primary navy" id="sgBtn0" onclick="sgProcediIndirizzo()" disabled>Avanti →</button>
     </div>
 
     <!-- Q1 — Immobile + Tetto -->
@@ -2129,7 +2140,7 @@ function chiudiPopup() {
   aggiornaConsensi();
 }
 
-// ═════════════��══════════════════════════
+// ═══�����═════════��══════════════════════════
 // CONSENSI + INVIO
 // ════════════════════════════════════════
 
@@ -2298,6 +2309,7 @@ function sgCheckStep(step) {
   if (step === 0) {
     const v = (document.getElementById('sg_indirizzo').value || '').trim();
     document.getElementById('sgBtn0').disabled = v.length < 3;
+    const err = document.getElementById('sg_indirizzo_err'); if (err) err.style.display = 'none';
   }
 }
 function sgSalvaIndirizzo() {
@@ -2306,24 +2318,51 @@ function sgSalvaIndirizzo() {
   sgState.citta = sgEstraiCitta(v);
 }
 
+// Valida che l'indirizzo contenga via + numero civico + città (virgola facoltativa)
+function sgIndirizzoValido(v) {
+  if (!v) return false;
+  const VIA_RE = /\b(via|viale|piazza|piazzale|corso|largo|vicolo|str(ada)?|localit[aà]|fraz(ione)?|contrada|c\.da)\b/i;
+  return VIA_RE.test(v) && /\d/.test(v) && sgEstraiCitta(v).length >= 2;
+}
+
+// Procede dalla Q0: se lo schema è corretto avanza, altrimenti mostra l'errore
+function sgProcediIndirizzo() {
+  const v = (document.getElementById('sg_indirizzo').value || '').trim();
+  const err = document.getElementById('sg_indirizzo_err');
+  if (!sgIndirizzoValido(v)) { if (err) err.style.display = 'block'; return; }
+  if (err) err.style.display = 'none';
+  sgSalvaIndirizzo();
+  sgAvanti(1);
+}
+
 // Estrae la città da un indirizzo libero gestendo vari formati.
 // Ritorna la città pulita, oppure '' se non identificabile con certezza (in tal caso
 // il titolo del risultato userà l'indirizzo intero invece di un valore parziale/rotto).
 function sgEstraiCitta(v) {
   if (!v) return '';
-  // Prendi il segmento dopo l'ultima virgola se presente, altrimenti l'intera stringa
-  let seg = v.includes(',') ? v.split(',').pop().trim() : v.trim();
-  // Rimuovi la provincia tra parentesi es. "(AQ)" e sigle provincia isolate a fine stringa
-  seg = seg.replace(/\([^)]*\)/g, ' ');           // "Pescina (AQ)" -> "Pescina "
-  seg = seg.replace(/\b[A-Z]{2}\b\s*$/,' ');       // "Pescina AQ" -> "Pescina "
-  seg = seg.replace(/\bCAP\b/gi, ' ');
-  seg = seg.replace(/\d+/g, ' ');                  // via civici / CAP
+  const VIA_RE = /\b(via|viale|piazza|piazzale|corso|largo|vicolo|str(ada)?|localit[aà]|fraz(ione)?|contrada|c\.da)\b/i;
+  // 1) Rimuovi provincia tra parentesi es. "(AQ)", sigla provincia finale e "CAP"
+  let s = v.replace(/\([^)]*\)/g, ' ').replace(/\bCAP\b/gi, ' ').trim();
+  let seg;
+  if (s.includes(',')) {
+    // Formato con virgola: la città è dopo l'ultima virgola
+    seg = s.split(',').pop().trim();
+  } else if (VIA_RE.test(s) && /\d/.test(s)) {
+    // Formato senza virgola "Via Della Stazione 90 Pescina": la città segue l'ultimo numero civico
+    const m = s.match(/^.*\d+\s*(.*)$/);
+    seg = m && m[1] ? m[1].trim() : '';
+  } else {
+    // Solo nome città (es. "Milano")
+    seg = s;
+  }
+  // Pulizia finale
+  seg = seg.replace(/\b[A-Z]{2}\b\s*$/, ' ');      // sigla provincia isolata a fine
+  seg = seg.replace(/\d+/g, ' ');                  // eventuali numeri residui
   seg = seg.replace(/\s+/g, ' ').trim();
-  // Se il segmento contiene ancora un indicatore di via, non è una città chiara
-  if (/\b(via|viale|piazza|piazzale|corso|largo|vicolo|str(ada)?|localit[aà]|fraz(ione)?|contrada|c\.da)\b/i.test(seg)) return '';
-  // Città valida: almeno 2 lettere e composta solo da lettere/spazi/apostrofi/trattini
-  if (seg.length >= 2 && /^[A-Za-zÀ-ÿ'’\- ]+$/.test(seg)) return seg;
-  return '';
+  if (!seg || VIA_RE.test(seg)) return '';
+  if (seg.length < 2 || !/^[A-Za-zÀ-ÿ'’\- ]+$/.test(seg)) return '';
+  // Title-case: "pescina" -> "Pescina", "san giovanni" -> "San Giovanni"
+  return seg.toLowerCase().replace(/(^|[\s'’-])([a-zà-ÿ])/g, (m, sep, ch) => sep + ch.toUpperCase());
 }
 
 // Selezione generica delle opzioni a bottone
@@ -2563,29 +2602,10 @@ function renderRisultato() {
   }
   if (altCards.length) cardsHtml += `<div class="sg-alt-title">Altre configurazioni disponibili</div><div class="sg-alt-grid">${altCards.join('')}</div>`;
 
-  const rowGaranzia = d.garanzia_anni ? `<div class="rci-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Garanzia batteria <strong>${d.garanzia_anni} anni</strong></span></div>` : '';
-  const tensIpTxt = [tensioneTxt ? `${tensioneTxt} tensione` : '', d.ip || ''].filter(Boolean).join(' · ');
-  const rowTens = tensIpTxt ? `<div class="rci-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg><span>${tensIpTxt}</span></div>` : '';
   container.innerHTML = `
     <div class="sg-linea-result-card">
-      <div class="sg-rc-header">
-        <span class="sg-marca-badge">Batteria ${marca}</span>
-        <div class="sg-marca-name">${marca}</div>
-        <div style="font-size:15px;color:rgba(255,255,255,.9);margin-top:8px">Potenza impianto: <strong style="color:#fff;font-weight:700">${kwp} kWp</strong></div>
-        <div class="sg-rc-info">
-          <div class="rci-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1"/><path d="M3 10h18M9 4v12M15 4v12M7 20h10"/></svg><span>${sgState.numPannelli ? `<strong>${sgState.numPannelli} ×</strong> ` : ''}${pannelloNome}</span></div>
-          ${rowGaranzia}
-          ${rowTens}
-        </div>
-      </div>
-      <div class="sg-rc-body">
-        <button class="sg-rc-toggle" onclick="sgToggleCaratteristiche('sg')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M20 6 9 17l-5-5"/></svg>
-          Caratteristiche incluse <span id="sgct_arrow_sg" style="margin-left:auto">▼</span>
-        </button>
-        <ul id="sgct_sg" style="display:none;list-style:none;padding:0;margin:12px 0 0">${carHtml}</ul>
-        <div style="margin-top:20px">
-          <div style="font-size:16px;font-weight:800;color:var(--navy);margin-bottom:14px">Scegli la configurazione adatta alle tue esigenze</div>
+      <div class="sg-rc-body-plain">
+        <div>
           <div class="sg-tgrid">${cardsHtml}</div>
         </div>
       </div>
@@ -2659,7 +2679,7 @@ function procediDaSuggerimento() {
 }
 // ════════════════════════════════════════
 // INTRO / RESET
-// ════════════════════════════════════════
+// ════════════════��═══════════════════════
 
 let isSuggerimento = false;
 
@@ -2724,7 +2744,7 @@ function tornaIntro() {
 
 // ════════════════════════════════════════
 // INIT
-// ════════════════════���═════��═���═══════════
+// ════════════════════���═════��═���═══════��═══
 
 renderKwpButtons();
 caricaCatalogo();
@@ -2762,7 +2782,7 @@ let lineaDataSanity = {};
 
 // ═════════════════════════��════���═��═══════
 // DRAWER DETTAGLI PANNELLO
-// ════════════════════════════════════════
+// ══════���═════════════════════════════════
 
 let _drawerPannello = null;
 
