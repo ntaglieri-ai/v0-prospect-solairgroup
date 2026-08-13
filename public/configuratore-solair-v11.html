@@ -376,8 +376,18 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 /* ── SUGGERIMENTO RISULTATO CARD ── */
 .sg-linea-result-card{border-radius:16px;overflow:hidden;border:1px solid var(--border);margin-bottom:16px;box-shadow:0 2px 12px rgba(30,58,95,.06);transition:all .22s cubic-bezier(.4,0,.2,1)}
 .sg-linea-result-card:hover{box-shadow:0 6px 24px rgba(30,58,95,.1);transform:translateY(-2px)}
-.sg-rc-header{background:linear-gradient(135deg,var(--navy) 0%,#2a5298 60%,var(--teal) 100%);padding:20px}
-.sg-rc-body{padding:16px 20px 20px;background:var(--surface)}
+.sg-rc-header{position:relative;overflow:hidden;background:linear-gradient(150deg,var(--navy-dark) 0%,var(--navy) 45%,#2f5378 78%,#3a6a8f 100%);padding:30px 30px 26px}
+.sg-rc-header::after{content:'';position:absolute;top:-40%;right:-10%;width:320px;height:320px;background:radial-gradient(circle,rgba(93,217,193,.16) 0%,transparent 68%);pointer-events:none}
+.sg-rc-header>*{position:relative;z-index:1}
+.sg-rc-body{padding:20px 24px 24px;background:var(--surface)}
+/* Badge marca autonomo (non dipende da .linea-card) */
+.sg-marca-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding:6px 14px;border-radius:20px;background:rgba(245,158,11,.9);color:#3d2708;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.sg-marca-name{font-size:30px;font-weight:800;color:#fff;letter-spacing:-.5px;margin:14px 0 0;line-height:1}
+/* Righe info con icona */
+.sg-rc-info{display:flex;flex-direction:column;gap:10px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.16)}
+.sg-rc-info .rci-row{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.92);line-height:1.4}
+.sg-rc-info .rci-row svg{width:17px;height:17px;flex-shrink:0;color:#8fd9c8}
+.sg-rc-info .rci-row strong{color:#fff;font-weight:700}
 .sg-rc-toggle{width:100%;text-align:left;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;margin-top:10px;transition:all .18s ease}
  .sg-rc-toggle:hover{background:var(--navy-light);border-color:var(--navy-border)}
  .sg-input{width:100%;padding:14px 16px;border:2px solid var(--border);border-radius:var(--radius);font-family:'Outfit',sans-serif;font-size:15px;color:var(--text);background:var(--surface);margin-bottom:12px;transition:border-color .2s}
@@ -386,10 +396,10 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
  .sg-note{font-size:12px;color:var(--muted);line-height:1.5;margin:-6px 0 18px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
  .so-brand-img{width:100%;height:44px;object-fit:contain;margin-bottom:6px}
  /* Stat prominenti nel banner risultato (kWp / kWh) */
- .sg-rc-stats{display:flex;gap:10px;margin:14px 0 10px;flex-wrap:wrap}
- .sg-rc-stat{display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:14px;padding:12px 22px;min-width:104px;backdrop-filter:blur(2px)}
- .sg-rc-stat .rcs-num{font-size:32px;font-weight:800;color:#fff;line-height:1;letter-spacing:-1px}
- .sg-rc-stat .rcs-unit{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.82);margin-top:5px}
+ .sg-rc-stats{display:flex;gap:12px;margin:18px 0 2px;flex-wrap:wrap}
+ .sg-rc-stat{display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.4);border-radius:16px;padding:14px 26px;min-width:112px;backdrop-filter:blur(6px);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 6px 18px rgba(0,0,0,.16)}
+ .sg-rc-stat .rcs-num{font-size:36px;font-weight:800;color:#fff;line-height:1;letter-spacing:-1.2px;text-shadow:0 1px 8px rgba(0,0,0,.15)}
+ .sg-rc-stat .rcs-unit{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.88);margin-top:6px}
  /* Q6 — card marca pannello premium (solo testo, accento colorato per marca) */
  .sg-brand-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:96px;border:1px solid var(--border);border-radius:14px;padding:20px 14px;cursor:pointer;text-align:center;box-shadow:0 1px 3px rgba(30,58,95,.07);transition:transform .18s ease,box-shadow .18s ease,outline-color .18s ease;outline:3px solid transparent;outline-offset:-1px;font-family:'Outfit',sans-serif}
  .sg-brand-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(30,58,95,.12)}
@@ -411,22 +421,34 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
  .sg-tcard .stc-prezzo{font-size:30px;font-weight:800;color:var(--navy);letter-spacing:-.5px;line-height:1}
  .sg-tcard .stc-prezzo small{font-size:13px;font-weight:600;color:var(--muted);letter-spacing:0}
  .sg-tcard .stc-tag{align-self:flex-start;font-size:12px;font-weight:700;padding:6px 14px;border-radius:20px}
- /* Card CONSIGLIATA (hero) vs alternative */
- .sg-tcard.rec{border-color:var(--teal);background:var(--teal-light);box-shadow:0 8px 26px rgba(46,139,114,.2);padding:22px 24px}
- .sg-tcard.rec.selected{outline:3px solid var(--teal);outline-offset:-3px}
- .sg-rec-badge{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:6px 14px;border-radius:20px;background:var(--teal);color:#fff}
- .sg-tcard.rec .stc-titolo{font-size:20px}
- .sg-tcard.rec .stc-prezzo{font-size:40px}
- .sg-tcard .stc-radio{width:26px;height:26px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;position:relative}
+ /* Card CONSIGLIATA (hero) — protagonista */
+ .sg-tcard.rec{border:3px solid var(--teal);background:linear-gradient(180deg,var(--teal-light),rgba(46,139,114,.04));box-shadow:0 12px 34px rgba(46,139,114,.24);padding:24px 26px 26px;gap:14px}
+ .sg-tcard.rec:hover{transform:none;box-shadow:0 14px 38px rgba(46,139,114,.28)}
+ .sg-tcard.rec.selected{outline:none}
+ .sg-rec-badge{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:7px 15px;border-radius:20px;background:var(--teal);color:#fff;box-shadow:0 4px 12px rgba(46,139,114,.3)}
+ .sg-tcard.rec .stc-titolo{font-size:21px}
+ .sg-tcard.rec .stc-prezzo{font-size:50px;color:var(--teal-dark)}
+ .sg-tcard.rec .stc-prezzo small{font-size:14px;color:var(--mid)}
+ .sg-tcard .stc-radio{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;position:relative;background:var(--surface)}
  .sg-tcard.selected .stc-radio{border-color:var(--teal)}
  .sg-tcard.selected .stc-radio::after{content:'';position:absolute;inset:5px;border-radius:50%;background:var(--teal)}
- .sg-rec-incluso{list-style:none;padding:0;margin:6px 0 2px;display:flex;flex-direction:column;gap:7px}
- .sg-rec-incluso li{display:flex;gap:9px;align-items:flex-start;font-size:14px;color:var(--text);line-height:1.4}
- .sg-rec-incluso li span.ic{color:var(--teal);font-weight:800;flex-shrink:0}
- .sg-alt-title{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:22px 0 12px}
- .sg-tcard.alt{padding:14px 18px;opacity:.92}
- .sg-tcard.alt .stc-titolo{font-size:16px}
- .sg-tcard.alt .stc-prezzo{font-size:22px}
+ .sg-rec-incluso{list-style:none;padding:0;margin:2px 0;display:flex;flex-direction:column;gap:9px}
+ .sg-rec-incluso li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--text);line-height:1.45}
+ .sg-rec-incluso li span.ic{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;background:var(--teal);color:#fff;font-size:11px;font-weight:800;flex-shrink:0;margin-top:1px}
+ /* Alternative — griglia compatta, ognuna con identità colore */
+ .sg-alt-title{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:26px 0 14px}
+ .sg-alt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+ .sg-tcard.alt{padding:16px 16px 18px;gap:8px;border-width:1px;box-shadow:0 1px 4px rgba(30,58,95,.06)}
+ .sg-tcard.alt:hover{transform:translateY(-2px)}
+ .sg-tcard.alt.selected{border-width:2px;box-shadow:0 8px 20px rgba(30,58,95,.14)}
+ .sg-tcard.alt .alt-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;line-height:1.3}
+ .sg-tcard.alt .stc-top{align-items:flex-start}
+ .sg-tcard.alt .stc-titolo{font-size:17px}
+ .sg-tcard.alt .stc-radio{width:22px;height:22px}
+ .sg-tcard.alt .stc-radio::after{inset:4px}
+ .sg-tcard.alt .stc-prezzo{font-size:23px}
+ .sg-tcard.alt .stc-prezzo small{font-size:11px}
+ @media(max-width:520px){.sg-alt-grid{grid-template-columns:1fr 1fr}}
 .sg-rc-offerta{background:rgba(46,139,114,.08);border-color:var(--teal-border);color:var(--teal)}
 .sg-rc-offerta:hover{background:rgba(46,139,114,.15)}
 /* ── MICRO-INTERACTIONS ── */
@@ -2521,40 +2543,43 @@ function renderRisultato() {
       <ul class="sg-rec-incluso">${inclusiHtml}</ul>
     </button>`;
 
-  // Alternative (peso visivo minore): tutte le altre taglie + eventualmente solo-fotovoltaico
+  // Alternative (peso visivo minore): griglia compatta, ciascuna con identità colore dalla sua etichetta
+  const altCard = (onclick, titolo, prezzo, label, c, bg) =>
+    `<button type="button" class="sg-tcard alt" onclick="${onclick}" style="background:${bg};border-color:${c}40">
+        <span class="alt-label" style="color:${c}">${label}</span>
+        <div class="stc-top"><span class="stc-titolo">${titolo}</span><span class="stc-radio"></span></div>
+        <div class="stc-prezzo">€ ${prezzo.toLocaleString('it-IT')} <small>chiavi in mano</small></div>
+      </button>`;
   const altCards = [];
   taglie.forEach((t, i) => {
     if (i === recIdx) return;
     const pAcc = prezziArr[i]; if (pAcc == null) return;
     const tot = fv + pAcc;
     const tag = sgTagTaglia(i, taglie.length);
-    altCards.push(`<button type="button" class="sg-tcard alt" onclick="sgSelezionaTaglia(${t}, ${tot}, this)">
-        <div class="stc-top"><span class="stc-titolo">${marca} ${t} kWh</span><span class="stc-radio"></span></div>
-        <div class="stc-prezzo">€ ${tot.toLocaleString('it-IT')} <small>chiavi in mano</small></div>
-        <span class="stc-tag" style="background:${tag.bg};border:1px solid ${tag.c}33;color:${tag.c}">${tag.t}</span>
-      </button>`);
+    altCards.push(altCard(`sgSelezionaTaglia(${t}, ${tot}, this)`, `${marca} ${t} kWh`, tot, tag.t, tag.c, tag.bg));
   });
   if (!recIsFv) {
-    altCards.push(`<button type="button" class="sg-tcard alt" onclick="sgSelezionaTaglia('fv', ${fv}, this)">
-        <div class="stc-top"><span class="stc-titolo">Solo fotovoltaico</span><span class="stc-radio"></span></div>
-        <div class="stc-prezzo">€ ${fv.toLocaleString('it-IT')} <small>chiavi in mano</small></div>
-        <span class="stc-tag" style="background:rgba(30,58,95,.08);border:1px solid rgba(30,58,95,.2);color:var(--navy)">Nessun accumulo · investimento minimo</span>
-      </button>`);
+    altCards.push(altCard(`sgSelezionaTaglia('fv', ${fv}, this)`, 'Solo fotovoltaico', fv, 'Investimento minimo', '#1e3a5f', 'rgba(30,58,95,.06)'));
   }
-  if (altCards.length) cardsHtml += `<div class="sg-alt-title">Altre configurazioni disponibili</div>` + altCards.join('');
+  if (altCards.length) cardsHtml += `<div class="sg-alt-title">Altre configurazioni disponibili</div><div class="sg-alt-grid">${altCards.join('')}</div>`;
 
-  const badgeClass = d.tensione === 'bassa' ? 'badge-smart' : 'badge-power';
+  const rowGaranzia = d.garanzia_anni ? `<div class="rci-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Garanzia batteria <strong>${d.garanzia_anni} anni</strong></span></div>` : '';
+  const tensIpTxt = [tensioneTxt ? `${tensioneTxt} tensione` : '', d.ip || ''].filter(Boolean).join(' · ');
+  const rowTens = tensIpTxt ? `<div class="rci-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg><span>${tensIpTxt}</span></div>` : '';
   container.innerHTML = `
     <div class="sg-linea-result-card">
       <div class="sg-rc-header">
-        <span class="lc-badge ${badgeClass}" style="font-size:12px">Batteria ${marca}</span>
-        <div style="font-size:24px;font-weight:800;color:#fff;margin:10px 0 2px">${marca}</div>
+        <span class="sg-marca-badge">Batteria ${marca}</span>
+        <div class="sg-marca-name">${marca}</div>
         <div class="sg-rc-stats">
           <div class="sg-rc-stat"><span class="rcs-num">${kwp}</span><span class="rcs-unit">kWp</span></div>
           <div class="sg-rc-stat" id="sg_rc_kwh_stat" style="${sgState.taglia ? '' : 'display:none'}"><span class="rcs-num" id="sg_rc_kwh_num">${sgState.taglia || ''}</span><span class="rcs-unit">kWh</span></div>
         </div>
-        <div style="font-size:14px;color:rgba(255,255,255,.85);margin-bottom:6px">${sgState.numPannelli ? sgState.numPannelli + ' × ' : ''}${pannelloNome}</div>
-        <div style="font-size:13px;color:rgba(255,255,255,.75);line-height:1.55">Soluzione con batteria ${marca}${d.garanzia_anni ? `, garanzia ${d.garanzia_anni} anni` : ''}${tensioneTxt ? `, ${tensioneTxt.toLowerCase()} tensione` : ''}${d.ip ? ` · ${d.ip}` : ''}.</div>
+        <div class="sg-rc-info">
+          <div class="rci-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1"/><path d="M3 10h18M9 4v12M15 4v12M7 20h10"/></svg><span>${sgState.numPannelli ? `<strong>${sgState.numPannelli} ×</strong> ` : ''}${pannelloNome}</span></div>
+          ${rowGaranzia}
+          ${rowTens}
+        </div>
       </div>
       <div class="sg-rc-body">
         <button class="sg-rc-toggle" onclick="sgToggleCaratteristiche('sg')">
