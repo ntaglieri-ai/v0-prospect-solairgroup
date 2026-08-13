@@ -259,6 +259,36 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 .nav-footer{display:flex;gap:12px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
 .nav-footer .btn-primary{margin-bottom:0}
 
+/* ── RIQUADRO LATERALE RIEPILOGO (desktop) ── */
+.config-layout{display:flex;gap:32px;align-items:flex-start;justify-content:center}
+.config-main{flex:1 1 auto;min-width:0;max-width:760px}
+.config-aside{width:352px;flex-shrink:0;position:sticky;top:20px}
+.config-aside.is-hidden{display:none}
+.aside-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(30,58,95,0.08)}
+.aside-title{font-size:16px;font-weight:800;color:var(--navy);margin-bottom:16px;letter-spacing:-0.2px}
+.aside-summary{display:flex;flex-direction:column;gap:10px}
+.aside-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:13px}
+.aside-row-k{color:var(--muted);font-weight:500;flex-shrink:0}
+.aside-row-v{color:var(--text);font-weight:700;text-align:right}
+.aside-empty{font-size:13px;color:var(--muted);line-height:1.5}
+.aside-divider{border:none;border-top:1px solid var(--border);margin:18px 0}
+.aside-total-label{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.aside-total{font-size:42px;font-weight:800;color:var(--navy);line-height:1.05;letter-spacing:-1px;margin:4px 0 2px}
+.aside-total-strike{display:block;font-size:18px;font-weight:500;color:var(--muted);text-decoration:line-through;letter-spacing:0}
+.aside-total-iva{font-size:12px;color:var(--muted)}
+.aside-btn-slot{margin-top:20px}
+.aside-btn-slot:empty{display:none}
+.aside-btn-slot .btn-primary{width:100%;margin:0}
+@media(min-width:1025px){
+  #configuratorePage > .container{max-width:1180px}
+  .totale-fisso{display:none!important}
+}
+@media(max-width:1024px){
+  .config-layout{display:block}
+  .config-aside{display:none}
+  .config-main{max-width:none}
+}
+
 /* INFO BOX */
 .info-box{background:var(--teal-light);border:1px solid var(--teal-border);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--teal-dark);margin-bottom:16px;line-height:1.5}
 
@@ -579,6 +609,9 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
       <div style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em" id="sgconf_label">Passo 1 di 4</div>
     </div>
 
+    <div class="config-layout">
+    <div class="config-main">
+
     <!-- ──�� STEP 1: POTENZA ─── -->
     <div class="section active" id="s0">
       <div class="section-title">Potenza dell'impianto</div>
@@ -693,7 +726,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
       <div class="acc-list" id="accessori_list"></div>
       <div class="nav-footer">
         <button class="btn-primary navy" style="background:var(--surface2);color:var(--mid);border:1px solid var(--border)" onclick="goTo(3)">← Indietro</button>
-        <button class="btn-primary teal" onclick="goTo(6)">Avanti → Riepilogo e invio</button>
+        <button class="btn-primary teal" id="btn-s5-next" onclick="goTo(6)">Avanti → Riepilogo e invio</button>
       </div>
     </div>
 
@@ -846,6 +879,25 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
       <button class="btn-primary teal" id="btn-firma" onclick="inviaRichiesta()" disabled>📄 Ricevi preventivo</button>
       <button class="btn-back" style="justify-content:center" onclick="goTo(4)">← Torna agli accessori</button>
     </div>
+
+    </div><!-- /config-main -->
+
+    <aside class="config-aside" id="configAside">
+      <div class="aside-box">
+        <div class="aside-title">Il tuo impianto</div>
+        <div class="aside-summary" id="aside_summary">
+          <div class="aside-empty">Inizia a configurare per vedere il riepilogo.</div>
+        </div>
+        <hr class="aside-divider">
+        <div>
+          <div class="aside-total-label">Totale stimato</div>
+          <div class="aside-total" id="aside_total">€ 0</div>
+          <div class="aside-total-iva">IVA 10% incl.</div>
+        </div>
+        <div class="aside-btn-slot" id="aside_btn_slot"></div>
+      </div>
+    </aside>
+    </div><!-- /config-layout -->
 
   </div><!-- /container -->
 </div><!-- /configuratorePage -->
@@ -1094,6 +1146,12 @@ function goTo(step) {
   if (step === 4) renderStepPrezzo();
   if (step === 5) renderAccessori();
   if (step === 6) renderRiepilogo();
+
+  // Riquadro laterale desktop: nascosto in modalità suggerimento, altrimenti live
+  const aside = document.getElementById('configAside');
+  if (aside) aside.classList.toggle('is-hidden', !!isSuggerimento);
+  aggiornaSidebar();
+  posizionaBottoneAvanti(step);
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -1442,7 +1500,7 @@ function renderStepPrezzo() {
         <div class="pb-val">€ ${p.toLocaleString('it-IT')}</div>
         <div class="pb-iva">IVA 10% inclusa · chiavi in mano</div>
       </div>
-      <div class="info-box">✅ Prezzo definitivo, nessuna sorpresa. Comprende fornitura, installazione, pratiche GSE e collaudo.</div>`;
+      <div class="info-box">�� Prezzo definitivo, nessuna sorpresa. Comprende fornitura, installazione, pratiche GSE e collaudo.</div>`;
     document.getElementById('btn-s4').disabled = false;
 
   } else {
@@ -1596,6 +1654,7 @@ function aggiornaTotale() {
   const tfEl = document.getElementById('tf_val');
   if (tfEl) tfEl.textContent = '€ ' + state.prezzoTotale.toLocaleString('it-IT');
   aggiornaScontoDisplay();
+  aggiornaSidebar();
 }
 
 // Aggiorna il box totale nel riepilogo (step 6): totale barrato + scontato in evidenza se sconto attivo
@@ -1607,6 +1666,75 @@ function aggiornaScontoDisplay() {
   } else {
     ril.textContent = '€ ' + state.prezzoTotale.toLocaleString('it-IT');
   }
+}
+
+// ════════════════════════════════════════
+// RIQUADRO LATERALE (desktop) — riepilogo live
+// ════════════════════════════════════════
+
+function isDeskConfig() { return window.matchMedia('(min-width:1025px)').matches; }
+
+function _asideRow(k, v) {
+  return '<div class="aside-row"><span class="aside-row-k">' + k + '</span><span class="aside-row-v">' + v + '</span></div>';
+}
+
+// Legge dinamicamente lo stato già esistente e mostra SOLO le voci scelte
+function aggiornaSidebar() {
+  const box = document.getElementById('aside_summary');
+  if (box) {
+    const rows = [];
+    if (state.kwp) rows.push(_asideRow('Potenza', state.kwp + ' kWp'));
+    if (state.pannello) {
+      const nome = state.pannello.nome || (state.pannello.brand + ' ' + state.pannello.modello);
+      rows.push(_asideRow('Pannelli', nome + (state.numPannelli ? ' × ' + state.numPannelli : '')));
+    }
+    if (state.accumulo === true) {
+      const marca = (state.linea && MARCA_INFO[state.linea]) ? MARCA_INFO[state.linea].label : '';
+      const cap = state.kwh ? state.kwh + ' kWh' : '';
+      rows.push(_asideRow('Accumulo', [marca, cap].filter(Boolean).join(' · ') || 'Sì'));
+    } else if (state.accumulo === false) {
+      rows.push(_asideRow('Accumulo', 'Nessuno'));
+    }
+    if (state.tetto) rows.push(_asideRow('Tetto', state.tetto === 'piano' ? 'Piano' : 'A falde'));
+    if (state.wallbox)       rows.push(_asideRow('Wall Box', '€ ' + prezzoWallbox().toLocaleString('it-IT')));
+    if (state.ottimizzatori) rows.push(_asideRow('Ottimizzatori Tigo', '€ ' + prezzoOttimizzatori().toLocaleString('it-IT')));
+    if (state.tigoCloud)     rows.push(_asideRow('Tigo Cloud Connect', '€ ' + prezzoTigoCloud().toLocaleString('it-IT')));
+    box.innerHTML = rows.length ? rows.join('') : '<div class="aside-empty">Inizia a configurare per vedere il riepilogo.</div>';
+  }
+  const tot = document.getElementById('aside_total');
+  if (tot) {
+    if (state.scontoPercentuale && state.scontoPercentuale > 0) {
+      tot.innerHTML = '<span class="aside-total-strike">€ ' + state.prezzoTotaleBase.toLocaleString('it-IT') + '</span>€ ' + state.prezzoTotale.toLocaleString('it-IT');
+    } else {
+      tot.textContent = '€ ' + (state.prezzoTotale || 0).toLocaleString('it-IT');
+    }
+  }
+}
+
+// Sposta fisicamente il bottone "Avanti" dello step corrente in fondo al riquadro (solo desktop).
+// Spostando il nodo reale, id/onclick/disabled restano intatti e la logica esistente continua a funzionare.
+const FWD_BTN = { 0:'btn-s0', 1:'btn-s1', 2:'btn-s2', 3:'btn-s3', 4:'btn-s4', 5:'btn-s5-next' };
+let _movedBtn = null, _movedHome = null, _movedNext = null;
+
+function posizionaBottoneAvanti(step) {
+  const slot = document.getElementById('aside_btn_slot');
+  if (!slot) return;
+  // Ripristina l'eventuale bottone spostato in precedenza nella sua posizione originale
+  if (_movedBtn && _movedHome) { _movedHome.insertBefore(_movedBtn, _movedNext || null); }
+  _movedBtn = _movedHome = _movedNext = null;
+  document.querySelectorAll('#configuratorePage .nav-footer').forEach(function(nf){ nf.style.display = ''; });
+  slot.innerHTML = '';
+  if (!isDeskConfig() || isSuggerimento) return;
+  const id = FWD_BTN[step];
+  const btn = id ? document.getElementById(id) : null;
+  if (btn) {
+    _movedBtn = btn; _movedHome = btn.parentNode; _movedNext = btn.nextSibling;
+    slot.appendChild(btn);
+  }
+  // Nasconde le nav-footer rimaste senza bottoni (es. step 1 aveva solo "Avanti")
+  document.querySelectorAll('#configuratorePage .nav-footer').forEach(function(nf){
+    if (!nf.querySelector('button')) nf.style.display = 'none';
+  });
 }
 
 // ════════════════════════════════════════
@@ -2357,6 +2485,17 @@ function tornaIntro() {
 
 renderKwpButtons();
 caricaCatalogo();
+
+// Riquadro laterale: aggiornamento live ad ogni scelta + gestione responsive
+(function initSidebarLive(){
+  const page = document.getElementById('configuratorePage');
+  if (page) page.addEventListener('click', function(){ requestAnimationFrame(aggiornaSidebar); });
+  let _rz;
+  window.addEventListener('resize', function(){
+    clearTimeout(_rz);
+    _rz = setTimeout(function(){ posizionaBottoneAvanti(currentStep); aggiornaSidebar(); }, 150);
+  });
+})();
 
 function getPrezziMarca(marca, kwp) {
   // prezzi[kwp] è un array posizionale allineato a taglie[]: accoppia taglie[i] con prezzi[kwp][i]
