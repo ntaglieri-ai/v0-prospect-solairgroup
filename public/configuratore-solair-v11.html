@@ -613,12 +613,10 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 ═══════════════════════════════════════ -->
 <div id="suggerimentoPage" style="display:none">
   <div class="sg-page">
-    <button class="btn-back" onclick="tornaDaPannelliSg()">← Indietro</button>
+    <button class="btn-back" onclick="tornaDaPannelliSg()">← Modifica le risposte</button>
     <div class="sg-progress">
-      <div class="sg-step done" id="sgpbar_kwp"></div>
-      <div class="sg-step done" id="sgpbar_pannelli"></div>
-      <div class="sg-step active" id="sgpbar_linea"></div>
-      <div class="sg-step" id="sgpbar_risultato"></div>
+      <div class="sg-step done" id="sgpbar_linea"></div>
+      <div class="sg-step active" id="sgpbar_risultato"></div>
     </div>
     <div id="sg_upsell_msg" style="display:none;background:var(--teal-light);border:1px solid var(--teal-border);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--teal-dark);margin-bottom:16px;line-height:1.6"></div>
     <div id="sgSceltaLinea" style="display:none"></div>
@@ -2157,10 +2155,13 @@ indirizzo: '',
     note: document.getElementById('f_note').value,
     impianto_esistente: document.querySelector('input[name="impianto_esistente"]:checked')?.value || '',
     cer_solair: document.querySelector('input[name="cer_solair"]:checked')?.value || '',
-    sg_immobile: sgAnswers[0] || '',
-    sg_obiettivo: sgAnswers[1] || '',
-    sg_garanzia: sgAnswers[2] || '',
-    sg_budget: sgAnswers[3] || '',
+    sg_indirizzo: sgState.indirizzo || '',
+    sg_immobile: sgState.immobile || '',
+    sg_tetto: sgState.tetto || '',
+    sg_obiettivo: sgState.obiettivo || '',
+    sg_garanzia: sgState.garanzia || '',
+    sg_budget: sgState.budget || '',
+    sg_marca_pannello: sgState.marcaPannello || '',
     modalita_pagamento: pagState.modalita === 'finanziamento' ? 'Finanziamento Deutsche Bank' : 'Bonifico bancario',
     anticipo: pagState.modalita === 'finanziamento' ? pagState.anticipo : '',
     num_rate: pagState.modalita === 'finanziamento' ? pagState.nRate : '',
@@ -2535,197 +2536,7 @@ function procediDaSuggerimento() {
   goTo(6);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-  }
-}
-
-function sgAvantiQ0() { sgAvanti(1); }
-
-function sgAvanti(n) {
-  for (let i = 0; i <= 3; i++) {
-    const q = document.getElementById('sgQ' + i); if (q) q.classList.remove('active');
-    const bar = document.getElementById('sgpbar' + i);
-    if (bar) bar.className = 'sg-step' + (i < n ? ' done' : i === n ? ' active' : '');
-  }
-  const qEl = document.getElementById('sgQ' + n); if (qEl) qEl.classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function sgDomandeComplete() {
-  document.getElementById('suggerimentoDomandePage').style.display = 'none';
-  document.getElementById('configuratorePage').style.display = 'block';
-  const sgSteps = document.getElementById('sg_steps_configuratore');
-  if (sgSteps) sgSteps.style.display = 'block';
-  renderKwpButtons(); goTo(0);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function calcolaLineeCompatibili() {
-  let linee = ['smart', 'power', 'premium'];
-  if (sgAnswers[1] === 'blackout') linee = linee.filter(l => LINEA_DETAILS[l].haEps);
-  if (sgAnswers[2] === 'standard') linee = linee.filter(l => l === 'smart');
-  if (sgAnswers[2] === 'estesa')   linee = linee.filter(l => l === 'power');
-  if (sgAnswers[2] === 'massima')  linee = linee.filter(l => l === 'premium');
-  const budgetMax = BUDGET_SOGLIE[sgAnswers[3]] || Infinity;
-  const kwp = state.kwp || 6;
-  linee = linee.filter(l => {
-    const kwhOpts = KWH_OPTIONS[l];
-    const prezziLinea = PREZZI_ACC[l][kwp];
-    if (!prezziLinea) return true;
-    const minPrezzo = Math.min(...kwhOpts.map(k => prezziLinea[k] || Infinity));
-    if (l === 'smart') { const pvP = PREZZI_NO_ACC[kwp] || 0; return pvP <= budgetMax || minPrezzo <= budgetMax; }
-    return minPrezzo <= budgetMax;
-  });
-  if (linee.length === 0) linee = ['smart', 'power', 'premium'];
-  return linee;
-}
-
-function avviaSuggerimentoPage() {
-  document.getElementById('sgRisultato').style.display = 'none';
-  document.getElementById('sgpbar_linea').className = 'sg-step active';
-  document.getElementById('sgpbar_risultato').className = 'sg-step';
-  const msgEl = document.getElementById('sg_upsell_msg');
-  if (state.kwp <= 5) {
-    const diff = PREZZI_NO_ACC[6] - (PREZZI_NO_ACC[state.kwp] || 0);
-    msgEl.style.display = 'block';
-    msgEl.innerHTML = `💡 <strong>Consiglio Solair:</strong> con soli € ${diff.toLocaleString('it-IT')} in più rispetto a ${state.kwp} kWp, un impianto da <strong>6 kWp</strong> produce circa il ${Math.round((6/state.kwp - 1)*100)}% di energia in più. Ti mostriamo le opzioni da 6 kWp.`;
-    state.kwp = 6;
-  } else { msgEl.style.display = 'none'; }
-  const l2 = document.getElementById('sg_kwp_label2'); if(l2) l2.textContent = state.kwp;
-  renderRisultatoLinee();
-}
-
-function renderRisultatoLinee() {
-  const lineeCompatibili = calcolaLineeCompatibili();
-  const kwp = state.kwp || 6;
-  const container = document.getElementById('sg_linee_risultato');
-  container.innerHTML = '';
-  sgState.linea = null; sgState.kwh = null; sgState.prezzo = null; sgState.soloFv = false;
-  document.getElementById('sg_btn_procedi').disabled = true;
-  const titolo = document.getElementById('sg_risultato_titolo');
-  titolo.textContent = lineeCompatibili.length === 1 ? 'La soluzione ideale per te:' : `${lineeCompatibili.length} soluzioni compatibili con le tue esigenze:`;
-
-  const BANNER = {
-    10:{label:'Ideale per famiglie 2-3 persone',color:'#2e8b72',bg:'rgba(46,139,114,.12)'},
-    16:{label:'Miglior equilibrio costo/autonomia',color:'#1e6b9a',bg:'rgba(30,107,154,.12)'},
-    20:{label:'Alta autonomia energetica',color:'#7c3aed',bg:'rgba(124,58,237,.1)'},
-    32:{label:'Massima indipendenza dalla rete',color:'#b45309',bg:'rgba(180,83,9,.1)'},
-    '10.6':{label:'Ideale per famiglie 2-3 persone',color:'#2e8b72',bg:'rgba(46,139,114,.12)'},
-    '15.9':{label:'Miglior equilibrio costo/autonomia',color:'#1e6b9a',bg:'rgba(30,107,154,.12)'},
-    '21.2':{label:'Alta autonomia — EPS anti-blackout',color:'#7c3aed',bg:'rgba(124,58,237,.1)'},
-    '12.9':{label:'Ideale per famiglie 3-4 persone',color:'#2e8b72',bg:'rgba(46,139,114,.12)'},
-    '17.2':{label:'Risparmio bolletta fino al 90%',color:'#1e6b9a',bg:'rgba(30,107,154,.12)'},
-    '21.4':{label:'Autonomia totale — top di gamma',color:'#b45309',bg:'rgba(180,83,9,.1)'},
-  };
-
-  lineeCompatibili.forEach(linea => {
-    const det = LINEA_DETAILS[linea];
-    const kwhOpts = KWH_OPTIONS[linea];
-    const prezziLinea = PREZZI_ACC[linea][kwp] || {};
-    const card = document.createElement('div');
-    card.className = 'sg-linea-result-card';
-const features = lineaDataSanity[linea]?.features?.length 
-  ? lineaDataSanity[linea].features 
-  : det.caratteristiche;
-const carHtml = features.map(c =>
-  `<li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text);margin-bottom:6px"><span style="color:var(--teal);font-weight:700;flex-shrink:0">✓</span>${c}</li>`
-  ).join('');
-    const taglieHtml = kwhOpts.map(kwh => {
-      const p = prezziLinea[kwh]; if (!p) return '';
-      const b = BANNER[kwh] || {};
-      return `<div style="margin-bottom:8px">
-        <button class="kwh-btn sg-kwh-sel" data-linea="${linea}" data-kwh="${kwh}" data-prezzo="${p}" onclick="sgSelezionaTaglia('${linea}','${kwh}',${p},this)" style="width:100%;flex-direction:column;align-items:flex-start;gap:4px;padding:12px 14px;height:auto">
-          <div style="display:flex;justify-content:space-between;width:100%;align-items:center">
-            <strong style="font-size:16px">${kwh} kWh</strong>
-            <span style="font-size:18px;font-weight:800;color:var(--navy)">€ ${p.toLocaleString('it-IT')}</span>
-          </div>
-          ${b.label ? `<div style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;background:${b.bg};border:1px solid ${b.color}33;font-size:10px;font-weight:700;color:${b.color}">✦ ${b.label}</div>` : ''}
-        </button>
-      </div>`;
-    }).join('');
-    const soloFvHtml = linea === 'smart' ? `<div style="margin-bottom:8px">
-      <button class="kwh-btn sg-kwh-sel" data-linea="smart" data-kwh="fv" data-prezzo="${PREZZI_NO_ACC[kwp]}" onclick="sgSelezionaTaglia('smart','fv',${PREZZI_NO_ACC[kwp]},this)" style="width:100%;flex-direction:column;align-items:flex-start;gap:4px;padding:12px 14px;height:auto;border-color:var(--navy-border)">
-        <div style="display:flex;justify-content:space-between;width:100%;align-items:center">
-          <strong style="font-size:16px">Solo fotovoltaico</strong>
-          <span style="font-size:18px;font-weight:800;color:var(--navy)">€ ${(PREZZI_NO_ACC[kwp]||0).toLocaleString('it-IT')}</span>
-        </div>
-        <div style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;background:rgba(30,58,95,.08);border:1px solid rgba(30,58,95,.2);font-size:10px;font-weight:700;color:var(--navy)">✦ Investimento minimo — massima semplicità</div>
-      </button>
-    </div>` : '';
-    card.innerHTML = `
-      <div class="sg-rc-header">
-        <span class="lc-badge ${det.badgeClass}" style="font-size:11px">${det.badge}</span>
-        <div style="font-size:17px;font-weight:800;color:#fff;margin:8px 0 2px">${det.badge}</div>
-        <div style="font-size:13px;color:rgba(255,255,255,.7);margin-bottom:4px">${det.nome}</div>
-        <div style="font-size:12px;color:rgba(255,255,255,.8);line-height:1.5">${det.descrizione}</div>
-      </div>
-      <div class="sg-rc-body">
-        SG_TOGGLE_SENTINEL_LINE
-        <ul id="sgct_${linea}" style="display:none;list-style:none;padding:0;margin:8px 0 0">${carHtml}</ul>
-        <button class="sg-rc-toggle sg-rc-offerta" onclick="sgApriOfferta('${linea}')">📄 Vedi offerta completa</button>
-        <div style="margin-top:16px">
-          <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:8px">Scegli la configurazione adatta alle tue esigenze:</div>
-          ${soloFvHtml}${taglieHtml}
-        </div>
-      </div>`;
-    container.appendChild(card);
-  });
-  document.getElementById('sgSceltaLinea').style.display = 'none';
-  document.getElementById('sgRisultato').style.display = 'block';
-  document.getElementById('sgpbar_linea').className = 'sg-step done';
-  document.getElementById('sgpbar_risultato').className = 'sg-step active';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function sgToggleCaratteristiche(linea) {
-  const el = document.getElementById('sgct_' + linea);
-  const arrow = document.getElementById('sgct_arrow_' + linea);
-  const isOpen = el.style.display !== 'none';
-  el.style.display = isOpen ? 'none' : 'block';
-  arrow.textContent = isOpen ? '▼' : '▲';
-}
-
-function sgApriOfferta(linea) {
-  const pdfUrl = lineaDataSanity[linea]?.pdfUrl;
-  if (pdfUrl) {
-    window.open(pdfUrl, '_blank');
-  } else {
-    alert('PDF offerta ' + (LINEA_DETAILS[linea]?.badge || linea) + ' — disponibile a breve');
-  }
-}
-
-function sgSelezionaTaglia(linea, kwh, prezzo, el) {
-  document.querySelectorAll('.sg-kwh-sel').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
-  sgState.linea = linea;
-  sgState.kwh = kwh === 'fv' ? null : parseFloat(kwh);
-  sgState.prezzo = prezzo;
-  sgState.soloFv = kwh === 'fv';
-  document.getElementById('sg_btn_procedi').disabled = false;
-}
-
-function tornaScelgiLinea() {
-  document.getElementById('sgRisultato').style.display = 'none';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function tornaDaPannelliSg() {
-  document.getElementById('suggerimentoPage').style.display = 'none';
-  document.getElementById('configuratorePage').style.display = 'block';
-  goTo(1); window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function procediDaSuggerimento() {
-  state.accumulo = !sgState.soloFv;
-  state.linea = sgState.linea;
-  state.kwh = sgState.soloFv ? null : sgState.kwh;
-  state.prezzoBase = sgState.prezzo || 0;
-  aggiornaTotale();
-  document.getElementById('suggerimentoPage').style.display = 'none';
-  document.getElementById('configuratorePage').style.display = 'block';
-  document.getElementById('progressBar').style.display = 'none';
-  renderKwpButtons(); goTo(3);
-}
-// ═════════════��══════════════════════════
+// ════════════════════════════════════════
 // INTRO / RESET
 // ════════════════════════════════════════
 
@@ -2744,10 +2555,12 @@ function avviaConfigurazione() {
 
 function avviaSuggerimento() {
   isSuggerimento = true;
+  Object.assign(sgState, {indirizzo:null,citta:null,immobile:null,tetto:null,obiettivo:null,garanzia:null,budget:null,marcaPannello:null,marca:null,accumulo:false,kwpCalc:null,pannello:null,numPannelli:null,taglia:null,prezzoSel:null,soloFv:false});
   document.getElementById('introPage').style.display = 'none';
   document.getElementById('suggerimentoDomandePage').style.display = 'block';
-  // Reset domande
-  for (let i=0;i<=3;i++) {
+  document.getElementById('suggerimentoPage').style.display = 'none';
+  // Reset domande (0-5)
+  for (let i=0;i<=5;i++) {
     const q=document.getElementById('sgQ'+i);
     if(q){q.classList.remove('active'); if(i===0) q.classList.add('active');}
     const bar=document.getElementById('sgpbar'+i);
@@ -2755,6 +2568,10 @@ function avviaSuggerimento() {
     const btn=document.getElementById('sgBtn'+i); if(btn) btn.disabled=true;
     if(q) q.querySelectorAll('.sg-opt').forEach(o=>o.classList.remove('selected'));
   }
+  // Reset input indirizzo e bottone Q1 (poteva essere in modalità WhatsApp)
+  const ind=document.getElementById('sg_indirizzo'); if(ind) ind.value='';
+  const b1=document.getElementById('sgBtn1'); if(b1){ b1.textContent='Avanti →'; b1.style.background=''; b1.style.color=''; b1.onclick=()=>sgAvanti(2); }
+  const marcheWrap=document.getElementById('sg_marche_opts'); if(marcheWrap) marcheWrap.innerHTML='';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -2763,8 +2580,7 @@ function tornaIntro() {
   // Reset state
   Object.assign(state, { kwp:null, pannello:null, numPannelli:null, mqTotali:null, accumulo:null, linea:null, kwh:null, prezzoBase:0, tetto:null, extraZavorre:0, wallbox:false, ottimizzatori:false, tigoCloud:false, prezzoAccessori:0, prezzoTotaleBase:0, prezzoTotale:0, codiceSconto:null, scontoPercentuale:0 });
   Object.assign(pagState, { modalita:null, anticipo:0, nRate:60, rata:0, taeg:0 });
-  Object.assign(sgAnswers, {0:null,1:null,2:null,3:null});
-  Object.assign(sgState, {linea:null,kwp:null,kwh:null,prezzo:null,soloFv:false});
+  Object.assign(sgState, {indirizzo:null,citta:null,immobile:null,tetto:null,obiettivo:null,garanzia:null,budget:null,marcaPannello:null,marca:null,accumulo:false,kwpCalc:null,pannello:null,numPannelli:null,taglia:null,prezzoSel:null,soloFv:false});
 
   document.getElementById('suggerimentoPage').style.display = 'none';
   document.getElementById('suggerimentoDomandePage').style.display = 'none';
