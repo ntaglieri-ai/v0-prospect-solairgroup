@@ -1147,9 +1147,10 @@ function goTo(step) {
   if (step === 5) renderAccessori();
   if (step === 6) renderRiepilogo();
 
-  // Riquadro laterale desktop: nascosto in modalità suggerimento, altrimenti live
+  // Riquadro laterale desktop: nascosto in modalità suggerimento e nello step 6
+  // (riepilogo/invio ha già la card "La tua configurazione" + barra totale dedicata), altrimenti live
   const aside = document.getElementById('configAside');
-  if (aside) aside.classList.toggle('is-hidden', !!isSuggerimento);
+  if (aside) aside.classList.toggle('is-hidden', !!isSuggerimento || step === 6);
   aggiornaSidebar();
   posizionaBottoneAvanti(step);
 
@@ -1739,7 +1740,7 @@ function posizionaBottoneAvanti(step) {
 
 // ════════════════════════════════════════
 // CODICE SCONTO
-// ════════════════════════════════════════
+// ══���═════════════════════════════════════
 
 // Riporta la UI allo Stato 1 (link visibile, campo e badge nascosti)
 function mostraStatoScontoChiuso() {
