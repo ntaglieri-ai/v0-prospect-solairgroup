@@ -2387,8 +2387,10 @@ function openDrawer(p) {
   const potenzaDisplay = p.potenza_wp || p.potenza;
 
   const img = document.getElementById('pd_img');
-  if (p.immagine) { img.src = p.immagine; img.style.display = 'block'; }
-  else { img.style.display = 'none'; }
+  if (p.immagine_nc_path) {
+    img.src = 'https://crm.solairgroup.it/api/public/asset?path=' + encodeURIComponent(p.immagine_nc_path);
+    img.style.display = 'block';
+  } else { img.style.display = 'none'; }
 
   document.getElementById('pd_brand').textContent = p.brand || '';
   document.getElementById('pd_name').textContent = nomeDisplay;
@@ -2396,10 +2398,10 @@ function openDrawer(p) {
   document.getElementById('pd_power').innerHTML = `${potenzaDisplay}<span>Wp</span>`;
 
   document.getElementById('pd_stats').innerHTML = `
-    <div class="pd-stat"><div class="pd-stat-label">Efficienza</div><div class="pd-stat-val">${p.efficienza ? p.efficienza + '%' : '-'}</div></div>
+    <div class="pd-stat"><div class="pd-stat-label">Efficienza</div><div class="pd-stat-val">${p.efficienza_pct ? p.efficienza_pct + '%' : '-'}</div></div>
     <div class="pd-stat"><div class="pd-stat-label">Degrado annuo</div><div class="pd-stat-val">${p.degrado || '-'}</div></div>
     <div class="pd-stat"><div class="pd-stat-label">Dimensioni</div><div class="pd-stat-val">${p.larghezza_mm}×${p.altezza_mm} mm</div></div>
-    <div class="pd-stat"><div class="pd-stat-label">Peso</div><div class="pd-stat-val">${p.peso ? p.peso + ' kg' : '-'}</div></div>`;
+    <div class="pd-stat"><div class="pd-stat-label">Peso</div><div class="pd-stat-val">${p.peso_kg ? p.peso_kg + ' kg' : '-'}</div></div>`;
 
   document.getElementById('pd_tags').innerHTML = (p.tags || []).map(t => `<span class="pd-tag">${t}</span>`).join('');
 
@@ -2408,8 +2410,10 @@ function openDrawer(p) {
     <div class="pd-w-item"><span class="pd-w-num">${p.garanziaLineare || 30}</span><span class="pd-w-lbl">anni<br>potenza lineare</span></div>`;
 
   const btnScheda = document.getElementById('pd_btn_scheda');
-  if (p.scheda) { btnScheda.style.display = 'block'; btnScheda.href = p.scheda; }
-  else { btnScheda.style.display = 'none'; }
+  if (p.scheda_pdf_nc_path) {
+    btnScheda.style.display = 'block';
+    btnScheda.href = 'https://crm.solairgroup.it/api/public/asset?path=' + encodeURIComponent(p.scheda_pdf_nc_path);
+  } else { btnScheda.style.display = 'none'; }
 
   const isSelected = state.pannello && ((p.modello && state.pannello.modello === p.modello) || (p.nome && state.pannello.nome === p.nome));
   const btn = document.getElementById('pd_btn_select');
