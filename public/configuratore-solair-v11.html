@@ -2140,7 +2140,7 @@ function chiudiPopup() {
   aggiornaConsensi();
 }
 
-// ═══�������═════════��══════════════════════════
+// ═══���������═════════��══════════════════════════
 // CONSENSI + INVIO
 // ════════════════════════════════════════
 
@@ -2750,24 +2750,19 @@ function tornaIntro() {
 renderKwpButtons();
 caricaCatalogo();
 
-// Precompila i campi del form contatto (step 6) dai parametri della query string, se presenti.
-(function prefillContattoDaQueryString(){
+// Precompila i dati contatto dalla query string (nome, cognome, email, telefono), se presenti.
+// I campi restano comunque modificabili; se un parametro è assente il campo resta invariato.
+(function prefillDatiDaQuery(){
   try {
     const params = new URLSearchParams(window.location.search);
-    const mappa = {
-      nome: 'f_nome',
-      cognome: 'f_cognome',
-      email: 'f_email',
-      telefono: 'f_telefono'
-    };
-    Object.keys(mappa).forEach(function(param){
-      const valore = params.get(param);
-      if (valore !== null && valore.trim() !== '') {
-        const campo = document.getElementById(mappa[param]);
-        if (campo) campo.value = valore.trim();
-      }
+    const map = { nome: 'f_nome', cognome: 'f_cognome', email: 'f_email', telefono: 'f_telefono' };
+    let applicato = false;
+    Object.keys(map).forEach(function(key){
+      const val = params.get(key);
+      const el = document.getElementById(map[key]);
+      if (el && val != null && val.trim() !== '') { el.value = val.trim(); applicato = true; }
     });
-    if (typeof aggiornaConsensi === 'function') aggiornaConsensi();
+    if (applicato && typeof aggiornaConsensi === 'function') aggiornaConsensi();
   } catch (e) {}
 })();
 
