@@ -2140,7 +2140,7 @@ function chiudiPopup() {
   aggiornaConsensi();
 }
 
-// ═══�����═════════��══════════════════════════
+// ═══�������═════════��══════════════════════════
 // CONSENSI + INVIO
 // ════════════════════════════════════════
 
@@ -2749,6 +2749,27 @@ function tornaIntro() {
 
 renderKwpButtons();
 caricaCatalogo();
+
+// Precompila i campi del form contatto (step 6) dai parametri della query string, se presenti.
+(function prefillContattoDaQueryString(){
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const mappa = {
+      nome: 'f_nome',
+      cognome: 'f_cognome',
+      email: 'f_email',
+      telefono: 'f_telefono'
+    };
+    Object.keys(mappa).forEach(function(param){
+      const valore = params.get(param);
+      if (valore !== null && valore.trim() !== '') {
+        const campo = document.getElementById(mappa[param]);
+        if (campo) campo.value = valore.trim();
+      }
+    });
+    if (typeof aggiornaConsensi === 'function') aggiornaConsensi();
+  } catch (e) {}
+})();
 
 // Riquadro laterale: aggiornamento live ad ogni scelta + gestione responsive
 (function initSidebarLive(){
