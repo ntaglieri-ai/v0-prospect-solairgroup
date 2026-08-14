@@ -41,8 +41,13 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
 .step-num{width:20px;height:20px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
 .step-tab.active .step-num{background:var(--navy);color:#fff;border-color:var(--navy)}
 .step-tab.completed .step-num{background:var(--teal-light);color:var(--teal);border-color:var(--teal-border)}
-  .step-tab.skipped{color:#c0392b;pointer-events:none;opacity:.7}
-  .step-tab.skipped .step-num{background:#fadbd8;color:#c0392b;border-color:#e74c3c}
+.step-tab.skipped{color:#c0392b;pointer-events:none;opacity:.7}
+.step-tab.skipped .step-num{background:#fadbd8;color:#c0392b;border-color:#e74c3c}
+.suggested-progress-bar .progress-steps{max-width:920px}
+.suggested-progress-bar .step-tab{cursor:default;pointer-events:none;min-width:104px}
+.suggested-progress-bar .step-tab.completed{color:var(--teal)}
+.suggested-progress-bar .step-tab.active{color:var(--navy);border-bottom-color:var(--navy)}
+.suggested-progress-bar .step-tab.disabled{opacity:.55}
 
   /* BACK TO HOME */
   .back-home{position:fixed;top:16px;left:16px;z-index:200;display:flex;align-items:center;gap:6px;padding:10px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);color:var(--navy);font-size:13px;font-weight:600;text-decoration:none;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.08)}
@@ -445,6 +450,23 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
  .sg-rec-incluso{list-style:none;padding:0;margin:2px 0;display:flex;flex-direction:column;gap:9px}
  .sg-rec-incluso li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--text);line-height:1.45}
  .sg-rec-incluso li span.ic{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;background:var(--teal);color:#fff;font-size:11px;font-weight:800;flex-shrink:0;margin-top:1px}
+ .sg-accessori-box{border:2px solid var(--teal-border);border-radius:14px;background:var(--surface);padding:18px 20px;box-shadow:0 4px 14px rgba(30,58,95,.08)}
+ .sg-accessori-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:14px}
+ .sg-accessori-title{font-size:16px;font-weight:800;color:var(--navy)}
+ .sg-accessori-sub{font-size:12px;color:var(--muted);line-height:1.45;margin-top:3px}
+ .sg-accessori-options{display:grid;grid-template-columns:1fr;gap:9px}
+ .sg-accessorio-card{display:flex;align-items:center;gap:12px;width:100%;border:1.5px solid var(--border);border-radius:12px;background:var(--surface);padding:13px 14px;text-align:left;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s}
+ .sg-accessorio-card:hover:not(:disabled){border-color:var(--navy-border);background:var(--navy-light)}
+ .sg-accessorio-card.selected{border-color:var(--teal);background:var(--teal-light)}
+ .sg-accessorio-card:disabled{opacity:.45;cursor:not-allowed}
+ .sg-accessorio-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:center;color:transparent;font-size:13px;font-weight:800;flex-shrink:0}
+ .sg-accessorio-card.selected .sg-accessorio-check{border-color:var(--teal);background:var(--teal);color:#fff}
+ .sg-accessorio-info{flex:1;min-width:0}
+ .sg-accessorio-nome{font-size:14px;font-weight:800;color:var(--navy)}
+ .sg-accessorio-desc{display:block;font-size:12px;color:var(--muted);line-height:1.35;margin-top:2px}
+ .sg-accessorio-prezzo{font-size:14px;font-weight:800;color:var(--teal);white-space:nowrap}
+ .sg-accessori-total{display:flex;justify-content:space-between;align-items:center;gap:14px;border-top:1px solid var(--border);margin-top:14px;padding-top:14px;font-size:13px;color:var(--mid)}
+ .sg-accessori-total strong{font-size:22px;color:var(--navy)}
  /* Alternative — griglia compatta, ognuna con identità colore */
  .sg-alt-title{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:26px 0 14px}
  .sg-alt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
@@ -542,6 +564,18 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
     <button class="step-tab disabled" id="tab3" onclick="goTo(3)"><span class="step-num">4</span>Tetto</button>
     <button class="step-tab disabled" id="tab4" onclick="goTo(4)"><span class="step-num">5</span>Accessori</button>
     <button class="step-tab disabled" id="tab5" onclick="goTo(5)"><span class="step-num">6</span>Riepilogo e Invio</button>
+  </div>
+</div>
+
+<div class="progress-bar suggested-progress-bar" id="suggestedProgressBar" style="display:none">
+  <div class="progress-steps">
+    <button class="step-tab active" id="sgtab0" type="button"><span class="step-num">1</span>Indirizzo</button>
+    <button class="step-tab disabled" id="sgtab1" type="button"><span class="step-num">2</span>Profilo</button>
+    <button class="step-tab disabled" id="sgtab2" type="button"><span class="step-num">3</span>Obiettivo</button>
+    <button class="step-tab disabled" id="sgtab3" type="button"><span class="step-num">4</span>Garanzia</button>
+    <button class="step-tab disabled" id="sgtab4" type="button"><span class="step-num">5</span>Budget</button>
+    <button class="step-tab disabled" id="sgtab5" type="button"><span class="step-num">6</span>Pannelli</button>
+    <button class="step-tab disabled" id="sgtab6" type="button"><span class="step-num">7</span>Soluzione</button>
   </div>
 </div>
 
@@ -1209,6 +1243,24 @@ function aggiornaTestiTipoDocumento() {
 // NAVIGAZIONE
 // ════════════════════════════════════════
 
+function setBranchProgress(branch, index) {
+  const manual = document.getElementById('progressBar');
+  const suggested = document.getElementById('suggestedProgressBar');
+  if (manual) manual.style.display = branch === 'manual' ? 'block' : 'none';
+  if (suggested) suggested.style.display = branch === 'suggested' ? 'block' : 'none';
+  if (branch !== 'suggested') return;
+
+  const safeIndex = Math.max(0, Math.min(6, Number(index) || 0));
+  for (let i = 0; i <= 6; i++) {
+    const tab = document.getElementById('sgtab' + i);
+    if (!tab) continue;
+    tab.classList.remove('active', 'completed', 'disabled');
+    if (i < safeIndex) tab.classList.add('completed');
+    else if (i === safeIndex) tab.classList.add('active');
+    else tab.classList.add('disabled');
+  }
+}
+
 function goTo(step) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   // Map step to section ID
@@ -1234,8 +1286,7 @@ function goTo(step) {
   // Mostra totale fisso e progress bar solo nel percorso manuale
   const tf = document.getElementById('totaleFisso');
   tf.style.display = (!isSuggerimento && step >= 0) ? 'flex' : 'none';
-  const pb = document.getElementById('progressBar');
-  pb.style.display = (!isSuggerimento) ? 'block' : 'none';
+  setBranchProgress(isSuggerimento ? 'suggested' : 'manual', isSuggerimento ? 6 : step);
 
   // Progress bar suggerimento (step 0 = Potenza, step 1 = Pannelli)
   if (isSuggerimento) {
@@ -1755,11 +1806,41 @@ function scelgiKwh(kwh, prezzo) {
 // ════════════════════════════════════════
 
 // prezzi IVA 10% inclusa
-function prezzoOttimizzatori() { return (state.kwp || 0) * 150; }
-function prezzoWallbox() {
-  return 1000;
+function normalizzaNomeAccessorio(v) {
+  return (v || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
-function prezzoTigoCloud() { return 600; }
+
+function trovaAccessorioCatalogo(key) {
+  const list = Array.isArray(accessoriList) ? accessoriList : [];
+  return list.find(a => {
+    const n = normalizzaNomeAccessorio(a.nome || a.nome_display || a.codice || '');
+    if (key === 'wallbox') return n.includes('wall') || n.includes('colonnina');
+    if (key === 'ottimizzatori') return n.includes('ottimizzator') || (n.includes('tigo') && !n.includes('cloud') && !n.includes('connect'));
+    if (key === 'tigoCloud') return n.includes('cloud') || n.includes('connect');
+    return false;
+  }) || null;
+}
+
+function toPrezzoNum(v, fallback) {
+  const n = Number(v);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+function prezzoWallbox() {
+  const acc = trovaAccessorioCatalogo('wallbox');
+  return toPrezzoNum(acc && (acc.prezzo_combo ?? acc.prezzo), 1000);
+}
+
+function prezzoOttimizzatori(kwpOverride) {
+  const acc = trovaAccessorioCatalogo('ottimizzatori');
+  const prezzoKwp = toPrezzoNum(acc && acc.prezzo, 150);
+  return Math.round((kwpOverride ?? state.kwp ?? 0) * prezzoKwp);
+}
+
+function prezzoTigoCloud() {
+  const acc = trovaAccessorioCatalogo('tigoCloud');
+  return toPrezzoNum(acc && acc.prezzo, 600);
+}
 
 function aggiornaPrezziAccessori() {
   let tot = 0;
@@ -2302,6 +2383,7 @@ const sgState = {
   marca: null, accumulo: false, kwpCalc: null,
   pannello: null, numPannelli: null,
   taglia: null, prezzoSel: null, soloFv: false,
+  wallbox: false, ottimizzatori: false, tigoCloud: false, prezzoAccessori: 0,
 };
 
 // Q1 — Indirizzo (usato solo per personalizzare il testo del risultato)
@@ -2392,6 +2474,7 @@ function sgSel(field, value, el) {
 }
 
 function sgAvanti(n) {
+  setBranchProgress('suggested', n);
   for (let i = 0; i <= 5; i++) {
     const q = document.getElementById('sgQ' + i); if (q) q.classList.remove('active');
     const bar = document.getElementById('sgpbar' + i);
@@ -2487,10 +2570,12 @@ function sgVaiRisultato() {
   calcolaSuggerimento();
   document.getElementById('suggerimentoDomandePage').style.display = 'none';
   document.getElementById('suggerimentoPage').style.display = 'block';
+  setBranchProgress('suggested', 6);
   avviaSuggerimentoPage();
 }
 
 function avviaSuggerimentoPage() {
+  setBranchProgress('suggested', 6);
   document.getElementById('sgSceltaLinea').style.display = 'none';
   const msgEl = document.getElementById('sg_upsell_msg');
   // Banner upsell con prezzi reali
@@ -2519,6 +2604,95 @@ function sgTagTaglia(i, n) {
   if (i === 0) return { t: 'Investimento minimo', c: '#2e8b72', bg: 'rgba(46,139,114,.12)' };
   if (i === n - 1) return { t: 'Massima indipendenza dalla rete', c: '#b45309', bg: 'rgba(180,83,9,.1)' };
   return { t: 'Miglior equilibrio costo/autonomia', c: '#1e6b9a', bg: 'rgba(30,107,154,.12)' };
+}
+
+function sgExtraZavorre() {
+  const zav = (accessoriList || []).find(a => normalizzaNomeAccessorio(a.nome || '').includes('zavorr'));
+  const zavPrezzo = zav && zav.prezzo != null ? toPrezzoNum(zav.prezzo, 100) : 100;
+  return sgState.tetto === 'piano' ? Math.round((sgState.kwpCalc || 0) * zavPrezzo) : 0;
+}
+
+function sgPrezzoAccessorio(key) {
+  if (key === 'wallbox') return prezzoWallbox();
+  if (key === 'ottimizzatori') return prezzoOttimizzatori(sgState.kwpCalc);
+  if (key === 'tigoCloud') return prezzoTigoCloud();
+  return 0;
+}
+
+function sgAggiornaPrezziAccessori() {
+  let tot = 0;
+  if (sgState.wallbox) tot += sgPrezzoAccessorio('wallbox');
+  if (sgState.ottimizzatori) tot += sgPrezzoAccessorio('ottimizzatori');
+  if (sgState.tigoCloud) tot += sgPrezzoAccessorio('tigoCloud');
+  sgState.prezzoAccessori = tot;
+  return tot;
+}
+
+function renderSgAccessoriBox() {
+  const tigoDisabled = !sgState.ottimizzatori;
+  sgAggiornaPrezziAccessori();
+  const items = [
+    {
+      key: 'wallbox',
+      nome: 'Wall Box',
+      desc: 'Ricarica domestica per auto elettrica',
+      prezzo: sgPrezzoAccessorio('wallbox'),
+      disabled: false,
+    },
+    {
+      key: 'ottimizzatori',
+      nome: 'Ottimizzatori Tigo',
+      desc: `Ottimizzazione per impianto da ${sgState.kwpCalc || '-'} kWp`,
+      prezzo: sgPrezzoAccessorio('ottimizzatori'),
+      disabled: false,
+    },
+    {
+      key: 'tigoCloud',
+      nome: 'Tigo Cloud Connect',
+      desc: tigoDisabled ? 'Richiede Ottimizzatori Tigo' : 'Gateway di monitoraggio cloud Tigo',
+      prezzo: sgPrezzoAccessorio('tigoCloud'),
+      disabled: tigoDisabled,
+    },
+  ];
+  const totaleSoluzione = (sgState.prezzoSel || 0) + sgExtraZavorre() + (sgState.prezzoAccessori || 0);
+  return `<div class="sg-accessori-box" id="sg_accessori_box">
+      <div class="sg-accessori-head">
+        <div>
+          <div class="sg-accessori-title">Accessori opzionali</div>
+          <div class="sg-accessori-sub">Aggiungili alla soluzione suggerita prima del riepilogo.</div>
+        </div>
+      </div>
+      <div class="sg-accessori-options">
+        ${items.map(item => {
+          const sel = !!sgState[item.key] && !item.disabled;
+          return `<button type="button" class="sg-accessorio-card${sel ? ' selected' : ''}" onclick="sgToggleAccessorio('${item.key}')" ${item.disabled ? 'disabled' : ''}>
+            <span class="sg-accessorio-check">${sel ? '✓' : ''}</span>
+            <span class="sg-accessorio-info">
+              <span class="sg-accessorio-nome">${item.nome}</span>
+              <span class="sg-accessorio-desc">${item.desc}</span>
+            </span>
+            <span class="sg-accessorio-prezzo">€ ${item.prezzo.toLocaleString('it-IT')}</span>
+          </button>`;
+        }).join('')}
+      </div>
+      <div class="sg-accessori-total">
+        <span>Totale soluzione${sgExtraZavorre() ? ' con zavorre e accessori' : ' con accessori'}</span>
+        <strong>€ ${totaleSoluzione.toLocaleString('it-IT')}</strong>
+      </div>
+    </div>`;
+}
+
+function sgToggleAccessorio(key) {
+  if (key === 'tigoCloud' && !sgState.ottimizzatori) return;
+  if (key === 'ottimizzatori' && sgState.ottimizzatori) {
+    sgState.ottimizzatori = false;
+    sgState.tigoCloud = false;
+  } else {
+    sgState[key] = !sgState[key];
+  }
+  sgAggiornaPrezziAccessori();
+  const box = document.getElementById('sg_accessori_box');
+  if (box) box.outerHTML = renderSgAccessoriBox();
 }
 
 function renderRisultato() {
@@ -2581,6 +2755,7 @@ function renderRisultato() {
       <div class="stc-prezzo">€ ${recPrezzo.toLocaleString('it-IT')} <small>chiavi in mano</small></div>
       <ul class="sg-rec-incluso">${inclusiHtml}</ul>
     </button>`;
+  cardsHtml += renderSgAccessoriBox();
 
   // Alternative (peso visivo minore): griglia compatta, ciascuna con identità colore dalla sua etichetta
   const altCard = (onclick, titolo, prezzo, label, c, bg, conAccumulo) =>
@@ -2628,6 +2803,8 @@ function sgSelezionaTaglia(kwh, prezzo, el) {
   sgState.soloFv = (kwh === 'fv');
   sgState.taglia = kwh === 'fv' ? null : kwh;
   sgState.prezzoSel = prezzo;
+  const box = document.getElementById('sg_accessori_box');
+  if (box) box.outerHTML = renderSgAccessoriBox();
   // Aggiorna la stat kWh prominente nel banner in base alla taglia selezionata
   const kwhStat = document.getElementById('sg_rc_kwh_stat');
   const kwhNum = document.getElementById('sg_rc_kwh_num');
@@ -2641,6 +2818,7 @@ function sgSelezionaTaglia(kwh, prezzo, el) {
 function tornaDaPannelliSg() {
   document.getElementById('suggerimentoPage').style.display = 'none';
   document.getElementById('suggerimentoDomandePage').style.display = 'block';
+  setBranchProgress('suggested', 5);
   sgAvanti(5);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -2668,8 +2846,12 @@ function procediDaSuggerimento() {
     state.kwh = sgState.taglia;
     state.prezzoBase = sgState.prezzoSel || 0;
   }
-  // Da qui in poi l'utente modifica liberamente col flusso manuale
-  isSuggerimento = false;
+  sgAggiornaPrezziAccessori();
+  state.wallbox = !!sgState.wallbox;
+  state.ottimizzatori = !!sgState.ottimizzatori;
+  state.tigoCloud = !!sgState.tigoCloud;
+  state.prezzoAccessori = sgState.prezzoAccessori || 0;
+  isSuggerimento = true;
   aggiornaTotale();
   document.getElementById('suggerimentoPage').style.display = 'none';
   document.getElementById('configuratorePage').style.display = 'block';
@@ -2688,7 +2870,7 @@ function avviaConfigurazione() {
   isSuggerimento = false;
   document.getElementById('introPage').style.display = 'none';
   document.getElementById('configuratorePage').style.display = 'block';
-  document.getElementById('progressBar').style.display = 'block';
+  setBranchProgress('manual', 0);
   document.getElementById('sg_steps_configuratore').style.display = 'none';
   renderKwpButtons();
   goTo(0);
@@ -2697,10 +2879,12 @@ function avviaConfigurazione() {
 
 function avviaSuggerimento() {
   isSuggerimento = true;
-  Object.assign(sgState, {indirizzo:null,citta:null,immobile:null,tetto:null,obiettivo:null,garanzia:null,budget:null,marcaPannello:null,marca:null,accumulo:false,kwpCalc:null,pannello:null,numPannelli:null,taglia:null,prezzoSel:null,soloFv:false});
+  Object.assign(sgState, {indirizzo:null,citta:null,immobile:null,tetto:null,obiettivo:null,garanzia:null,budget:null,marcaPannello:null,marca:null,accumulo:false,kwpCalc:null,pannello:null,numPannelli:null,taglia:null,prezzoSel:null,soloFv:false,wallbox:false,ottimizzatori:false,tigoCloud:false,prezzoAccessori:0});
   document.getElementById('introPage').style.display = 'none';
   document.getElementById('suggerimentoDomandePage').style.display = 'block';
   document.getElementById('suggerimentoPage').style.display = 'none';
+  document.getElementById('totaleFisso').style.display = 'none';
+  setBranchProgress('suggested', 0);
   // Reset domande (0-5)
   for (let i=0;i<=5;i++) {
     const q=document.getElementById('sgQ'+i);
@@ -2722,12 +2906,12 @@ function tornaIntro() {
   // Reset state
   Object.assign(state, { kwp:null, pannello:null, numPannelli:null, mqTotali:null, accumulo:null, linea:null, kwh:null, prezzoBase:0, tetto:null, extraZavorre:0, wallbox:false, ottimizzatori:false, tigoCloud:false, prezzoAccessori:0, prezzoTotaleBase:0, prezzoTotale:0, codiceSconto:null, scontoPercentuale:0 });
   Object.assign(pagState, { modalita:null, anticipo:0, nRate:60, rata:0, taeg:0 });
-  Object.assign(sgState, {indirizzo:null,citta:null,immobile:null,tetto:null,obiettivo:null,garanzia:null,budget:null,marcaPannello:null,marca:null,accumulo:false,kwpCalc:null,pannello:null,numPannelli:null,taglia:null,prezzoSel:null,soloFv:false});
+  Object.assign(sgState, {indirizzo:null,citta:null,immobile:null,tetto:null,obiettivo:null,garanzia:null,budget:null,marcaPannello:null,marca:null,accumulo:false,kwpCalc:null,pannello:null,numPannelli:null,taglia:null,prezzoSel:null,soloFv:false,wallbox:false,ottimizzatori:false,tigoCloud:false,prezzoAccessori:0});
 
   document.getElementById('suggerimentoPage').style.display = 'none';
   document.getElementById('suggerimentoDomandePage').style.display = 'none';
   document.getElementById('configuratorePage').style.display = 'none';
-  document.getElementById('progressBar').style.display = 'none';
+  setBranchProgress('none', 0);
   document.getElementById('totaleFisso').style.display = 'none';
   document.getElementById('sg_steps_configuratore').style.display = 'none';
   document.getElementById('introPage').style.display = 'block';
