@@ -528,6 +528,23 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);min-height:100vh;color
   .totale-fisso{font-size:13px}
 }
 </style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1219222700397793');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1219222700397793&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -1241,7 +1258,7 @@ function aggiornaTestiTipoDocumento() {
 
 // ════════════════════════════════════════
 // NAVIGAZIONE
-// ════════════════════════════════════════
+// ═════════════════════════════════���══════
 
 function setBranchProgress(branch, index) {
   const manual = document.getElementById('progressBar');
@@ -1261,6 +1278,8 @@ function setBranchProgress(branch, index) {
   }
 }
 
+let initiateCheckoutFired = false;
+
 function goTo(step) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   // Map step to section ID
@@ -1268,6 +1287,11 @@ function goTo(step) {
   const sectionEl = document.getElementById(sectionMap[step]);
   if (sectionEl) sectionEl.classList.add('active');
   currentStep = step;
+
+  if (step === 1 && !initiateCheckoutFired && typeof fbq !== 'undefined') {
+    fbq('track', 'InitiateCheckout');
+    initiateCheckoutFired = true;
+  }
 
   // Update tabs (tabs 0-5 map to steps 0-5, step 6 = riepilogo)
   for (let i = 0; i <= 5; i++) {
@@ -2332,6 +2356,13 @@ indirizzo: '',
       body: JSON.stringify(payload)
     });
     if (res.ok || res.status === 200) {
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'Lead', {
+          value: state.prezzoTotale,
+          currency: 'EUR',
+          content_name: state.tipoDocumento === 'contratto' ? 'contratto' : 'preventivo'
+        });
+      }
       mostraConferma();
     } else {
       throw new Error('HTTP ' + res.status);
