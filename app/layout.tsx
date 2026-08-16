@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Script from "next/script"
 import { DM_Sans, Outfit, Barlow_Condensed } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { GoogleAnalytics } from "@next/third-parties/google"
 import { sanityFetch } from "@/lib/sanity"
 import { datiAziendaliQuery, homepageQuery, type DatiAziendali, type Homepage } from "@/lib/sanity/queries"
 import { DatiAziendaliProvider } from "@/lib/context/dati-aziendali-context"
@@ -155,6 +156,7 @@ export default async function RootLayout({
           {children}
         </DatiAziendaliProvider>
         {process.env.NODE_ENV === "production" && <Analytics />}
+        <GoogleAnalytics gaId="G-3TGS369NW5" />
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{
