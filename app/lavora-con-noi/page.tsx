@@ -31,6 +31,9 @@ const datiAziendaliQuery = `*[_type == "datiAziendali"][0]{ email, whatsapp }`
 export const metadata = {
   title: "Lavora con Noi | Solair Group",
   description: "Scopri le posizioni aperte in Solair Group. Unisciti al nostro team e contribuisci alla transizione energetica.",
+  alternates: {
+    canonical: "https://solairgroup.it/lavora-con-noi",
+  },
 }
 
 // Portable Text components for styling
