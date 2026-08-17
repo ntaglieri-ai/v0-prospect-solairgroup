@@ -3,6 +3,7 @@ import Script from "next/script"
 import { DM_Sans, Outfit, Barlow_Condensed } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { GoogleAnalytics } from "@next/third-parties/google"
+import { GaEventTracker } from "@/components/ga-event-tracker"
 import { sanityFetch } from "@/lib/sanity"
 import { datiAziendaliQuery, homepageQuery, type DatiAziendali, type Homepage } from "@/lib/sanity/queries"
 import { DatiAziendaliProvider } from "@/lib/context/dati-aziendali-context"
@@ -157,6 +158,7 @@ export default async function RootLayout({
         </DatiAziendaliProvider>
         {process.env.NODE_ENV === "production" && <Analytics />}
         <GoogleAnalytics gaId="G-3TGS369NW5" />
+        <GaEventTracker />
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{
