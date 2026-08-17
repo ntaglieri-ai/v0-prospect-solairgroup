@@ -555,6 +555,32 @@ src="https://www.facebook.com/tr?id=1219222700397793&ev=PageView&noscript=1"
   gtag('config', 'G-3TGS369NW5');
 </script>
 <!-- End Google tag -->
+<!-- GA4 custom events -->
+<script>
+  // Safe wrapper: non genera errori se gtag non è disponibile
+  function gaEvent(name, params) {
+    try {
+      if (typeof window.gtag === 'function') window.gtag('event', name, params || {});
+    } catch (e) {}
+  }
+  // Tracking automatico click su whatsapp / telefono / email (delegato)
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    var lower = href.toLowerCase();
+    var clickText = (a.textContent || '').trim().slice(0, 120);
+    var pageLocation = window.location.href;
+    if (lower.indexOf('wa.me') !== -1 || lower.indexOf('api.whatsapp.com') !== -1 || lower.indexOf('whatsapp') !== -1) {
+      gaEvent('click_whatsapp', { link_url: href, page_location: pageLocation, click_text: clickText });
+    } else if (lower.indexOf('tel:') === 0) {
+      gaEvent('click_phone', { link_url: href, page_location: pageLocation, click_text: clickText });
+    } else if (lower.indexOf('mailto:') === 0) {
+      gaEvent('click_email', { link_url: href, page_location: pageLocation, click_text: clickText });
+    }
+  }, true);
+</script>
+<!-- End GA4 custom events -->
 </head>
 <body>
 
@@ -1298,8 +1324,9 @@ function goTo(step) {
   if (sectionEl) sectionEl.classList.add('active');
   currentStep = step;
 
-  if (step === 1 && !initiateCheckoutFired && typeof fbq !== 'undefined') {
-    fbq('track', 'InitiateCheckout');
+  if (step === 1 && !initiateCheckoutFired) {
+    if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout');
+    gaEvent('start_configurator', { page_location: window.location.href, click_text: 'step_1' });
     initiateCheckoutFired = true;
   }
 
@@ -2373,6 +2400,10 @@ indirizzo: '',
           content_name: state.tipoDocumento === 'contratto' ? 'contratto' : 'preventivo'
         });
       }
+      gaEvent('lead_submit', {
+        page_location: window.location.href,
+        form_name: state.tipoDocumento === 'contratto' ? 'contratto' : 'preventivo'
+      });
       mostraConferma();
     } else {
       throw new Error('HTTP ' + res.status);
@@ -2390,6 +2421,10 @@ indirizzo: '',
 
 function mostraConferma() {
   const isContratto = state.tipoDocumento === 'contratto';
+  gaEvent('complete_configurator', {
+    page_location: window.location.href,
+    configurator_result: isContratto ? 'contratto' : 'preventivo'
+  });
   document.getElementById('s6').innerHTML = `
     <div class="confirm-box">
       <div class="confirm-icon">✅</div>
