@@ -88,8 +88,17 @@ function isBroadSourceListQuery(query: string) {
 
 export function knowledgeFormatOptionsForQuery(query: string) {
   return isBroadSourceListQuery(query)
-    ? { maxChunks: 14, maxCatalogo: 8 }
+    ? { maxChunks: 20, maxCatalogo: 8, includeSourceIndex: true }
     : { maxChunks: 4, maxCatalogo: 6 }
+}
+
+function sourceLabel(source: string, titolo: string) {
+  const raw = titolo.replace(/\s+#\d+$/, "") || source.split("/").pop() || source
+  return raw
+    .replace(/\.(pdf|png|jpg|jpeg|webp)$/i, "")
+    .replace(/_scheda$/i, "")
+    .replace(/_/g, " ")
+    .trim()
 }
 
 function isChunk(value: unknown): value is KnowledgeChunk {
@@ -164,12 +173,29 @@ export async function getRobertaKnowledge(
  */
 export function formattaKnowledge(
   knowledge: RobertaKnowledge,
-  { maxChunks = 4, maxCatalogo = 6 }: { maxChunks?: number; maxCatalogo?: number } = {},
+  {
+    maxChunks = 4,
+    maxCatalogo = 6,
+    includeSourceIndex = false,
+  }: { maxChunks?: number; maxCatalogo?: number; includeSourceIndex?: boolean } = {},
 ): string {
   const parti: string[] = []
 
   const chunks = knowledge.chunks.slice(0, maxChunks)
   const catalogo = knowledge.catalogo.slice(0, maxCatalogo)
+
+  if (includeSourceIndex && knowledge.chunks.length > 0) {
+    const labels = new Map<string, string>()
+    for (const chunk of knowledge.chunks) {
+      if (chunk.source.toLowerCase().startsWith("listini/")) continue
+      if (!labels.has(chunk.source)) labels.set(chunk.source, sourceLabel(chunk.source, chunk.titolo))
+    }
+    if (labels.size > 0) {
+      parti.push(
+        `SCHEDE / LINEE DISPONIBILI (usa questo come elenco completo, senza citare nomi file):\n${Array.from(labels.values()).map((label) => `- ${label}`).join("\n")}`,
+      )
+    }
+  }
 
   if (chunks.length > 0) {
     const righe = chunks
