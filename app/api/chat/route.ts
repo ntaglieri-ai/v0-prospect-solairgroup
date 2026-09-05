@@ -24,6 +24,10 @@ const MODELLO_FALLBACK = process.env.ROBERTA_FALLBACK_MODEL || "claude-sonnet-4-
 // lasciare aperto un loop se il modello continua a richiedere tool.
 const MAX_ITERAZIONI_TOOL = 6
 
+function supportaThinkingAdattivo(model: string) {
+  return !model.toLowerCase().includes("haiku")
+}
+
 type ChatMessage = {
   role: "user" | "assistant"
   content: string
@@ -157,22 +161,26 @@ export async function POST(request: Request) {
       ? `${SISTEMA_BASE}\n\n--- CONOSCENZA SOLAIR (usala per prezzi e prodotti) ---\n${contesto}`
       : `${SISTEMA_BASE}\n\nATTENZIONE: in questo momento non hai informazioni di listino sulla domanda corrente. Non citare prezzi o condizioni commerciali: spiega che per i dettagli economici serve un consulente e usa richiedi_contatto_umano.`
 
-    const parametriBase = {
+    const parametriPerModello = (model: string) => ({
       max_tokens: 8192,
-      // Il thinking adattivo e' anche il default su Sonnet 5; lasciarlo attivo
-      // mantiene affidabile la scelta degli strumenti.
-      thinking: { type: "adaptive" as const },
-      output_config: { effort: "medium" as const },
+      ...(supportaThinkingAdattivo(model)
+        ? {
+            // Il thinking adattivo e' disponibile sui modelli piu' capaci; su
+            // Haiku la richiesta fallisce, quindi lo si omette.
+            thinking: { type: "adaptive" as const },
+            output_config: { effort: "medium" as const },
+          }
+        : {}),
       system,
       tools: chatTools,
-    }
+    })
 
     // Prima chiamata: prova col modello primario, ricadi sul fallback se fallisce.
     let modelloAttivo = MODELLO
     let risposta: Anthropic.Message
     try {
       risposta = await client.messages.create({
-        ...parametriBase,
+        ...parametriPerModello(modelloAttivo),
         model: modelloAttivo,
         messages: conversazione,
       })
@@ -181,7 +189,7 @@ export async function POST(request: Request) {
       console.error(`[chat] modello primario "${MODELLO}" fallito: ${msg}. Riprovo col fallback.`)
       modelloAttivo = MODELLO_FALLBACK
       risposta = await client.messages.create({
-        ...parametriBase,
+        ...parametriPerModello(modelloAttivo),
         model: modelloAttivo,
         messages: conversazione,
       })
@@ -209,7 +217,7 @@ export async function POST(request: Request) {
 
       conversazione.push({ role: "user", content: risultati })
       risposta = await client.messages.create({
-        ...parametriBase,
+        ...parametriPerModello(modelloAttivo),
         model: modelloAttivo,
         messages: conversazione,
       })
