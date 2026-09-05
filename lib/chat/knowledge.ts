@@ -33,6 +33,64 @@ export type RobertaKnowledge = {
 const CRM_KNOWLEDGE_URL = "https://crm.solairgroup.it/api/public/roberta-knowledge"
 
 const LIMIT_DEFAULT = 8
+const LIMIT_BROAD_SOURCE_LIST = 20
+
+const BROAD_SOURCE_TERMS = new Set([
+  "brand",
+  "dimmi",
+  "elenca",
+  "linee",
+  "marca",
+  "marche",
+  "prodotti",
+  "proponete",
+  "quali",
+  "soluzioni",
+  "tutti",
+  "trattate",
+])
+
+const PRODUCT_SOURCE_TERMS = new Set([
+  "accumuli",
+  "accumulo",
+  "batteria",
+  "batterie",
+  "inverter",
+  "moduli",
+  "modulo",
+  "pannelli",
+  "pannello",
+])
+
+function normalize(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+}
+
+function tokens(value: string) {
+  return Array.from(
+    new Set(
+      normalize(value)
+        .replace(/[^a-z0-9]+/g, " ")
+        .split(/\s+/)
+        .filter((token) => token.length >= 3),
+    ),
+  )
+}
+
+function isBroadSourceListQuery(query: string) {
+  const queryTokens = tokens(query)
+  return queryTokens.some((token) => BROAD_SOURCE_TERMS.has(token)) &&
+    queryTokens.some((token) => PRODUCT_SOURCE_TERMS.has(token))
+}
+
+export function knowledgeFormatOptionsForQuery(query: string) {
+  return isBroadSourceListQuery(query)
+    ? { maxChunks: 14, maxCatalogo: 8 }
+    : { maxChunks: 4, maxCatalogo: 6 }
+}
 
 function isChunk(value: unknown): value is KnowledgeChunk {
   if (typeof value !== "object" || value === null) return false
@@ -55,7 +113,7 @@ function isCatalogoItem(value: unknown): value is KnowledgeCatalogoItem {
  */
 export async function getRobertaKnowledge(
   query: string,
-  limit: number = LIMIT_DEFAULT,
+  limit: number = isBroadSourceListQuery(query) ? LIMIT_BROAD_SOURCE_LIST : LIMIT_DEFAULT,
 ): Promise<RobertaKnowledge> {
   const vuoto: RobertaKnowledge = { query, chunks: [], catalogo: [] }
 

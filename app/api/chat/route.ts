@@ -1,6 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk"
 import { NextResponse } from "next/server"
-import { getRobertaKnowledge, formattaKnowledge } from "@/lib/chat/knowledge"
+import {
+  getRobertaKnowledge,
+  formattaKnowledge,
+  knowledgeFormatOptionsForQuery,
+} from "@/lib/chat/knowledge"
 import { chatTools, eseguiTool } from "@/lib/chat/tools"
 
 export const dynamic = "force-dynamic"
@@ -30,6 +34,8 @@ const SISTEMA_BASE = `Sei Roberta, assistente commerciale di Solair Group (impia
 Il tuo obiettivo è guidare con naturalezza la conversazione verso uno di questi esiti: (1) usare il configuratore online Solair, (2) lasciare nome e telefono per essere ricontattato, (3) parlare con un consulente umano, (4) ricevere informazioni su offerte, listini, accumuli, finanziamenti o componenti. Rispondi anche a domande fuori tema, ma riporta con garbo il discorso su fotovoltaico, accumulo, risparmio energetico o Solair.
 
 CONOSCENZA. Per prodotti, servizi, prezzi, offerte e condizioni commerciali usa ESCLUSIVAMENTE le informazioni presenti nella sezione "CONOSCENZA SOLAIR" qui sotto. Non completare mai con conoscenza generale tua o del settore: se un dato non è scritto lì, per te non esiste. Non inventare prezzi, potenze, marche o condizioni e non proporre spontaneamente prodotti o servizi non citati. Se i risultati non bastano, fai una domanda di chiarimento che resti sui prodotti presenti oppure di' con semplicità che l'informazione non è disponibile e proponi un consulente. Non dire "non posso inviare immagini/PDF" a meno che il cliente chieda esplicitamente un file; se chiede un file/PDF/locandina non inventare link, proponi un consulente o il configuratore.
+
+ELENCHI PRODOTTI. Quando il cliente chiede quali marche, brand, linee o soluzioni sono disponibili, elenca tutte quelle presenti nella conoscenza fornita, raggruppando per marca o famiglia. Non fermarti ai primi esempi se nel contesto compaiono altre schede.
 
 CONFIGURATORE. Quando il cliente mostra intenzione concreta (chiede un preventivo, indica kW, bolletta, consumi, tetto, accumulo, zona, prezzo finale, tempi o sopralluogo) proponi il configuratore online, con una formula tipo: "Se vuoi, puoi fare una prima configurazione online qui: https://solairgroup.it/configuratore. Poi un consulente Solair può verificare i dati e affinare la proposta."
 
@@ -134,8 +140,9 @@ export async function POST(request: Request) {
   try {
     // Si interroga la knowledge API solo con l'ultima domanda del cliente: il
     // payload e' piccolo e mirato, niente piu' download dei PDF di listino.
-    const knowledge = await getRobertaKnowledge(ultimoMessaggioUtente(storico))
-    const contesto = formattaKnowledge(knowledge)
+    const domanda = ultimoMessaggioUtente(storico)
+    const knowledge = await getRobertaKnowledge(domanda)
+    const contesto = formattaKnowledge(knowledge, knowledgeFormatOptionsForQuery(domanda))
     if (!contesto) {
       console.warn("[chat] knowledge vuota per la domanda corrente: proseguo senza contesto")
     }
