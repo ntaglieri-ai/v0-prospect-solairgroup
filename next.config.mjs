@@ -6,12 +6,11 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  async redirects() {
+  async rewrites() {
     return [
       {
         source: '/configuratore',
         destination: '/configuratore-solair-v11.html',
-        permanent: false,
       },
     ]
   },
